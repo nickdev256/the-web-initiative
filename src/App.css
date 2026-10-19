@@ -1,0 +1,104 @@
+
+.app {
+  min-height: 100vh;
+}
+
+.setup-message {
+  display: flex;
+  align-items: center;
+  min-height: 100vh;
+  padding: 70px 8%;
+  background:
+    linear-gradient(90deg, rgba(8, 42, 70, 0.94), rgba(8, 65, 105, 0.72)),
+    url('/images/healthcare-team.jpg') center / cover no-repeat;
+  color: white;
+}
+
+.setup-content {
+  width: 100%;
+  max-width: 760px;
+}
+
+.setup-label {
+  display: inline-block;
+  margin-bottom: 22px;
+  color: #8bd4ff;
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 3px;
+}
+
+.setup-content h1 {
+  margin-bottom: 24px;
+  color: white;
+  font-size: clamp(38px, 6vw, 68px);
+  font-weight: 800;
+  line-height: 1.12;
+}
+
+.setup-content p {
+  max-width: 620px;
+  color: #e2edf5;
+  font-size: 18px;
+  line-height: 1.8;
+}
+
+.setup-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-top: 30px;
+}
+
+.setup-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 50px;
+  padding: 14px 25px;
+  border: 2px solid #0878c9;
+  border-radius: 6px;
+  background: #0878c9;
+  color: white;
+  font-weight: 700;
+  transition: 0.2s ease;
+}
+
+.setup-button:hover {
+  border-color: #42b7ff;
+  background: #075da0;
+}
+
+.setup-button.outline {
+  border-color: white;
+  background: transparent;
+}
+
+.setup-button.outline:hover {
+  background: white;
+  color: #123653;
+}
+
+.setup-note {
+  margin-top: 55px;
+  color: #d1e6f4;
+  font-size: 13px;
+}
+
+@media (max-width: 600px) {
+  .setup-message {
+    padding: 50px 24px;
+  }
+
+  .setup-content p {
+    font-size: 16px;
+  }
+
+  .setup-buttons {
+    flex-direction: column;
+  }
+
+  .setup-button {
+    width: 100%;
+  }
+}

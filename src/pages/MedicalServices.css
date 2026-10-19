@@ -1,0 +1,686 @@
+
+.medical-services-page {
+  width: 100%;
+  overflow: clip;
+  background: #ffffff;
+}
+
+.ms-container {
+  width: min(100% - 48px, 1240px);
+  margin-inline: auto;
+}
+
+.ms-section {
+  padding-block: clamp(55px, 8vw, 100px);
+}
+
+.ms-eyebrow {
+  display: inline-block;
+  margin-bottom: 15px;
+  color: #0878c9;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 2.2px;
+  line-height: 1.7;
+}
+
+/* Hero */
+
+.ms-hero {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-height: clamp(300px, 37vw, 440px);
+  padding-block: clamp(55px, 8vw, 90px);
+  isolation: isolate;
+  background-color: #123653;
+  background-image: url('/images/healthcare-team.jpg');
+  background-position: center;
+  background-size: cover;
+}
+
+.ms-hero-overlay {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(8, 38, 63, 0.94),
+    rgba(8, 57, 91, 0.7)
+  );
+}
+
+.ms-hero-content {
+  color: #ffffff;
+}
+
+.ms-hero .ms-eyebrow {
+  color: #9bddff;
+}
+
+.ms-hero h1 {
+  margin-bottom: 20px;
+  color: #ffffff;
+  font-size: clamp(36px, 5.5vw, 64px);
+  font-weight: 800;
+  letter-spacing: -1.5px;
+  line-height: 1.15;
+  overflow-wrap: anywhere;
+}
+
+.ms-hero-content > p {
+  max-width: 690px;
+  color: #e5f1f9;
+  font-size: clamp(15px, 1.6vw, 18px);
+  line-height: 1.85;
+}
+
+.ms-breadcrumb {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin-top: 26px;
+  color: #e5f1f9;
+  font-size: 13px;
+}
+
+.ms-breadcrumb a {
+  color: #9bddff;
+  font-weight: 700;
+}
+
+/* Introduction */
+
+.ms-intro-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  align-items: center;
+  gap: clamp(35px, 7vw, 90px);
+}
+
+.ms-intro-image-wrap {
+  overflow: hidden;
+  min-width: 0;
+  aspect-ratio: 5 / 4;
+  border-radius: 12px;
+  background: #eaf6ff;
+}
+
+.ms-intro-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.ms-intro-content {
+  min-width: 0;
+}
+
+.ms-intro-content h2 {
+  margin-bottom: 22px;
+  font-size: clamp(30px, 4vw, 45px);
+  font-weight: 800;
+  letter-spacing: -1px;
+  line-height: 1.2;
+}
+
+.ms-intro-content > p {
+  margin-bottom: 16px;
+  font-size: 15px;
+  line-height: 1.9;
+}
+
+.ms-promise {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  margin-top: 25px;
+  padding: 20px;
+  border: 1px solid #dcecf7;
+  border-radius: 9px;
+  background: #f4faff;
+}
+
+.ms-promise > svg {
+  flex-shrink: 0;
+  color: #0878c9;
+}
+
+.ms-promise div {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.ms-promise strong {
+  color: #123653;
+  font-size: 14px;
+}
+
+.ms-promise span {
+  color: #63788b;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+/* Services grid */
+
+.ms-services {
+  background: #f4f9fd;
+}
+
+.ms-section-heading {
+  max-width: 730px;
+  margin: 0 auto clamp(32px, 5vw, 48px);
+  text-align: center;
+}
+
+.ms-section-heading h2 {
+  margin-bottom: 16px;
+  font-size: clamp(30px, 4vw, 43px);
+  font-weight: 800;
+  letter-spacing: -0.8px;
+}
+
+.ms-section-heading > p {
+  font-size: 15px;
+  line-height: 1.85;
+}
+
+.ms-service-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 22px;
+}
+
+.ms-service-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 0;
+  min-height: 275px;
+  padding: clamp(23px, 3vw, 32px);
+  border: 1px solid #e0eaf1;
+  border-radius: 11px;
+  background: #ffffff;
+  box-shadow: 0 8px 25px rgba(20, 65, 100, 0.04);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.ms-service-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 30px rgba(20, 65, 100, 0.09);
+}
+
+.ms-service-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 58px;
+  height: 58px;
+  margin-bottom: 21px;
+  border-radius: 10px;
+  background: #eaf6ff;
+  color: #0878c9;
+}
+
+.ms-service-card h3 {
+  margin-bottom: 12px;
+  font-size: 19px;
+  font-weight: 800;
+  overflow-wrap: anywhere;
+}
+
+.ms-service-card > p {
+  margin-bottom: 20px;
+  font-size: 14px;
+  line-height: 1.85;
+  overflow-wrap: anywhere;
+}
+
+.ms-service-link {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  min-height: 42px;
+  margin-top: auto;
+  color: #0878c9;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.ms-service-link:hover {
+  color: #075da0;
+}
+
+/* Process section */
+
+.ms-process-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.9fr);
+  align-items: center;
+  gap: clamp(35px, 7vw, 85px);
+}
+
+.ms-process-content {
+  min-width: 0;
+}
+
+.ms-process-content h2 {
+  margin-bottom: 20px;
+  font-size: clamp(30px, 4vw, 43px);
+  font-weight: 800;
+  letter-spacing: -0.8px;
+}
+
+.ms-process-content > p {
+  margin-bottom: 28px;
+  font-size: 15px;
+  line-height: 1.9;
+}
+
+.ms-process-list {
+  display: grid;
+  gap: 22px;
+  list-style: none;
+}
+
+.ms-process-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+}
+
+.ms-process-list li > span {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: #eaf6ff;
+  color: #0878c9;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.ms-process-list li > div {
+  min-width: 0;
+}
+
+.ms-process-list strong {
+  color: #123653;
+  font-size: 15px;
+}
+
+.ms-process-list li p {
+  margin-top: 5px;
+  font-size: 13px;
+  line-height: 1.8;
+}
+
+.ms-process-visual {
+  position: relative;
+  min-width: 0;
+  padding-bottom: 25px;
+}
+
+.ms-process-visual > img {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  border-radius: 12px;
+  background: #eaf6ff;
+  object-fit: cover;
+}
+
+.ms-process-caption {
+  position: absolute;
+  right: -10px;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  max-width: calc(100% - 8px);
+  padding: 17px 20px;
+  border: 1px solid #e0eaf1;
+  border-radius: 9px;
+  background: #ffffff;
+  box-shadow: 0 12px 30px rgba(20, 65, 100, 0.1);
+}
+
+.ms-process-caption > svg {
+  flex-shrink: 0;
+  color: #0878c9;
+}
+
+.ms-process-caption div {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.ms-process-caption strong {
+  color: #123653;
+  font-size: 13px;
+}
+
+.ms-process-caption span {
+  color: #63788b;
+  font-size: 12px;
+}
+
+/* Call to action */
+
+.ms-cta {
+  padding-block: clamp(50px, 7vw, 80px);
+  background: #0878c9;
+}
+
+.ms-cta-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 30px 45px;
+}
+
+.ms-cta-content > div:first-child {
+  flex: 1 1 400px;
+  min-width: 0;
+}
+
+.ms-cta .ms-eyebrow {
+  color: #c6ecff;
+}
+
+.ms-cta h2 {
+  margin-bottom: 15px;
+  color: #ffffff;
+  font-size: clamp(29px, 4vw, 43px);
+  font-weight: 800;
+}
+
+.ms-cta-content > div:first-child > p {
+  max-width: 650px;
+  color: #e4f3ff;
+  font-size: 15px;
+  line-height: 1.9;
+}
+
+.ms-cta-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.ms-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  min-height: 49px;
+  padding: 12px 20px;
+  border: 2px solid #ffffff;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 700;
+  text-align: center;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease;
+}
+
+.ms-button-white {
+  background: #ffffff;
+  color: #075da0;
+}
+
+.ms-button-white:hover {
+  background: #eaf6ff;
+}
+
+.ms-button-outline {
+  background: transparent;
+  color: #ffffff;
+}
+
+.ms-button-outline:hover {
+  background: #ffffff;
+  color: #075da0;
+}
+
+/* Large desktop */
+
+@media (min-width: 1600px) {
+  .ms-container {
+    width: min(100% - 100px, 1360px);
+  }
+}
+
+/* Smaller desktop and tablets */
+
+@media (max-width: 1000px) {
+  .ms-service-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .ms-intro-grid,
+  .ms-process-grid {
+    gap: 35px;
+  }
+
+  .ms-process-caption {
+    right: 0;
+  }
+}
+
+@media (max-width: 800px) {
+  .ms-container {
+    width: calc(100% - 40px);
+  }
+
+  .ms-intro-grid,
+  .ms-process-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 38px;
+  }
+
+  .ms-intro-image-wrap {
+    width: min(100%, 650px);
+    margin-inline: auto;
+  }
+
+  .ms-intro-content,
+  .ms-process-content {
+    max-width: 720px;
+  }
+
+  .ms-process-visual {
+    width: min(100%, 560px);
+    margin-inline: auto;
+  }
+
+  .ms-process-visual > img {
+    aspect-ratio: 5 / 4;
+  }
+}
+
+/* Mobile phones */
+
+@media (max-width: 600px) {
+  .ms-container {
+    width: calc(100% - 32px);
+  }
+
+  .ms-section {
+    padding-block: 50px;
+  }
+
+  .ms-hero {
+    min-height: 310px;
+    padding-block: 55px;
+    background-position: 60% center;
+  }
+
+  .ms-hero-overlay {
+    background: rgba(8, 38, 63, 0.83);
+  }
+
+  .ms-hero h1 {
+    font-size: clamp(33px, 9vw, 43px);
+    letter-spacing: -0.8px;
+  }
+
+  .ms-hero-content > p {
+    font-size: 14px;
+  }
+
+  .ms-breadcrumb {
+    gap: 9px;
+    font-size: 12px;
+  }
+
+  .ms-intro-grid,
+  .ms-process-grid {
+    gap: 30px;
+  }
+
+  .ms-intro-content h2,
+  .ms-process-content h2,
+  .ms-section-heading h2 {
+    font-size: clamp(27px, 7.8vw, 35px);
+  }
+
+  .ms-intro-content > p,
+  .ms-process-content > p {
+    font-size: 14px;
+  }
+
+  .ms-promise {
+    gap: 10px;
+    padding: 16px;
+  }
+
+  .ms-section-heading {
+    margin-bottom: 30px;
+  }
+
+  .ms-section-heading > p {
+    font-size: 14px;
+  }
+
+  .ms-service-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 15px;
+  }
+
+  .ms-service-card {
+    min-height: 0;
+    padding: 24px;
+  }
+
+  .ms-service-card:hover {
+    transform: none;
+  }
+
+  .ms-process-list {
+    gap: 20px;
+  }
+
+  .ms-process-visual > img {
+    aspect-ratio: 4 / 3;
+  }
+
+  .ms-process-caption {
+    gap: 9px;
+    padding: 12px;
+  }
+
+  .ms-process-caption strong {
+    font-size: 12px;
+  }
+
+  .ms-process-caption span {
+    font-size: 11px;
+  }
+
+  .ms-cta-content {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 23px;
+  }
+
+  .ms-cta h2 {
+    font-size: clamp(27px, 7.8vw, 35px);
+  }
+
+  .ms-cta-content > div:first-child > p {
+    font-size: 14px;
+  }
+
+  .ms-cta-actions {
+    flex-direction: column;
+  }
+
+  .ms-button {
+    width: 100%;
+    min-height: 49px;
+  }
+}
+
+/* Extra-small phones */
+
+@media (max-width: 360px) {
+  .ms-container {
+    width: calc(100% - 26px);
+  }
+
+  .ms-eyebrow {
+    font-size: 10px;
+    letter-spacing: 1.5px;
+  }
+
+  .ms-hero h1 {
+    font-size: 30px;
+  }
+
+  .ms-service-card {
+    padding: 20px;
+  }
+
+  .ms-process-list li {
+    gap: 11px;
+  }
+
+  .ms-process-list li > span {
+    width: 36px;
+    height: 36px;
+  }
+}
+
+/* Landscape mobile screens */
+
+@media (max-height: 500px) and (orientation: landscape) {
+  .ms-hero {
+    min-height: 270px;
+    padding-block: 35px;
+  }
+}
+
+/* Accessibility */
+
+@media (prefers-reduced-motion: reduce) {
+  .ms-service-card,
+  .ms-button {
+    transition: none;
+  }
+
+  .ms-service-card:hover {
+    transform: none;
+  }
+}

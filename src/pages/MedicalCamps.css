@@ -1,0 +1,669 @@
+
+.medical-camps-page {
+  width: 100%;
+  overflow: clip;
+  background: #ffffff;
+}
+
+.mc-container {
+  width: min(100% - 48px, 1240px);
+  margin-inline: auto;
+}
+
+.mc-section {
+  padding-block: clamp(55px, 8vw, 100px);
+}
+
+.mc-eyebrow {
+  display: inline-block;
+  margin-bottom: 15px;
+  color: #0878c9;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  line-height: 1.7;
+}
+
+/* Hero */
+
+.mc-hero {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-height: clamp(300px, 37vw, 440px);
+  padding-block: clamp(55px, 8vw, 90px);
+  isolation: isolate;
+  background-color: #123653;
+  background-image: url('/images/medical-camp-1.jpg');
+  background-position: center;
+  background-size: cover;
+}
+
+.mc-hero-overlay {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(8, 38, 63, 0.94),
+    rgba(8, 57, 91, 0.72)
+  );
+}
+
+.mc-hero-content {
+  color: #ffffff;
+}
+
+.mc-hero .mc-eyebrow {
+  color: #9bddff;
+}
+
+.mc-hero h1 {
+  margin-bottom: 20px;
+  color: #ffffff;
+  font-size: clamp(36px, 5.5vw, 64px);
+  font-weight: 800;
+  letter-spacing: -1.5px;
+  line-height: 1.15;
+  overflow-wrap: anywhere;
+}
+
+.mc-hero-content > p {
+  max-width: 700px;
+  color: #e5f1f9;
+  font-size: clamp(15px, 1.6vw, 18px);
+  line-height: 1.85;
+}
+
+.mc-breadcrumb {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin-top: 26px;
+  color: #e5f1f9;
+  font-size: 13px;
+}
+
+.mc-breadcrumb a {
+  color: #9bddff;
+  font-weight: 700;
+}
+
+/* Introduction */
+
+.mc-intro-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  align-items: center;
+  gap: clamp(35px, 7vw, 90px);
+}
+
+.mc-intro-content,
+.mc-intro-image-wrap {
+  min-width: 0;
+}
+
+.mc-intro-content h2 {
+  margin-bottom: 22px;
+  font-size: clamp(30px, 4vw, 45px);
+  font-weight: 800;
+  letter-spacing: -1px;
+  line-height: 1.2;
+}
+
+.mc-intro-content > p {
+  margin-bottom: 16px;
+  font-size: 15px;
+  line-height: 1.9;
+}
+
+.mc-primary-link {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 9px;
+  min-height: 46px;
+  margin-top: 8px;
+  color: #0878c9;
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.mc-intro-image-wrap {
+  position: relative;
+  padding-bottom: 24px;
+}
+
+.mc-intro-image {
+  width: 100%;
+  aspect-ratio: 5 / 4;
+  border-radius: 12px;
+  background: #eaf6ff;
+  object-fit: cover;
+}
+
+.mc-image-badge {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  max-width: calc(100% - 8px);
+  padding: 16px 19px;
+  border: 1px solid #e0eaf1;
+  border-radius: 9px;
+  background: #ffffff;
+  box-shadow: 0 12px 30px rgba(20, 65, 100, 0.1);
+  color: #123653;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.mc-image-badge svg {
+  flex-shrink: 0;
+  color: #0878c9;
+}
+
+/* Camp cards */
+
+.mc-listing {
+  background: #f4f9fd;
+}
+
+.mc-section-heading {
+  max-width: 760px;
+  margin: 0 auto clamp(32px, 5vw, 48px);
+  text-align: center;
+}
+
+.mc-section-heading h2 {
+  margin-bottom: 16px;
+  font-size: clamp(30px, 4vw, 43px);
+  font-weight: 800;
+  letter-spacing: -0.8px;
+}
+
+.mc-section-heading > p {
+  font-size: 15px;
+  line-height: 1.85;
+}
+
+.mc-camp-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: stretch;
+  gap: 24px;
+}
+
+.mc-camp-card {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid #e0eaf1;
+  border-radius: 12px;
+  background: #ffffff;
+  box-shadow: 0 8px 25px rgba(20, 65, 100, 0.05);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.mc-camp-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 30px rgba(20, 65, 100, 0.1);
+}
+
+.mc-camp-image-link {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  background: #dcecf7;
+}
+
+.mc-camp-image {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.mc-camp-card:hover .mc-camp-image {
+  transform: scale(1.035);
+}
+
+.mc-camp-category {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  left: 12px;
+  width: fit-content;
+  max-width: calc(100% - 24px);
+  padding: 7px 11px;
+  border-radius: 5px;
+  background: #0878c9;
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 800;
+  overflow-wrap: anywhere;
+}
+
+.mc-camp-body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-width: 0;
+  padding: clamp(20px, 2.5vw, 28px);
+}
+
+.mc-camp-body h3 {
+  margin-bottom: 12px;
+  font-size: 20px;
+  font-weight: 800;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+.mc-camp-body h3 a:hover {
+  color: #0878c9;
+}
+
+.mc-camp-body > p {
+  margin-bottom: 22px;
+  font-size: 14px;
+  line-height: 1.85;
+  overflow-wrap: anywhere;
+}
+
+.mc-camp-meta {
+  display: grid;
+  gap: 12px;
+  margin-bottom: 20px;
+  padding-top: 17px;
+  border-top: 1px solid #e8eff4;
+}
+
+.mc-camp-meta span {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  color: #63788b;
+  font-size: 12px;
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+}
+
+.mc-camp-meta svg {
+  flex-shrink: 0;
+  margin-top: 2px;
+  color: #0878c9;
+}
+
+.mc-camp-link {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  min-height: 42px;
+  margin-top: auto;
+  color: #0878c9;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.mc-camp-link:hover,
+.mc-primary-link:hover {
+  color: #075da0;
+}
+
+.mc-disclaimer {
+  max-width: 850px;
+  margin: 30px auto 0;
+  font-size: 12px;
+  line-height: 1.8;
+  text-align: center;
+}
+
+/* Participation steps */
+
+.mc-steps-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.mc-step-card {
+  position: relative;
+  min-width: 0;
+  padding: 30px;
+  border: 1px solid #e0eaf1;
+  border-radius: 11px;
+  background: #ffffff;
+}
+
+.mc-step-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  background: #eaf6ff;
+  color: #0878c9;
+}
+
+.mc-step-number {
+  position: absolute;
+  top: 28px;
+  right: 25px;
+  color: #dcecf7;
+  font-size: 30px;
+  font-weight: 800;
+}
+
+.mc-step-card h3 {
+  margin-bottom: 12px;
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.mc-step-card > p {
+  font-size: 14px;
+  line-height: 1.9;
+}
+
+/* Call to action */
+
+.mc-cta {
+  padding-block: clamp(50px, 7vw, 80px);
+  background: #0878c9;
+}
+
+.mc-cta-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 30px 45px;
+}
+
+.mc-cta-content > div:first-child {
+  flex: 1 1 400px;
+  min-width: 0;
+}
+
+.mc-cta .mc-eyebrow {
+  color: #c6ecff;
+}
+
+.mc-cta h2 {
+  margin-bottom: 15px;
+  color: #ffffff;
+  font-size: clamp(29px, 4vw, 43px);
+  font-weight: 800;
+}
+
+.mc-cta-content > div:first-child > p {
+  max-width: 650px;
+  color: #e4f3ff;
+  font-size: 15px;
+  line-height: 1.9;
+}
+
+.mc-cta-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.mc-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  min-height: 49px;
+  padding: 12px 20px;
+  border: 2px solid #ffffff;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 700;
+  text-align: center;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease;
+}
+
+.mc-button-white {
+  background: #ffffff;
+  color: #075da0;
+}
+
+.mc-button-white:hover {
+  background: #eaf6ff;
+}
+
+.mc-button-outline {
+  background: transparent;
+  color: #ffffff;
+}
+
+.mc-button-outline:hover {
+  background: #ffffff;
+  color: #075da0;
+}
+
+/* Large displays */
+
+@media (min-width: 1600px) {
+  .mc-container {
+    width: min(100% - 100px, 1360px);
+  }
+}
+
+/* Laptops and small desktops */
+
+@media (max-width: 1050px) {
+  .mc-camp-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .mc-steps-grid {
+    gap: 16px;
+  }
+
+  .mc-step-card {
+    padding: 24px;
+  }
+}
+
+/* Tablets */
+
+@media (max-width: 800px) {
+  .mc-container {
+    width: calc(100% - 40px);
+  }
+
+  .mc-intro-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 35px;
+  }
+
+  .mc-intro-content {
+    order: 1;
+  }
+
+  .mc-intro-image-wrap {
+    order: 2;
+    width: min(100%, 650px);
+    margin-inline: auto;
+  }
+
+  .mc-steps-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 15px;
+  }
+
+  .mc-step-card {
+    padding: 25px;
+  }
+}
+
+/* Mobile phones */
+
+@media (max-width: 600px) {
+  .mc-container {
+    width: calc(100% - 32px);
+  }
+
+  .mc-section {
+    padding-block: 50px;
+  }
+
+  .mc-hero {
+    min-height: 310px;
+    padding-block: 55px;
+    background-position: 60% center;
+  }
+
+  .mc-hero-overlay {
+    background: rgba(8, 38, 63, 0.84);
+  }
+
+  .mc-hero h1 {
+    font-size: clamp(33px, 9vw, 43px);
+    letter-spacing: -0.8px;
+  }
+
+  .mc-hero-content > p {
+    font-size: 14px;
+  }
+
+  .mc-breadcrumb {
+    gap: 9px;
+    font-size: 12px;
+  }
+
+  .mc-intro-grid {
+    gap: 28px;
+  }
+
+  .mc-intro-content h2,
+  .mc-section-heading h2 {
+    font-size: clamp(27px, 7.8vw, 35px);
+  }
+
+  .mc-intro-content > p,
+  .mc-section-heading > p {
+    font-size: 14px;
+  }
+
+  .mc-image-badge {
+    gap: 8px;
+    padding: 12px;
+    font-size: 11px;
+  }
+
+  .mc-section-heading {
+    margin-bottom: 30px;
+  }
+
+  .mc-camp-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 18px;
+  }
+
+  .mc-camp-card:hover {
+    transform: none;
+  }
+
+  .mc-camp-body {
+    padding: 22px;
+  }
+
+  .mc-camp-body h3 {
+    font-size: 19px;
+  }
+
+  .mc-steps-grid {
+    gap: 14px;
+  }
+
+  .mc-step-card {
+    padding: 23px;
+  }
+
+  .mc-cta-content {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .mc-cta h2 {
+    font-size: clamp(27px, 7.8vw, 35px);
+  }
+
+  .mc-cta-content > div:first-child > p {
+    font-size: 14px;
+  }
+
+  .mc-cta-actions {
+    flex-direction: column;
+  }
+
+  .mc-button {
+    width: 100%;
+    min-height: 49px;
+  }
+}
+
+/* Extra-small phones */
+
+@media (max-width: 360px) {
+  .mc-container {
+    width: calc(100% - 26px);
+  }
+
+  .mc-eyebrow {
+    font-size: 10px;
+    letter-spacing: 1.5px;
+  }
+
+  .mc-hero h1 {
+    font-size: 30px;
+  }
+
+  .mc-camp-body {
+    padding: 18px;
+  }
+
+  .mc-step-card {
+    padding: 20px;
+  }
+}
+
+/* Short landscape screens */
+
+@media (max-height: 500px) and (orientation: landscape) {
+  .mc-hero {
+    min-height: 270px;
+    padding-block: 35px;
+  }
+}
+
+/* Reduced motion accessibility */
+
+@media (prefers-reduced-motion: reduce) {
+  .mc-camp-card,
+  .mc-camp-image,
+  .mc-button {
+    transition: none;
+  }
+
+  .mc-camp-card:hover,
+  .mc-camp-card:hover .mc-camp-image {
+    transform: none;
+  }
+}
