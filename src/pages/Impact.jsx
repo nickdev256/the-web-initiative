@@ -12,7 +12,7 @@ import {
   ShieldCheck,
 } from 'lucide-react';
 import Navbar from '../components/Navbar.jsx';
-import Footer from '../components/Footer.jsx';
+import Footer from '../components/Footer.jsx'; 
 import './Impact.css';
 
 const impactAreas = [

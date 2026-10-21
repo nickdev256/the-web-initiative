@@ -1,3 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+/* Readability upgrade for The Web Initiative Ltd — Our Team page.
+   Keeps the existing layout, colors, imagery, card styling and responsive behavior. */
 
 .our-team-page {
   width: 100%;
@@ -18,39 +22,50 @@
   display: inline-block;
   margin-bottom: 14px;
   color: #0878c9;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 800;
-  letter-spacing: 2px;
+  letter-spacing: 1.8px;
   line-height: 1.7;
 }
 
 /* Hero */
 
+/* Our Team Hero Background Photo */
 .ot-hero {
   position: relative;
   display: flex;
   align-items: center;
-  min-height: clamp(300px, 37vw, 440px);
-  padding-block: clamp(55px, 8vw, 90px);
+  min-height: clamp(360px, 45vw, 520px);
+  padding-block: clamp(65px, 8vw, 100px);
   isolation: isolate;
+  overflow: hidden;
+
   background-color: #123653;
-  background-image: url('/images/our-team.jpg');
-  background-position: center;
+  background-image: url("/images/d.png");
+  background-position: center 40%;
   background-size: cover;
+  background-repeat: no-repeat;
 }
 
+/* Blue overlay for readable text */
 .ot-hero-overlay {
   position: absolute;
   z-index: -1;
   inset: 0;
+
   background: linear-gradient(
     90deg,
-    rgba(8, 38, 63, 0.95),
-    rgba(8, 57, 91, 0.72)
+    rgba(8, 38, 63, 0.78) 0%,
+    rgba(8, 57, 91, 0.55) 55%,
+    rgba(8, 57, 91, 0.25) 100%
   );
+
+  pointer-events: none;
 }
 
+/* Keep hero text visible */
 .ot-hero-content {
+  position: relative;
   color: #ffffff;
 }
 
@@ -58,10 +73,19 @@
   color: #9bddff;
 }
 
+.ot-hero h1,
+.ot-hero-content > p {
+  color: #ffffff;
+}
+
+
+.ot-hero-content { color: #ffffff; }
+.ot-hero .ot-eyebrow { color: #9bddff; }
+
 .ot-hero h1 {
   margin-bottom: 20px;
   color: #ffffff;
-  font-size: clamp(36px, 5.5vw, 64px);
+  font-size: clamp(40px, 5.7vw, 68px);
   font-weight: 800;
   letter-spacing: -1.5px;
   line-height: 1.15;
@@ -69,9 +93,9 @@
 }
 
 .ot-hero-content > p {
-  max-width: 700px;
+  max-width: 720px;
   color: #e5f1f9;
-  font-size: clamp(15px, 1.6vw, 18px);
+  font-size: clamp(17px, 1.6vw, 19px);
   line-height: 1.85;
 }
 
@@ -82,16 +106,12 @@
   gap: 12px;
   margin-top: 26px;
   color: #e5f1f9;
-  font-size: 13px;
+  font-size: 14px;
 }
 
-.ot-breadcrumb a {
-  color: #9bddff;
-  font-weight: 700;
-}
+.ot-breadcrumb a { color: #9bddff; font-weight: 700; }
 
 /* Introduction */
-
 .ot-intro-grid {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
@@ -100,9 +120,7 @@
 }
 
 .ot-intro-image-wrap,
-.ot-intro-content {
-  min-width: 0;
-}
+.ot-intro-content { min-width: 0; }
 
 .ot-intro-image-wrap {
   overflow: hidden;
@@ -111,23 +129,19 @@
   background: #eaf6ff;
 }
 
-.ot-intro-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
+.ot-intro-image { width: 100%; height: 100%; object-fit: cover; }
 
 .ot-intro-content h2 {
   margin-bottom: 22px;
-  font-size: clamp(30px, 4vw, 45px);
+  font-size: clamp(32px, 4vw, 47px);
   font-weight: 800;
   letter-spacing: -1px;
   line-height: 1.2;
 }
 
 .ot-intro-content > p {
-  margin-bottom: 16px;
-  font-size: 15px;
+  margin-bottom: 17px;
+  font-size: 16px;
   line-height: 1.9;
 }
 
@@ -136,22 +150,16 @@
   align-items: center;
   flex-wrap: wrap;
   gap: 9px;
-  min-height: 45px;
+  min-height: 48px;
   margin-top: 8px;
   color: #0878c9;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 800;
 }
+.ot-text-link:hover { color: #075da0; }
 
-.ot-text-link:hover {
-  color: #075da0;
-}
-
-/* Values */
-
-.ot-values {
-  background: #f4f9fd;
-}
+/* Shared values */
+.ot-values { background: #f4f9fd; }
 
 .ot-section-heading {
   max-width: 760px;
@@ -161,14 +169,14 @@
 
 .ot-section-heading h2 {
   margin-bottom: 16px;
-  font-size: clamp(30px, 4vw, 43px);
+  font-size: clamp(32px, 4vw, 45px);
   font-weight: 800;
   letter-spacing: -0.8px;
   line-height: 1.25;
 }
 
 .ot-section-heading > p {
-  font-size: 15px;
+  font-size: 16px;
   line-height: 1.85;
 }
 
@@ -201,17 +209,16 @@
 
 .ot-value-card h3 {
   margin-bottom: 12px;
-  font-size: 20px;
+  font-size: 22px;
   font-weight: 800;
 }
 
 .ot-value-card > p {
-  font-size: 14px;
-  line-height: 1.9;
+  font-size: 16px;
+  line-height: 1.85;
 }
 
 /* Team cards */
-
 .ot-team-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -225,9 +232,7 @@
   border-radius: 11px;
   background: #ffffff;
   box-shadow: 0 8px 25px rgba(20, 65, 100, 0.05);
-  transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .ot-member-card:hover {
@@ -235,10 +240,7 @@
   box-shadow: 0 14px 30px rgba(20, 65, 100, 0.1);
 }
 
-.ot-member-image-wrap {
-  overflow: hidden;
-  background: #eaf6ff;
-}
+.ot-member-image-wrap { overflow: hidden; background: #eaf6ff; }
 
 .ot-member-image {
   width: 100%;
@@ -247,19 +249,15 @@
   transition: transform 0.3s ease;
 }
 
-.ot-member-card:hover .ot-member-image {
-  transform: scale(1.035);
-}
+.ot-member-card:hover .ot-member-image { transform: scale(1.035); }
 
-.ot-member-content {
-  padding: 22px;
-}
+.ot-member-content { padding: 23px; }
 
 .ot-member-role {
   display: block;
   margin-bottom: 9px;
   color: #0878c9;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 800;
   letter-spacing: 0.7px;
   line-height: 1.7;
@@ -269,14 +267,14 @@
 
 .ot-member-content h3 {
   margin-bottom: 12px;
-  font-size: 19px;
+  font-size: 21px;
   font-weight: 800;
   line-height: 1.35;
   overflow-wrap: anywhere;
 }
 
 .ot-member-content > p {
-  font-size: 13px;
+  font-size: 15px;
   line-height: 1.85;
   overflow-wrap: anywhere;
 }
@@ -284,13 +282,12 @@
 .ot-team-note {
   max-width: 850px;
   margin: 28px auto 0;
-  font-size: 12px;
-  line-height: 1.8;
+  font-size: 14px;
+  line-height: 1.85;
   text-align: center;
 }
 
 /* Call to action */
-
 .ot-cta {
   padding-block: clamp(50px, 7vw, 80px);
   background: #0878c9;
@@ -304,19 +301,13 @@
   gap: 28px 40px;
 }
 
-.ot-cta-content > div {
-  flex: 1 1 400px;
-  min-width: 0;
-}
-
-.ot-cta .ot-eyebrow {
-  color: #c6ecff;
-}
+.ot-cta-content > div { flex: 1 1 400px; min-width: 0; }
+.ot-cta .ot-eyebrow { color: #c6ecff; }
 
 .ot-cta h2 {
   margin-bottom: 15px;
   color: #ffffff;
-  font-size: clamp(29px, 4vw, 43px);
+  font-size: clamp(31px, 4vw, 45px);
   font-weight: 800;
   line-height: 1.25;
 }
@@ -324,7 +315,7 @@
 .ot-cta-content > div > p {
   max-width: 650px;
   color: #e4f3ff;
-  font-size: 15px;
+  font-size: 16px;
   line-height: 1.9;
 }
 
@@ -334,202 +325,111 @@
   justify-content: center;
   flex-wrap: wrap;
   gap: 9px;
-  min-height: 49px;
-  padding: 12px 21px;
+  min-height: 52px;
+  padding: 13px 22px;
   border: 2px solid #ffffff;
   border-radius: 6px;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 800;
   text-align: center;
-  transition:
-    background 0.2s ease,
-    color 0.2s ease;
+  transition: background 0.2s ease, color 0.2s ease;
 }
 
-.ot-button-white {
-  background: #ffffff;
-  color: #075da0;
-}
-
-.ot-button-white:hover {
-  background: #eaf6ff;
-}
+.ot-button-white { background: #ffffff; color: #075da0; }
+.ot-button-white:hover { background: #eaf6ff; }
 
 /* Large desktops */
-
 @media (min-width: 1600px) {
-  .ot-container {
-    width: min(100% - 100px, 1360px);
-  }
-
-  .ot-team-grid {
-    gap: 28px;
-  }
+  .ot-container { width: min(100% - 100px, 1360px); }
+  .ot-team-grid { gap: 28px; }
 }
 
 /* Laptops and tablets */
-
 @media (max-width: 1100px) {
-  .ot-team-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .ot-values-grid {
-    gap: 16px;
-  }
+  .ot-team-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .ot-values-grid { gap: 16px; }
 }
 
 @media (max-width: 800px) {
-  .ot-container {
-    width: calc(100% - 40px);
-  }
-
-  .ot-intro-grid {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 30px;
-  }
-
-  .ot-intro-image-wrap {
-    width: min(100%, 650px);
-    margin-inline: auto;
-  }
-
-  .ot-values-grid {
-    grid-template-columns: minmax(0, 1fr);
-  }
-
-  .ot-value-card {
-    padding: 25px;
-  }
+  .ot-container { width: calc(100% - 40px); }
+  .ot-intro-grid { grid-template-columns: minmax(0, 1fr); gap: 30px; }
+  .ot-intro-image-wrap { width: min(100%, 650px); margin-inline: auto; }
+  .ot-values-grid { grid-template-columns: minmax(0, 1fr); }
+  .ot-value-card { padding: 25px; }
 }
 
 /* Mobile phones */
-
 @media (max-width: 600px) {
-  .ot-container {
-    width: calc(100% - 32px);
-  }
-
-  .ot-section {
-    padding-block: 50px;
-  }
-
-  .ot-hero {
-    min-height: 310px;
-    padding-block: 55px;
-    background-position: 60% center;
-  }
-
-  .ot-hero-overlay {
-    background: rgba(8, 38, 63, 0.85);
-  }
-
-  .ot-hero h1 {
-    font-size: clamp(33px, 9vw, 43px);
-    letter-spacing: -0.8px;
-  }
+  .ot-container { width: calc(100% - 32px); }
+  .ot-section { padding-block: 50px; }
+  .ot-hero { min-height: 310px; padding-block: 55px; background-position: 60% center; }
+  .ot-hero-overlay { background: rgba(8, 38, 63, 0.85); }
+  .ot-hero h1 { font-size: clamp(36px, 9vw, 46px); letter-spacing: -0.8px; }
 
   .ot-hero-content > p,
-  .ot-intro-content > p {
-    font-size: 14px;
+  .ot-intro-content > p,
+  .ot-section-heading > p,
+  .ot-value-card > p,
+  .ot-member-content > p,
+  .ot-team-note,
+  .ot-cta-content > div > p {
+    font-size: 15px;
+    line-height: 1.8;
   }
 
-  .ot-breadcrumb {
-    gap: 9px;
-    font-size: 12px;
-  }
+  .ot-breadcrumb { gap: 9px; font-size: 13px; }
 
   .ot-intro-content h2,
-  .ot-section-heading h2 {
-    font-size: clamp(27px, 7.8vw, 35px);
-  }
-
-  .ot-section-heading {
-    margin-bottom: 30px;
-  }
-
-  .ot-section-heading > p {
-    font-size: 14px;
-  }
-
-  .ot-team-grid {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 18px;
-  }
-
-  .ot-member-image {
-    aspect-ratio: 5 / 3;
-  }
-
-  .ot-member-content {
-    padding: 21px;
-  }
-
-  .ot-member-card:hover {
-    transform: none;
-  }
-
-  .ot-cta-content {
-    align-items: stretch;
-    flex-direction: column;
-    gap: 23px;
-  }
-
+  .ot-section-heading h2,
   .ot-cta h2 {
-    font-size: clamp(27px, 7.8vw, 35px);
+    font-size: clamp(30px, 7.8vw, 38px);
   }
 
+  .ot-section-heading { margin-bottom: 30px; }
+  .ot-team-grid { grid-template-columns: minmax(0, 1fr); gap: 18px; }
+  .ot-member-image { aspect-ratio: 5 / 3; }
+  .ot-member-content { padding: 21px; }
+  .ot-member-card:hover { transform: none; }
+  .ot-cta-content { align-items: stretch; flex-direction: column; gap: 23px; }
+  .ot-button { width: 100%; }
+}
+
+/* Very small phones */
+@media (max-width: 360px) {
+  .ot-container { width: calc(100% - 26px); }
+  .ot-eyebrow { font-size: 11px; letter-spacing: 1.2px; }
+  .ot-hero h1 { font-size: 34px; }
+
+  .ot-hero-content > p,
+  .ot-intro-content > p,
+  .ot-section-heading > p,
+  .ot-value-card > p,
+  .ot-member-content > p,
+  .ot-team-note,
   .ot-cta-content > div > p {
     font-size: 14px;
   }
 
-  .ot-button {
-    width: 100%;
-  }
-}
-
-/* Very small phones */
-
-@media (max-width: 360px) {
-  .ot-container {
-    width: calc(100% - 26px);
-  }
-
-  .ot-eyebrow {
-    font-size: 10px;
-    letter-spacing: 1.4px;
-  }
-
-  .ot-hero h1 {
-    font-size: 30px;
-  }
-
   .ot-value-card,
-  .ot-member-content {
-    padding: 19px;
-  }
+  .ot-member-content { padding: 19px; }
 }
 
 /* Short landscape displays */
-
 @media (max-height: 500px) and (orientation: landscape) {
-  .ot-hero {
-    min-height: 270px;
-    padding-block: 35px;
-  }
+  .ot-hero { min-height: 270px; padding-block: 35px; }
 }
 
 /* Reduced motion accessibility */
-
 @media (prefers-reduced-motion: reduce) {
   .ot-member-card,
   .ot-member-image,
-  .ot-button {
-    transition: none;
-  }
+  .ot-button { transition: none; }
 
   .ot-member-card:hover,
-  .ot-member-card:hover .ot-member-image {
-    transform: none;
-  }
+  .ot-member-card:hover .ot-member-image { transform: none; }
+}
+
+/* Apply Poppins to every paragraph and note on this page */
+.our-team-page p {
+  font-family: 'Poppins', sans-serif;
 }

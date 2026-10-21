@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+/* Readability and typography improvements for The Web Initiative Ltd */
 
 .medical-camps-page {
   width: 100%;
@@ -26,31 +29,117 @@
 
 /* Hero */
 
+
+/* Medical Camps Hero */
 .mc-hero {
   position: relative;
   display: flex;
   align-items: center;
-  min-height: clamp(300px, 37vw, 440px);
-  padding-block: clamp(55px, 8vw, 90px);
+  min-height: clamp(360px, 45vw, 520px);
+  padding-block: clamp(65px, 8vw, 100px);
   isolation: isolate;
+  overflow: hidden;
   background-color: #123653;
-  background-image: url('/images/medical-camp-1.jpg');
-  background-position: center;
-  background-size: cover;
 }
 
+/* Background slideshow container */
+.mc-hero-slideshow {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  overflow: hidden;
+}
+
+/* Individual photos */
+.mc-hero-slide {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center 40%;
+  background-repeat: no-repeat;
+  opacity: 0;
+  animation: mc-hero-fade 14s ease-in-out infinite;
+  will-change: opacity;
+}
+
+/* First photo */
+.mc-hero-slide-one {
+  background-image: url("/images/medical camp.png");
+  animation-delay: 0s;
+}
+
+/* Second photo */
+.mc-hero-slide-two {
+  background-image: url("/images/b.png");
+  animation-delay: 7s;
+}
+
+/* Overlay above the photos */
 .mc-hero-overlay {
   position: absolute;
   z-index: -1;
   inset: 0;
   background: linear-gradient(
     90deg,
-    rgba(8, 38, 63, 0.94),
-    rgba(8, 57, 91, 0.72)
+    rgba(8, 38, 63, 0.82) 0%,
+    rgba(8, 57, 91, 0.60) 55%,
+    rgba(8, 57, 91, 0.30) 100%
   );
+  pointer-events: none;
 }
 
+/* Keep text above the background */
 .mc-hero-content {
+  position: relative;
+  color: #ffffff;
+}
+
+.mc-hero .mc-eyebrow {
+  color: #9bddff;
+}
+
+.mc-hero h1,
+.mc-hero-content > p {
+  color: #ffffff;
+}
+
+/* Smooth crossfade: change photos every 7 seconds */
+@keyframes mc-hero-fade {
+  0%, 3% {
+    opacity: 0;
+  }
+
+  10%, 43% {
+    opacity: 1;
+  }
+
+  50%, 100% {
+    opacity: 0;
+  }
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .mc-hero-slide {
+    animation: none;
+  }
+
+  .mc-hero-slide-one {
+    opacity: 1;
+  }
+}
+
+/* Mobile photo positioning */
+@media (max-width: 600px) {
+  .mc-hero-slide {
+    background-position: 60% center;
+  }
+}
+
+
+/* Keep the hero text visible */
+.mc-hero-content {
+  position: relative;
   color: #ffffff;
 }
 
@@ -59,20 +148,11 @@
 }
 
 .mc-hero h1 {
-  margin-bottom: 20px;
   color: #ffffff;
-  font-size: clamp(36px, 5.5vw, 64px);
-  font-weight: 800;
-  letter-spacing: -1.5px;
-  line-height: 1.15;
-  overflow-wrap: anywhere;
 }
 
 .mc-hero-content > p {
-  max-width: 700px;
-  color: #e5f1f9;
-  font-size: clamp(15px, 1.6vw, 18px);
-  line-height: 1.85;
+  color: #ffffff;
 }
 
 .mc-breadcrumb {
@@ -665,5 +745,189 @@
   .mc-camp-card:hover,
   .mc-camp-card:hover .mc-camp-image {
     transform: none;
+  }
+}
+
+
+/* =========================================================
+   READABILITY UPGRADE
+   Preserves the existing layout, colors, images and effects.
+   ========================================================= */
+
+.medical-camps-page p {
+  font-family: 'Poppins', sans-serif;
+  font-size: 16px;
+  line-height: 1.85;
+}
+
+.mc-hero-content > p {
+  font-size: clamp(17px, 1.5vw, 19px);
+  line-height: 1.85;
+  max-width: 720px;
+}
+
+.mc-eyebrow {
+  font-size: 13px;
+  letter-spacing: 1.8px;
+}
+
+.mc-hero h1 {
+  font-size: clamp(40px, 5.7vw, 68px);
+}
+
+.mc-intro-content h2 {
+  font-size: clamp(32px, 4vw, 47px);
+}
+
+.mc-section-heading h2 {
+  font-size: clamp(32px, 4vw, 45px);
+}
+
+.mc-intro-content > p,
+.mc-section-heading > p,
+.mc-camp-body > p,
+.mc-step-card > p,
+.mc-cta-content > div:first-child > p {
+  font-size: 16px;
+  line-height: 1.85;
+}
+
+.mc-primary-link,
+.mc-camp-link {
+  font-size: 15px;
+}
+
+.mc-image-badge {
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.mc-camp-category {
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.mc-camp-body h3,
+.mc-step-card h3 {
+  font-size: 21px;
+  line-height: 1.4;
+}
+
+.mc-camp-meta span {
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.mc-disclaimer {
+  font-family: 'Poppins', sans-serif;
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+.mc-step-number {
+  font-size: 32px;
+}
+
+.mc-cta h2 {
+  font-size: clamp(31px, 4vw, 45px);
+}
+
+.mc-button {
+  font-size: 15px;
+  min-height: 52px;
+  padding: 13px 22px;
+}
+
+/* Tablet */
+@media (max-width: 800px) {
+  .medical-camps-page p {
+    font-size: 16px;
+  }
+
+  .mc-intro-content h2,
+  .mc-section-heading h2 {
+    font-size: clamp(30px, 5vw, 40px);
+  }
+
+  .mc-camp-body h3,
+  .mc-step-card h3 {
+    font-size: 21px;
+  }
+
+  .mc-camp-meta span {
+    font-size: 14px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+  .mc-eyebrow {
+    font-size: 12px;
+    letter-spacing: 1.5px;
+  }
+
+  .mc-hero h1 {
+    font-size: clamp(36px, 9vw, 46px);
+  }
+
+  .mc-hero-content > p,
+  .mc-intro-content > p,
+  .mc-section-heading > p,
+  .mc-camp-body > p,
+  .mc-step-card > p,
+  .mc-cta-content > div:first-child > p {
+    font-size: 15px;
+    line-height: 1.8;
+  }
+
+  .mc-intro-content h2,
+  .mc-section-heading h2,
+  .mc-cta h2 {
+    font-size: clamp(29px, 7.8vw, 37px);
+    line-height: 1.2;
+  }
+
+  .mc-image-badge {
+    font-size: 13px;
+  }
+
+  .mc-camp-body h3,
+  .mc-step-card h3 {
+    font-size: 20px;
+  }
+
+  .mc-camp-meta span {
+    font-size: 13px;
+  }
+
+  .mc-disclaimer {
+    font-size: 13px;
+  }
+
+  .mc-primary-link,
+  .mc-camp-link,
+  .mc-button {
+    font-size: 15px;
+  }
+}
+
+/* Very small phones */
+@media (max-width: 360px) {
+  .mc-eyebrow { 
+    font-size: 11px;
+    letter-spacing: 1.2px;
+  }
+
+  .mc-hero h1 {
+    font-size: 34px;
+  }
+
+  .mc-hero-content > p,
+  .mc-intro-content > p,
+  .mc-section-heading > p,
+  .mc-camp-body > p,
+  .mc-step-card > p,
+  .mc-cta-content > div:first-child > p {
+    font-size: 14px;
   }
 }

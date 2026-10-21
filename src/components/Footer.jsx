@@ -10,7 +10,7 @@ import {
 import './Footer.css';
 
 function Footer() {
-  const currentYear = new Date().getFullYear();
+  const currentYear = new Date().getFullYear(); 
 
   return (
     <footer className="site-footer">
@@ -24,10 +24,7 @@ function Footer() {
                 className="footer-logo"
               />
 
-              <span className="footer-brand-name">
-                <strong>THE WEB INITIATIVE</strong>
-                <small>LIMITED</small>
-              </span>
+             
             </Link>
 
             <p className="footer-description">

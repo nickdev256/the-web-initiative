@@ -36,7 +36,7 @@ const camps = [
   {
     id: 'medical-outreach',
     category: 'Medical Outreach',
-    title: 'Community Medical Outreach',
+    title: 'Community Medical Outreach', 
     description:
       'Outreach initiatives that bring communities together around health information, engagement, and support.',
     image: '/images/medical-camp-3.jpg',
@@ -51,26 +51,30 @@ function MedicalCamps() {
       <Navbar />
 
       <main className="medical-camps-page">
-        <section className="mc-hero">
-          <div className="mc-hero-overlay" />
+        
+<section className="mc-hero">
+  {/* Background slideshow */}
+  <div className="mc-hero-slideshow" aria-hidden="true">
+    <div className="mc-hero-slide mc-hero-slide-one" />
+    <div className="mc-hero-slide mc-hero-slide-two" />
+  </div>
 
-          <div className="mc-container mc-hero-content">
-            <span className="mc-eyebrow">COMMUNITY OUTREACH</span>
+  {/* Dark overlay */}
+  <div className="mc-hero-overlay" />
 
-            <h1>Medical Camps</h1>
+  {/* Existing hero content */}
+  <div className="mc-container mc-hero-content">
+    <span className="mc-eyebrow">COMMUNITY OUTREACH</span>
 
-            <p>
-              Promoting healthier communities through medical outreach,
-              health education, and community engagement.
-            </p>
+    <h1>Medical Camps</h1>
 
-            <nav className="mc-breadcrumb" aria-label="Breadcrumb">
-              <Link to="/">Home</Link>
-              <span>/</span>
-              <span>Medical Camps</span>
-            </nav>
-          </div>
-        </section>
+    <p>
+      Promoting healthier communities through medical outreach,
+      health education, and community engagement.
+    </p>
+  </div>
+</section>
+
 
         <section className="mc-intro mc-section">
           <div className="mc-container mc-intro-grid">
@@ -98,7 +102,7 @@ function MedicalCamps() {
 
             <div className="mc-intro-image-wrap">
               <img
-                src="/images/medical-camp-1.jpg"
+                src="/images/a.png"
                 alt="Community medical outreach"
                 className="mc-intro-image"
               />

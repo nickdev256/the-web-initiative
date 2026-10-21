@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
 
 .medical-services-page {
   width: 100%;
@@ -387,7 +389,7 @@
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 30px 45px;
-}
+} 
 
 .ms-cta-content > div:first-child {
   flex: 1 1 400px;
@@ -682,5 +684,164 @@
 
   .ms-service-card:hover {
     transform: none;
+  }
+}
+
+
+/* =========================================================
+   READABILITY & TYPOGRAPHY ENHANCEMENTS
+   Keeps the existing layout and visual identity intact.
+   ========================================================= */
+
+.medical-services-page {
+  color: #263b4d;
+  font-size: 16px;
+}
+
+/* Use Poppins consistently for every paragraph on this page. */
+.medical-services-page p,
+.medical-services-page .ms-promise span,
+.medical-services-page .ms-process-caption span {
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Make small labels and supporting text easier to read. */
+.medical-services-page .ms-eyebrow {
+  font-size: 13px;
+  letter-spacing: 1.8px;
+}
+
+.medical-services-page .ms-hero-content > p {
+  font-size: clamp(17px, 1.5vw, 19px);
+  line-height: 1.85;
+  max-width: 720px;
+}
+
+.medical-services-page .ms-intro-content > p,
+.medical-services-page .ms-section-heading > p,
+.medical-services-page .ms-process-content > p,
+.medical-services-page .ms-cta-content > div:first-child > p {
+  font-size: 17px;
+  line-height: 1.9;
+}
+
+.medical-services-page .ms-service-card > p {
+  font-size: 16px;
+  line-height: 1.85;
+}
+
+.medical-services-page .ms-process-list li p {
+  font-size: 15px;
+  line-height: 1.8;
+}
+
+.medical-services-page .ms-promise strong {
+  font-size: 16px;
+}
+
+.medical-services-page .ms-promise span {
+  font-size: 15px;
+  line-height: 1.75;
+}
+
+.medical-services-page .ms-process-caption strong {
+  font-size: 15px;
+}
+
+.medical-services-page .ms-process-caption span {
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.medical-services-page .ms-service-link {
+  font-size: 15px;
+}
+
+.medical-services-page .ms-button {
+  font-size: 15px;
+}
+
+.medical-services-page .ms-breadcrumb {
+  font-size: 14px;
+}
+
+/* Tablet and mobile readability. */
+@media (max-width: 800px) {
+  .medical-services-page .ms-hero-content > p {
+    font-size: 17px;
+  }
+
+  .medical-services-page .ms-intro-content > p,
+  .medical-services-page .ms-section-heading > p,
+  .medical-services-page .ms-process-content > p,
+  .medical-services-page .ms-cta-content > div:first-child > p {
+    font-size: 16px;
+  }
+
+  .medical-services-page .ms-service-card > p {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 600px) {
+  .medical-services-page .ms-eyebrow {
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    line-height: 1.6;
+  }
+
+  .medical-services-page .ms-hero-content > p {
+    font-size: 16px;
+    line-height: 1.8;
+  }
+
+  .medical-services-page .ms-intro-content > p,
+  .medical-services-page .ms-section-heading > p,
+  .medical-services-page .ms-process-content > p,
+  .medical-services-page .ms-cta-content > div:first-child > p,
+  .medical-services-page .ms-service-card > p {
+    font-size: 15px;
+    line-height: 1.85;
+  }
+
+  .medical-services-page .ms-promise strong {
+    font-size: 15px;
+  }
+
+  .medical-services-page .ms-promise span,
+  .medical-services-page .ms-process-list li p {
+    font-size: 14px;
+    line-height: 1.75;
+  }
+
+  .medical-services-page .ms-process-caption strong {
+    font-size: 14px;
+  }
+
+  .medical-services-page .ms-process-caption span {
+    font-size: 13px;
+  }
+
+  .medical-services-page .ms-service-link,
+  .medical-services-page .ms-button {
+    font-size: 15px;
+  }
+
+  .medical-services-page .ms-breadcrumb {
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 360px) {
+  .medical-services-page .ms-hero-content > p {
+    font-size: 15px;
+  }
+
+  .medical-services-page .ms-intro-content > p,
+  .medical-services-page .ms-section-heading > p,
+  .medical-services-page .ms-process-content > p,
+  .medical-services-page .ms-cta-content > div:first-child > p,
+  .medical-services-page .ms-service-card > p {
+    font-size: 14px;
   }
 }

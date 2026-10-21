@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
 
 /* =========================================
    THE WEB INITIATIVE LTD — ABOUT PAGE
@@ -51,6 +53,7 @@
   letter-spacing: 1.8px;
   line-height: 1.5;
   text-transform: uppercase;
+  
 }
 
 .about-page h1,
@@ -1143,5 +1146,200 @@
   .about-cta-secondary {
     width: 100%;
     min-height: 46px;
+  }
+}
+
+
+/* =========================================================
+   ACCESSIBLE TYPOGRAPHY UPGRADE — ABOUT PAGE
+   Paragraphs use Poppins; existing layout and visual design
+   are preserved while text is made easier to read.
+========================================================= */
+
+.about-page p,
+.about-page .about-hero-content > p,
+.about-page .about-story-content > p,
+.about-page .about-purpose-card > p,
+.about-page .about-history-content > p,
+.about-page .about-section-heading > p,
+.about-page .about-objective-card p,
+.about-page .about-values-intro > p,
+.about-page .about-value-card p,
+.about-page .about-cta-copy p {
+  font-family: 'Poppins', sans-serif;
+  font-size: 16px;
+  line-height: 1.85;
+}
+
+/* Clearer section labels */
+.about-page .about-eyebrow {
+  font-size: 12px;
+  letter-spacing: 1.6px;
+}
+
+/* Headings: keep the existing serif brand style, improve scale */
+.about-page .about-hero h1 {
+  font-size: clamp(40px, 4.7vw, 62px);
+  line-height: 1.12;
+}
+
+.about-page h2,
+.about-page .about-story-content h2,
+.about-page .about-history-content h2,
+.about-page .about-section-heading h2,
+.about-page .about-values-intro h2,
+.about-page .about-cta-copy h2 {
+  line-height: 1.2;
+}
+
+.about-page .about-purpose-card h3 {
+  font-size: 24px;
+  line-height: 1.35;
+}
+
+.about-page .about-objective-card h3 {
+  font-size: 19px;
+  line-height: 1.45;
+}
+
+.about-page .about-value-card h3 {
+  font-size: 17px;
+  line-height: 1.45;
+}
+
+/* Buttons and supporting information */
+.about-page .about-primary-link,
+.about-page .about-cta-button,
+.about-page .about-cta-secondary {
+  font-size: 15px;
+  min-height: 48px;
+}
+
+.about-page .about-breadcrumb {
+  font-size: 14px;
+}
+
+.about-page .about-image-label strong {
+  font-size: 15px;
+}
+
+.about-page .about-image-label small {
+  font-size: 13px;
+}
+
+.about-page .about-card-bottom {
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.about-page .about-history-panel span {
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.about-page .about-objective-number {
+  font-size: 13px;
+}
+
+/* Tablet sizing */
+@media (max-width: 1000px) {
+  .about-page p,
+  .about-page .about-hero-content > p,
+  .about-page .about-story-content > p,
+  .about-page .about-purpose-card > p,
+  .about-page .about-history-content > p,
+  .about-page .about-section-heading > p,
+  .about-page .about-objective-card p,
+  .about-page .about-values-intro > p,
+  .about-page .about-value-card p,
+  .about-page .about-cta-copy p {
+    font-size: 16px;
+  }
+}
+
+/* Mobile: readable text without breaking the existing layouts */
+@media (max-width: 768px) {
+  .about-page .about-hero-content > p,
+  .about-page .about-story-content > p,
+  .about-page .about-purpose-card > p,
+  .about-page .about-history-content > p,
+  .about-page .about-section-heading > p,
+  .about-page .about-objective-card p,
+  .about-page .about-values-intro > p,
+  .about-page .about-value-card p,
+  .about-page .about-cta-copy p {
+    font-size: 16px;
+    line-height: 1.8;
+  }
+
+  .about-page .about-hero h1 {
+    font-size: clamp(36px, 7.5vw, 48px);
+  }
+
+  .about-page .about-purpose-card h3 {
+    font-size: 22px;
+  }
+
+  .about-page .about-objective-card h3 {
+    font-size: 18px;
+  }
+
+  .about-page .about-value-card h3 {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .about-page .about-container {
+    width: calc(100% - 32px);
+  }
+
+  .about-page .about-eyebrow {
+    font-size: 11px;
+    letter-spacing: 1.3px;
+  }
+
+  .about-page .about-hero h1 {
+    font-size: clamp(34px, 8.5vw, 42px);
+    line-height: 1.15;
+  }
+
+  .about-page p,
+  .about-page .about-hero-content > p,
+  .about-page .about-story-content > p,
+  .about-page .about-purpose-card > p,
+  .about-page .about-history-content > p,
+  .about-page .about-section-heading > p,
+  .about-page .about-objective-card p,
+  .about-page .about-values-intro > p,
+  .about-page .about-value-card p,
+  .about-page .about-cta-copy p {
+    font-size: 15px;
+    line-height: 1.8;
+  }
+
+  .about-page .about-primary-link,
+  .about-page .about-cta-button,
+  .about-page .about-cta-secondary {
+    font-size: 14px;
+  }
+
+  .about-page .about-history-panel span {
+    font-size: 12px;
+  }
+
+  .about-page .about-value-card h3 {
+    font-size: 15px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .about-page *,
+  .about-page *::before,
+  .about-page *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }

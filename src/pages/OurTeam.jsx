@@ -16,7 +16,7 @@ const teamMembers = [
     name: 'Leadership Team',
     role: 'Organizational Leadership',
     image: '/images/team-leadership.jpg',
-    description:
+    description: 
       'Guiding the organization’s direction, priorities, and community-focused initiatives.',
   },
   {
@@ -49,7 +49,7 @@ function OurTeam() {
 
       <main className="our-team-page">
         <section className="ot-hero">
-          <div className="ot-hero-overlay" />
+          <div className="ot-hero-overlay" /> 
 
           <div className="ot-container ot-hero-content">
             <span className="ot-eyebrow">THE PEOPLE BEHIND OUR WORK</span>
@@ -60,11 +60,7 @@ function OurTeam() {
               collaboration, and advance meaningful initiatives.
             </p>
 
-            <nav className="ot-breadcrumb" aria-label="Breadcrumb">
-              <Link to="/">Home</Link>
-              <span>/</span>
-              <span>Our Team</span>
-            </nav>
+           
           </div>
         </section>
 
@@ -72,7 +68,7 @@ function OurTeam() {
           <div className="ot-container ot-intro-grid">
             <div className="ot-intro-image-wrap">
               <img
-                src="/images/our-team.jpg"
+                src="/images/e.png"
                 alt="Team members working together"
                 className="ot-intro-image"
               />

@@ -28,7 +28,7 @@ const galleryItems = [
     description: 'Supporting access to health screening services.',
   },
   {
-    image: '/images/gallery-community.jpg',
+    image: '/images/gallery-community.jpg', 
     title: 'Community Engagement',
     category: 'Community',
     description: 'Working together with local communities.',

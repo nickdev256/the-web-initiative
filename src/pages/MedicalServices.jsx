@@ -11,7 +11,7 @@ import {
   HandHeart,
 } from 'lucide-react';
 import Navbar from '../components/Navbar.jsx';
-import Footer from '../components/Footer.jsx';
+import Footer from '../components/Footer.jsx'; 
 import './MedicalServices.css';
 
 const services = [
@@ -72,11 +72,7 @@ function MedicalServices() {
               awareness, outreach, and community-focused initiatives.
             </p>
 
-            <nav className="ms-breadcrumb" aria-label="Breadcrumb">
-              <Link to="/">Home</Link>
-              <span>/</span>
-              <span>Medical Services</span>
-            </nav>
+            
           </div>
         </section>
 
@@ -84,7 +80,7 @@ function MedicalServices() {
           <div className="ms-container ms-intro-grid">
             <div className="ms-intro-image-wrap">
               <img
-                src="/images/healthcare-team.jpg"
+                src="/images/medical camp.png"
                 alt="Healthcare professionals supporting community wellbeing"
                 className="ms-intro-image"
               />
@@ -197,7 +193,7 @@ function MedicalServices() {
 
             <div className="ms-process-visual">
               <img
-                src="/images/healthcare-team.jpg"
+                src="/images/f.png"
                 alt="Community health outreach"
                 loading="lazy"
               />

@@ -3,10 +3,38 @@
    THE WEB INITIATIVE LTD — RESPONSIVE FOOTER
 ========================================= */
 
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+
+
+/* Poppins font for all footer paragraphs */
+.site-footer p,
+.site-footer .footer-description,
+.site-footer .footer-contact-item p,
+.site-footer .footer-bottom-container p {
+  font-family: 'Poppins', sans-serif;
+}
+
+
 .site-footer {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
   width: 100%;
-  background: #102f49;
   color: #ffffff;
+
+  background-color: #102f49;
+  background-image:
+    linear-gradient(
+      rgba(10, 39, 62, 0.92),
+      rgba(10, 39, 62, 0.94)
+    ),
+    url("/images/c.jpeg");
+
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 .footer-main {

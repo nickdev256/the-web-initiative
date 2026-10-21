@@ -86,8 +86,8 @@ function Home() {
       <Navbar />
 
       <main className="home-page">
-        {/* HERO: stays pinned as the page begins to scroll */}
-        <div className="home-hero-stage">
+        {/* HERO */}
+        <div className="home-hero-stage"> 
           <section className="home-hero">
             <div className="home-hero-image" />
             <div className="home-hero-shade" />
@@ -142,9 +142,7 @@ function Home() {
               </div>
 
               <div className="home-hero-side">
-                <div className="home-hero-vertical-label">
-                  CARE THAT CONNECTS US
-                </div>
+                
 
                 <div className="home-hero-photo-caption">
                   <span className="home-photo-caption-icon">
@@ -172,7 +170,7 @@ function Home() {
           </section>
         </div>
 
-        {/* INTRO: slides over the pinned hero */}
+        {/* INTRO */}
         <section className="home-intro home-section-layer">
           <div className="home-container home-intro-grid">
             <div className="home-intro-visual home-reveal">
@@ -185,7 +183,7 @@ function Home() {
 
                 <div className="home-image-tag">
                   <span className="home-tag-pulse" />
-                  PEOPLE FIRST, ALWAYS
+                  PEOPLE FIRST, ALWAYS 
                 </div>
               </div>
 
@@ -260,7 +258,7 @@ function Home() {
           </div>
         </section>
 
-        {/* FOCUS: left heading stays pinned while cards scroll */}
+        {/* FOCUS AREAS */}
         <section className="home-focus home-section-layer">
           <div className="home-container home-focus-layout">
             <div className="home-focus-intro">
@@ -337,7 +335,7 @@ function Home() {
           </div>
         </section>
 
-        {/* FEATURE: layered image and text composition */}
+        {/* FEATURE */}
         <section className="home-feature home-section-layer">
           <div className="home-container home-feature-grid">
             <div className="home-feature-copy home-reveal">

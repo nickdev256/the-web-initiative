@@ -15,7 +15,7 @@ import Navbar from '../components/Navbar.jsx';
 import Footer from '../components/Footer.jsx';
 import './Contact.css';
 
-export default function Contact() {
+export default function Contact() { 
   const [form, setForm] = useState({
     name: '',
     email: '',

@@ -39,35 +39,15 @@
 
 .navbar-logo {
   display: block;
-  width: 62px;
-  height: 62px;
+  width: 140px;
+  height: 140px;
   flex-shrink: 0;
   object-fit: contain;
   object-position: center;
 }
 
-.navbar-brand-text {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  line-height: 1.15;
-}
 
-.navbar-brand-text strong {
-  color: #104e8b;
-  font-family: "Times New Roman", Times, serif;
-  font-size: 18px;
-  font-weight: 800;
-  letter-spacing: 0.15px;
-  white-space: nowrap;
-}
 
-.navbar-brand-text small {
-  color: #0878c9;
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 5px;
-}
 
 /* Desktop navigation */
 
@@ -97,8 +77,9 @@
   padding: 12px 5px;
   border-radius: 4px;
   color: #263e54;
-  font-size: 16px;
-  font-weight: 600;
+  font-family: 'Poppins', sans-serif;
+  font-size: 17px;
+  font-weight: 550;
   line-height: 1.2;
   white-space: nowrap;
   text-decoration: none;
@@ -112,7 +93,7 @@
   left: 4px;
   height: 2px;
   border-radius: 2px;
-  background: #0878c9;
+  background: #01487a;
   content: "";
   transform: scaleX(0);
   transform-origin: center;

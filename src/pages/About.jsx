@@ -17,7 +17,7 @@ import {
 
 import Navbar from '../components/Navbar.jsx';
 import Footer from '../components/Footer.jsx';
-import './About.css';
+import './About.css'; 
 
 const values = [
   {
@@ -107,9 +107,8 @@ function About() {
               className="about-breadcrumb"
               aria-label="Breadcrumb"
             >
-              <Link to="/">⌂ Home</Link>
-              <span aria-hidden="true">/</span>
-              <span aria-current="page">About Us</span>
+              
+              
             </nav>
           </div>
         </section>

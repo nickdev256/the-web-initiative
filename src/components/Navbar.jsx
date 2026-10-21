@@ -34,7 +34,7 @@ function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [aboutOpen, setAboutOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState(''); 
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -111,10 +111,7 @@ function Navbar() {
             className="navbar-logo"
           />
 
-          <span className="navbar-brand-text">
-            <strong>THE WEB INITIATIVE</strong>
-            <small>LIMITED</small>
-          </span>
+          
         </Link>
 
         <nav
