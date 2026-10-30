@@ -77,7 +77,10 @@ function OurTeam() {
             <div className="ot-intro-content">
               <span className="ot-eyebrow">WORKING TOGETHER</span>
 
-              <h2>Driven by people. United by purpose.</h2>
+              <h2>
+                Driven by people.{' '}
+                <span className="hand-accent">United by purpose.</span>
+              </h2>
 
               <p>
                 Meaningful community work depends on people who share

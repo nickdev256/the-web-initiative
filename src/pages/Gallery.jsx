@@ -112,7 +112,7 @@ export default function Gallery() {
             </span>
             <h1>
               Moments That
-              <span> Make a Difference.</span>
+              <span className="hand-accent"> Make a Difference.</span>
             </h1>
             <p>
               Explore moments from our community initiatives, health education

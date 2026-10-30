@@ -24,6 +24,10 @@
   --border: #e0eaf1;
   --radius: 14px;
   --shadow: 0 12px 35px rgba(20, 65, 100, 0.09);
+
+  /* Handwritten accent font. Use sparingly: short accent phrases only,
+     never body text or whole headings. */
+  --font-hand: 'Kalam', 'Segoe Print', 'Bradley Hand', cursive;
 }
 
 /* Reset */
@@ -381,4 +385,14 @@ a:focus-visible {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
+}
+
+/* Handwritten accent for a short highlighted phrase in a heading or link.
+   Inherits the surrounding colour and size so it fits any heading. */
+.hand-accent {
+  font-family: var(--font-hand);
+  font-size: 1.06em;
+  font-weight: 700;
+  font-style: normal;
+  letter-spacing: -0.01em;
 }

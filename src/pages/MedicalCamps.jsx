@@ -81,7 +81,10 @@ function MedicalCamps() {
             <div className="mc-intro-content">
               <span className="mc-eyebrow">REACHING COMMUNITIES</span>
 
-              <h2>Bringing health awareness closer to people.</h2>
+              <h2>
+                Bringing health awareness{' '}
+                <span className="hand-accent">closer to people.</span>
+              </h2>
 
               <p>
                 Medical outreach can help communities learn about health,

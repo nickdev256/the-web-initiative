@@ -61,7 +61,7 @@ export default function Contact() {
 
             <h1>
               Let's start a
-              <span> conversation.</span>
+              <span className="hand-accent"> conversation.</span>
             </h1>
 
             <p>

@@ -74,7 +74,7 @@ export default function Impact() {
 
             <h1>
               Creating a Healthier
-              <span> Tomorrow, Together.</span>
+              <span className="hand-accent"> Tomorrow, Together.</span>
             </h1>
 
             <p>
