@@ -191,11 +191,11 @@ function Home() {
 
                 <div className="home-hero-trust">
                   <span className="home-trust-icon">
-                    <HeartPulse size={19} />
+                    <MapPin size={19} aria-hidden="true" />
                   </span>
                   <span>
-                    People-first care.
-                    <strong> Community-led impact.</strong>
+                    Medical camps and health education across{' '}
+                    <strong>Jinja, Uganda.</strong>
                   </span>
                 </div>
               </div>
