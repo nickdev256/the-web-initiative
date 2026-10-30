@@ -7,8 +7,12 @@ import {
   Heart,
   ArrowRight,
   ArrowUp,
+  Facebook,
+  Instagram,
+  Linkedin,
+  Youtube,
 } from 'lucide-react';
-import { CONTACT_EMAIL } from '../config.js';
+import { CONTACT_EMAIL, SOCIAL_LINKS } from '../config.js';
 import './Footer.css';
 
 const exploreLinks = [
@@ -25,6 +29,32 @@ const workLinks = [
   { label: 'Get Involved', path: '/contact' },
   { label: 'Make a Donation', path: '/donate' },
 ];
+
+// X (formerly Twitter) logo; Lucide only ships the old bird icon.
+function XLogo({ size = 18 }) {
+  return (
+    <svg
+      className="lucide"
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      aria-hidden="true"
+    >
+      <path d="M17.75 3h3.07l-6.7 7.66L22 21h-6.17l-4.83-6.32L5.47 21H2.4l7.17-8.2L2 3h6.33l4.37 5.78L17.75 3Zm-1.08 16.18h1.7L7.4 4.73H5.58l11.09 14.45Z" />
+    </svg>
+  );
+}
+
+const socialPlatforms = [
+  { key: 'facebook', label: 'Facebook', icon: Facebook },
+  { key: 'instagram', label: 'Instagram', icon: Instagram },
+  { key: 'x', label: 'X (Twitter)', icon: XLogo },
+  { key: 'linkedin', label: 'LinkedIn', icon: Linkedin },
+  { key: 'youtube', label: 'YouTube', icon: Youtube },
+  { key: 'whatsapp', label: 'WhatsApp', icon: MessageCircle },
+];
+
 
 function Footer() {
   const currentYear = new Date().getFullYear();
@@ -86,6 +116,41 @@ function Footer() {
               Learn more about us
               <ArrowRight size={16} aria-hidden="true" />
             </Link>
+
+            {/* Icons become links once their URL is added in config.js;
+                until then they show without being clickable. */}
+            <ul className="footer-social" aria-label="Follow us">
+              {socialPlatforms.map((platform) => {
+                const Icon = platform.icon;
+                const url = SOCIAL_LINKS[platform.key];
+
+                return (
+                  <li key={platform.key}>
+                    {url ? (
+                      <a
+                        href={url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label={`${platform.label} (opens in a new tab)`}
+                        title={platform.label}
+                      >
+                        <Icon size={18} aria-hidden="true" />
+                      </a>
+                    ) : (
+                      <span
+                        className="footer-social-pending"
+                        title={`${platform.label} (coming soon)`}
+                      >
+                        <Icon size={18} aria-hidden="true" />
+                        <span className="sr-only">
+                          {platform.label} (coming soon)
+                        </span>
+                      </span>
+                    )}
+                  </li>
+                );
+              })}
+            </ul>
           </div>
 
           <nav className="footer-column" aria-label="Explore">

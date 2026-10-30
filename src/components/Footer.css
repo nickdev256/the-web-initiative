@@ -344,3 +344,42 @@
     transition: none;
   }
 }
+
+/* Social media icons */
+
+.footer-social {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 24px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.footer-social a,
+.footer-social-pending {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border: 1px solid color-mix(in srgb, var(--c-white) 22%, transparent);
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--c-white) 6%, transparent);
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+
+.footer-social a:hover {
+  border-color: var(--c-cyan);
+  background: var(--c-cyan);
+  transform: translateY(-2px);
+}
+
+/* On hover the icon turns deep blue on the cyan circle */
+:root .footer-social a:hover svg.lucide {
+  color: var(--c-navy);
+}
+
+/* Icons without a link yet: visible but not clickable */
+.footer-social-pending {
+  cursor: default;
+}

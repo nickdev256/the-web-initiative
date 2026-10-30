@@ -5,13 +5,11 @@ import {
   Play,
   Pause,
   ArrowRight,
-  HeartPulse,
   Stethoscope,
   Users,
   HandHeart,
   CalendarDays,
   MoveUpRight,
-  Plus,
   MapPin,
   Clock,
   Apple,
@@ -30,7 +28,7 @@ import './Home.css';
 // loads, the poster photo is shown instead.
 const HERO_VIDEO = '/videos/hero.mp4';
 const HERO_VIDEO_HD = '/videos/hero-720.mp4';
-const HERO_POSTER = '/images/healthcare-team.jpg';
+const HERO_POSTER = '/images/hero-poster.jpg';
 
 // The three health issues named in the hero, shown in "Who we are".
 const healthPriorities = [
@@ -230,13 +228,6 @@ function Home() {
                 
               </div>
             </div>
-
-            <div className="home-scroll-indicator">
-              
-             
-            </div>
-
-            
           </section>
         </div>
 
@@ -275,15 +266,18 @@ function Home() {
               </h2>
 
               <p className="home-intro-lead">
-               The web is a community-based organization that intends to lower or possibly eliminate 
-               malnutrition in children battling with sickle cell and HIV in the marginalized parts of 
-               northern Uganda. 
+                The Web Initiative is a community-based organisation
+                working to reduce, and where possible eliminate,
+                malnutrition in children living with sickle cell disease
+                and HIV in marginalised communities of northern Uganda.
               </p>
 
               <p>
-                We intend to empower the afflicted families and individuals towards 
-               self-sufficiency and optimal health, have a sustainable healthy community through promotion 
-               of health habits, restoring hope, sharing knowledge and God’s love to enable a fulfilled life.
+                We empower affected families and individuals towards
+                self-sufficiency and good health, and build sustainable,
+                healthy communities by promoting healthy habits,
+                restoring hope, and sharing knowledge and God’s love so
+                that everyone can live a fulfilled life.
               </p>
 
               <ul className="home-intro-priorities">
@@ -533,64 +527,16 @@ function Home() {
             <div className="home-feature-visual home-reveal">
               <div className="home-feature-photo">
                 <img
-                  src="/images/community-outreach.jpg"
-                  alt="Community health outreach and patient support"
+                  src="/images/camps/blood-pressure-check.jpg"
+                  alt="A volunteer checking a woman's blood pressure at a community camp"
                   loading="lazy"
                 />
               </div>
 
-              <div className="home-feature-stamp">
-                <HeartPulse size={31} />
-                <span>Care</span>
-                <span>Connect</span>
-                <span>Change</span>
-              </div>
-
               <div className="home-feature-caption">
-                <span>01 / OUR APPROACH</span>
+                <span>OUR APPROACH</span>
                 <strong>Putting people at the centre of care.</strong>
               </div>
-            </div>
-          </div>
-        </section>
-
-        {/* CALL TO ACTION */}
-        <section className="home-cta home-section-layer">
-          <div className="home-container home-cta-inner home-reveal">
-            <div className="home-cta-symbol">
-              <HandHeart size={38} strokeWidth={1.5} />
-            </div>
-
-            <div className="home-cta-copy">
-              <div className="home-kicker home-kicker-light">
-                BE PART OF THE CHANGE
-              </div>
-
-              <h2>
-                A healthier future
-                <br />
-                is something we build <span>together.</span>
-              </h2>
-
-              <p>
-                Join us in supporting community wellbeing.
-                Let's connect, collaborate, and make a difference.
-              </p>
-            </div>
-
-            <div className="home-cta-actions">
-              <Link to="/contact" className="home-btn home-btn-white">
-                Talk to our team
-                <ArrowRight size={18} />
-              </Link>
-
-              <Link to="/donate" className="home-cta-secondary">
-                Make a Donation
-              </Link>
-            </div>
-
-            <div className="home-cta-decoration">
-              <Plus size={32} />
             </div>
           </div>
         </section>

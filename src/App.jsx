@@ -1,5 +1,5 @@
 
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import Home from './pages/Home.jsx';
 import About from './pages/About.jsx';
 import MedicalServices from './pages/MedicalServices.jsx';
@@ -10,12 +10,19 @@ import Impact from './pages/Impact.jsx';
 import Donate from './pages/Donate.jsx';
 import Gallery from './pages/Gallery.jsx';
 import Contact from './pages/Contact.jsx';
+import PageEffects from './components/PageEffects.jsx';
 import './App.css';
 
 function App() {
+  const location = useLocation();
+
   return (
     <div className="app">
-      <Routes>
+      <PageEffects />
+
+      {/* Keyed by path so each new page plays the entrance transition */}
+      <div className="page-transition" key={location.pathname}>
+        <Routes location={location}>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
         <Route
@@ -52,7 +59,8 @@ function App() {
             </main>
           }
         />
-      </Routes>
+        </Routes>
+      </div>
     </div>
   );
 }
