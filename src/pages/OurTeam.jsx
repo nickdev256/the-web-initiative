@@ -15,28 +15,28 @@ const teamMembers = [
   {
     name: 'Leadership Team',
     role: 'Organizational Leadership',
-    image: '/images/team-leadership.jpg',
+    image: '/images/healthcare-team.jpg',
     description: 
       'Guiding the organization’s direction, priorities, and community-focused initiatives.',
   },
   {
     name: 'Medical Team',
     role: 'Healthcare Professionals',
-    image: '/images/team-medical.jpg',
+    image: '/images/medical-team.jpg',
     description:
       'Supporting appropriate healthcare activities, health education, and community outreach.',
   },
   {
     name: 'Outreach Team',
     role: 'Community Engagement',
-    image: '/images/team-outreach.jpg',
+    image: '/images/outdoor-consultation.jpg',
     description:
       'Building community relationships and helping coordinate outreach activities.',
   },
   {
     name: 'Support Team',
     role: 'Operations and Partnerships',
-    image: '/images/team-support.jpg',
+    image: '/images/health-screening.jpg',
     description:
       'Supporting coordination, collaboration, and the delivery of organizational initiatives.',
   },
@@ -68,7 +68,7 @@ function OurTeam() {
           <div className="ot-container ot-intro-grid">
             <div className="ot-intro-image-wrap">
               <img
-                src="/images/e.png"
+                src="/images/blood-pressure-check.jpg"
                 alt="Team members working together"
                 className="ot-intro-image"
               />
@@ -177,12 +177,6 @@ function OurTeam() {
                 </article>
               ))}
             </div>
-
-            <p className="ot-team-note">
-              Team categories are shown as placeholders. Replace them
-              with confirmed staff names, roles, and photographs before
-              publishing the website.
-            </p>
           </div>
         </section>
 

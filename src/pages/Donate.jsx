@@ -14,6 +14,7 @@ import {
 } from 'lucide-react';
 import Navbar from '../components/Navbar.jsx';
 import Footer from '../components/Footer.jsx';
+import { CONTACT_EMAIL } from '../config.js';
 import './Donate.css';
 
 const donationOptions = [
@@ -91,7 +92,7 @@ Please share the official donation procedure and payment details.`
     setSubmitted(true);
 
     window.location.href =
-      `mailto:info@thewebinitiative.org?subject=${subject}&body=${body}`;
+      `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`;
   }
 
   return (
@@ -393,7 +394,8 @@ Please share the official donation procedure and payment details.`
               {submitted && (
                 <p className="donate-form-status" role="status">
                   Your email application should open with your enquiry.
-                  If it does not, please use the Contact page.
+                  If it does not, please email us directly at{' '}
+                  <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>.
                 </p>
               )}
             </form>

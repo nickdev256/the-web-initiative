@@ -25,7 +25,7 @@
   padding: 90px 0;
   background:
     linear-gradient(90deg, rgba(8, 42, 67, 0.94), rgba(8, 75, 113, 0.72)),
-    url('/images/impact-hero.jpg') center/cover no-repeat,
+    url('/images/outreach-wheelchair.jpg') center/cover no-repeat,
     #0878c9;
 }
 
@@ -665,7 +665,7 @@
   min-height: clamp(520px, 52vw, 650px);
   background-image:
     linear-gradient(90deg, rgba(5, 32, 52, 0.84) 0%, rgba(5, 45, 72, 0.62) 52%, rgba(5, 45, 72, 0.28) 100%),
-    url('/images/impact-hero.jpg');
+    url('/images/outreach-wheelchair.jpg');
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
@@ -815,7 +815,7 @@
     background-position: 60% center;
     background-image:
       linear-gradient(90deg, rgba(5, 32, 52, 0.84), rgba(5, 45, 72, 0.58)),
-      url('/images/impact-hero.jpg');
+      url('/images/outreach-wheelchair.jpg');
   }
 
   .impact-hero-overlay {
@@ -878,7 +878,7 @@
     background-position: 58% center;
     background-image:
       linear-gradient(90deg, rgba(5, 32, 52, 0.88), rgba(5, 45, 72, 0.66)),
-      url('/images/impact-hero.jpg');
+      url('/images/outreach-wheelchair.jpg');
   }
 
   .impact-eyebrow,

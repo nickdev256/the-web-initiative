@@ -64,13 +64,13 @@
 
 /* First photo */
 .mc-hero-slide-one {
-  background-image: url("/images/medical camp.png");
+  background-image: url("/images/outdoor-consultation.jpg");
   animation-delay: 0s;
 }
 
 /* Second photo */
 .mc-hero-slide-two {
-  background-image: url("/images/b.png");
+  background-image: url("/images/medical-camp-tents.jpg");
   animation-delay: 7s;
 }
 

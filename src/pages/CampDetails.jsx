@@ -20,7 +20,7 @@ const camps = {
     title: 'Community Health Outreach',
     description:
       'Community-focused outreach that promotes health awareness and helps people learn about available healthcare support.',
-    image: '/images/medical-camp-1.jpg',
+    image: '/images/medical-camp-tents.jpg',
     location: 'Location to be confirmed',
     date: 'Date to be announced',
     overview:
@@ -37,7 +37,7 @@ const camps = {
     title: 'Health Awareness Campaign',
     description:
       'Health education activities designed to encourage informed decisions and healthier everyday practices.',
-    image: '/images/medical-camp-2.jpg',
+    image: '/images/health-screening.jpg',
     location: 'Location to be confirmed',
     date: 'Date to be announced',
     overview:
@@ -54,7 +54,7 @@ const camps = {
     title: 'Community Medical Outreach',
     description:
       'Community outreach initiatives centred on health information, collaboration, and access to appropriate support.',
-    image: '/images/medical-camp-3.jpg',
+    image: '/images/outdoor-consultation.jpg',
     location: 'Location to be confirmed',
     date: 'Date to be announced',
     overview:

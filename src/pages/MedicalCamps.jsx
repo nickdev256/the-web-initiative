@@ -19,7 +19,7 @@ const camps = [
     title: 'Community Health Outreach',
     description:
       'Community-focused outreach promoting health awareness and access to appropriate healthcare support.',
-    image: '/images/medical-camp-1.jpg',
+    image: '/images/medical-camp-tents.jpg',
     location: 'Community location to be announced',
     date: 'Date to be announced',
   },
@@ -29,7 +29,7 @@ const camps = [
     title: 'Health Awareness Campaign',
     description:
       'Health education and awareness activities designed to encourage informed choices and healthier communities.',
-    image: '/images/medical-camp-2.jpg',
+    image: '/images/health-screening.jpg',
     location: 'Community location to be announced',
     date: 'Date to be announced',
   },
@@ -39,7 +39,7 @@ const camps = [
     title: 'Community Medical Outreach', 
     description:
       'Outreach initiatives that bring communities together around health information, engagement, and support.',
-    image: '/images/medical-camp-3.jpg',
+    image: '/images/outdoor-consultation.jpg',
     location: 'Community location to be announced',
     date: 'Date to be announced',
   },
@@ -102,7 +102,7 @@ function MedicalCamps() {
 
             <div className="mc-intro-image-wrap">
               <img
-                src="/images/a.png"
+                src="/images/camp-village-tents.jpg"
                 alt="Community medical outreach"
                 className="mc-intro-image"
               />
