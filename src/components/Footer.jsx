@@ -7,6 +7,7 @@ import {
   Heart,
   ArrowRight,
 } from 'lucide-react';
+import { CONTACT_EMAIL } from '../config.js';
 import './Footer.css';
 
 function Footer() {
@@ -74,10 +75,10 @@ function Footer() {
 
             <a
               className="footer-contact-item"
-              href="mailto:info@thewebinitiative.org"
+              href={`mailto:${CONTACT_EMAIL}`}
             >
               <Mail size={19} aria-hidden="true" />
-              <span>Email us</span>
+              <span>{CONTACT_EMAIL}</span>
             </a>
 
             <Link to="/contact" className="footer-contact-item">

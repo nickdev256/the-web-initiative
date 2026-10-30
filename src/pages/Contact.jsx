@@ -3,9 +3,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
   Mail,
-  Phone,
   MapPin,
-  Clock,
   Send,
   MessageCircle,
   ArrowRight,
@@ -13,6 +11,7 @@ import {
 } from 'lucide-react';
 import Navbar from '../components/Navbar.jsx';
 import Footer from '../components/Footer.jsx';
+import { CONTACT_EMAIL } from '../config.js';
 import './Contact.css';
 
 export default function Contact() { 
@@ -46,7 +45,7 @@ export default function Contact() {
     setSubmitted(true);
 
     window.location.href =
-      `mailto:info@thewebinitiative.org?subject=${subject}&body=${body}`;
+      `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`;
   }
 
   return (
@@ -111,27 +110,7 @@ export default function Contact() {
                   </div>
                   <div>
                     <strong>Email us</strong>
-                    <span>Use our verified organisational email here.</span>
-                  </div>
-                </div>
-
-                <div className="contact-info-item">
-                  <div className="contact-info-icon">
-                    <Phone size={22} />
-                  </div>
-                  <div>
-                    <strong>Call us</strong>
-                    <span>Add your official contact number here.</span>
-                  </div>
-                </div>
-
-                <div className="contact-info-item">
-                  <div className="contact-info-icon">
-                    <Clock size={22} />
-                  </div>
-                  <div>
-                    <strong>Working hours</strong>
-                    <span>Contact us to confirm availability.</span>
+                    <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
                   </div>
                 </div>
 
@@ -235,8 +214,8 @@ export default function Contact() {
                   {submitted && (
                     <p className="contact-form-status" role="status">
                       Your email application should open with your message. If
-                      it does not, check the email address configured in this
-                      page or contact the organisation directly.
+                      it does not, please email us directly at{' '}
+                      <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>.
                     </p>
                   )}
                 </form>

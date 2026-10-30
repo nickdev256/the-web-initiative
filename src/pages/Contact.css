@@ -21,7 +21,7 @@
   color: #fff;
   background:
     linear-gradient(105deg, rgba(5, 31, 52, 0.94) 0%, rgba(8, 64, 99, 0.86) 55%, rgba(8, 120, 201, 0.72) 100%),
-    url('/images/contact-hero.jpg') center/cover no-repeat,
+    url('/images/camp-village-tents.jpg') center/cover no-repeat,
     #123653;
 }
 
@@ -147,6 +147,7 @@
 .contact-info-item strong, .contact-info-item span { display: block; }
 .contact-info-item strong { margin: 2px 0 7px; font-size: 16px; line-height: 1.4; }
 .contact-info-item span { margin-top: 4px; color: #e0edf5; font-family: 'Poppins', sans-serif; font-size: 15px; line-height: 1.7; overflow-wrap: anywhere; }
+.contact-info-item a { display: block; margin-top: 4px; color: #ffffff; font-family: 'Poppins', sans-serif; font-size: 15px; line-height: 1.7; overflow-wrap: anywhere; text-decoration: underline; text-underline-offset: 3px; }
 .contact-info-note { display: flex; align-items: flex-start; gap: 13px; margin-top: 32px; padding: 19px; border: 1px solid rgba(255,255,255,.18); border-radius: 12px; background: rgba(255,255,255,.07); }
 .contact-info-note svg { flex-shrink: 0; color: #a1e1ff; }
 .contact-info-note p { margin: 0; color: #e0edf5; font-family: 'Poppins', sans-serif; font-size: 14px; line-height: 1.8; }

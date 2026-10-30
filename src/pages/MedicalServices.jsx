@@ -80,7 +80,7 @@ function MedicalServices() {
           <div className="ms-container ms-intro-grid">
             <div className="ms-intro-image-wrap">
               <img
-                src="/images/medical camp.png"
+                src="/images/outdoor-consultation.jpg"
                 alt="Healthcare professionals supporting community wellbeing"
                 className="ms-intro-image"
               />
@@ -193,7 +193,7 @@ function MedicalServices() {
 
             <div className="ms-process-visual">
               <img
-                src="/images/f.png"
+                src="/images/health-screening.jpg"
                 alt="Community health outreach"
                 loading="lazy"
               />

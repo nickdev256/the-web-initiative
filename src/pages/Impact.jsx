@@ -43,19 +43,19 @@ const activities = [
     number: '01',
     title: 'Medical Outreach',
     text: 'Supporting outreach activities that help connect people with essential healthcare services.',
-    image: '/images/impact-medical-outreach.jpg',
+    image: '/images/outdoor-consultation.jpg',
   },
   {
     number: '02',
     title: 'Health Education',
     text: 'Encouraging practical health knowledge and awareness within the communities we serve.',
-    image: '/images/impact-health-education.jpg',
+    image: '/images/blood-pressure-check.jpg',
   },
   {
     number: '03',
     title: 'Community Partnerships',
     text: 'Collaborating with local stakeholders to identify needs and strengthen community support.',
-    image: '/images/impact-community.jpg',
+    image: '/images/community-outreach.jpg',
   },
 ];
 
@@ -117,7 +117,7 @@ export default function Impact() {
 
             <div className="impact-intro-visual">
               <img
-                src="/images/impact-main.jpg"
+                src="/images/camp-village-tents.jpg"
                 alt="Community health outreach activity"
                 onError={(event) => {
                   event.currentTarget.style.display = 'none';

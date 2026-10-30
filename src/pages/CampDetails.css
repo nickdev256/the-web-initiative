@@ -34,7 +34,7 @@
   padding-block: clamp(45px, 7vw, 80px);
   isolation: isolate;
   background-color: #123653;
-  background-image: url('/images/medical-camp-1.jpg');
+  background-image: url('/images/medical-camp-tents.jpg');
   background-position: center;
   background-size: cover;
 }
