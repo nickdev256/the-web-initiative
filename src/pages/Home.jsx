@@ -1,7 +1,9 @@
 
-import { useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
+  Play,
+  Pause,
   ArrowRight,
   HeartPulse,
   Stethoscope,
@@ -20,6 +22,11 @@ import Navbar from '../components/Navbar.jsx';
 import Footer from '../components/Footer.jsx';
 import { getUpcomingEvents } from '../data/events.js';
 import './Home.css';
+
+// Hero background video. Put the file in public/videos/. Until it exists,
+// the poster photo is shown instead.
+const HERO_VIDEO = '/videos/hero.mp4';
+const HERO_POSTER = '/images/healthcare-team.jpg';
 
 const focusAreas = [
   {
@@ -62,6 +69,38 @@ const focusAreas = [
 
 function Home() {
   const upcomingEvents = getUpcomingEvents();
+  const videoRef = useRef(null);
+  const [videoReady, setVideoReady] = useState(false);
+  const [videoPlaying, setVideoPlaying] = useState(false);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    // Skip the video for visitors who asked for less motion, phones (to
+    // save mobile data) and data-saver mode; they see the poster photo.
+    const reduceMotion = window.matchMedia(
+      '(prefers-reduced-motion: reduce)'
+    ).matches;
+    const smallScreen = window.matchMedia('(max-width: 760px)').matches;
+    const saveData = navigator.connection?.saveData === true;
+
+    if (reduceMotion || smallScreen || saveData) return;
+
+    video.preload = 'auto';
+    video.play().catch(() => setVideoPlaying(false));
+  }, []);
+
+  const toggleVideo = () => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    if (video.paused) {
+      video.play().catch(() => {});
+    } else {
+      video.pause();
+    }
+  };
 
   useEffect(() => {
     const elements = document.querySelectorAll('.home-reveal');
@@ -95,6 +134,25 @@ function Home() {
         <div className="home-hero-stage"> 
           <section className="home-hero">
             <div className="home-hero-image" />
+            <video
+              ref={videoRef}
+              className={`home-hero-video ${videoReady ? 'is-ready' : ''}`}
+              poster={HERO_POSTER}
+              muted
+              loop
+              playsInline
+              preload="none"
+              aria-hidden="true"
+              onPlaying={() => setVideoReady(true)}
+              onPlay={() => setVideoPlaying(true)}
+              onPause={() => setVideoPlaying(false)}
+            >
+              <source
+                src={HERO_VIDEO}
+                type="video/mp4"
+                onError={() => setVideoReady(false)}
+              />
+            </video>
             <div className="home-hero-shade" />
 
             <div className="home-container home-hero-inner">
@@ -113,9 +171,8 @@ function Home() {
                 </h1>
 
                 <p className="home-hero-description">
-                  Building a healthier future through community-focused
-                  healthcare, medical outreach, and meaningful
-                  partnerships that put people first.
+                  Building a healthier future through focused health care and meaningful
+                  partnerships against malnutrition, HIV and sickle cell disease.
                 </p>
 
                 <div className="home-hero-actions">
@@ -149,29 +206,16 @@ function Home() {
               <div className="home-hero-side">
                 
 
-                <div className="home-hero-photo-caption">
-                  <span className="home-photo-caption-icon">
-                    <Plus size={20} />
-                  </span>
-                  <div>
-                    <strong>Care beyond boundaries</strong>
-                    <span>For every community</span>
-                  </div>
-                  <HeartPulse size={24} />
-                </div>
+                
               </div>
             </div>
 
             <div className="home-scroll-indicator">
-              <span>SCROLL TO EXPLORE</span>
-              <span className="home-scroll-line" />
+              
+             
             </div>
 
-            <div className="home-hero-index">
-              <span>01</span>
-              <span className="home-index-divider" />
-              <span>04</span>
-            </div>
+            
           </section>
         </div>
 
@@ -529,7 +573,7 @@ function Home() {
               </Link>
 
               <Link to="/donate" className="home-cta-secondary">
-                Support our work
+                Make a Donation
               </Link>
             </div>
 
