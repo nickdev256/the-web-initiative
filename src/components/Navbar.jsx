@@ -349,7 +349,7 @@ function Navbar() {
               onClick={closeMenu}
             >
               <Heart size={16} fill="currentColor" />
-              <span>Support Our Work</span>
+              <span>Make a Donation</span>
             </Link>
           </nav>
 
@@ -386,11 +386,11 @@ function Navbar() {
             <Link
               to="/donate"
               className="navbar-donate desktop-donate btn-support"
-              aria-label="Support Our Work"
+              aria-label="Make a Donation"
               onClick={closeMenu}
             >
               <Heart size={16} fill="currentColor" className="donate-heart" />
-              <span>Support Our Work</span>
+              <span>Make a Donation</span>
             </Link>
 
             <button

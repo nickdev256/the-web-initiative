@@ -276,7 +276,7 @@ export default function Contact() {
                 Explore Medical Camps <ArrowRight size={17} />
               </Link>
               <Link to="/donate" className="contact-btn contact-btn-light">
-                Support Our Work
+                Make a Donation
               </Link>
             </div>
           </div>

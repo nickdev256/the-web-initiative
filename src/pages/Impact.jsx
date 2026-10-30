@@ -87,7 +87,7 @@ export default function Impact() {
                 Explore Our Medical Camps <ArrowRight size={18} />
               </Link>
               <Link to="/donate" className="impact-btn impact-btn-outline">
-                Support Our Work
+                Make a Donation
               </Link>
             </div>
           </div>
@@ -230,7 +230,7 @@ export default function Impact() {
             </div>
             <div className="impact-cta-buttons">
               <Link to="/donate" className="impact-btn impact-btn-primary btn-support">
-                <HandHeart size={18} /> Support Our Work
+                <HandHeart size={18} /> Make a Donation
               </Link>
               <Link to="/contact" className="impact-btn impact-btn-light">
                 Get in Touch <ArrowRight size={18} />

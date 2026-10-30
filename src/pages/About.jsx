@@ -455,7 +455,7 @@ function About() {
                 className="about-cta-secondary"
               >
                 <HeartPulse size={17} />
-                Support Our Work
+                Make a Donation
               </Link>
             </div>
           </div>

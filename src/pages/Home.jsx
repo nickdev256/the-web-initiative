@@ -91,7 +91,7 @@ const focusAreas = [
     description:
       'Partner with us and help create meaningful, lasting change in our communities.',
     link: '/donate',
-    action: 'Support our work',
+    action: 'Make a Donation',
   },
 ];
 

@@ -270,7 +270,7 @@ export default function Gallery() {
             </div>
             <div className="gallery-cta-actions">
               <Link to="/donate" className="gallery-btn gallery-btn-primary btn-support">
-                Support Our Work <ArrowRight size={17} />
+                Make a Donation <ArrowRight size={17} />
               </Link>
               <Link to="/contact" className="gallery-text-link">
                 Contact Us
