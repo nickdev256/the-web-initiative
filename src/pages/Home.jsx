@@ -159,7 +159,7 @@ function Home() {
               <div className="home-hero-copy">
                 <div className="home-kicker home-kicker-light">
                   <span className="home-kicker-dot" />
-                  COMMUNITY HEALTH · COMPASSION · ACTION
+                  THE WEB INITIATIVE · COMMUNITY HEALTH
                 </div>
 
                 <h1>

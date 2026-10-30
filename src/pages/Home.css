@@ -662,6 +662,7 @@
   .home-hero-shade { background: rgba(5,30,46,.72); }
   .home-hero h1 { margin: 22px 0 18px; font-size: clamp(3rem, 10vw, 4.3rem); }
   .home-hero .home-kicker-dot { display: none; }
+  .home-hero .home-kicker { text-wrap: balance; }
   .home-hero-description { font-size: 18px; line-height: 1.7; }
   .home-hero-actions { gap: 11px; margin-top: 25px; }
   .home-btn { min-height: 52px; padding-inline: 18px; font-size: 15px; }
