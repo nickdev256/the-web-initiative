@@ -483,9 +483,7 @@ a:focus-visible {
   .home-wwd-icon,
   .home-card-icon,
   .home-priority-icon,
-  .about-label-icon,
-  .about-objective-icon,
-  .about-value-icon,
+  .about-icon-box,
   .ms-service-icon,
   .mc-step-icon,
   .cd-info-icon,
@@ -502,7 +500,8 @@ a:focus-visible {
 :root :is(
   .home-editorial-link > span,
   .home-wwd-link,
-  .about-card-bottom,
+  .about-card-note,
+  .about-text-link > span,
   .ms-service-link,
   .ms-promise,
   .ms-process-caption,
@@ -611,4 +610,9 @@ html:root .btn-support:hover {
   .reveal:not(.is-revealed) {
     opacity: 1;
   }
+}
+
+/* About page: arrow circle fills with blue on hover */
+:root .about-text-link:hover > span svg.lucide {
+  color: var(--c-white);
 }
