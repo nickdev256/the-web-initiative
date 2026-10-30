@@ -12,10 +12,13 @@ import {
   Activity,
   MoveUpRight,
   Plus,
+  MapPin,
+  Clock,
 } from 'lucide-react';
 
 import Navbar from '../components/Navbar.jsx';
 import Footer from '../components/Footer.jsx';
+import { getUpcomingEvents } from '../data/events.js';
 import './Home.css';
 
 const focusAreas = [
@@ -58,6 +61,8 @@ const focusAreas = [
 ];
 
 function Home() {
+  const upcomingEvents = getUpcomingEvents();
+
   useEffect(() => {
     const elements = document.querySelectorAll('.home-reveal');
 
@@ -332,6 +337,113 @@ function Home() {
                 );
               })}
             </div>
+          </div>
+        </section>
+
+        {/* UPCOMING EVENTS */}
+        <section
+          className="home-events home-section-layer"
+          aria-labelledby="home-events-title"
+        >
+          <div className="home-container">
+            <div className="home-events-heading home-reveal">
+              <div>
+                <div className="home-kicker">
+                  <span className="home-kicker-dot" />
+                  WHAT'S COMING UP
+                </div>
+
+                <h2 id="home-events-title">
+                  Upcoming <span>events.</span>
+                </h2>
+              </div>
+
+              <Link to="/medical-camps" className="home-editorial-link">
+                All medical camps
+                <span>
+                  <ArrowRight size={18} />
+                </span>
+              </Link>
+            </div>
+
+            {upcomingEvents.length > 0 ? (
+              <ol className="home-events-list">
+                {upcomingEvents.map((event) => (
+                  <li className="home-event-card home-reveal" key={event.id}>
+                    <time
+                      className="home-event-date"
+                      dateTime={event.date}
+                    >
+                      <span className="home-event-day">
+                        {event.dateValue.getDate()}
+                      </span>
+                      <span className="home-event-month">
+                        {event.dateValue.toLocaleDateString('en-GB', {
+                          month: 'short',
+                        })}
+                      </span>
+                      <span className="home-event-year">
+                        {event.dateValue.getFullYear()}
+                      </span>
+                    </time>
+
+                    <div className="home-event-body">
+                      {event.category && (
+                        <span className="home-event-category">
+                          {event.category}
+                        </span>
+                      )}
+
+                      <h3>{event.title}</h3>
+
+                      {event.description && <p>{event.description}</p>}
+
+                      <div className="home-event-meta">
+                        <span>
+                          <MapPin size={15} aria-hidden="true" />
+                          {event.location}
+                        </span>
+
+                        {event.time && (
+                          <span>
+                            <Clock size={15} aria-hidden="true" />
+                            {event.time}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+
+                    <Link
+                      to={event.link || '/contact'}
+                      className="home-event-link"
+                      aria-label={`Find out more about ${event.title}`}
+                    >
+                      <MoveUpRight size={20} />
+                    </Link>
+                  </li>
+                ))}
+              </ol>
+            ) : (
+              <div className="home-events-empty home-reveal">
+                <span className="home-card-icon">
+                  <CalendarDays size={25} strokeWidth={1.7} />
+                </span>
+
+                <div>
+                  <h3>New dates are on the way.</h3>
+                  <p>
+                    We are planning our next community outreach
+                    activities. Get in touch to hear about upcoming
+                    medical camps or to bring one to your community.
+                  </p>
+                </div>
+
+                <Link to="/contact" className="home-btn home-btn-dark">
+                  Ask about upcoming camps
+                  <ArrowRight size={18} />
+                </Link>
+              </div>
+            )}
           </div>
         </section>
 
