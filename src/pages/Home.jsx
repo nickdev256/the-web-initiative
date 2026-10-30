@@ -23,9 +23,11 @@ import Footer from '../components/Footer.jsx';
 import { getUpcomingEvents } from '../data/events.js';
 import './Home.css';
 
-// Hero background video. Put the file in public/videos/. Until it exists,
-// the poster photo is shown instead.
+// Hero background video in public/videos/: a 540p file for laptops and a
+// sharper 720p file for large or high-resolution screens. If neither
+// loads, the poster photo is shown instead.
 const HERO_VIDEO = '/videos/hero.mp4';
+const HERO_VIDEO_HD = '/videos/hero-720.mp4';
 const HERO_POSTER = '/images/healthcare-team.jpg';
 
 const focusAreas = [
@@ -87,7 +89,8 @@ function Home() {
 
     if (reduceMotion || smallScreen || saveData) return;
 
-    video.preload = 'auto';
+    const renderedWidth = window.innerWidth * (window.devicePixelRatio || 1);
+    video.src = renderedWidth > 1920 ? HERO_VIDEO_HD : HERO_VIDEO;
     video.play().catch(() => setVideoPlaying(false));
   }, []);
 
@@ -146,13 +149,8 @@ function Home() {
               onPlaying={() => setVideoReady(true)}
               onPlay={() => setVideoPlaying(true)}
               onPause={() => setVideoPlaying(false)}
-            >
-              <source
-                src={HERO_VIDEO}
-                type="video/mp4"
-                onError={() => setVideoReady(false)}
-              />
-            </video>
+              onError={() => setVideoReady(false)}
+            />
             <div className="home-hero-shade" />
 
             <div className="home-container home-hero-inner">
