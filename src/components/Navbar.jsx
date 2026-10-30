@@ -1,50 +1,110 @@
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, NavLink, useNavigate, useLocation } from 'react-router-dom';
 import {
   Menu,
   X,
   ChevronDown,
   Search,
-  Heart
+  Heart,
+  MapPin,
+  Mail,
+  CalendarDays,
+  ArrowRight,
+  Info,
+  Target,
+  History,
+  Flag,
+  Tent,
+  Images,
 } from 'lucide-react';
+import { CONTACT_EMAIL } from '../config.js';
 import './Navbar.css';
 
 const navLinks = [
   { label: 'Home', path: '/' },
   {
+    id: 'about',
     label: 'About Us',
     path: '/about',
+    matches: ['/about'],
     dropdown: [
-      { label: 'Overview', path: '/about' },
-      { label: 'Our Mission & Vision', path: '/about#mission-vision' },
-      { label: 'Our History', path: '/about#our-history' },
-      { label: 'Our Objectives', path: '/about#objectives' }
-    ]
+      {
+        label: 'Overview',
+        path: '/about',
+        icon: Info,
+        description: 'Who we are and what we do',
+      },
+      {
+        label: 'Our Mission & Vision',
+        path: '/about#mission-vision',
+        icon: Target,
+        description: 'The purpose that guides us',
+      },
+      {
+        label: 'Our History',
+        path: '/about#our-history',
+        icon: History,
+        description: 'How our journey began',
+      },
+      {
+        label: 'Our Objectives',
+        path: '/about#objectives',
+        icon: Flag,
+        description: 'What we are working towards',
+      },
+    ],
   },
   { label: 'Medical Services', path: '/medical-services' },
-  { label: 'Medical Camps', path: '/medical-camps' },
+  {
+    id: 'camps',
+    label: 'Medical Camps',
+    path: '/medical-camps',
+    matches: ['/medical-camps', '/gallery'],
+    dropdown: [
+      {
+        label: 'All Medical Camps',
+        path: '/medical-camps',
+        icon: Tent,
+        description: 'Our community outreach camps',
+      },
+      {
+        label: 'Gallery',
+        path: '/gallery',
+        icon: Images,
+        description: 'Photos from our camps and outreach',
+      },
+    ],
+  },
   { label: 'Our Team', path: '/our-team' },
   { label: 'Our Impact', path: '/impact' },
-  { label: 'Gallery', path: '/gallery' },
-  { label: 'Contact', path: '/contact' }
+  { label: 'Contact', path: '/contact' },
 ];
+
+// Every page reachable from the menu, including dropdown items, for search.
+const searchablePages = navLinks.flatMap((link) =>
+  link.dropdown ? [link, ...link.dropdown] : [link]
+);
+
+const DESKTOP_MIN_WIDTH = 1100;
 
 function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [aboutOpen, setAboutOpen] = useState(false);
+  const [openDropdown, setOpenDropdown] = useState(null);
   const [searchOpen, setSearchOpen] = useState(false);
-  const [searchTerm, setSearchTerm] = useState(''); 
+  const [searchTerm, setSearchTerm] = useState('');
+  const [scrolled, setScrolled] = useState(false);
 
   const navigate = useNavigate();
   const location = useLocation();
-  const aboutRef = useRef(null);
 
   const closeMenu = () => {
     setMenuOpen(false);
-    setAboutOpen(false);
+    setOpenDropdown(null);
     setSearchOpen(false);
   };
+
+  const isDesktop = () => window.innerWidth > DESKTOP_MIN_WIDTH;
 
   useEffect(() => {
     document.body.style.overflow = menuOpen ? 'hidden' : '';
@@ -56,11 +116,8 @@ function Navbar() {
     };
 
     const handleOutsideClick = (event) => {
-      if (
-        aboutRef.current &&
-        !aboutRef.current.contains(event.target)
-      ) {
-        setAboutOpen(false);
+      if (!event.target.closest('.navbar-dropdown')) {
+        setOpenDropdown(null);
       }
     };
 
@@ -75,6 +132,15 @@ function Navbar() {
   }, [menuOpen]);
 
   useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 24);
+
+    handleScroll();
+    window.addEventListener('scroll', handleScroll, { passive: true });
+
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  useEffect(() => {
     closeMenu();
     setSearchTerm('');
   }, [location.pathname, location.hash]);
@@ -85,8 +151,8 @@ function Navbar() {
     const query = searchTerm.trim().toLowerCase();
     if (!query) return;
 
-    const match = navLinks.find((link) =>
-      link.label.toLowerCase().includes(query)
+    const match = searchablePages.find((page) =>
+      page.label.toLowerCase().includes(query)
     );
 
     if (match) {
@@ -96,233 +162,252 @@ function Navbar() {
     }
   };
 
+  const toggleDropdown = (id) => {
+    setOpenDropdown((current) => (current === id ? null : id));
+  };
+
   return (
-    <header className="site-header">
-      <div className="navbar-container">
-        <Link
-          to="/"
-          className="navbar-brand"
-          aria-label="The Web Initiative Ltd home"
-          onClick={closeMenu}
-        >
-          <img
-            src="/images/logo.jpeg"
-            alt="The Web Initiative logo"
-            className="navbar-logo"
-          />
+    <header className={`site-header ${scrolled ? 'is-scrolled' : ''}`}>
+      <div className="navbar-topbar" aria-hidden={scrolled}>
+        <div className="navbar-topbar-inner">
+          <div className="navbar-topbar-info">
+            <span>
+              <MapPin size={14} aria-hidden="true" />
+              Jinja, Uganda
+            </span>
 
-          
-        </Link>
-
-        <nav
-          className={`navbar-navigation ${menuOpen ? 'is-open' : ''}`}
-          id="primary-navigation"
-          aria-label="Main navigation"
-        >
-          <div className="mobile-menu-heading">
-            <div className="mobile-heading-brand">
-              <span className="mobile-heading-title">
-                THE WEB INITIATIVE
-              </span>
-              <span className="mobile-heading-subtitle">
-                Explore our website
-              </span>
-            </div>
-
-            <button
-              type="button"
-              className="mobile-close-button"
-              aria-label="Close navigation"
-              onClick={closeMenu}
-            >
-              <X size={25} />
-            </button>
-          </div>
-
-          <div className="navbar-links">
-            {navLinks.map((link) => {
-              const isAbout = link.label === 'About Us';
-              const isActive = isAbout
-                ? location.pathname.startsWith('/about')
-                : location.pathname === link.path;
-
-              if (isAbout) {
-                return (
-                  <div
-                    key={link.path}
-                    className={`navbar-dropdown ${
-                      aboutOpen ? 'dropdown-open' : ''
-                    }`}
-                    ref={aboutRef}
-                    onMouseEnter={() => {
-                      if (window.innerWidth > 1100) {
-                        setAboutOpen(true);
-                      }
-                    }}
-                    onMouseLeave={() => {
-                      if (window.innerWidth > 1100) {
-                        setAboutOpen(false);
-                      }
-                    }}
-                  >
-                    <div className="navbar-dropdown-trigger">
-                      <NavLink
-                        to={link.path}
-                        className={`navbar-link ${
-                          isActive ? 'active' : ''
-                        }`}
-                        onClick={closeMenu}
-                      >
-                        <span>{link.label}</span>
-                      </NavLink>
-
-                      <button
-                        type="button"
-                        className="dropdown-toggle"
-                        aria-label="Toggle About Us submenu"
-                        aria-expanded={aboutOpen}
-                        aria-controls="about-submenu"
-                        onClick={() =>
-                          setAboutOpen((open) => !open)
-                        }
-                      >
-                        <ChevronDown
-                          size={14}
-                          className="nav-chevron"
-                        />
-                      </button>
-                    </div>
-
-                    <div
-                      id="about-submenu"
-                      className="navbar-submenu"
-                      aria-hidden={!aboutOpen}
-                    >
-                      {link.dropdown.map((item) => (
-                        <Link
-                          key={item.label}
-                          to={item.path}
-                          tabIndex={aboutOpen ? 0 : -1}
-                          className="navbar-submenu-link"
-                          onClick={closeMenu}
-                        >
-                          {item.label}
-                        </Link>
-                      ))}
-                    </div>
-                  </div>
-                );
-              }
-
-              return (
-                <NavLink
-                  key={link.path}
-                  to={link.path}
-                  end={link.path === '/'}
-                  className={({ isActive }) =>
-                    `navbar-link${isActive ? ' active' : ''}`
-                  }
-                  onClick={closeMenu}
-                >
-                  <span>{link.label}</span>
-                </NavLink>
-              );
-            })}
-          </div>
-
-          <div className="mobile-search-area">
-            <form
-              className="mobile-search-form"
-              onSubmit={handleSearch}
-            >
-              <Search size={19} />
-
-              <input
-                type="search"
-                placeholder="Search pages..."
-                aria-label="Search website pages"
-                value={searchTerm}
-                onChange={(event) =>
-                  setSearchTerm(event.target.value)
-                }
-              />
-
-              <button type="submit">Search</button>
-            </form>
-
-            <p>
-              Search for Home, Medical Services, Gallery and more.
-            </p>
+            <a href={`mailto:${CONTACT_EMAIL}`} tabIndex={scrolled ? -1 : 0}>
+              <Mail size={14} aria-hidden="true" />
+              {CONTACT_EMAIL}
+            </a>
           </div>
 
           <Link
-            to="/donate"
-            className="navbar-donate mobile-donate"
+            to="/contact"
+            className="navbar-topbar-cta"
+            tabIndex={scrolled ? -1 : 0}
+          >
+            <CalendarDays size={14} aria-hidden="true" />
+            Ask about upcoming medical camps
+            <ArrowRight size={14} aria-hidden="true" />
+          </Link>
+        </div>
+      </div>
+
+      <div className="navbar-main">
+        <div className="navbar-container">
+          <Link
+            to="/"
+            className="navbar-brand"
+            aria-label="The Web Initiative Ltd home"
             onClick={closeMenu}
           >
-            <Heart size={16} fill="currentColor" />
-            <span>Support Our Work</span>
+            <img
+              src="/images/logo.jpeg"
+              alt="The Web Initiative logo"
+              className="navbar-logo"
+            />
           </Link>
-        </nav>
 
-        <div className="navbar-actions">
-          <div className="desktop-search-wrap">
-            <button
-              type="button"
-              className="navbar-search-button"
-              aria-label={searchOpen ? 'Close search' : 'Open search'}
-              aria-expanded={searchOpen}
-              onClick={() => setSearchOpen((open) => !open)}
-            >
-              {searchOpen ? <X size={22} /> : <Search size={22} />}
-            </button>
+          <nav
+            className={`navbar-navigation ${menuOpen ? 'is-open' : ''}`}
+            id="primary-navigation"
+            aria-label="Main navigation"
+          >
+            <div className="mobile-menu-heading">
+              <img
+                src="/images/logo.jpeg"
+                alt=""
+                className="mobile-heading-logo"
+              />
 
-            {searchOpen && (
-              <form
-                className="desktop-search-form"
-                onSubmit={handleSearch}
+              <button
+                type="button"
+                className="mobile-close-button"
+                aria-label="Close navigation"
+                onClick={closeMenu}
               >
+                <X size={24} />
+              </button>
+            </div>
+
+            <div className="navbar-links">
+              {navLinks.map((link) => {
+                if (link.dropdown) {
+                  const isOpen = openDropdown === link.id;
+                  const isActive = link.matches.some((path) =>
+                    location.pathname.startsWith(path)
+                  );
+                  const submenuId = `${link.id}-submenu`;
+
+                  return (
+                    <div
+                      key={link.id}
+                      className={`navbar-dropdown ${
+                        isOpen ? 'dropdown-open' : ''
+                      }`}
+                      onMouseEnter={() => {
+                        if (isDesktop()) setOpenDropdown(link.id);
+                      }}
+                      onMouseLeave={() => {
+                        if (isDesktop()) setOpenDropdown(null);
+                      }}
+                    >
+                      <div
+                        className={`navbar-dropdown-trigger ${
+                          isActive ? 'active' : ''
+                        }`}
+                      >
+                        <NavLink
+                          to={link.path}
+                          className={`navbar-link ${isActive ? 'active' : ''}`}
+                          onClick={closeMenu}
+                        >
+                          <span>{link.label}</span>
+                        </NavLink>
+
+                        <button
+                          type="button"
+                          className="dropdown-toggle"
+                          aria-label={`Toggle ${link.label} submenu`}
+                          aria-expanded={isOpen}
+                          aria-controls={submenuId}
+                          onClick={() => toggleDropdown(link.id)}
+                        >
+                          <ChevronDown size={15} className="nav-chevron" />
+                        </button>
+                      </div>
+
+                      <div
+                        id={submenuId}
+                        className="navbar-submenu"
+                        aria-hidden={!isOpen}
+                      >
+                        {link.dropdown.map((item) => {
+                          const Icon = item.icon;
+
+                          return (
+                            <Link
+                              key={item.label}
+                              to={item.path}
+                              tabIndex={isOpen ? 0 : -1}
+                              className="navbar-submenu-link"
+                              onClick={closeMenu}
+                            >
+                              <span className="submenu-icon">
+                                <Icon size={18} aria-hidden="true" />
+                              </span>
+                              <span className="submenu-text">
+                                <strong>{item.label}</strong>
+                                <small>{item.description}</small>
+                              </span>
+                            </Link>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  );
+                }
+
+                return (
+                  <NavLink
+                    key={link.path}
+                    to={link.path}
+                    end={link.path === '/'}
+                    className={({ isActive }) =>
+                      `navbar-link${isActive ? ' active' : ''}`
+                    }
+                    onClick={closeMenu}
+                  >
+                    <span>{link.label}</span>
+                  </NavLink>
+                );
+              })}
+            </div>
+
+            <div className="mobile-search-area">
+              <form className="mobile-search-form" onSubmit={handleSearch}>
+                <Search size={19} />
+
                 <input
                   type="search"
                   placeholder="Search pages..."
                   aria-label="Search website pages"
-                  autoFocus
                   value={searchTerm}
-                  onChange={(event) =>
-                    setSearchTerm(event.target.value)
-                  }
+                  onChange={(event) => setSearchTerm(event.target.value)}
                 />
 
-                <button type="submit" aria-label="Submit search">
-                  <Search size={18} />
-                </button>
+                <button type="submit">Search</button>
               </form>
-            )}
+
+              <p>Search for Home, Medical Services, Gallery and more.</p>
+            </div>
+
+            <Link
+              to="/donate"
+              className="navbar-donate mobile-donate"
+              onClick={closeMenu}
+            >
+              <Heart size={16} fill="currentColor" />
+              <span>Support Our Work</span>
+            </Link>
+          </nav>
+
+          <div className="navbar-actions">
+            <div className="desktop-search-wrap">
+              <button
+                type="button"
+                className="navbar-search-button"
+                aria-label={searchOpen ? 'Close search' : 'Open search'}
+                aria-expanded={searchOpen}
+                onClick={() => setSearchOpen((open) => !open)}
+              >
+                {searchOpen ? <X size={20} /> : <Search size={20} />}
+              </button>
+
+              {searchOpen && (
+                <form className="desktop-search-form" onSubmit={handleSearch}>
+                  <input
+                    type="search"
+                    placeholder="Search pages..."
+                    aria-label="Search website pages"
+                    autoFocus
+                    value={searchTerm}
+                    onChange={(event) => setSearchTerm(event.target.value)}
+                  />
+
+                  <button type="submit" aria-label="Submit search">
+                    <Search size={18} />
+                  </button>
+                </form>
+              )}
+            </div>
+
+            <Link
+              to="/donate"
+              className="navbar-donate desktop-donate"
+              aria-label="Support Our Work"
+              onClick={closeMenu}
+            >
+              <Heart size={16} fill="currentColor" className="donate-heart" />
+              <span>Support Our Work</span>
+            </Link>
+
+            <button
+              type="button"
+              className={`mobile-menu-toggle ${
+                menuOpen ? 'toggle-active' : ''
+              }`}
+              aria-label={
+                menuOpen ? 'Close navigation menu' : 'Open navigation menu'
+              }
+              aria-expanded={menuOpen}
+              aria-controls="primary-navigation"
+              onClick={() => setMenuOpen((open) => !open)}
+            >
+              {menuOpen ? <X size={25} /> : <Menu size={25} />}
+            </button>
           </div>
-
-          <Link
-            to="/donate"
-            className="navbar-donate desktop-donate"
-            onClick={closeMenu}
-          >
-            <Heart size={16} fill="currentColor" />
-            <span>Support Our Work</span>
-          </Link>
-
-          <button
-            type="button"
-            className={`mobile-menu-toggle ${
-              menuOpen ? 'toggle-active' : ''
-            }`}
-            aria-label={
-              menuOpen ? 'Close navigation menu' : 'Open navigation menu'
-            }
-            aria-expanded={menuOpen}
-            aria-controls="primary-navigation"
-            onClick={() => setMenuOpen((open) => !open)}
-          >
-            {menuOpen ? <X size={27} /> : <Menu size={27} />}
-          </button>
         </div>
       </div>
 
