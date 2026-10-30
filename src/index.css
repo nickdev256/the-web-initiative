@@ -24,6 +24,10 @@
   --border: #e0eaf1;
   --radius: 14px;
   --shadow: 0 12px 35px rgba(20, 65, 100, 0.09);
+
+  /* Handwritten accent font. Use sparingly: short accent phrases only,
+     never body text or whole headings. */
+  --font-hand: 'Kalam', 'Segoe Print', 'Bradley Hand', cursive;
 }
 
 /* Reset */

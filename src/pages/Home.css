@@ -631,6 +631,18 @@
 .home-btn-dark { color: #fff; background: var(--home-ink); }
 .home-btn-dark:hover { background: var(--home-blue); box-shadow: 0 12px 30px rgba(8,40,59,.18); }
 
+/* Handwritten accent on the highlighted phrase of each section heading */
+.home-intro-copy h2 span,
+.home-focus-sticky h2 span,
+.home-events-heading h2 span,
+.home-feature-copy h2 span,
+.home-cta-copy h2 span {
+  font-family: var(--font-hand);
+  font-size: 1.08em;
+  font-weight: 700;
+  letter-spacing: -.01em;
+}
+
 /* Subtle reveal only; no scroll-jacking or overlapping page sections */
 .home-reveal { opacity: 0; transform: translateY(18px); transition: opacity .65s ease, transform .65s ease; }
 .home-reveal.is-visible { opacity: 1; transform: translateY(0); }
