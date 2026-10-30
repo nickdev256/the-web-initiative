@@ -163,16 +163,13 @@ function Home() {
                 </div>
 
                 <h1>
-                  Healthier
-                  <br />
-                  communities
-                  <br />
+                  Healthier communities{' '}
                   <span>start with care.</span>
                 </h1>
 
                 <p className="home-hero-description">
-                  Building a healthier future through focused health care and meaningful
-                  partnerships against malnutrition, HIV and sickle cell disease.
+                  Building a healthier future through focused health care and meaningful partnerships 
+                  against malnutrition, HIV and sickle cell disease.
                 </p>
 
                 <div className="home-hero-actions">
