@@ -173,7 +173,7 @@ export default function Gallery() {
             </span>
             <h1>
               Moments That
-              <span className="hand-accent"> Make a Difference.</span>
+              <span className="hand-accent hand-accent--on-dark"> Make a Difference.</span>
             </h1>
             <p>
               Explore moments from our community initiatives, health education
@@ -269,7 +269,7 @@ export default function Gallery() {
               </p>
             </div>
             <div className="gallery-cta-actions">
-              <Link to="/donate" className="gallery-btn gallery-btn-primary">
+              <Link to="/donate" className="gallery-btn gallery-btn-primary btn-support">
                 Support Our Work <ArrowRight size={17} />
               </Link>
               <Link to="/contact" className="gallery-text-link">

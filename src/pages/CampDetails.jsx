@@ -238,7 +238,7 @@ function CampDetails() {
               <span className="cd-eyebrow">GET IN TOUCH</span>
               <h2>
                 Let's work together for{' '}
-                <span className="hand-accent">healthier communities.</span>
+                <span className="hand-accent hand-accent--on-dark">healthier communities.</span>
               </h2>
               <p>
                 Contact The Web Initiative Ltd to learn more about our

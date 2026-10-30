@@ -5,7 +5,7 @@
 .medical-camps-page {
   width: 100%;
   overflow: clip;
-  background: #ffffff;
+  background: var(--c-white);
 }
 
 .mc-container {
@@ -20,7 +20,7 @@
 .mc-eyebrow {
   display: inline-block;
   margin-bottom: 15px;
-  color: #0878c9;
+  color: var(--c-blue);
   font-size: 12px;
   font-weight: 800;
   letter-spacing: 2px;
@@ -39,7 +39,7 @@
   padding-block: clamp(65px, 8vw, 100px);
   isolation: isolate;
   overflow: hidden;
-  background-color: #123653;
+  background-color: var(--c-navy);
 }
 
 /* Background slideshow container */
@@ -81,9 +81,9 @@
   inset: 0;
   background: linear-gradient(
     90deg,
-    rgba(8, 38, 63, 0.82) 0%,
-    rgba(8, 57, 91, 0.60) 55%,
-    rgba(8, 57, 91, 0.30) 100%
+    color-mix(in srgb, var(--c-navy) 82%, transparent) 0%,
+    color-mix(in srgb, var(--c-navy) 60%, transparent) 55%,
+    color-mix(in srgb, var(--c-navy) 30%, transparent) 100%
   );
   pointer-events: none;
 }
@@ -91,16 +91,16 @@
 /* Keep text above the background */
 .mc-hero-content {
   position: relative;
-  color: #ffffff;
+  color: var(--c-white);
 }
 
 .mc-hero .mc-eyebrow {
-  color: #9bddff;
+  color: var(--c-cyan);
 }
 
 .mc-hero h1,
 .mc-hero-content > p {
-  color: #ffffff;
+  color: var(--c-white);
 }
 
 /* Smooth crossfade: change photos every 7 seconds */
@@ -140,19 +140,19 @@
 /* Keep the hero text visible */
 .mc-hero-content {
   position: relative;
-  color: #ffffff;
+  color: var(--c-white);
 }
 
 .mc-hero .mc-eyebrow {
-  color: #9bddff;
+  color: var(--c-cyan);
 }
 
 .mc-hero h1 {
-  color: #ffffff;
+  color: var(--c-white);
 }
 
 .mc-hero-content > p {
-  color: #ffffff;
+  color: var(--c-white);
 }
 
 .mc-breadcrumb {
@@ -161,12 +161,12 @@
   align-items: center;
   gap: 12px;
   margin-top: 26px;
-  color: #e5f1f9;
+  color: var(--c-sky);
   font-size: 13px;
 }
 
 .mc-breadcrumb a {
-  color: #9bddff;
+  color: var(--c-cyan);
   font-weight: 700;
 }
 
@@ -205,7 +205,7 @@
   gap: 9px;
   min-height: 46px;
   margin-top: 8px;
-  color: #0878c9;
+  color: var(--c-blue);
   font-size: 14px;
   font-weight: 800;
 }
@@ -219,7 +219,7 @@
   width: 100%;
   aspect-ratio: 5 / 4;
   border-radius: 12px;
-  background: #eaf6ff;
+  background: var(--c-sky);
   object-fit: cover;
 }
 
@@ -232,24 +232,24 @@
   gap: 11px;
   max-width: calc(100% - 8px);
   padding: 16px 19px;
-  border: 1px solid #e0eaf1;
+  border: 1px solid var(--c-line);
   border-radius: 9px;
-  background: #ffffff;
-  box-shadow: 0 12px 30px rgba(20, 65, 100, 0.1);
-  color: #123653;
+  background: var(--c-white);
+  box-shadow: 0 12px 30px color-mix(in srgb, var(--c-navy) 10%, transparent);
+  color: var(--c-navy);
   font-size: 13px;
   font-weight: 700;
 }
 
 .mc-image-badge svg {
   flex-shrink: 0;
-  color: #0878c9;
+  color: var(--c-blue);
 }
 
 /* Camp cards */
 
 .mc-listing {
-  background: #f4f9fd;
+  background: var(--c-paper);
 }
 
 .mc-section-heading {
@@ -282,10 +282,10 @@
   flex-direction: column;
   min-width: 0;
   overflow: hidden;
-  border: 1px solid #e0eaf1;
+  border: 1px solid var(--c-line);
   border-radius: 12px;
-  background: #ffffff;
-  box-shadow: 0 8px 25px rgba(20, 65, 100, 0.05);
+  background: var(--c-white);
+  box-shadow: 0 8px 25px color-mix(in srgb, var(--c-navy) 5%, transparent);
   transition:
     transform 0.2s ease,
     box-shadow 0.2s ease;
@@ -293,14 +293,14 @@
 
 .mc-camp-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 14px 30px rgba(20, 65, 100, 0.1);
+  box-shadow: 0 14px 30px color-mix(in srgb, var(--c-navy) 10%, transparent);
 }
 
 .mc-camp-image-link {
   position: relative;
   display: block;
   overflow: hidden;
-  background: #dcecf7;
+  background: var(--c-sky);
 }
 
 .mc-camp-image {
@@ -323,8 +323,8 @@
   max-width: calc(100% - 24px);
   padding: 7px 11px;
   border-radius: 5px;
-  background: #0878c9;
-  color: #ffffff;
+  background: var(--c-blue);
+  color: var(--c-white);
   font-size: 11px;
   font-weight: 800;
   overflow-wrap: anywhere;
@@ -347,7 +347,7 @@
 }
 
 .mc-camp-body h3 a:hover {
-  color: #0878c9;
+  color: var(--c-blue);
 }
 
 .mc-camp-body > p {
@@ -362,14 +362,14 @@
   gap: 12px;
   margin-bottom: 20px;
   padding-top: 17px;
-  border-top: 1px solid #e8eff4;
+  border-top: 1px solid var(--c-sky);
 }
 
 .mc-camp-meta span {
   display: flex;
   align-items: flex-start;
   gap: 9px;
-  color: #63788b;
+  color: var(--c-slate);
   font-size: 12px;
   line-height: 1.7;
   overflow-wrap: anywhere;
@@ -378,7 +378,7 @@
 .mc-camp-meta svg {
   flex-shrink: 0;
   margin-top: 2px;
-  color: #0878c9;
+  color: var(--c-blue);
 }
 
 .mc-camp-link {
@@ -388,14 +388,14 @@
   gap: 8px;
   min-height: 42px;
   margin-top: auto;
-  color: #0878c9;
+  color: var(--c-blue);
   font-size: 13px;
   font-weight: 800;
 }
 
 .mc-camp-link:hover,
 .mc-primary-link:hover {
-  color: #075da0;
+  color: var(--c-blue-deep);
 }
 
 .mc-disclaimer {
@@ -418,9 +418,9 @@
   position: relative;
   min-width: 0;
   padding: 30px;
-  border: 1px solid #e0eaf1;
+  border: 1px solid var(--c-line);
   border-radius: 11px;
-  background: #ffffff;
+  background: var(--c-white);
 }
 
 .mc-step-icon {
@@ -431,15 +431,15 @@
   height: 56px;
   margin-bottom: 20px;
   border-radius: 10px;
-  background: #eaf6ff;
-  color: #0878c9;
+  background: var(--c-sky);
+  color: var(--c-blue);
 }
 
 .mc-step-number {
   position: absolute;
   top: 28px;
   right: 25px;
-  color: #dcecf7;
+  color: var(--c-sky);
   font-size: 30px;
   font-weight: 800;
 }
@@ -459,7 +459,7 @@
 
 .mc-cta {
   padding-block: clamp(50px, 7vw, 80px);
-  background: #0878c9;
+  background: var(--c-blue);
 }
 
 .mc-cta-content {
@@ -476,19 +476,19 @@
 }
 
 .mc-cta .mc-eyebrow {
-  color: #c6ecff;
+  color: var(--c-sky);
 }
 
 .mc-cta h2 {
   margin-bottom: 15px;
-  color: #ffffff;
+  color: var(--c-white);
   font-size: clamp(29px, 4vw, 43px);
   font-weight: 800;
 }
 
 .mc-cta-content > div:first-child > p {
   max-width: 650px;
-  color: #e4f3ff;
+  color: var(--c-sky);
   font-size: 15px;
   line-height: 1.9;
 }
@@ -506,7 +506,7 @@
   gap: 9px;
   min-height: 49px;
   padding: 12px 20px;
-  border: 2px solid #ffffff;
+  border: 2px solid var(--c-white);
   border-radius: 6px;
   font-size: 14px;
   font-weight: 700;
@@ -517,22 +517,22 @@
 }
 
 .mc-button-white {
-  background: #ffffff;
-  color: #075da0;
+  background: var(--c-white);
+  color: var(--c-blue-deep);
 }
 
 .mc-button-white:hover {
-  background: #eaf6ff;
+  background: var(--c-sky);
 }
 
 .mc-button-outline {
   background: transparent;
-  color: #ffffff;
+  color: var(--c-white);
 }
 
 .mc-button-outline:hover {
-  background: #ffffff;
-  color: #075da0;
+  background: var(--c-white);
+  color: var(--c-blue-deep);
 }
 
 /* Large displays */
@@ -609,7 +609,7 @@
   }
 
   .mc-hero-overlay {
-    background: rgba(8, 38, 63, 0.84);
+    background: color-mix(in srgb, var(--c-navy) 84%, transparent);
   }
 
   .mc-hero h1 {

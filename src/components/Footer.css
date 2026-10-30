@@ -22,13 +22,13 @@
   isolation: isolate;
   overflow: hidden;
   width: 100%;
-  color: #ffffff;
+  color: var(--c-white);
 
-  background-color: #102f49;
+  background-color: var(--c-navy);
   background-image:
     linear-gradient(
-      rgba(10, 39, 62, 0.92),
-      rgba(10, 39, 62, 0.94)
+      color-mix(in srgb, var(--c-navy) 92%, transparent),
+      color-mix(in srgb, var(--c-navy) 94%, transparent)
     ),
     url("/images/outreach-wheelchair.jpg");
 
@@ -60,7 +60,7 @@
   gap: 12px;
   max-width: 100%;
   margin-bottom: 22px;
-  color: #ffffff;
+  color: var(--c-white);
   text-decoration: none;
 }
 
@@ -69,7 +69,7 @@
   height: 58px;
   flex-shrink: 0;
   border-radius: 6px;
-  background: #ffffff;
+  background: var(--c-white);
   object-fit: contain;
 }
 
@@ -80,14 +80,14 @@
 }
 
 .footer-brand-name strong {
-  color: #ffffff;
+  color: var(--c-white);
   font-family: 'Manrope', sans-serif;
   font-size: clamp(11px, 1vw, 15px);
   font-weight: 800;
 }
 
 .footer-brand-name small {
-  color: #82d0ff;
+  color: var(--c-cyan);
   font-size: 10px;
   font-weight: 700;
   letter-spacing: 3px;
@@ -96,7 +96,7 @@
 .footer-description {
   max-width: 360px;
   margin-bottom: 22px;
-  color: #c4d5e1;
+  color: var(--c-line);
   font-size: 14px;
   line-height: 1.9;
   overflow-wrap: anywhere;
@@ -108,19 +108,19 @@
   flex-wrap: wrap;
   gap: 8px;
   min-height: 40px;
-  color: #83d0ff;
+  color: var(--c-cyan);
   font-size: 14px;
   font-weight: 700;
   text-decoration: none;
 }
 
 .footer-learn-link:hover {
-  color: #ffffff;
+  color: var(--c-white);
 }
 
 .footer-column h3 {
   margin-bottom: 23px;
-  color: #ffffff;
+  color: var(--c-white);
   font-size: 17px;
   font-weight: 800;
 }
@@ -141,7 +141,7 @@
 .footer-column li a {
   display: inline-block;
   padding: 2px 0;
-  color: #c4d5e1;
+  color: var(--c-line);
   font-size: 14px;
   line-height: 1.6;
   overflow-wrap: anywhere;
@@ -150,7 +150,7 @@
 }
 
 .footer-column li a:hover {
-  color: #83d0ff;
+  color: var(--c-cyan);
 }
 
 .footer-contact {
@@ -165,7 +165,7 @@
   gap: 12px;
   width: 100%;
   margin-bottom: 18px;
-  color: #c4d5e1;
+  color: var(--c-line);
   font-size: 14px;
   line-height: 1.7;
   overflow-wrap: anywhere;
@@ -175,26 +175,26 @@
 .footer-contact-item svg {
   flex-shrink: 0;
   margin-top: 3px;
-  color: #83d0ff;
+  color: var(--c-cyan);
 }
 
 .footer-contact-item p {
-  color: #c4d5e1;
+  color: var(--c-line);
   overflow-wrap: anywhere;
 }
 
 .footer-contact-item p span {
   display: block;
   margin-top: 4px;
-  color: #9fb7c9;
+  color: var(--c-slate-light);
 }
 
 a.footer-contact-item:hover {
-  color: #83d0ff;
+  color: var(--c-cyan);
 }
 
 .footer-bottom {
-  border-top: 1px solid rgba(255, 255, 255, 0.13);
+  border-top: 1px solid color-mix(in srgb, var(--c-white) 13%, transparent);
 }
 
 .footer-bottom-container {
@@ -210,7 +210,7 @@ a.footer-contact-item:hover {
 }
 
 .footer-bottom-container p {
-  color: #b8cad8;
+  color: var(--c-slate-light);
   font-size: 13px;
   line-height: 1.7;
 }
@@ -221,7 +221,7 @@ a.footer-contact-item:hover {
   justify-content: center;
   gap: 8px;
   min-height: 40px;
-  color: #b8cad8;
+  color: var(--c-slate-light);
   font-size: 13px;
   text-align: center;
   text-decoration: none;
@@ -229,11 +229,11 @@ a.footer-contact-item:hover {
 
 .footer-support-link svg {
   flex-shrink: 0;
-  color: #ff8c96;
+  color: var(--c-cyan);
 }
 
 .footer-support-link:hover {
-  color: #ffffff;
+  color: var(--c-white);
 }
 
 /* Smaller desktop screens and large tablets */

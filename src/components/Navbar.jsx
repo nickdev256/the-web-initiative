@@ -345,7 +345,7 @@ function Navbar() {
 
             <Link
               to="/donate"
-              className="navbar-donate mobile-donate"
+              className="navbar-donate mobile-donate btn-support"
               onClick={closeMenu}
             >
               <Heart size={16} fill="currentColor" />
@@ -385,7 +385,7 @@ function Navbar() {
 
             <Link
               to="/donate"
-              className="navbar-donate desktop-donate"
+              className="navbar-donate desktop-donate btn-support"
               aria-label="Support Our Work"
               onClick={closeMenu}
             >

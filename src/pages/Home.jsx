@@ -53,8 +53,9 @@ const healthPriorities = [
 
 const focusAreas = [
   {
-    number: '01',
     icon: Stethoscope,
+    image: '/images/camps/thumbs/lab-blood-sample.jpg',
+    imageAlt: 'A team member preparing a blood sample for testing',
     title: 'Medical Services',
     description:
       'Accessible healthcare services shaped around the needs of individuals and communities.',
@@ -62,8 +63,9 @@ const focusAreas = [
     action: 'Explore services',
   },
   {
-    number: '02',
     icon: CalendarDays,
+    image: '/images/outdoor-consultation.jpg',
+    imageAlt: 'A health worker consulting with patients at an outdoor medical camp',
     title: 'Medical Camps',
     description:
       'Community outreach initiatives that bring healthcare closer to the people who need it.',
@@ -71,8 +73,9 @@ const focusAreas = [
     action: 'Discover our camps',
   },
   {
-    number: '03',
     icon: Users,
+    image: '/images/medical-team.jpg',
+    imageAlt: 'Members of our healthcare team talking together',
     title: 'Our Team',
     description:
       'Meet the people working together to advance our community healthcare mission.',
@@ -80,8 +83,10 @@ const focusAreas = [
     action: 'Meet our people',
   },
   {
-    number: '04',
     icon: HandHeart,
+    image: '/images/donate-hero.jpg',
+    imageAlt: 'A health worker caring for a smiling child at sunset',
+    imagePosition: '80% center',
     title: 'Make a Difference',
     description:
       'Partner with us and help create meaningful, lasting change in our communities.',
@@ -255,10 +260,7 @@ function Home() {
                 />
               </div>
 
-              <figcaption className="home-intro-caption">
-                <Camera size={15} aria-hidden="true" />
-                From our medical camps
-              </figcaption>
+             
             </figure>
 
             <div className="home-intro-copy home-reveal">
@@ -320,78 +322,76 @@ function Home() {
         </section>
 
         {/* FOCUS AREAS */}
-        <section className="home-focus home-section-layer">
-          <div className="home-container home-focus-layout">
-            <div className="home-focus-intro">
-              <div className="home-focus-sticky">
-                <div className="home-kicker">
-                  <span className="home-kicker-dot" />
-                  WHAT WE DO
-                </div>
-
-                <h2>
-                  Small actions.
-                  <br />
-                  <span>Lasting impact.</span>
-                </h2>
-
-                <p>
-                  Explore the ways we work alongside communities
-                  to support health, encourage collaboration,
-                  and create opportunities for positive change.
-                </p>
-
-                <Link to="/about" className="home-editorial-link">
-                  Our mission
-                  <span>
-                    <ArrowRight size={18} />
-                  </span>
-                </Link>
-
-                <div className="home-focus-progress">
-                  <div className="home-progress-mark">
-                    <HeartPulse size={21} />
-                  </div>
-                  <span>Healthier communities, together.</span>
-                </div>
+        <section
+          className="home-wwd home-section-layer"
+          aria-labelledby="home-wwd-title"
+        >
+          <div className="home-container">
+            <div className="home-wwd-header home-reveal">
+              <div className="home-kicker">
+                <span className="home-kicker-dot" />
+                WHAT WE DO
               </div>
+
+              <h2 id="home-wwd-title">
+                Small actions. <span>Lasting impact.</span>
+              </h2>
+
+              <p>
+                Explore the ways we work alongside communities to
+                support health, encourage collaboration, and create
+                opportunities for positive change.
+              </p>
             </div>
 
-            <div className="home-focus-list">
-              {focusAreas.map((area, index) => {
+            <div className="home-wwd-grid">
+              {focusAreas.map((area) => {
                 const Icon = area.icon;
 
                 return (
-                  <article
-                    className={`home-focus-card home-reveal home-focus-card-${index + 1}`}
+                  <Link
+                    to={area.link}
+                    className="home-wwd-card home-reveal"
                     key={area.title}
                   >
-                    <div className="home-focus-card-top">
-                      <span className="home-card-number">
-                        {area.number}
-                      </span>
-
-                      <span className="home-card-icon">
-                        <Icon size={25} strokeWidth={1.7} />
-                      </span>
+                    <div className="home-wwd-media">
+                      <img
+                        src={area.image}
+                        alt={area.imageAlt}
+                        loading="lazy"
+                        style={
+                          area.imagePosition
+                            ? { objectPosition: area.imagePosition }
+                            : undefined
+                        }
+                      />
                     </div>
 
-                    <div className="home-focus-card-content">
+                    <span className="home-wwd-icon" aria-hidden="true">
+                      <Icon size={24} strokeWidth={1.8} />
+                    </span>
+
+                    <div className="home-wwd-body">
                       <h3>{area.title}</h3>
                       <p>{area.description}</p>
 
-                      <Link to={area.link} className="home-focus-link">
+                      <span className="home-wwd-link">
                         {area.action}
-                        <MoveUpRight size={18} />
-                      </Link>
+                        <ArrowRight size={18} />
+                      </span>
                     </div>
-
-                    <div className="home-card-watermark">
-                      <Icon size={115} strokeWidth={0.7} />
-                    </div>
-                  </article>
+                  </Link>
                 );
               })}
+            </div>
+
+            <div className="home-wwd-footer home-reveal">
+              <Link to="/about" className="home-editorial-link">
+                Read about our mission
+                <span>
+                  <ArrowRight size={18} />
+                </span>
+              </Link>
             </div>
           </div>
         </section>

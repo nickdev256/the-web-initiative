@@ -233,15 +233,17 @@ function About() {
               </article>
 
               <div className="about-purpose-statement">
-                <span>
-                  Healthier
-                  <br />
-                  People.
-                  <br />
-                  Stronger
-                  <br />
-                  Communities.
-                </span>
+                <p>
+                  <span>
+                    Healthier
+                    <br />
+                    People.
+                    <br />
+                    Stronger
+                    <br />
+                    Communities.
+                  </span>
+                </p>
 
                 <div />
               </div>

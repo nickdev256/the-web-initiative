@@ -4,7 +4,7 @@
 .medical-services-page {
   width: 100%;
   overflow: clip;
-  background: #ffffff;
+  background: var(--c-white);
 }
 
 .ms-container {
@@ -19,7 +19,7 @@
 .ms-eyebrow {
   display: inline-block;
   margin-bottom: 15px;
-  color: #0878c9;
+  color: var(--c-blue);
   font-size: 12px;
   font-weight: 800;
   letter-spacing: 2.2px;
@@ -35,7 +35,7 @@
   min-height: clamp(300px, 37vw, 440px);
   padding-block: clamp(55px, 8vw, 90px);
   isolation: isolate;
-  background-color: #123653;
+  background-color: var(--c-navy);
   background-image: url('/images/healthcare-team.jpg');
   background-position: center;
   background-size: cover;
@@ -47,22 +47,22 @@
   inset: 0;
   background: linear-gradient(
     90deg,
-    rgba(8, 38, 63, 0.94),
-    rgba(8, 57, 91, 0.7)
+    color-mix(in srgb, var(--c-navy) 94%, transparent),
+    color-mix(in srgb, var(--c-navy) 70%, transparent)
   );
 }
 
 .ms-hero-content {
-  color: #ffffff;
+  color: var(--c-white);
 }
 
 .ms-hero .ms-eyebrow {
-  color: #9bddff;
+  color: var(--c-cyan);
 }
 
 .ms-hero h1 {
   margin-bottom: 20px;
-  color: #ffffff;
+  color: var(--c-white);
   font-size: clamp(36px, 5.5vw, 64px);
   font-weight: 800;
   letter-spacing: -1.5px;
@@ -72,7 +72,7 @@
 
 .ms-hero-content > p {
   max-width: 690px;
-  color: #e5f1f9;
+  color: var(--c-sky);
   font-size: clamp(15px, 1.6vw, 18px);
   line-height: 1.85;
 }
@@ -83,12 +83,12 @@
   align-items: center;
   gap: 12px;
   margin-top: 26px;
-  color: #e5f1f9;
+  color: var(--c-sky);
   font-size: 13px;
 }
 
 .ms-breadcrumb a {
-  color: #9bddff;
+  color: var(--c-cyan);
   font-weight: 700;
 }
 
@@ -106,7 +106,7 @@
   min-width: 0;
   aspect-ratio: 5 / 4;
   border-radius: 12px;
-  background: #eaf6ff;
+  background: var(--c-sky);
 }
 
 .ms-intro-image {
@@ -139,14 +139,14 @@
   gap: 14px;
   margin-top: 25px;
   padding: 20px;
-  border: 1px solid #dcecf7;
+  border: 1px solid var(--c-sky);
   border-radius: 9px;
-  background: #f4faff;
+  background: var(--c-paper);
 }
 
 .ms-promise > svg {
   flex-shrink: 0;
-  color: #0878c9;
+  color: var(--c-blue);
 }
 
 .ms-promise div {
@@ -156,12 +156,12 @@
 }
 
 .ms-promise strong {
-  color: #123653;
+  color: var(--c-navy);
   font-size: 14px;
 }
 
 .ms-promise span {
-  color: #63788b;
+  color: var(--c-slate);
   font-size: 13px;
   line-height: 1.7;
 }
@@ -169,7 +169,7 @@
 /* Services grid */
 
 .ms-services {
-  background: #f4f9fd;
+  background: var(--c-paper);
 }
 
 .ms-section-heading {
@@ -203,10 +203,10 @@
   min-width: 0;
   min-height: 275px;
   padding: clamp(23px, 3vw, 32px);
-  border: 1px solid #e0eaf1;
+  border: 1px solid var(--c-line);
   border-radius: 11px;
-  background: #ffffff;
-  box-shadow: 0 8px 25px rgba(20, 65, 100, 0.04);
+  background: var(--c-white);
+  box-shadow: 0 8px 25px color-mix(in srgb, var(--c-navy) 4%, transparent);
   transition:
     transform 0.2s ease,
     box-shadow 0.2s ease;
@@ -214,7 +214,7 @@
 
 .ms-service-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 14px 30px rgba(20, 65, 100, 0.09);
+  box-shadow: 0 14px 30px color-mix(in srgb, var(--c-navy) 9%, transparent);
 }
 
 .ms-service-icon {
@@ -225,8 +225,8 @@
   height: 58px;
   margin-bottom: 21px;
   border-radius: 10px;
-  background: #eaf6ff;
-  color: #0878c9;
+  background: var(--c-sky);
+  color: var(--c-blue);
 }
 
 .ms-service-card h3 {
@@ -250,13 +250,13 @@
   gap: 8px;
   min-height: 42px;
   margin-top: auto;
-  color: #0878c9;
+  color: var(--c-blue);
   font-size: 13px;
   font-weight: 800;
 }
 
 .ms-service-link:hover {
-  color: #075da0;
+  color: var(--c-blue-deep);
 }
 
 /* Process section */
@@ -305,8 +305,8 @@
   width: 42px;
   height: 42px;
   border-radius: 50%;
-  background: #eaf6ff;
-  color: #0878c9;
+  background: var(--c-sky);
+  color: var(--c-blue);
   font-size: 13px;
   font-weight: 800;
 }
@@ -316,7 +316,7 @@
 }
 
 .ms-process-list strong {
-  color: #123653;
+  color: var(--c-navy);
   font-size: 15px;
 }
 
@@ -336,7 +336,7 @@
   width: 100%;
   aspect-ratio: 4 / 5;
   border-radius: 12px;
-  background: #eaf6ff;
+  background: var(--c-sky);
   object-fit: cover;
 }
 
@@ -349,15 +349,15 @@
   gap: 12px;
   max-width: calc(100% - 8px);
   padding: 17px 20px;
-  border: 1px solid #e0eaf1;
+  border: 1px solid var(--c-line);
   border-radius: 9px;
-  background: #ffffff;
-  box-shadow: 0 12px 30px rgba(20, 65, 100, 0.1);
+  background: var(--c-white);
+  box-shadow: 0 12px 30px color-mix(in srgb, var(--c-navy) 10%, transparent);
 }
 
 .ms-process-caption > svg {
   flex-shrink: 0;
-  color: #0878c9;
+  color: var(--c-blue);
 }
 
 .ms-process-caption div {
@@ -367,12 +367,12 @@
 }
 
 .ms-process-caption strong {
-  color: #123653;
+  color: var(--c-navy);
   font-size: 13px;
 }
 
 .ms-process-caption span {
-  color: #63788b;
+  color: var(--c-slate);
   font-size: 12px;
 }
 
@@ -380,7 +380,7 @@
 
 .ms-cta {
   padding-block: clamp(50px, 7vw, 80px);
-  background: #0878c9;
+  background: var(--c-blue);
 }
 
 .ms-cta-content {
@@ -397,19 +397,19 @@
 }
 
 .ms-cta .ms-eyebrow {
-  color: #c6ecff;
+  color: var(--c-sky);
 }
 
 .ms-cta h2 {
   margin-bottom: 15px;
-  color: #ffffff;
+  color: var(--c-white);
   font-size: clamp(29px, 4vw, 43px);
   font-weight: 800;
 }
 
 .ms-cta-content > div:first-child > p {
   max-width: 650px;
-  color: #e4f3ff;
+  color: var(--c-sky);
   font-size: 15px;
   line-height: 1.9;
 }
@@ -427,7 +427,7 @@
   gap: 9px;
   min-height: 49px;
   padding: 12px 20px;
-  border: 2px solid #ffffff;
+  border: 2px solid var(--c-white);
   border-radius: 6px;
   font-size: 14px;
   font-weight: 700;
@@ -438,22 +438,22 @@
 }
 
 .ms-button-white {
-  background: #ffffff;
-  color: #075da0;
+  background: var(--c-white);
+  color: var(--c-blue-deep);
 }
 
 .ms-button-white:hover {
-  background: #eaf6ff;
+  background: var(--c-sky);
 }
 
 .ms-button-outline {
   background: transparent;
-  color: #ffffff;
+  color: var(--c-white);
 }
 
 .ms-button-outline:hover {
-  background: #ffffff;
-  color: #075da0;
+  background: var(--c-white);
+  color: var(--c-blue-deep);
 }
 
 /* Large desktop */
@@ -530,7 +530,7 @@
   }
 
   .ms-hero-overlay {
-    background: rgba(8, 38, 63, 0.83);
+    background: color-mix(in srgb, var(--c-navy) 83%, transparent);
   }
 
   .ms-hero h1 {
@@ -694,7 +694,7 @@
    ========================================================= */
 
 .medical-services-page {
-  color: #263b4d;
+  color: var(--c-navy);
   font-size: 16px;
 }
 

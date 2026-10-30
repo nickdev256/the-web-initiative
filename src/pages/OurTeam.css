@@ -6,7 +6,7 @@
 .our-team-page {
   width: 100%;
   overflow: clip;
-  background: #ffffff;
+  background: var(--c-white);
 }
 
 .ot-container {
@@ -21,7 +21,7 @@
 .ot-eyebrow {
   display: inline-block;
   margin-bottom: 14px;
-  color: #0878c9;
+  color: var(--c-blue);
   font-size: 13px;
   font-weight: 800;
   letter-spacing: 1.8px;
@@ -40,7 +40,7 @@
   isolation: isolate;
   overflow: hidden;
 
-  background-color: #123653;
+  background-color: var(--c-navy);
   background-image: url("/images/medical-team.jpg");
   background-position: center 40%;
   background-size: cover;
@@ -55,9 +55,9 @@
 
   background: linear-gradient(
     90deg,
-    rgba(8, 38, 63, 0.78) 0%,
-    rgba(8, 57, 91, 0.55) 55%,
-    rgba(8, 57, 91, 0.25) 100%
+    color-mix(in srgb, var(--c-navy) 78%, transparent) 0%,
+    color-mix(in srgb, var(--c-navy) 55%, transparent) 55%,
+    color-mix(in srgb, var(--c-navy) 25%, transparent) 100%
   );
 
   pointer-events: none;
@@ -66,25 +66,25 @@
 /* Keep hero text visible */
 .ot-hero-content {
   position: relative;
-  color: #ffffff;
+  color: var(--c-white);
 }
 
 .ot-hero .ot-eyebrow {
-  color: #9bddff;
+  color: var(--c-cyan);
 }
 
 .ot-hero h1,
 .ot-hero-content > p {
-  color: #ffffff;
+  color: var(--c-white);
 }
 
 
-.ot-hero-content { color: #ffffff; }
-.ot-hero .ot-eyebrow { color: #9bddff; }
+.ot-hero-content { color: var(--c-white); }
+.ot-hero .ot-eyebrow { color: var(--c-cyan); }
 
 .ot-hero h1 {
   margin-bottom: 20px;
-  color: #ffffff;
+  color: var(--c-white);
   font-size: clamp(40px, 5.7vw, 68px);
   font-weight: 800;
   letter-spacing: -1.5px;
@@ -94,7 +94,7 @@
 
 .ot-hero-content > p {
   max-width: 720px;
-  color: #e5f1f9;
+  color: var(--c-sky);
   font-size: clamp(17px, 1.6vw, 19px);
   line-height: 1.85;
 }
@@ -105,11 +105,11 @@
   align-items: center;
   gap: 12px;
   margin-top: 26px;
-  color: #e5f1f9;
+  color: var(--c-sky);
   font-size: 14px;
 }
 
-.ot-breadcrumb a { color: #9bddff; font-weight: 700; }
+.ot-breadcrumb a { color: var(--c-cyan); font-weight: 700; }
 
 /* Introduction */
 .ot-intro-grid {
@@ -126,7 +126,7 @@
   overflow: hidden;
   aspect-ratio: 5 / 4;
   border-radius: 12px;
-  background: #eaf6ff;
+  background: var(--c-sky);
 }
 
 .ot-intro-image { width: 100%; height: 100%; object-fit: cover; }
@@ -152,14 +152,14 @@
   gap: 9px;
   min-height: 48px;
   margin-top: 8px;
-  color: #0878c9;
+  color: var(--c-blue);
   font-size: 15px;
   font-weight: 800;
 }
-.ot-text-link:hover { color: #075da0; }
+.ot-text-link:hover { color: var(--c-blue-deep); }
 
 /* Shared values */
-.ot-values { background: #f4f9fd; }
+.ot-values { background: var(--c-paper); }
 
 .ot-section-heading {
   max-width: 760px;
@@ -189,10 +189,10 @@
 .ot-value-card {
   min-width: 0;
   padding: clamp(24px, 3vw, 34px);
-  border: 1px solid #e0eaf1;
+  border: 1px solid var(--c-line);
   border-radius: 11px;
-  background: #ffffff;
-  box-shadow: 0 8px 25px rgba(20, 65, 100, 0.04);
+  background: var(--c-white);
+  box-shadow: 0 8px 25px color-mix(in srgb, var(--c-navy) 4%, transparent);
 }
 
 .ot-value-icon {
@@ -203,8 +203,8 @@
   height: 58px;
   margin-bottom: 21px;
   border-radius: 10px;
-  background: #eaf6ff;
-  color: #0878c9;
+  background: var(--c-sky);
+  color: var(--c-blue);
 }
 
 .ot-value-card h3 {
@@ -228,19 +228,19 @@
 .ot-member-card {
   min-width: 0;
   overflow: hidden;
-  border: 1px solid #e0eaf1;
+  border: 1px solid var(--c-line);
   border-radius: 11px;
-  background: #ffffff;
-  box-shadow: 0 8px 25px rgba(20, 65, 100, 0.05);
+  background: var(--c-white);
+  box-shadow: 0 8px 25px color-mix(in srgb, var(--c-navy) 5%, transparent);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .ot-member-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 14px 30px rgba(20, 65, 100, 0.1);
+  box-shadow: 0 14px 30px color-mix(in srgb, var(--c-navy) 10%, transparent);
 }
 
-.ot-member-image-wrap { overflow: hidden; background: #eaf6ff; }
+.ot-member-image-wrap { overflow: hidden; background: var(--c-sky); }
 
 .ot-member-image {
   width: 100%;
@@ -256,7 +256,7 @@
 .ot-member-role {
   display: block;
   margin-bottom: 9px;
-  color: #0878c9;
+  color: var(--c-blue);
   font-size: 12px;
   font-weight: 800;
   letter-spacing: 0.7px;
@@ -290,7 +290,7 @@
 /* Call to action */
 .ot-cta {
   padding-block: clamp(50px, 7vw, 80px);
-  background: #0878c9;
+  background: var(--c-blue);
 }
 
 .ot-cta-content {
@@ -302,11 +302,11 @@
 }
 
 .ot-cta-content > div { flex: 1 1 400px; min-width: 0; }
-.ot-cta .ot-eyebrow { color: #c6ecff; }
+.ot-cta .ot-eyebrow { color: var(--c-sky); }
 
 .ot-cta h2 {
   margin-bottom: 15px;
-  color: #ffffff;
+  color: var(--c-white);
   font-size: clamp(31px, 4vw, 45px);
   font-weight: 800;
   line-height: 1.25;
@@ -314,7 +314,7 @@
 
 .ot-cta-content > div > p {
   max-width: 650px;
-  color: #e4f3ff;
+  color: var(--c-sky);
   font-size: 16px;
   line-height: 1.9;
 }
@@ -327,7 +327,7 @@
   gap: 9px;
   min-height: 52px;
   padding: 13px 22px;
-  border: 2px solid #ffffff;
+  border: 2px solid var(--c-white);
   border-radius: 6px;
   font-size: 15px;
   font-weight: 800;
@@ -335,8 +335,8 @@
   transition: background 0.2s ease, color 0.2s ease;
 }
 
-.ot-button-white { background: #ffffff; color: #075da0; }
-.ot-button-white:hover { background: #eaf6ff; }
+.ot-button-white { background: var(--c-white); color: var(--c-blue-deep); }
+.ot-button-white:hover { background: var(--c-sky); }
 
 /* Large desktops */
 @media (min-width: 1600px) {
@@ -363,7 +363,7 @@
   .ot-container { width: calc(100% - 32px); }
   .ot-section { padding-block: 50px; }
   .ot-hero { min-height: 310px; padding-block: 55px; background-position: 60% center; }
-  .ot-hero-overlay { background: rgba(8, 38, 63, 0.85); }
+  .ot-hero-overlay { background: color-mix(in srgb, var(--c-navy) 85%, transparent); }
   .ot-hero h1 { font-size: clamp(36px, 9vw, 46px); letter-spacing: -0.8px; }
 
   .ot-hero-content > p,
