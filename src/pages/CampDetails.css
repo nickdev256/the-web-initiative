@@ -2,7 +2,7 @@
 .camp-details-page {
   width: 100%;
   overflow: clip;
-  background: #ffffff;
+  background: var(--c-white);
 }
 
 .cd-container {
@@ -17,7 +17,7 @@
 .cd-eyebrow {
   display: inline-block;
   margin-bottom: 13px;
-  color: #0878c9;
+  color: var(--c-blue);
   font-size: 12px;
   font-weight: 800;
   letter-spacing: 2px;
@@ -33,7 +33,7 @@
   min-height: clamp(320px, 38vw, 460px);
   padding-block: clamp(45px, 7vw, 80px);
   isolation: isolate;
-  background-color: #123653;
+  background-color: var(--c-navy);
   background-image: url('/images/medical-camp-tents.jpg');
   background-position: center;
   background-size: cover;
@@ -45,13 +45,13 @@
   inset: 0;
   background: linear-gradient(
     90deg,
-    rgba(8, 38, 63, 0.96),
-    rgba(8, 57, 91, 0.76)
+    color-mix(in srgb, var(--c-navy) 96%, transparent),
+    color-mix(in srgb, var(--c-navy) 76%, transparent)
   );
 }
 
 .cd-hero-content {
-  color: #ffffff;
+  color: var(--c-white);
 }
 
 .cd-back-link {
@@ -60,24 +60,24 @@
   gap: 8px;
   min-height: 42px;
   margin-bottom: 24px;
-  color: #d8efff;
+  color: var(--c-sky);
   font-size: 13px;
   font-weight: 700;
 }
 
 .cd-back-link:hover {
-  color: #ffffff;
+  color: var(--c-white);
 }
 
 .cd-hero .cd-eyebrow {
   display: block;
-  color: #9bddff;
+  color: var(--c-cyan);
 }
 
 .cd-hero h1 {
   max-width: 900px;
   margin-bottom: 20px;
-  color: #ffffff;
+  color: var(--c-white);
   font-size: clamp(35px, 5vw, 60px);
   font-weight: 800;
   letter-spacing: -1.3px;
@@ -87,7 +87,7 @@
 
 .cd-hero-content > p {
   max-width: 750px;
-  color: #e5f1f9;
+  color: var(--c-sky);
   font-size: clamp(15px, 1.6vw, 18px);
   line-height: 1.85;
 }
@@ -98,12 +98,12 @@
   align-items: center;
   gap: 10px;
   margin-top: 25px;
-  color: #e5f1f9;
+  color: var(--c-sky);
   font-size: 12px;
 }
 
 .cd-breadcrumb a {
-  color: #9bddff;
+  color: var(--c-cyan);
   font-weight: 700;
 }
 
@@ -125,7 +125,7 @@
   overflow: hidden;
   margin-bottom: 34px;
   border-radius: 12px;
-  background: #eaf6ff;
+  background: var(--c-sky);
 }
 
 .cd-image-wrap img {
@@ -153,9 +153,9 @@
 .cd-activities {
   margin-top: 35px;
   padding: clamp(22px, 3vw, 32px);
-  border: 1px solid #e0eaf1;
+  border: 1px solid var(--c-line);
   border-radius: 11px;
-  background: #f8fbfe;
+  background: var(--c-paper);
 }
 
 .cd-activities h3 {
@@ -174,7 +174,7 @@
   display: flex;
   align-items: flex-start;
   gap: 12px;
-  color: #63788b;
+  color: var(--c-slate);
   font-size: 14px;
   line-height: 1.8;
 }
@@ -182,7 +182,7 @@
 .cd-activities li svg {
   flex-shrink: 0;
   margin-top: 2px;
-  color: #0878c9;
+  color: var(--c-blue);
 }
 
 .cd-note {
@@ -191,14 +191,14 @@
   gap: 13px;
   margin-top: 24px;
   padding: 20px;
-  border-left: 4px solid #0878c9;
+  border-left: 4px solid var(--c-blue);
   border-radius: 6px;
-  background: #eaf6ff;
+  background: var(--c-sky);
 }
 
 .cd-note svg {
   flex-shrink: 0;
-  color: #0878c9;
+  color: var(--c-blue);
 }
 
 .cd-note p {
@@ -216,10 +216,10 @@
 .cd-info-card,
 .cd-help-card {
   padding: clamp(22px, 3vw, 30px);
-  border: 1px solid #e0eaf1;
+  border: 1px solid var(--c-line);
   border-radius: 11px;
-  background: #ffffff;
-  box-shadow: 0 10px 30px rgba(20, 65, 100, 0.06);
+  background: var(--c-white);
+  box-shadow: 0 10px 30px color-mix(in srgb, var(--c-navy) 6%, transparent);
 }
 
 .cd-info-card h3,
@@ -245,8 +245,8 @@
   width: 43px;
   height: 43px;
   border-radius: 8px;
-  background: #eaf6ff;
-  color: #0878c9;
+  background: var(--c-sky);
+  color: var(--c-blue);
 }
 
 .cd-info-item > div {
@@ -257,7 +257,7 @@
 .cd-info-item strong {
   display: block;
   margin-bottom: 5px;
-  color: #123653;
+  color: var(--c-navy);
   font-size: 14px;
 }
 
@@ -285,12 +285,12 @@
 }
 
 .cd-button-primary {
-  background: #0878c9;
-  color: #ffffff;
+  background: var(--c-blue);
+  color: var(--c-white);
 }
 
 .cd-button-primary:hover {
-  background: #075da0;
+  background: var(--c-blue-deep);
 }
 
 .cd-full-button {
@@ -306,12 +306,12 @@
 }
 
 .cd-help-card {
-  background: #f4f9fd;
+  background: var(--c-paper);
 }
 
 .cd-help-card > svg {
   margin-bottom: 16px;
-  color: #0878c9;
+  color: var(--c-blue);
 }
 
 .cd-help-card h3 {
@@ -330,7 +330,7 @@
   flex-wrap: wrap;
   gap: 8px;
   min-height: 40px;
-  color: #0878c9;
+  color: var(--c-blue);
   font-size: 13px;
   font-weight: 800;
 }
@@ -339,7 +339,7 @@
 
 .cd-bottom-cta {
   padding-block: clamp(45px, 7vw, 75px);
-  background: #0878c9;
+  background: var(--c-blue);
 }
 
 .cd-bottom-content {
@@ -356,12 +356,12 @@
 }
 
 .cd-bottom-content .cd-eyebrow {
-  color: #c6ecff;
+  color: var(--c-sky);
 }
 
 .cd-bottom-content h2 {
   margin-bottom: 15px;
-  color: #ffffff;
+  color: var(--c-white);
   font-size: clamp(28px, 4vw, 42px);
   font-weight: 800;
   letter-spacing: -0.7px;
@@ -369,18 +369,18 @@
 
 .cd-bottom-content p {
   max-width: 680px;
-  color: #e4f3ff;
+  color: var(--c-sky);
   font-size: 14px;
   line-height: 1.9;
 }
 
 .cd-button-white {
-  background: #ffffff;
-  color: #075da0;
+  background: var(--c-white);
+  color: var(--c-blue-deep);
 }
 
 .cd-button-white:hover {
-  background: #eaf6ff;
+  background: var(--c-sky);
 }
 
 /* Camp not found */
@@ -401,7 +401,7 @@
 
 .cd-not-found > div svg {
   margin-bottom: 20px;
-  color: #0878c9;
+  color: var(--c-blue);
 }
 
 .cd-not-found h1 {
@@ -459,7 +459,7 @@
   }
 
   .cd-hero-overlay {
-    background: rgba(8, 38, 63, 0.86);
+    background: color-mix(in srgb, var(--c-navy) 86%, transparent);
   }
 
   .cd-hero h1 {

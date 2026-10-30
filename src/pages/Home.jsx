@@ -10,12 +10,14 @@ import {
   Users,
   HandHeart,
   CalendarDays,
-  ShieldCheck,
-  Activity,
   MoveUpRight,
   Plus,
   MapPin,
   Clock,
+  Apple,
+  Ribbon,
+  Droplet,
+  Camera,
 } from 'lucide-react';
 
 import Navbar from '../components/Navbar.jsx';
@@ -23,15 +25,37 @@ import Footer from '../components/Footer.jsx';
 import { getUpcomingEvents } from '../data/events.js';
 import './Home.css';
 
-// Hero background video. Put the file in public/videos/. Until it exists,
-// the poster photo is shown instead.
+// Hero background video in public/videos/: a 540p file for laptops and a
+// sharper 720p file for large or high-resolution screens. If neither
+// loads, the poster photo is shown instead.
 const HERO_VIDEO = '/videos/hero.mp4';
+const HERO_VIDEO_HD = '/videos/hero-720.mp4';
 const HERO_POSTER = '/images/healthcare-team.jpg';
+
+// The three health issues named in the hero, shown in "Who we are".
+const healthPriorities = [
+  {
+    icon: Apple,
+    title: 'Malnutrition',
+    description: 'Awareness, early detection and nutrition guidance for families.',
+  },
+  {
+    icon: Ribbon,
+    title: 'HIV',
+    description: 'Awareness, testing referrals and stigma-free support.',
+  },
+  {
+    icon: Droplet,
+    title: 'Sickle cell disease',
+    description: 'Awareness, early diagnosis and support for affected families.',
+  },
+];
 
 const focusAreas = [
   {
-    number: '01',
     icon: Stethoscope,
+    image: '/images/camps/thumbs/lab-blood-sample.jpg',
+    imageAlt: 'A team member preparing a blood sample for testing',
     title: 'Medical Services',
     description:
       'Accessible healthcare services shaped around the needs of individuals and communities.',
@@ -39,8 +63,9 @@ const focusAreas = [
     action: 'Explore services',
   },
   {
-    number: '02',
     icon: CalendarDays,
+    image: '/images/outdoor-consultation.jpg',
+    imageAlt: 'A health worker consulting with patients at an outdoor medical camp',
     title: 'Medical Camps',
     description:
       'Community outreach initiatives that bring healthcare closer to the people who need it.',
@@ -48,8 +73,9 @@ const focusAreas = [
     action: 'Discover our camps',
   },
   {
-    number: '03',
     icon: Users,
+    image: '/images/medical-team.jpg',
+    imageAlt: 'Members of our healthcare team talking together',
     title: 'Our Team',
     description:
       'Meet the people working together to advance our community healthcare mission.',
@@ -57,8 +83,10 @@ const focusAreas = [
     action: 'Meet our people',
   },
   {
-    number: '04',
     icon: HandHeart,
+    image: '/images/donate-hero.jpg',
+    imageAlt: 'A health worker caring for a smiling child at sunset',
+    imagePosition: '80% center',
     title: 'Make a Difference',
     description:
       'Partner with us and help create meaningful, lasting change in our communities.',
@@ -87,7 +115,8 @@ function Home() {
 
     if (reduceMotion || smallScreen || saveData) return;
 
-    video.preload = 'auto';
+    const renderedWidth = window.innerWidth * (window.devicePixelRatio || 1);
+    video.src = renderedWidth > 1920 ? HERO_VIDEO_HD : HERO_VIDEO;
     video.play().catch(() => setVideoPlaying(false));
   }, []);
 
@@ -146,13 +175,8 @@ function Home() {
               onPlaying={() => setVideoReady(true)}
               onPlay={() => setVideoPlaying(true)}
               onPause={() => setVideoPlaying(false)}
-            >
-              <source
-                src={HERO_VIDEO}
-                type="video/mp4"
-                onError={() => setVideoReady(false)}
-              />
-            </video>
+              onError={() => setVideoReady(false)}
+            />
             <div className="home-hero-shade" />
 
             <div className="home-container home-hero-inner">
@@ -219,41 +243,25 @@ function Home() {
         {/* INTRO */}
         <section className="home-intro home-section-layer">
           <div className="home-container home-intro-grid">
-            <div className="home-intro-visual home-reveal">
-              <div className="home-intro-image-wrap">
+            <figure className="home-intro-visual home-reveal">
+              <div className="home-intro-photo-main">
                 <img
-                  src="/images/healthcare-team.jpg"
-                  alt="Healthcare professionals supporting community wellbeing"
-                  className="home-intro-image"
-                />
-
-                <div className="home-image-tag">
-                  <span className="home-tag-pulse" />
-                  PEOPLE FIRST, ALWAYS 
-                </div>
-              </div>
-
-              <div className="home-floating-note">
-                <div className="home-floating-icon">
-                  <ShieldCheck size={26} />
-                </div>
-                <div>
-                  <strong>Care with purpose</strong>
-                  <span>Every person matters.</span>
-                </div>
-                <HeartPulse
-                  className="home-floating-heart"
-                  size={27}
+                  src="/images/who-we-are-main.jpg"
+                  alt="A clinician measuring a woman's upper arm during malnutrition screening"
+                  loading="lazy"
                 />
               </div>
 
-              <div className="home-image-decoration">
-                <Plus size={25} />
-                <Plus size={25} />
-                <Plus size={25} />
-                <Plus size={25} />
+              <div className="home-intro-photo-inset">
+                <img
+                  src="/images/who-we-are-inset.jpg"
+                  alt="Our team leading a nutrition education session with mothers and young children"
+                  loading="lazy"
+                />
               </div>
-            </div>
+
+             
+            </figure>
 
             <div className="home-intro-copy home-reveal">
               <div className="home-kicker">
@@ -262,121 +270,128 @@ function Home() {
               </div>
 
               <h2>
-                Care that meets people
-                <span> where they are.</span>
+                Care that meets people{' '}
+                <span>where they are.</span>
               </h2>
 
-              <p>
-                The Web Initiative Ltd is committed to advancing
-                community wellbeing through healthcare services,
-                medical outreach, and initiatives that respond to
-                people's needs.
+              <p className="home-intro-lead">
+               The web is a community-based organization that intends to lower or possibly eliminate 
+               malnutrition in children battling with sickle cell and HIV in the marginalized parts of 
+               northern Uganda. 
               </p>
 
               <p>
-                We believe lasting change begins when people,
-                communities, and partners work together towards
-                a healthier future.
+                We intend to empower the afflicted families and individuals towards 
+               self-sufficiency and optimal health, have a sustainable healthy community through promotion 
+               of health habits, restoring hope, sharing knowledge and God’s love to enable a fulfilled life.
               </p>
 
-              <Link to="/about" className="home-editorial-link">
-                Get to know us
-                <span>
+              <ul className="home-intro-priorities">
+                {healthPriorities.map((item) => {
+                  const Icon = item.icon;
+
+                  return (
+                    <li key={item.title}>
+                      <span className="home-priority-icon">
+                        <Icon size={20} aria-hidden="true" />
+                      </span>
+                      <span>
+                        <strong>{item.title}</strong>
+                        <span>{item.description}</span>
+                      </span>
+                    </li>
+                  );
+                })}
+              </ul>
+
+              <div className="home-intro-actions">
+                <Link to="/about" className="home-btn home-btn-dark">
+                  Get to know us
                   <ArrowRight size={18} />
-                </span>
-              </Link>
+                </Link>
 
-              <div className="home-intro-values">
-                <div>
-                  <HeartPulse size={21} />
-                  <span>Compassion</span>
-                </div>
-                <div>
-                  <Users size={21} />
-                  <span>Community</span>
-                </div>
-                <div>
-                  <Activity size={21} />
-                  <span>Wellbeing</span>
-                </div>
+                <Link to="/our-team" className="home-editorial-link">
+                  Meet our team
+                  <span>
+                    <ArrowRight size={18} />
+                  </span>
+                </Link>
               </div>
             </div>
           </div>
         </section>
 
         {/* FOCUS AREAS */}
-        <section className="home-focus home-section-layer">
-          <div className="home-container home-focus-layout">
-            <div className="home-focus-intro">
-              <div className="home-focus-sticky">
-                <div className="home-kicker">
-                  <span className="home-kicker-dot" />
-                  WHAT WE DO
-                </div>
-
-                <h2>
-                  Small actions.
-                  <br />
-                  <span>Lasting impact.</span>
-                </h2>
-
-                <p>
-                  Explore the ways we work alongside communities
-                  to support health, encourage collaboration,
-                  and create opportunities for positive change.
-                </p>
-
-                <Link to="/about" className="home-editorial-link">
-                  Our mission
-                  <span>
-                    <ArrowRight size={18} />
-                  </span>
-                </Link>
-
-                <div className="home-focus-progress">
-                  <div className="home-progress-mark">
-                    <HeartPulse size={21} />
-                  </div>
-                  <span>Healthier communities, together.</span>
-                </div>
+        <section
+          className="home-wwd home-section-layer"
+          aria-labelledby="home-wwd-title"
+        >
+          <div className="home-container">
+            <div className="home-wwd-header home-reveal">
+              <div className="home-kicker">
+                <span className="home-kicker-dot" />
+                WHAT WE DO
               </div>
+
+              <h2 id="home-wwd-title">
+                Small actions. <span>Lasting impact.</span>
+              </h2>
+
+              <p>
+                Explore the ways we work alongside communities to
+                support health, encourage collaboration, and create
+                opportunities for positive change.
+              </p>
             </div>
 
-            <div className="home-focus-list">
-              {focusAreas.map((area, index) => {
+            <div className="home-wwd-grid">
+              {focusAreas.map((area) => {
                 const Icon = area.icon;
 
                 return (
-                  <article
-                    className={`home-focus-card home-reveal home-focus-card-${index + 1}`}
+                  <Link
+                    to={area.link}
+                    className="home-wwd-card home-reveal"
                     key={area.title}
                   >
-                    <div className="home-focus-card-top">
-                      <span className="home-card-number">
-                        {area.number}
-                      </span>
-
-                      <span className="home-card-icon">
-                        <Icon size={25} strokeWidth={1.7} />
-                      </span>
+                    <div className="home-wwd-media">
+                      <img
+                        src={area.image}
+                        alt={area.imageAlt}
+                        loading="lazy"
+                        style={
+                          area.imagePosition
+                            ? { objectPosition: area.imagePosition }
+                            : undefined
+                        }
+                      />
                     </div>
 
-                    <div className="home-focus-card-content">
+                    <span className="home-wwd-icon" aria-hidden="true">
+                      <Icon size={24} strokeWidth={1.8} />
+                    </span>
+
+                    <div className="home-wwd-body">
                       <h3>{area.title}</h3>
                       <p>{area.description}</p>
 
-                      <Link to={area.link} className="home-focus-link">
+                      <span className="home-wwd-link">
                         {area.action}
-                        <MoveUpRight size={18} />
-                      </Link>
+                        <ArrowRight size={18} />
+                      </span>
                     </div>
-
-                    <div className="home-card-watermark">
-                      <Icon size={115} strokeWidth={0.7} />
-                    </div>
-                  </article>
+                  </Link>
                 );
               })}
+            </div>
+
+            <div className="home-wwd-footer home-reveal">
+              <Link to="/about" className="home-editorial-link">
+                Read about our mission
+                <span>
+                  <ArrowRight size={18} />
+                </span>
+              </Link>
             </div>
           </div>
         </section>

@@ -96,7 +96,7 @@ function Footer() {
           </p>
 
           <Link to="/donate" className="footer-support-link">
-            <span className="hand-accent">Made to make a difference</span>{' '}
+            <span className="hand-accent hand-accent--on-dark">Made to make a difference</span>{' '}
             <Heart size={15} />
           </Link>
         </div>

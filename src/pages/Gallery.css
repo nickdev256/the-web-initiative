@@ -4,8 +4,8 @@
    Original structure, colors, interactions, and responsive layout are preserved. */
 
 .gallery-page {
-  color: #18364f;
-  background: #fff;
+  color: var(--c-navy);
+  background: var(--c-white);
   overflow: hidden;
   font-size: 17px;
 }
@@ -26,11 +26,11 @@
   align-items: center;
   min-height: 570px;
   padding: 96px 0;
-  color: #fff;
+  color: var(--c-white);
   background:
-    linear-gradient(90deg, rgba(5, 31, 51, 0.91) 0%, rgba(7, 56, 83, 0.76) 55%, rgba(8, 75, 113, 0.48) 100%),
+    linear-gradient(90deg, color-mix(in srgb, var(--c-navy) 91%, transparent) 0%, color-mix(in srgb, var(--c-navy) 76%, transparent) 55%, color-mix(in srgb, var(--c-navy) 48%, transparent) 100%),
     url('/images/medical-camp-tents.jpg') center/cover no-repeat,
-    #075b91;
+    var(--c-blue-deep);
 }
 
 .gallery-hero-shade {
@@ -38,7 +38,7 @@
   z-index: -1;
   inset: 0;
   pointer-events: none;
-  background: linear-gradient(0deg, rgba(5, 28, 45, 0.24), transparent 60%);
+  background: linear-gradient(0deg, color-mix(in srgb, var(--c-navy) 24%, transparent), transparent 60%);
 }
 
 .gallery-hero-content {
@@ -51,7 +51,7 @@
   display: inline-flex;
   align-items: center;
   gap: 9px;
-  color: #0878c9;
+  color: var(--c-blue);
   font-size: 14px;
   font-weight: 800;
   letter-spacing: 1.6px;
@@ -59,17 +59,17 @@
 
 .gallery-eyebrow {
   padding: 11px 16px;
-  color: #fff;
-  border: 1px solid rgba(255, 255, 255, 0.58);
+  color: var(--c-white);
+  border: 1px solid color-mix(in srgb, var(--c-white) 58%, transparent);
   border-radius: 30px;
-  background: rgba(5, 31, 51, 0.42);
+  background: color-mix(in srgb, var(--c-navy) 42%, transparent);
   backdrop-filter: blur(4px);
 }
 
 .gallery-hero h1 {
   max-width: 900px;
   margin: 28px 0 22px;
-  color: #fff;
+  color: var(--c-white);
   font-size: clamp(46px, 6vw, 76px);
   font-weight: 800;
   line-height: 1.08;
@@ -79,13 +79,13 @@
 
 .gallery-hero h1 span {
   display: block;
-  color: #9be0ff;
+  color: var(--c-cyan);
 }
 
 .gallery-hero-content > p {
   max-width: 690px;
   margin: 0;
-  color: #f2f8fc;
+  color: var(--c-paper);
   font-family: 'Poppins', sans-serif;
   font-size: clamp(17px, 1.55vw, 20px);
   line-height: 1.85;
@@ -110,18 +110,18 @@
 
 .gallery-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 22px rgba(8, 45, 72, 0.14);
+  box-shadow: 0 8px 22px color-mix(in srgb, var(--c-navy) 14%, transparent);
 }
 
 .gallery-btn-white {
   margin-top: 25px;
-  color: #075b91;
-  background: #fff;
+  color: var(--c-blue-deep);
+  background: var(--c-white);
 }
 
 .gallery-btn-primary {
-  color: #fff;
-  background: #0878c9;
+  color: var(--c-white);
+  background: var(--c-blue);
 }
 
 .gallery-section-heading {
@@ -133,7 +133,7 @@
 .gallery-section-heading h2,
 .gallery-cta-copy h2 {
   margin: 15px 0;
-  color: #123653;
+  color: var(--c-navy);
   font-size: clamp(32px, 3.6vw, 46px);
   font-weight: 800;
   line-height: 1.2;
@@ -142,7 +142,7 @@
 
 .gallery-section-heading p,
 .gallery-cta-copy p {
-  color: #536d80;
+  color: var(--c-slate);
   font-family: 'Poppins', sans-serif;
   font-size: 17px;
   line-height: 1.85;
@@ -159,10 +159,10 @@
 .gallery-filter {
   min-height: 47px;
   padding: 12px 20px;
-  color: #34566d;
-  border: 1px solid #d5e4ed;
+  color: var(--c-slate);
+  border: 1px solid var(--c-line);
   border-radius: 30px;
-  background: #fff;
+  background: var(--c-white);
   font-family: 'Poppins', sans-serif;
   font-size: 15px;
   font-weight: 600;
@@ -172,9 +172,9 @@
 
 .gallery-filter:hover,
 .gallery-filter.active {
-  color: #fff;
-  border-color: #0878c9;
-  background: #0878c9;
+  color: var(--c-white);
+  border-color: var(--c-blue);
+  background: var(--c-blue);
 }
 
 .gallery-photo-grid {
@@ -191,18 +191,18 @@
   padding: 0;
   border: 0;
   border-radius: 14px;
-  background: #e5f3fa;
+  background: var(--c-sky);
   text-align: left;
   cursor: pointer;
   overflow: hidden;
-  box-shadow: 0 7px 22px rgba(18, 54, 83, 0.08);
+  box-shadow: 0 7px 22px color-mix(in srgb, var(--c-navy) 8%, transparent);
 }
 
 .gallery-photo-card:focus-visible,
 .gallery-filter:focus-visible,
 .gallery-btn:focus-visible,
 .gallery-lightbox button:focus-visible {
-  outline: 3px solid #49b9ee;
+  outline: 3px solid var(--c-blue-bright);
   outline-offset: 3px;
 }
 
@@ -217,7 +217,7 @@
   width: 100%;
   height: 100%;
   min-height: 240px;
-  background: linear-gradient(135deg, #d7edf9, #a9d9f1);
+  background: linear-gradient(135deg, var(--c-sky), var(--c-cyan));
   overflow: hidden;
 }
 
@@ -229,6 +229,8 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  /* Faces sit in the upper part of most photos, so crop towards the top */
+  object-position: center 30%;
   transition: transform 0.35s ease;
 }
 
@@ -244,7 +246,7 @@
   justify-content: center;
   flex-direction: column;
   gap: 10px;
-  color: #286b90;
+  color: var(--c-blue-deep);
   font-family: 'Poppins', sans-serif;
   font-size: 15px;
   font-weight: 600;
@@ -260,8 +262,8 @@
   flex-direction: column;
   align-items: flex-start;
   padding: 48px 22px 21px;
-  color: #fff;
-  background: linear-gradient(transparent, rgba(5, 30, 48, 0.94));
+  color: var(--c-white);
+  background: linear-gradient(transparent, color-mix(in srgb, var(--c-navy) 94%, transparent));
 }
 
 .gallery-photo-overlay > span:first-child {
@@ -273,6 +275,7 @@
 
 .gallery-photo-overlay h3 {
   margin: 9px 0;
+  color: var(--c-white);
   font-size: 22px;
   font-weight: 750;
   line-height: 1.35;
@@ -289,7 +292,7 @@
 
 .gallery-empty {
   padding: 38px;
-  color: #536d80;
+  color: var(--c-slate);
   font-family: 'Poppins', sans-serif;
   font-size: 17px;
   text-align: center;
@@ -297,7 +300,7 @@
 
 .gallery-cta {
   padding: 70px 0;
-  background: #f3f8fb;
+  background: var(--c-paper);
 }
 
 .gallery-cta-inner {
@@ -312,9 +315,9 @@
   flex-shrink: 0;
   width: 72px;
   height: 72px;
-  color: #0878c9;
+  color: var(--c-blue);
   border-radius: 16px;
-  background: #dff2fc;
+  background: var(--c-sky);
 }
 
 .gallery-cta-copy {
@@ -340,7 +343,7 @@
 }
 
 .gallery-text-link {
-  color: #0878c9;
+  color: var(--c-blue);
   font-family: 'Poppins', sans-serif;
   font-size: 15px;
   font-weight: 700;
@@ -354,14 +357,14 @@
   flex-wrap: wrap;
   gap: 10px;
   padding: 23px;
-  color: #536d80;
-  border-top: 1px solid #e7eff4;
+  color: var(--c-slate);
+  border-top: 1px solid var(--c-sky);
   font-family: 'Poppins', sans-serif;
   font-size: 14px;
 }
 
 .gallery-location svg {
-  color: #0878c9;
+  color: var(--c-blue);
   flex-shrink: 0;
 }
 
@@ -373,7 +376,7 @@
   align-items: center;
   justify-content: center;
   padding: 58px 76px;
-  background: rgba(5, 22, 36, 0.96);
+  background: color-mix(in srgb, var(--c-navy) 96%, transparent);
 }
 
 .gallery-lightbox-content {
@@ -388,16 +391,16 @@
   max-height: 65vh;
   object-fit: contain;
   border-radius: 8px;
-  background: #102b3d;
+  background: var(--c-navy);
 }
 
 .gallery-lightbox-caption {
   padding: 20px 4px;
-  color: #fff;
+  color: var(--c-white);
 }
 
 .gallery-lightbox-caption > span {
-  color: #9be0ff;
+  color: var(--c-cyan);
   font-size: 13px;
   font-weight: 800;
   letter-spacing: 1px;
@@ -406,13 +409,14 @@
 
 .gallery-lightbox-caption h2 {
   margin: 9px 0;
+  color: var(--c-white);
   font-size: 28px;
   line-height: 1.3;
 }
 
 .gallery-lightbox-caption p {
   margin: 0;
-  color: #e0ebf2;
+  color: var(--c-line);
   font-family: 'Poppins', sans-serif;
   font-size: 16px;
   line-height: 1.8;
@@ -426,17 +430,17 @@
   width: 50px;
   height: 50px;
   padding: 0;
-  color: #fff;
-  border: 1px solid rgba(255, 255, 255, 0.45);
+  color: var(--c-white);
+  border: 1px solid color-mix(in srgb, var(--c-white) 45%, transparent);
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.13);
+  background: color-mix(in srgb, var(--c-white) 13%, transparent);
   cursor: pointer;
   transition: background 0.2s ease, transform 0.2s ease;
 }
 
 .gallery-lightbox-close:hover,
 .gallery-lightbox-arrow:hover {
-  background: rgba(255, 255, 255, 0.24);
+  background: color-mix(in srgb, var(--c-white) 24%, transparent);
 }
 
 .gallery-lightbox-close {

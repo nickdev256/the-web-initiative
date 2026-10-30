@@ -74,7 +74,7 @@ export default function Impact() {
 
             <h1>
               Creating a Healthier
-              <span className="hand-accent"> Tomorrow, Together.</span>
+              <span className="hand-accent hand-accent--on-dark"> Tomorrow, Together.</span>
             </h1>
 
             <p>
@@ -229,7 +229,7 @@ export default function Impact() {
               </p>
             </div>
             <div className="impact-cta-buttons">
-              <Link to="/donate" className="impact-btn impact-btn-primary">
+              <Link to="/donate" className="impact-btn impact-btn-primary btn-support">
                 <HandHeart size={18} /> Support Our Work
               </Link>
               <Link to="/contact" className="impact-btn impact-btn-light">

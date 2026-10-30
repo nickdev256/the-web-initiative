@@ -4,26 +4,56 @@
    GLOBAL STYLES — TIMES NEW ROMAN
    ========================================= */
 
+/* Brand palette: the three chosen brand colours. Every other colour on
+   the site is mixed from these, so change a value here and it updates
+   everywhere. */
+:root {
+  --c-navy: #144164;   /* primary (deep blue): headings, dark sections */
+  --c-cyan: #8be2ee;   /* secondary (light cyan): highlights on dark */
+  --c-white: #ffffff;  /* secondary (white): backgrounds, text on dark */
+
+  /* Shades mixed from the three above. Text and button shades are kept
+     dark enough to stay readable (WCAG AA contrast). */
+  --c-blue: color-mix(in srgb, var(--c-cyan) 30%, var(--c-navy));          /* buttons, links */
+  --c-blue-deep: color-mix(in srgb, var(--c-blue) 70%, var(--c-navy));     /* hover states */
+  --c-blue-bright: color-mix(in srgb, var(--c-blue) 85%, var(--c-cyan));   /* gradient ends, focus rings */
+  --c-slate: color-mix(in srgb, var(--c-navy) 80%, var(--c-white));        /* paragraph text */
+  --c-slate-light: color-mix(in srgb, var(--c-navy) 45%, var(--c-white));  /* soft text on dark */
+  --c-sky: color-mix(in srgb, var(--c-cyan) 15%, var(--c-white));          /* pale backgrounds */
+  --c-line: color-mix(in srgb, var(--c-navy) 12%, var(--c-white));         /* borders */
+  --c-paper: color-mix(in srgb, var(--c-cyan) 4%, var(--c-white));         /* subtle section backgrounds */
+
+  /* Badge behind icons on light backgrounds */
+  --c-icon-bg: #123653;
+
+  /* Support Our Work (donate) buttons */
+  --c-support: #0878c9;
+
+  /* Status colours for form confirmations (not part of the brand palette) */
+  --c-success: #145b38;
+  --c-success-bg: #eaf8ef;
+}
+
 :root {
   font-family: "Times New Roman", Times, serif;
   font-size: 18px;
-  color: #17324d;
-  background: #ffffff;
+  color: var(--c-navy);
+  background: var(--c-white);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-  --primary: #0878c9;
-  --primary-dark: #075da0;
-  --navy: #123653;
-  --light-blue: #eaf6ff;
-  --text: #17324d;
-  --muted: #63788b;
-  --white: #ffffff;
-  --border: #e0eaf1;
+  --primary: var(--c-blue);
+  --primary-dark: var(--c-blue-deep);
+  --navy: var(--c-navy);
+  --light-blue: var(--c-sky);
+  --text: var(--c-navy);
+  --muted: var(--c-slate);
+  --white: var(--c-white);
+  --border: var(--c-line);
   --radius: 14px;
-  --shadow: 0 12px 35px rgba(20, 65, 100, 0.09);
+  --shadow: 0 12px 35px color-mix(in srgb, var(--c-navy) 9%, transparent);
 
   /* Handwritten accent font. Use sparingly: short accent phrases only,
      never body text or whole headings. */
@@ -395,4 +425,132 @@ a:focus-visible {
   font-weight: 700;
   font-style: normal;
   letter-spacing: -0.01em;
+}
+
+/* Light cyan is too pale to read as text on white, so on light
+   backgrounds the words stay deep blue with a cyan marker stroke behind
+   them. On dark backgrounds (add .hand-accent--on-dark) the words
+   themselves are cyan. */
+:root {
+  --hand-highlight: linear-gradient(
+    transparent 58%,
+    var(--c-cyan) 58%,
+    var(--c-cyan) 92%,
+    transparent 92%
+  );
+}
+
+.hand-accent:not(.hand-accent--on-dark) {
+  padding: 0 0.12em;
+  color: var(--c-navy);
+  background-image: var(--hand-highlight);
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+.hand-accent.hand-accent--on-dark {
+  color: var(--c-cyan);
+}
+
+/* =========================================
+   ICONS
+   Feature icons (cards, menu items, priorities) are light cyan on a
+   grey-blue box (--c-icon-bg). Small helper icons on light backgrounds
+   (link arrows, pins, ticks) have no box and use --c-icon-bg as their
+   colour. On dark backgrounds icons are plain cyan. Icons inside
+   buttons keep the button's text colour.
+   ========================================= */
+
+:root svg.lucide {
+  color: var(--c-cyan);
+}
+
+:root :is(
+  button,
+  [class*="btn"],
+  [class*="button"],
+  .navbar-donate,
+  .navbar-link,
+  .dropdown-toggle,
+  .gallery-photo-card
+) svg.lucide {
+  color: inherit;
+}
+
+/* Feature icon boxes get the grey-blue background */
+:root :is(
+  .submenu-icon,
+  .home-wwd-icon,
+  .home-card-icon,
+  .home-priority-icon,
+  .home-cta-symbol,
+  .about-label-icon,
+  .about-objective-icon,
+  .about-value-icon,
+  .ms-service-icon,
+  .mc-step-icon,
+  .cd-info-icon,
+  .ot-value-icon,
+  .impact-area-icon,
+  .donate-use-icon,
+  .gallery-cta-icon
+) {
+  border-color: transparent;
+  background: var(--c-icon-bg);
+}
+
+/* Small helper icons on light backgrounds: no box, grey-blue icon */
+:root :is(
+  .home-editorial-link > span,
+  .home-wwd-link,
+  .home-feature-stamp,
+  .about-card-bottom,
+  .ms-service-link,
+  .ms-promise,
+  .ms-process-caption,
+  .mc-primary-link,
+  .mc-camp-meta span,
+  .mc-camp-link,
+  .mc-image-badge,
+  .cd-activities li,
+  .cd-note,
+  .cd-help-card,
+  .cd-text-link,
+  .ot-text-link,
+  .impact-text-link,
+  .impact-image-note,
+  .impact-location-strip,
+  .impact-location-strip .impact-container,
+  .donate-trust-item,
+  .donate-hero-image-caption,
+  .donate-contact-card,
+  .donate-location,
+  .gallery-location,
+  .contact-location-strip
+) > svg.lucide {
+  color: var(--c-icon-bg);
+}
+
+/* Arrow circles fill with blue on hover, so the arrow turns white */
+:root .home-editorial-link:hover > span svg.lucide {
+  color: var(--c-white);
+}
+
+/* Large decorative watermark icons stay a faint cyan tint */
+:root :is(
+  .home-cta-decoration,
+  .contact-map-decoration
+) svg.lucide {
+  color: color-mix(in srgb, var(--c-cyan) 35%, transparent);
+}
+
+/* Support Our Work buttons use their own blue (--c-support) everywhere */
+:root .btn-support {
+  color: var(--c-white);
+  background: var(--c-support);
+}
+
+html:root .btn-support:hover {
+  color: var(--c-white);
+  background: color-mix(in srgb, var(--c-support) 82%, var(--c-navy));
 }
