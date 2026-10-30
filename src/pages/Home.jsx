@@ -10,12 +10,14 @@ import {
   Users,
   HandHeart,
   CalendarDays,
-  ShieldCheck,
-  Activity,
   MoveUpRight,
   Plus,
   MapPin,
   Clock,
+  Apple,
+  Ribbon,
+  Droplet,
+  Camera,
 } from 'lucide-react';
 
 import Navbar from '../components/Navbar.jsx';
@@ -29,6 +31,25 @@ import './Home.css';
 const HERO_VIDEO = '/videos/hero.mp4';
 const HERO_VIDEO_HD = '/videos/hero-720.mp4';
 const HERO_POSTER = '/images/healthcare-team.jpg';
+
+// The three health issues named in the hero, shown in "Who we are".
+const healthPriorities = [
+  {
+    icon: Apple,
+    title: 'Malnutrition',
+    description: 'Awareness, early detection and nutrition guidance for families.',
+  },
+  {
+    icon: Ribbon,
+    title: 'HIV',
+    description: 'Awareness, testing referrals and stigma-free support.',
+  },
+  {
+    icon: Droplet,
+    title: 'Sickle cell disease',
+    description: 'Awareness, early diagnosis and support for affected families.',
+  },
+];
 
 const focusAreas = [
   {
@@ -217,41 +238,28 @@ function Home() {
         {/* INTRO */}
         <section className="home-intro home-section-layer">
           <div className="home-container home-intro-grid">
-            <div className="home-intro-visual home-reveal">
-              <div className="home-intro-image-wrap">
+            <figure className="home-intro-visual home-reveal">
+              <div className="home-intro-photo-main">
                 <img
-                  src="/images/healthcare-team.jpg"
-                  alt="Healthcare professionals supporting community wellbeing"
-                  className="home-intro-image"
-                />
-
-                <div className="home-image-tag">
-                  <span className="home-tag-pulse" />
-                  PEOPLE FIRST, ALWAYS 
-                </div>
-              </div>
-
-              <div className="home-floating-note">
-                <div className="home-floating-icon">
-                  <ShieldCheck size={26} />
-                </div>
-                <div>
-                  <strong>Care with purpose</strong>
-                  <span>Every person matters.</span>
-                </div>
-                <HeartPulse
-                  className="home-floating-heart"
-                  size={27}
+                  src="/images/who-we-are-main.jpg"
+                  alt="A clinician measuring a woman's upper arm during malnutrition screening"
+                  loading="lazy"
                 />
               </div>
 
-              <div className="home-image-decoration">
-                <Plus size={25} />
-                <Plus size={25} />
-                <Plus size={25} />
-                <Plus size={25} />
+              <div className="home-intro-photo-inset">
+                <img
+                  src="/images/who-we-are-inset.jpg"
+                  alt="Our team leading a nutrition education session with mothers and young children"
+                  loading="lazy"
+                />
               </div>
-            </div>
+
+              <figcaption className="home-intro-caption">
+                <Camera size={15} aria-hidden="true" />
+                From our medical camps
+              </figcaption>
+            </figure>
 
             <div className="home-intro-copy home-reveal">
               <div className="home-kicker">
@@ -260,43 +268,52 @@ function Home() {
               </div>
 
               <h2>
-                Care that meets people
-                <span> where they are.</span>
+                Care that meets people{' '}
+                <span>where they are.</span>
               </h2>
 
-              <p>
-                The Web Initiative Ltd is committed to advancing
-                community wellbeing through healthcare services,
-                medical outreach, and initiatives that respond to
-                people's needs.
+              <p className="home-intro-lead">
+               The web is a community-based organization that intends to lower or possibly eliminate 
+               malnutrition in children battling with sickle cell and HIV in the marginalized parts of 
+               northern Uganda. 
               </p>
 
               <p>
-                We believe lasting change begins when people,
-                communities, and partners work together towards
-                a healthier future.
+                We intend to empower the afflicted families and individuals towards 
+               self-sufficiency and optimal health, have a sustainable healthy community through promotion 
+               of health habits, restoring hope, sharing knowledge and God’s love to enable a fulfilled life.
               </p>
 
-              <Link to="/about" className="home-editorial-link">
-                Get to know us
-                <span>
+              <ul className="home-intro-priorities">
+                {healthPriorities.map((item) => {
+                  const Icon = item.icon;
+
+                  return (
+                    <li key={item.title}>
+                      <span className="home-priority-icon">
+                        <Icon size={20} aria-hidden="true" />
+                      </span>
+                      <span>
+                        <strong>{item.title}</strong>
+                        <span>{item.description}</span>
+                      </span>
+                    </li>
+                  );
+                })}
+              </ul>
+
+              <div className="home-intro-actions">
+                <Link to="/about" className="home-btn home-btn-dark">
+                  Get to know us
                   <ArrowRight size={18} />
-                </span>
-              </Link>
+                </Link>
 
-              <div className="home-intro-values">
-                <div>
-                  <HeartPulse size={21} />
-                  <span>Compassion</span>
-                </div>
-                <div>
-                  <Users size={21} />
-                  <span>Community</span>
-                </div>
-                <div>
-                  <Activity size={21} />
-                  <span>Wellbeing</span>
-                </div>
+                <Link to="/our-team" className="home-editorial-link">
+                  Meet our team
+                  <span>
+                    <ArrowRight size={18} />
+                  </span>
+                </Link>
               </div>
             </div>
           </div>

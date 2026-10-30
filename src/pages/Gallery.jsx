@@ -14,7 +14,68 @@ import Navbar from '../components/Navbar.jsx';
 import Footer from '../components/Footer.jsx';
 import './Gallery.css';
 
+// Real photos from our camps: a light thumbnail for the grid and a
+// Full HD version for the full-screen viewer.
+const campPhoto = (name) => ({
+  image: `/images/camps/${name}.jpg`,
+  thumb: `/images/camps/thumbs/${name}.jpg`,
+});
+
 const galleryItems = [
+  {
+    ...campPhoto('arm-measurement-check'),
+    title: 'Malnutrition Screening',
+    category: 'Medical Camps',
+    description: 'Checking upper-arm measurements to spot early signs of malnutrition.',
+  },
+  {
+    ...campPhoto('nutrition-education'),
+    title: 'Nutrition Education',
+    category: 'Health Education',
+    description: 'Sharing practical nutrition advice with mothers and young children.',
+  },
+  {
+    ...campPhoto('child-height-check'),
+    title: 'Child Growth Check',
+    category: 'Medical Camps',
+    description: "Measuring a child's height to track healthy growth.",
+  },
+  {
+    ...campPhoto('blood-pressure-check'),
+    title: 'Blood Pressure Check',
+    category: 'Medical Camps',
+    description: 'Routine blood pressure checks during a community camp.',
+  },
+  {
+    ...campPhoto('elder-consultation'),
+    title: 'Caring for Elders',
+    category: 'Community',
+    description: "Listening to an elderly patient's health concerns.",
+  },
+  {
+    ...campPhoto('lab-blood-sample'),
+    title: 'Laboratory Testing',
+    category: 'Medical Camps',
+    description: 'Preparing blood samples for testing.',
+  },
+  {
+    ...campPhoto('nurse-with-baby'),
+    title: 'Caring for the Youngest',
+    category: 'Community',
+    description: 'Comforting a baby during a medical camp.',
+  },
+  {
+    ...campPhoto('team-clinician'),
+    title: 'Our Team on the Ground',
+    category: 'Community',
+    description: 'One of our clinicians at an outreach site.',
+  },
+  {
+    ...campPhoto('prayer-support'),
+    title: 'Prayer and Encouragement',
+    category: 'Community',
+    description: 'Offering prayer and encouragement alongside care.',
+  },
   {
     image: '/images/medical-camp-tents.jpg',
     title: 'Medical Outreach',
@@ -165,8 +226,8 @@ export default function Gallery() {
                 >
                   <div className="gallery-photo-image">
                     <img
-                      src={item.image}
-                      alt={item.title}
+                      src={item.thumb || item.image}
+                      alt={item.description}
                       loading="lazy"
                       onError={(event) => {
                         event.currentTarget.style.display = 'none';
@@ -260,7 +321,7 @@ export default function Gallery() {
             </button>
 
             <div className="gallery-lightbox-content">
-              <img src={selectedImage.image} alt={selectedImage.title} />
+              <img src={selectedImage.image} alt={selectedImage.description} />
               <div className="gallery-lightbox-caption">
                 <span>{selectedImage.category}</span>
                 <h2>{selectedImage.title}</h2>
