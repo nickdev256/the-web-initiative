@@ -386,3 +386,13 @@ a:focus-visible {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* Handwritten accent for a short highlighted phrase in a heading or link.
+   Inherits the surrounding colour and size so it fits any heading. */
+.hand-accent {
+  font-family: var(--font-hand);
+  font-size: 1.06em;
+  font-weight: 700;
+  font-style: normal;
+  letter-spacing: -0.01em;
+}

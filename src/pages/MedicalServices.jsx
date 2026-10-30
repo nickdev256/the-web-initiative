@@ -89,7 +89,10 @@ function MedicalServices() {
             <div className="ms-intro-content">
               <span className="ms-eyebrow">HEALTH AND WELLBEING</span>
 
-              <h2>Healthcare that puts people first.</h2>
+              <h2>
+                Healthcare that puts{' '}
+                <span className="hand-accent">people first.</span>
+              </h2>
 
               <p>
                 Access to appropriate health information and support

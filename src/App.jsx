@@ -41,7 +41,9 @@ function App() {
                 <span className="placeholder-label">
                   THE WEB INITIATIVE LTD
                 </span>
-                <h1>Page Not Found</h1>
+                <h1>
+                  Page <span className="hand-accent">Not Found</span>
+                </h1>
                 <p>
                   The page you are looking for does not exist.
                 </p>

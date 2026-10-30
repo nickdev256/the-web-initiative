@@ -236,7 +236,10 @@ function CampDetails() {
           <div className="cd-container cd-bottom-content">
             <div>
               <span className="cd-eyebrow">GET IN TOUCH</span>
-              <h2>Let's work together for healthier communities.</h2>
+              <h2>
+                Let's work together for{' '}
+                <span className="hand-accent">healthier communities.</span>
+              </h2>
               <p>
                 Contact The Web Initiative Ltd to learn more about our
                 community initiatives and opportunities to collaborate.

@@ -110,7 +110,7 @@ Please share the official donation procedure and payment details.`
 
               <h1>
                 Your generosity can help
-                <span> change lives.</span>
+                <span className="hand-accent"> change lives.</span>
               </h1>
 
               <p>
