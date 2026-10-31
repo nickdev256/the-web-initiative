@@ -269,7 +269,7 @@ function Home() {
                 The Web Initiative is a community-based organisation
                 working to reduce, and where possible eliminate,
                 malnutrition in children living with sickle cell disease
-                and HIV in marginalised communities of northern Uganda.
+                and HIV in marginalised communities of Northern Uganda.
               </p>
 
               <p>
@@ -534,8 +534,8 @@ function Home() {
               </div>
 
               <div className="home-feature-caption">
-                <span>OUR APPROACH</span>
-                <strong>Putting people at the centre of care.</strong>
+                <span>AT OUR MEDICAL CAMPS</span>
+                <strong>Checking blood pressure, one person at a time.</strong>
               </div>
             </div>
           </div>

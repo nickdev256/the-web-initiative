@@ -1,16 +1,53 @@
-
 import { Link } from 'react-router-dom';
 import {
   ArrowRight,
   MapPin,
   CalendarDays,
-  HeartPulse,
   Users,
   Stethoscope,
+  Ruler,
+  HeartPulse,
+  Microscope,
+  Apple,
+  MessageCircle,
+  HandHeart,
 } from 'lucide-react';
 import Navbar from '../components/Navbar.jsx';
 import Footer from '../components/Footer.jsx';
 import './MedicalCamps.css';
+
+// What a visit to one of our camps looks like, shown with real camp photos.
+const activities = [
+  {
+    icon: HeartPulse,
+    title: 'Health checks',
+    text: 'Blood pressure and general checks with our volunteer clinicians.',
+    image: '/images/camps/thumbs/blood-pressure-check.jpg',
+    alt: 'A volunteer checking a woman’s blood pressure at a camp',
+  },
+  {
+    icon: Ruler,
+    title: 'Growth monitoring',
+    text: 'Measuring children’s height and growth to spot malnutrition early.',
+    image: '/images/camps/thumbs/child-height-check.jpg',
+    alt: 'A clinician measuring a child’s height',
+    position: 'center 18%',
+  },
+  {
+    icon: Microscope,
+    title: 'Laboratory screening',
+    text: 'Blood tests that help guide each child’s care.',
+    image: '/images/camps/thumbs/lab-blood-sample.jpg',
+    alt: 'A team member preparing a blood sample for testing',
+  },
+  {
+    icon: Apple,
+    title: 'Nutrition education',
+    text: 'Practical advice for families on healthy eating.',
+    image: '/images/camps/thumbs/nutrition-education.jpg',
+    alt: 'Our team leading a nutrition session with mothers and children',
+  },
+];
 
 const camps = [
   {
@@ -20,28 +57,40 @@ const camps = [
     description:
       'Community-focused outreach promoting health awareness and access to appropriate healthcare support.',
     image: '/images/medical-camp-tents.jpg',
-    location: 'Community location to be announced',
-    date: 'Date to be announced',
   },
   {
     id: 'health-awareness',
     category: 'Health Education',
     title: 'Health Awareness Campaign',
     description:
-      'Health education and awareness activities designed to encourage informed choices and healthier communities.',
+      'Health education and awareness activities that encourage informed choices and healthier communities.',
     image: '/images/health-screening.jpg',
-    location: 'Community location to be announced',
-    date: 'Date to be announced',
   },
   {
     id: 'medical-outreach',
     category: 'Medical Outreach',
-    title: 'Community Medical Outreach', 
+    title: 'Community Medical Outreach',
     description:
-      'Outreach initiatives that bring communities together around health information, engagement, and support.',
+      'Outreach that brings communities together around health information, engagement and support.',
     image: '/images/outdoor-consultation.jpg',
-    location: 'Community location to be announced',
-    date: 'Date to be announced',
+  },
+];
+
+const steps = [
+  {
+    icon: MessageCircle,
+    title: 'Find out',
+    text: 'Contact us to ask about upcoming camps and confirmed locations.',
+  },
+  {
+    icon: Users,
+    title: 'Connect',
+    text: 'Tell us about your community’s needs, or how you would like to take part.',
+  },
+  {
+    icon: HandHeart,
+    title: 'Get involved',
+    text: 'Volunteer, partner with us or support a camp so it can reach more families.',
   },
 ];
 
@@ -51,81 +100,166 @@ function MedicalCamps() {
       <Navbar />
 
       <main className="medical-camps-page">
-        
-<section className="mc-hero">
-  {/* Background slideshow */}
-  <div className="mc-hero-slideshow" aria-hidden="true">
-    <div className="mc-hero-slide mc-hero-slide-one" />
-    <div className="mc-hero-slide mc-hero-slide-two" />
-  </div>
+        {/* HERO */}
+        <section className="mc-hero">
+          <div className="mc-hero-slideshow" aria-hidden="true">
+            <div className="mc-hero-slide mc-hero-slide-one" />
+            <div className="mc-hero-slide mc-hero-slide-two" />
+          </div>
+          <div className="mc-hero-shade" />
 
-  {/* Dark overlay */}
-  <div className="mc-hero-overlay" />
+          <div className="mc-container mc-hero-content">
+            <span className="mc-kicker mc-kicker-light">
+              <span className="mc-kicker-dot" />
+              COMMUNITY OUTREACH
+            </span>
 
-  {/* Existing hero content */}
-  <div className="mc-container mc-hero-content">
-    <span className="mc-eyebrow">COMMUNITY OUTREACH</span>
+            <h1>
+              Medical camps that bring care{' '}
+              <span className="hand-accent hand-accent--on-dark">
+                closer to home.
+              </span>
+            </h1>
 
-    <h1>Medical Camps</h1>
+            <p>
+              We take health checks, screening and education directly to
+              children and families in marginalised communities of
+              Northern Uganda.
+            </p>
 
-    <p>
-      Promoting healthier communities through medical outreach,
-      health education, and community engagement.
-    </p>
-  </div>
-</section>
-
-
-        <section className="mc-intro mc-section">
-          <div className="mc-container mc-intro-grid">
-            <div className="mc-intro-content">
-              <span className="mc-eyebrow">REACHING COMMUNITIES</span>
-
-              <h2>
-                Bringing health awareness{' '}
-                <span className="hand-accent">closer to people.</span>
-              </h2>
-
-              <p>
-                Medical outreach can help communities learn about health,
-                discover available support, and understand where to seek
-                appropriate care.
-              </p>
-
-              <p>
-                The Web Initiative Ltd aims to support community-focused
-                initiatives through collaboration, engagement, and
-                responsible health awareness activities.
-              </p>
-
-              <Link to="/contact" className="mc-primary-link">
-                Ask about upcoming camps <ArrowRight size={18} />
+            <div className="mc-hero-actions">
+              <Link to="/contact" className="mc-btn mc-btn-light">
+                Ask about upcoming camps
+                <ArrowRight size={18} />
               </Link>
-            </div>
-
-            <div className="mc-intro-image-wrap">
-              <img
-                src="/images/camp-village-tents.jpg"
-                alt="Community medical outreach"
-                className="mc-intro-image"
-              />
-              <div className="mc-image-badge">
-                <HeartPulse size={23} />
-                <span>Community wellbeing matters</span>
-              </div>
+              <Link to="/donate" className="mc-btn btn-support">
+                Make a Donation
+              </Link>
             </div>
           </div>
         </section>
 
-        <section className="mc-listing mc-section">
-          <div className="mc-container">
-            <div className="mc-section-heading">
-              <span className="mc-eyebrow">OUR OUTREACH</span>
-              <h2>Explore Medical Camps</h2>
+        {/* INTRO */}
+        <section className="mc-intro">
+          <div className="mc-container mc-intro-grid">
+            <div className="mc-intro-copy">
+              <span className="mc-kicker">
+                <span className="mc-kicker-dot" />
+                REACHING COMMUNITIES
+              </span>
+
+              <h2>
+                Bringing health care{' '}
+                <span className="hand-accent">closer to people.</span>
+              </h2>
+
+              <p className="mc-lead">
+                For many families, the nearest clinic is a long and costly
+                journey away. Our medical camps go to them.
+              </p>
+
               <p>
-                Learn about the kinds of community outreach initiatives
-                we focus on. Contact us for confirmed events, locations,
-                and schedules.
+                Each camp is a chance to check on children’s health, look
+                out for signs of malnutrition, and help families affected
+                by sickle cell disease and HIV understand where to seek
+                further care.
+              </p>
+
+              <Link to="/medical-services" className="mc-text-link">
+                See our medical services
+                <span>
+                  <ArrowRight size={18} />
+                </span>
+              </Link>
+            </div>
+
+            <figure className="mc-intro-visual">
+              <div className="mc-intro-photo">
+                <img
+                  src="/images/camps/thumbs/arm-measurement-check.jpg"
+                  alt="A clinician measuring a woman’s arm during a health check at a camp"
+                  loading="lazy"
+                />
+              </div>
+
+              <figcaption className="mc-intro-badge">
+                <span className="mc-icon-box">
+                  <Stethoscope size={22} aria-hidden="true" />
+                </span>
+                <span>
+                  <strong>Health checks on the day</strong>
+                  <span>Our team checks and advises visitors.</span>
+                </span>
+              </figcaption>
+            </figure>
+          </div>
+        </section>
+
+        {/* WHAT HAPPENS AT A CAMP (deep blue) */}
+        <section className="mc-activities" aria-labelledby="mc-activities-title">
+          <div className="mc-container">
+            <div className="mc-heading mc-heading-center">
+              <span className="mc-kicker mc-kicker-light">
+                <span className="mc-kicker-dot" />
+                AT A CAMP
+              </span>
+              <h2 id="mc-activities-title">
+                What happens at{' '}
+                <span className="hand-accent hand-accent--on-dark">
+                  our camps.
+                </span>
+              </h2>
+              <p>
+                Photos from our camps, showing the care families
+                receive on the day.
+              </p>
+            </div>
+
+            <div className="mc-activity-grid">
+              {activities.map((item) => {
+                const Icon = item.icon;
+
+                return (
+                  <article className="mc-activity-card" key={item.title}>
+                    <div className="mc-activity-photo">
+                      <img
+                        src={item.image}
+                        alt={item.alt}
+                        loading="lazy"
+                        style={item.position ? { objectPosition: item.position } : undefined}
+                      />
+                    </div>
+                    <div className="mc-activity-body">
+                      <span className="mc-icon-box">
+                        <Icon size={22} aria-hidden="true" />
+                      </span>
+                      <h3>{item.title}</h3>
+                      <p>{item.text}</p>
+                    </div>
+                  </article>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+
+        {/* TYPES OF CAMP */}
+        <section className="mc-listing" aria-labelledby="mc-listing-title">
+          <div className="mc-container">
+            <div className="mc-heading mc-heading-split">
+              <div>
+                <span className="mc-kicker">
+                  <span className="mc-kicker-dot" />
+                  OUR OUTREACH
+                </span>
+                <h2 id="mc-listing-title">
+                  Explore our{' '}
+                  <span className="hand-accent">medical camps.</span>
+                </h2>
+              </div>
+              <p>
+                The kinds of outreach we run. Dates and locations are
+                shared once each camp is confirmed.
               </p>
             </div>
 
@@ -134,134 +268,88 @@ function MedicalCamps() {
                 <article className="mc-camp-card" key={camp.id}>
                   <Link
                     to={`/medical-camps/${camp.id}`}
-                    className="mc-camp-image-link"
-                    aria-label={`View ${camp.title}`}
+                    className="mc-camp-photo"
+                    tabIndex={-1}
+                    aria-hidden="true"
                   >
-                    <img
-                      src={camp.image}
-                      alt={camp.title}
-                      className="mc-camp-image"
-                      loading="lazy"
-                    />
-                    <span className="mc-camp-category">
-                      {camp.category}
-                    </span>
+                    <img src={camp.image} alt="" loading="lazy" />
+                    <span className="mc-camp-category">{camp.category}</span>
                   </Link>
 
                   <div className="mc-camp-body">
                     <h3>
-                      <Link to={`/medical-camps/${camp.id}`}>
-                        {camp.title}
-                      </Link>
+                      <Link to={`/medical-camps/${camp.id}`}>{camp.title}</Link>
                     </h3>
-
                     <p>{camp.description}</p>
 
-                    <div className="mc-camp-meta">
-                      <span>
-                        <MapPin size={16} />
-                        {camp.location}
-                      </span>
-
-                      <span>
-                        <CalendarDays size={16} />
-                        {camp.date}
-                      </span>
-                    </div>
+                    <ul className="mc-camp-meta">
+                      <li>
+                        <MapPin size={17} aria-hidden="true" />
+                        Location to be announced
+                      </li>
+                      <li>
+                        <CalendarDays size={17} aria-hidden="true" />
+                        Date to be announced
+                      </li>
+                    </ul>
 
                     <Link
                       to={`/medical-camps/${camp.id}`}
                       className="mc-camp-link"
+                      aria-label={`View details: ${camp.title}`}
                     >
-                      View details <ArrowRight size={17} />
+                      View details
+                      <ArrowRight size={17} aria-hidden="true" />
                     </Link>
                   </div>
                 </article>
               ))}
             </div>
-
-            <p className="mc-disclaimer">
-              The camps shown are illustrative categories, not confirmed
-              scheduled events. Please contact the organization for current
-              activities and official dates.
-            </p>
           </div>
         </section>
 
-        <section className="mc-steps mc-section">
-          <div className="mc-container">
-            <div className="mc-section-heading">
-              <span className="mc-eyebrow">GET INVOLVED</span>
-              <h2>How You Can Participate</h2>
+        {/* GET INVOLVED */}
+        <section className="mc-involve" aria-labelledby="mc-involve-title">
+          <div className="mc-container mc-involve-grid">
+            <div className="mc-involve-copy">
+              <span className="mc-kicker">
+                <span className="mc-kicker-dot" />
+                GET INVOLVED
+              </span>
+              <h2 id="mc-involve-title">
+                Help a camp{' '}
+                <span className="hand-accent">reach more families.</span>
+              </h2>
               <p>
-                Connect with us to learn about outreach activities
-                and possible ways to contribute.
+                Whether you are a community leader, a health worker or a
+                supporter, there is a place for you at our next camp.
               </p>
-            </div>
-
-            <div className="mc-steps-grid">
-              <article className="mc-step-card">
-                <div className="mc-step-icon">
-                  <MapPin size={27} />
-                </div>
-                <span className="mc-step-number">01</span>
-                <h3>Find Out</h3>
-                <p>
-                  Contact us to ask about upcoming outreach activities
-                  and confirmed locations.
-                </p>
-              </article>
-
-              <article className="mc-step-card">
-                <div className="mc-step-icon">
-                  <Users size={27} />
-                </div>
-                <span className="mc-step-number">02</span>
-                <h3>Connect</h3>
-                <p>
-                  Discuss community needs, participation, and
-                  opportunities to collaborate.
-                </p>
-              </article>
-
-              <article className="mc-step-card">
-                <div className="mc-step-icon">
-                  <Stethoscope size={27} />
-                </div>
-                <span className="mc-step-number">03</span>
-                <h3>Get Involved</h3>
-                <p>
-                  Learn how to support suitable community health
-                  initiatives and outreach activities.
-                </p>
-              </article>
-            </div>
-          </div>
-        </section>
-
-        <section className="mc-cta">
-          <div className="mc-container mc-cta-content">
-            <div>
-              <span className="mc-eyebrow">STAY CONNECTED</span>
-              <h2>Interested in our medical outreach?</h2>
-              <p>
-                Contact our team for information about our activities,
-                partnerships, and upcoming community initiatives.
-              </p>
-            </div>
-
-            <div className="mc-cta-actions">
-              <Link to="/contact" className="mc-button mc-button-white">
-                Contact Us <ArrowRight size={18} />
-              </Link>
-
-              <Link
-                to="/medical-services"
-                className="mc-button mc-button-outline"
-              >
-                Medical Services
+              <Link to="/contact" className="mc-btn mc-btn-dark">
+                Contact our team
+                <ArrowRight size={18} />
               </Link>
             </div>
+
+            <ol className="mc-steps">
+              {steps.map((step, index) => {
+                const Icon = step.icon;
+
+                return (
+                  <li key={step.title}>
+                    <span className="mc-icon-box">
+                      <Icon size={22} aria-hidden="true" />
+                    </span>
+                    <div>
+                      <span className="mc-step-number">
+                        Step {String(index + 1).padStart(2, '0')}
+                      </span>
+                      <strong>{step.title}</strong>
+                      <p>{step.text}</p>
+                    </div>
+                  </li>
+                );
+              })}
+            </ol>
           </div>
         </section>
       </main>

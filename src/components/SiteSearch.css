@@ -1,0 +1,190 @@
+/* =========================================
+   SITE SEARCH (header panel and phone menu)
+   ========================================= */
+
+.site-search {
+  display: grid;
+  gap: 10px;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.site-search-form {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 6px 6px 16px;
+  border: 1px solid var(--c-line);
+  border-radius: 999px;
+  background: var(--c-paper);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.site-search-form:focus-within {
+  border-color: var(--c-blue);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--c-cyan) 35%, transparent);
+}
+
+:root .site-search-form > svg.lucide {
+  flex-shrink: 0;
+  color: var(--c-icon-bg);
+}
+
+.site-search-form input {
+  flex: 1;
+  min-width: 0;
+  padding: 8px 0;
+  border: 0;
+  outline: none;
+  color: var(--c-navy);
+  background: transparent;
+  font: inherit;
+  font-size: 16px;
+}
+
+/* The whole pill shows the focus glow, so the field itself needs no
+   outline or box of its own (overrides the site-wide input styles) */
+.site-search-form input:focus,
+.site-search-form input:focus-visible {
+  border: 0;
+  border-radius: 0;
+  outline: none;
+  box-shadow: none;
+}
+
+/* Hide the browser's own clear button so ours stays the only control */
+.site-search-form input::-webkit-search-cancel-button {
+  display: none;
+}
+
+.site-search-form input::placeholder {
+  color: var(--c-slate);
+}
+
+.site-search-form button {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border: 0;
+  border-radius: 50%;
+  color: var(--c-white);
+  background: var(--c-blue);
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.site-search-form button:hover {
+  background: var(--c-navy);
+}
+
+.site-search-label {
+  margin: 4px 6px 0;
+  color: var(--c-slate);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.site-search-results {
+  display: grid;
+  gap: 2px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.site-search-results li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.site-search-results li:hover,
+.site-search-results li.is-active {
+  background: color-mix(in srgb, var(--c-cyan) 22%, var(--c-white));
+}
+
+.site-search-text {
+  display: grid;
+  gap: 1px;
+  min-width: 0;
+}
+
+.site-search-text strong {
+  color: var(--c-navy);
+  font-family: 'Manrope', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.site-search-text span {
+  overflow: hidden;
+  color: var(--c-slate);
+  font-size: 13px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+:root .site-search-results svg.lucide {
+  flex-shrink: 0;
+  color: var(--c-icon-bg);
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+
+.site-search-results li:hover svg.lucide,
+.site-search-results li.is-active svg.lucide {
+  opacity: 1;
+}
+
+.site-search-empty {
+  margin: 0 6px 6px;
+  color: var(--c-slate);
+  font-size: 14px;
+}
+
+/* Header panel: drops down under the search button */
+.site-search--panel {
+  position: absolute;
+  top: calc(100% + 16px);
+  right: -10px;
+  z-index: 1020;
+  width: min(420px, calc(100vw - 24px));
+  padding: 14px;
+  border: 1px solid var(--c-line);
+  border-radius: 20px;
+  background: var(--c-white);
+  box-shadow: 0 24px 55px color-mix(in srgb, var(--c-navy) 18%, transparent);
+  animation: site-search-in 0.2s ease;
+}
+
+@keyframes site-search-in {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+}
+
+/* On small screens the panel spans the width of the header bar
+   (Navbar.css makes the header bar its anchor at this size) */
+@media (max-width: 600px) {
+  .site-search--panel {
+    top: calc(100% + 8px);
+    right: 12px;
+    left: 12px;
+    width: auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-search--panel {
+    animation: none;
+  }
+}

@@ -1,571 +1,708 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap');
+
+/* =========================================
+   THE WEB INITIATIVE LTD — CAMP DETAILS
+   Same type, colours and components as Medical Camps.
+   ========================================= */
 
 .camp-details-page {
-  width: 100%;
   overflow: clip;
+  color: var(--c-navy);
   background: var(--c-white);
+  font-family: 'DM Sans', sans-serif;
+}
+
+.camp-details-page *,
+.camp-details-page *::before,
+.camp-details-page *::after {
+  box-sizing: border-box;
+}
+
+.camp-details-page h1,
+.camp-details-page h2,
+.camp-details-page h3,
+.camp-details-page strong {
+  font-family: 'Manrope', sans-serif;
+}
+
+/* Low-specificity reset so each component's own spacing wins */
+:where(.camp-details-page) :where(h1, h2, h3, p, figure, ul) {
+  margin: 0;
+}
+
+.camp-details-page img {
+  display: block;
+  max-width: 100%;
 }
 
 .cd-container {
-  width: min(100% - 48px, 1240px);
+  width: min(1240px, calc(100% - 64px));
   margin-inline: auto;
 }
 
-.cd-section {
-  padding-block: clamp(50px, 7vw, 90px);
+/* Shared pieces */
+
+.cd-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--c-blue);
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  line-height: 1.5;
+  text-transform: uppercase;
 }
 
-.cd-eyebrow {
-  display: inline-block;
-  margin-bottom: 13px;
-  color: var(--c-blue);
-  font-size: 12px;
+.cd-kicker-light {
+  color: color-mix(in srgb, var(--c-white) 88%, transparent);
+}
+
+.cd-kicker-dot {
+  flex: 0 0 8px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--c-cyan);
+  box-shadow: 0 0 0 5px color-mix(in srgb, var(--c-cyan) 18%, transparent);
+}
+
+.camp-details-page h2 {
+  margin: 20px 0 18px;
+  color: var(--c-navy);
+  font-size: clamp(2.1rem, 3.4vw, 3.2rem);
   font-weight: 800;
-  letter-spacing: 2px;
+  letter-spacing: -0.035em;
+  line-height: 1.1;
+  text-wrap: balance;
+}
+
+.camp-details-page p {
+  color: var(--c-slate);
+  font-size: 18px;
+  line-height: 1.8;
+}
+
+.camp-details-page p + p {
+  margin-top: 16px;
+}
+
+.camp-details-page .cd-lead {
+  color: var(--c-navy);
+  font-size: 20px;
   line-height: 1.7;
 }
 
-/* Hero */
+.cd-icon-box {
+  display: grid;
+  place-items: center;
+  flex: 0 0 48px;
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+}
+
+.cd-icon-box-lg {
+  width: 72px;
+  height: 72px;
+  margin-inline: auto;
+  border-radius: 20px;
+}
+
+.cd-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 54px;
+  padding: 14px 26px;
+  border-radius: 999px;
+  font-family: 'Manrope', sans-serif;
+  font-size: 16px;
+  font-weight: 800;
+  text-align: center;
+  text-decoration: none;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.cd-btn:hover {
+  transform: translateY(-2px);
+}
+
+.cd-btn-dark {
+  color: var(--c-white);
+  background: var(--c-blue);
+}
+
+.cd-btn-dark:hover {
+  background: var(--c-navy);
+}
+
+.cd-btn-full {
+  width: 100%;
+}
+
+.cd-text-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  color: var(--c-navy);
+  font-size: 16px;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.cd-text-link > span {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border: 1px solid var(--c-line);
+  border-radius: 50%;
+  transition: background 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
+}
+
+.cd-text-link:hover > span {
+  border-color: var(--c-blue);
+  background: var(--c-blue);
+  transform: translateX(3px);
+}
+
+/* =========================================
+   HERO
+   ========================================= */
 
 .cd-hero {
   position: relative;
+  isolation: isolate;
   display: flex;
   align-items: center;
-  min-height: clamp(320px, 38vw, 460px);
-  padding-block: clamp(45px, 7vw, 80px);
-  isolation: isolate;
-  background-color: var(--c-navy);
-  background-image: url('/images/medical-camp-tents.jpg');
-  background-position: center;
-  background-size: cover;
+  min-height: min(540px, calc(100svh - 120px));
+  padding: 70px 0 84px;
+  overflow: hidden;
+  background: var(--c-navy) var(--cd-hero-image) center 40% / cover no-repeat;
 }
 
-.cd-hero-overlay {
+.cd-hero-shade {
   position: absolute;
   z-index: -1;
   inset: 0;
-  background: linear-gradient(
-    90deg,
-    color-mix(in srgb, var(--c-navy) 96%, transparent),
-    color-mix(in srgb, var(--c-navy) 76%, transparent)
-  );
-}
-
-.cd-hero-content {
-  color: var(--c-white);
+  background:
+    linear-gradient(90deg,
+      color-mix(in srgb, var(--c-navy) 95%, #000) 0%,
+      color-mix(in srgb, var(--c-navy) 86%, transparent) 45%,
+      color-mix(in srgb, var(--c-navy) 40%, transparent) 100%),
+    linear-gradient(0deg, color-mix(in srgb, var(--c-navy) 55%, transparent), transparent 45%);
 }
 
 .cd-back-link {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  min-height: 42px;
-  margin-bottom: 24px;
-  color: var(--c-sky);
-  font-size: 13px;
+  margin-bottom: 30px;
+  padding: 9px 16px;
+  border: 1px solid color-mix(in srgb, var(--c-white) 30%, transparent);
+  border-radius: 999px;
+  color: var(--c-white);
+  background: color-mix(in srgb, var(--c-white) 8%, transparent);
+  backdrop-filter: blur(6px);
+  font-size: 15px;
   font-weight: 700;
+  text-decoration: none;
+  transition: background 0.2s ease;
 }
 
 .cd-back-link:hover {
-  color: var(--c-white);
+  background: color-mix(in srgb, var(--c-white) 18%, transparent);
 }
 
-.cd-hero .cd-eyebrow {
-  display: block;
-  color: var(--c-cyan);
+.cd-hero-content > .cd-kicker {
+  display: flex;
+  width: fit-content;
 }
 
 .cd-hero h1 {
-  max-width: 900px;
-  margin-bottom: 20px;
+  max-width: 800px;
+  margin: 22px 0 20px;
   color: var(--c-white);
-  font-size: clamp(35px, 5vw, 60px);
+  font-size: clamp(2.5rem, 5vw, 4.2rem);
   font-weight: 800;
-  letter-spacing: -1.3px;
-  line-height: 1.15;
-  overflow-wrap: anywhere;
+  letter-spacing: -0.035em;
+  line-height: 1.06;
+  text-wrap: balance;
+  text-shadow: 0 2px 24px rgba(0, 0, 0, 0.25);
 }
 
 .cd-hero-content > p {
-  max-width: 750px;
-  color: var(--c-sky);
-  font-size: clamp(15px, 1.6vw, 18px);
-  line-height: 1.85;
+  max-width: 620px;
+  color: color-mix(in srgb, var(--c-white) 90%, transparent);
+  font-size: clamp(18px, 1.5vw, 21px);
+  line-height: 1.65;
 }
 
-.cd-breadcrumb {
+.cd-hero-meta {
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
-  gap: 10px;
-  margin-top: 25px;
-  color: var(--c-sky);
-  font-size: 12px;
-}
-
-.cd-breadcrumb a {
-  color: var(--c-cyan);
-  font-weight: 700;
-}
-
-/* Main content layout */
-
-.cd-main-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(270px, 360px);
-  align-items: start;
-  gap: clamp(30px, 5vw, 65px);
-}
-
-.cd-main-content,
-.cd-sidebar {
-  min-width: 0;
-}
-
-.cd-image-wrap {
-  overflow: hidden;
-  margin-bottom: 34px;
-  border-radius: 12px;
-  background: var(--c-sky);
-}
-
-.cd-image-wrap img {
-  width: 100%;
-  max-height: 540px;
-  aspect-ratio: 16 / 9;
-  object-fit: cover;
-}
-
-.cd-main-content h2 {
-  margin-bottom: 20px;
-  font-size: clamp(28px, 3.5vw, 40px);
-  font-weight: 800;
-  letter-spacing: -0.7px;
-  line-height: 1.25;
-}
-
-.cd-main-content > p {
-  margin-bottom: 17px;
-  font-size: 15px;
-  line-height: 1.95;
-  overflow-wrap: anywhere;
-}
-
-.cd-activities {
-  margin-top: 35px;
-  padding: clamp(22px, 3vw, 32px);
-  border: 1px solid var(--c-line);
-  border-radius: 11px;
-  background: var(--c-paper);
-}
-
-.cd-activities h3 {
-  margin-bottom: 22px;
-  font-size: 22px;
-  font-weight: 800;
-}
-
-.cd-activities ul {
-  display: grid;
-  gap: 17px;
+  gap: 12px;
+  margin-top: 32px;
+  padding: 0;
   list-style: none;
 }
 
-.cd-activities li {
+.cd-hero-meta li {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 10px 18px;
+  border: 1px solid color-mix(in srgb, var(--c-white) 22%, transparent);
+  border-radius: 999px;
+  color: var(--c-white);
+  background: color-mix(in srgb, var(--c-navy) 55%, transparent);
+  backdrop-filter: blur(6px);
+  font-size: 15px;
+  font-weight: 600;
+}
+
+/* =========================================
+   DETAILS
+   ========================================= */
+
+.cd-details {
+  padding: 100px 0 110px;
+}
+
+.cd-details-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(320px, 380px);
+  align-items: start;
+  gap: clamp(40px, 5vw, 72px);
+}
+
+.cd-main {
+  min-width: 0;
+}
+
+.cd-photo {
+  margin-bottom: 56px;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: 24px;
+  background: var(--c-line);
+  box-shadow: 0 30px 70px color-mix(in srgb, var(--c-navy) 14%, transparent);
+}
+
+.cd-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.cd-expect {
+  margin-top: 40px;
+}
+
+.cd-expect h3 {
+  margin-bottom: 18px;
+  color: var(--c-navy);
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.cd-expect-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  padding: 0;
+  list-style: none;
+}
+
+.cd-expect-list li {
   display: flex;
   align-items: flex-start;
   gap: 12px;
-  color: var(--c-slate);
-  font-size: 14px;
-  line-height: 1.8;
+  padding: 18px 20px;
+  border: 1px solid var(--c-line);
+  border-radius: 16px;
+  background: var(--c-paper);
+  color: var(--c-navy);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.5;
 }
 
-.cd-activities li svg {
+.cd-expect-list svg {
   flex-shrink: 0;
-  margin-top: 2px;
-  color: var(--c-blue);
+  margin-top: 1px;
 }
 
 .cd-note {
   display: flex;
   align-items: flex-start;
-  gap: 13px;
-  margin-top: 24px;
-  padding: 20px;
-  border-left: 4px solid var(--c-blue);
-  border-radius: 6px;
-  background: var(--c-sky);
+  gap: 14px;
+  margin-top: 32px;
+  padding: 20px 22px;
+  border-left: 4px solid var(--c-cyan);
+  border-radius: 0 16px 16px 0;
+  background: color-mix(in srgb, var(--c-cyan) 12%, var(--c-white));
 }
 
 .cd-note svg {
   flex-shrink: 0;
-  color: var(--c-blue);
+  margin-top: 2px;
 }
 
-.cd-note p {
-  font-size: 13px;
-  line-height: 1.8;
+.camp-details-page .cd-note p {
+  color: var(--c-navy);
+  font-size: 15px;
+  line-height: 1.7;
 }
 
-/* Sidebar cards */
+/* Sidebar */
 
 .cd-sidebar {
+  position: sticky;
+  top: 110px;
   display: grid;
-  gap: 22px;
+  gap: 20px;
 }
 
-.cd-info-card,
-.cd-help-card {
-  padding: clamp(22px, 3vw, 30px);
+.cd-info-card {
+  padding: 32px 30px 28px;
   border: 1px solid var(--c-line);
-  border-radius: 11px;
+  border-radius: 24px;
   background: var(--c-white);
-  box-shadow: 0 10px 30px color-mix(in srgb, var(--c-navy) 6%, transparent);
+  box-shadow: 0 24px 55px color-mix(in srgb, var(--c-navy) 10%, transparent);
 }
 
-.cd-info-card h3,
-.cd-help-card h3 {
-  margin-bottom: 24px;
-  font-size: 23px;
-  font-weight: 800;
-  line-height: 1.35;
-}
-
-.cd-info-item {
-  display: flex;
-  align-items: flex-start;
-  gap: 13px;
-  margin-bottom: 23px;
-}
-
-.cd-info-icon {
-  display: flex;
-  flex-shrink: 0;
-  align-items: center;
-  justify-content: center;
-  width: 43px;
-  height: 43px;
-  border-radius: 8px;
-  background: var(--c-sky);
-  color: var(--c-blue);
-}
-
-.cd-info-item > div {
-  min-width: 0;
-  padding-top: 2px;
-}
-
-.cd-info-item strong {
-  display: block;
-  margin-bottom: 5px;
+.cd-info-card h3 {
+  margin: 12px 0 24px;
   color: var(--c-navy);
-  font-size: 14px;
-}
-
-.cd-info-item p {
-  font-size: 13px;
-  line-height: 1.8;
-  overflow-wrap: anywhere;
-}
-
-.cd-button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 9px;
-  min-height: 48px;
-  padding: 12px 18px;
-  border: 2px solid transparent;
-  border-radius: 6px;
-  font-size: 13px;
+  font-size: 26px;
   font-weight: 800;
-  text-align: center;
-  transition:
-    background 0.2s ease,
-    color 0.2s ease;
+  letter-spacing: -0.02em;
 }
 
-.cd-button-primary {
-  background: var(--c-blue);
-  color: var(--c-white);
+.cd-info-list {
+  display: grid;
+  gap: 20px;
+  margin-bottom: 28px;
+  padding: 0;
+  list-style: none;
 }
 
-.cd-button-primary:hover {
-  background: var(--c-blue-deep);
+.cd-info-list li {
+  display: flex;
+  align-items: center;
+  gap: 14px;
 }
 
-.cd-full-button {
-  width: 100%;
-  flex-wrap: wrap;
+.cd-info-list li > span:last-child {
+  display: grid;
+  gap: 2px;
 }
 
-.cd-small-note {
+.cd-info-list strong {
+  color: var(--c-navy);
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.cd-info-list li > span:last-child > span {
+  color: var(--c-slate);
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.camp-details-page .cd-small-note {
   margin-top: 14px;
-  font-size: 11px;
-  line-height: 1.8;
+  font-size: 14px;
+  line-height: 1.6;
   text-align: center;
 }
 
-.cd-help-card {
+.cd-support-card {
+  padding: 30px;
+  border-radius: 24px;
+  background: var(--c-navy);
+}
+
+.cd-support-card h3 {
+  margin: 16px 0 10px;
+  color: var(--c-white);
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.3;
+}
+
+.camp-details-page .cd-support-card p {
+  margin-bottom: 22px;
+  color: color-mix(in srgb, var(--c-white) 82%, transparent);
+  font-size: 16px;
+  line-height: 1.7;
+}
+
+/* =========================================
+   OTHER CAMPS
+   ========================================= */
+
+.cd-more {
+  padding: 100px 0 110px;
   background: var(--c-paper);
 }
 
-.cd-help-card > svg {
-  margin-bottom: 16px;
-  color: var(--c-blue);
-}
-
-.cd-help-card h3 {
-  margin-bottom: 12px;
-}
-
-.cd-help-card > p {
-  margin-bottom: 17px;
-  font-size: 13px;
-  line-height: 1.9;
-}
-
-.cd-text-link {
-  display: inline-flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 8px;
-  min-height: 40px;
-  color: var(--c-blue);
-  font-size: 13px;
-  font-weight: 800;
-}
-
-/* Bottom CTA */
-
-.cd-bottom-cta {
-  padding-block: clamp(45px, 7vw, 75px);
-  background: var(--c-blue);
-}
-
-.cd-bottom-content {
+.cd-heading {
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: space-between;
   flex-wrap: wrap;
-  gap: 25px 40px;
+  gap: 20px 40px;
+  margin-bottom: 44px;
 }
 
-.cd-bottom-content > div {
-  flex: 1 1 400px;
-  min-width: 0;
+.cd-heading h2 {
+  margin-bottom: 0;
 }
 
-.cd-bottom-content .cd-eyebrow {
-  color: var(--c-sky);
+.cd-more-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
 }
 
-.cd-bottom-content h2 {
-  margin-bottom: 15px;
-  color: var(--c-white);
-  font-size: clamp(28px, 4vw, 42px);
-  font-weight: 800;
-  letter-spacing: -0.7px;
-}
-
-.cd-bottom-content p {
-  max-width: 680px;
-  color: var(--c-sky);
-  font-size: 14px;
-  line-height: 1.9;
-}
-
-.cd-button-white {
+.cd-more-card {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  overflow: hidden;
+  border: 1px solid var(--c-line);
+  border-radius: 24px;
   background: var(--c-white);
-  color: var(--c-blue-deep);
+  color: inherit;
+  text-decoration: none;
+  box-shadow: 0 10px 30px color-mix(in srgb, var(--c-navy) 6%, transparent);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.cd-button-white:hover {
-  background: var(--c-sky);
+.cd-more-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 26px 55px color-mix(in srgb, var(--c-navy) 14%, transparent);
 }
 
-/* Camp not found */
+.cd-more-photo {
+  min-height: 240px;
+  overflow: hidden;
+  background: var(--c-line);
+}
+
+.cd-more-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.cd-more-card:hover .cd-more-photo img {
+  transform: scale(1.05);
+}
+
+.cd-more-body {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 28px;
+}
+
+.cd-more-category {
+  padding: 6px 13px;
+  border-radius: 999px;
+  color: var(--c-navy);
+  background: var(--c-cyan);
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.cd-more-body h3 {
+  margin: 16px 0 8px;
+  color: var(--c-navy);
+  font-size: 21px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.3;
+}
+
+.camp-details-page .cd-more-body p {
+  margin-bottom: 20px;
+  font-size: 16px;
+  line-height: 1.65;
+}
+
+.cd-more-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: auto;
+  color: var(--c-navy);
+  font-size: 15px;
+  font-weight: 800;
+}
+
+.cd-more-link svg {
+  color: var(--c-icon-bg);
+  transition: transform 0.2s ease;
+}
+
+.cd-more-card:hover .cd-more-link svg {
+  transform: translateX(4px);
+}
+
+/* =========================================
+   NOT FOUND
+   ========================================= */
 
 .cd-not-found {
-  display: grid;
-  min-height: 55vh;
-  place-items: center;
-  padding-block: 70px;
+  padding: 120px 0;
   text-align: center;
 }
 
-.cd-not-found .cd-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.cd-not-found > div svg {
-  margin-bottom: 20px;
-  color: var(--c-blue);
-}
-
 .cd-not-found h1 {
-  margin-bottom: 14px;
-  font-size: clamp(28px, 4vw, 40px);
+  margin: 26px 0 14px;
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
 }
 
 .cd-not-found p {
-  max-width: 540px;
-  margin-bottom: 25px;
-  line-height: 1.8;
+  max-width: 520px;
+  margin: 0 auto 30px;
 }
 
-.cd-not-found .cd-button {
-  flex-wrap: wrap;
+/* =========================================
+   ACCESSIBILITY
+   ========================================= */
+
+.camp-details-page a:focus-visible {
+  outline: 3px solid var(--c-blue-bright);
+  outline-offset: 4px;
 }
 
-/* Large desktop screens */
-
-@media (min-width: 1600px) {
-  .cd-container {
-    width: min(100% - 100px, 1360px);
+@media (prefers-reduced-motion: reduce) {
+  .camp-details-page *,
+  .camp-details-page *::before,
+  .camp-details-page *::after {
+    transition-duration: 0.01ms !important;
   }
 }
 
-/* Tablets and smaller laptops */
+/* =========================================
+   RESPONSIVE
+   ========================================= */
 
-@media (max-width: 950px) {
-  .cd-main-grid {
+@media (min-width: 1800px) {
+  .cd-container {
+    width: min(1360px, calc(100% - 120px));
+  }
+}
+
+@media (max-width: 1100px) {
+  .cd-more-grid {
     grid-template-columns: minmax(0, 1fr);
-    gap: 35px;
+  }
+}
+
+@media (max-width: 960px) {
+  .cd-container {
+    width: calc(100% - 48px);
+  }
+
+  .cd-details-grid {
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .cd-sidebar {
+    position: static;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     align-items: start;
   }
 }
 
-/* Mobile screens */
-
-@media (max-width: 600px) {
+@media (max-width: 760px) {
   .cd-container {
-    width: calc(100% - 32px);
-  }
-
-  .cd-section {
-    padding-block: 45px;
+    width: calc(100% - 40px);
   }
 
   .cd-hero {
-    min-height: 330px;
-    padding-block: 45px;
-    background-position: 60% center;
+    min-height: 0;
+    padding: 40px 0 64px;
   }
 
-  .cd-hero-overlay {
-    background: color-mix(in srgb, var(--c-navy) 86%, transparent);
+  .cd-hero-shade {
+    background: linear-gradient(180deg,
+      color-mix(in srgb, var(--c-navy) 80%, #000) 0%,
+      color-mix(in srgb, var(--c-navy) 74%, transparent) 55%,
+      color-mix(in srgb, var(--c-navy) 90%, #000) 100%);
   }
 
-  .cd-hero h1 {
-    font-size: clamp(32px, 8.5vw, 42px);
-    letter-spacing: -0.8px;
+  .cd-details,
+  .cd-more {
+    padding: 72px 0;
   }
 
-  .cd-hero-content > p,
-  .cd-main-content > p {
-    font-size: 14px;
+  .camp-details-page h2 {
+    font-size: clamp(2rem, 8vw, 2.8rem);
   }
 
-  .cd-breadcrumb {
-    gap: 7px;
-    font-size: 11px;
+  .camp-details-page p {
+    font-size: 17px;
   }
 
-  .cd-image-wrap {
-    margin-bottom: 27px;
+  .camp-details-page .cd-lead {
+    font-size: 18px;
   }
 
-  .cd-main-content h2 {
-    font-size: clamp(27px, 7.5vw, 34px);
+  .cd-photo {
+    margin-bottom: 40px;
+    border-radius: 18px;
   }
 
-  .cd-activities {
-    padding: 22px 18px;
-  }
-
-  .cd-activities h3 {
-    font-size: 20px;
-  }
-
-  .cd-activities li {
-    gap: 9px;
-    font-size: 13px;
-  }
-
-  .cd-note {
-    gap: 10px;
-    padding: 15px;
-  }
-
-  .cd-note p {
-    font-size: 12px;
-  }
-
+  .cd-expect-list,
   .cd-sidebar {
     grid-template-columns: minmax(0, 1fr);
   }
 
-  .cd-info-card,
-  .cd-help-card {
-    padding: 23px;
+  .cd-more-card {
+    grid-template-columns: minmax(0, 1fr);
   }
 
-  .cd-bottom-content {
-    align-items: stretch;
-    flex-direction: column;
-    gap: 23px;
-  }
-
-  .cd-bottom-content h2 {
-    font-size: clamp(27px, 7.5vw, 34px);
-  }
-
-  .cd-bottom-content > .cd-button {
-    width: 100%;
+  .cd-more-photo {
+    min-height: 0;
+    aspect-ratio: 16 / 10;
   }
 }
 
-/* Extra-small phones */
-
-@media (max-width: 360px) {
+@media (max-width: 480px) {
   .cd-container {
-    width: calc(100% - 26px);
-  }
-
-  .cd-eyebrow {
-    font-size: 10px;
-    letter-spacing: 1.4px;
+    width: calc(100% - 32px);
   }
 
   .cd-hero h1 {
-    font-size: 30px;
+    font-size: clamp(2.2rem, 10vw, 2.8rem);
+  }
+
+  .cd-hero-meta li {
+    width: 100%;
+  }
+
+  .cd-photo {
+    aspect-ratio: 4 / 3;
   }
 
   .cd-info-card,
-  .cd-help-card {
-    padding: 19px;
+  .cd-support-card {
+    padding: 26px 22px;
   }
-}
 
-/* Short landscape screens */
-
-@media (max-height: 500px) and (orientation: landscape) {
-  .cd-hero {
-    min-height: 270px;
-    padding-block: 35px;
-  }
-}
-
-/* Accessibility */
-
-@media (prefers-reduced-motion: reduce) {
-  .cd-button {
-    transition: none;
+  .cd-more-body {
+    padding: 24px 22px;
   }
 }

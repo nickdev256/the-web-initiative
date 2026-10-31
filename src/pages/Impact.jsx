@@ -1,39 +1,35 @@
-
-import React from 'react';
 import { Link } from 'react-router-dom';
 import {
   HeartPulse,
   Users,
-  Stethoscope,
-  MapPin,
   ArrowRight,
   HandHeart,
-  Activity,
   ShieldCheck,
+  Tent,
 } from 'lucide-react';
 import Navbar from '../components/Navbar.jsx';
-import Footer from '../components/Footer.jsx'; 
+import Footer from '../components/Footer.jsx';
 import './Impact.css';
 
 const impactAreas = [
   {
     icon: HeartPulse,
-    title: 'Access to Healthcare',
+    title: 'Access to healthcare',
     text: 'Bringing essential health services closer to communities that face barriers to accessing care.',
   },
   {
     icon: Users,
-    title: 'Community Engagement',
+    title: 'Community engagement',
     text: 'Working alongside local communities to understand needs and encourage participation in health initiatives.',
   },
   {
     icon: ShieldCheck,
-    title: 'Health Awareness',
-    text: 'Promoting health education, prevention, and informed decisions through community outreach.',
+    title: 'Health awareness',
+    text: 'Promoting health education, prevention and informed decisions through community outreach.',
   },
   {
     icon: HandHeart,
-    title: 'Partnerships and Support',
+    title: 'Partnerships and support',
     text: 'Building partnerships that help extend the reach and sustainability of community health programmes.',
   },
 ];
@@ -41,21 +37,24 @@ const impactAreas = [
 const activities = [
   {
     number: '01',
-    title: 'Medical Outreach',
+    title: 'Medical outreach',
     text: 'Supporting outreach activities that help connect people with essential healthcare services.',
     image: '/images/outdoor-consultation.jpg',
+    alt: 'Health workers consulting with patients at an outdoor medical camp',
   },
   {
     number: '02',
-    title: 'Health Education',
+    title: 'Health education',
     text: 'Encouraging practical health knowledge and awareness within the communities we serve.',
-    image: '/images/blood-pressure-check.jpg',
+    image: '/images/camps/thumbs/nutrition-education.jpg',
+    alt: 'Our team leading a nutrition session with mothers and children',
   },
   {
     number: '03',
-    title: 'Community Partnerships',
+    title: 'Community partnerships',
     text: 'Collaborating with local stakeholders to identify needs and strengthen community support.',
-    image: '/images/community-outreach.jpg',
+    image: '/images/camps/thumbs/elder-consultation.jpg',
+    alt: 'A volunteer talking with an elderly woman at a community camp',
   },
 ];
 
@@ -65,80 +64,111 @@ export default function Impact() {
       <Navbar />
 
       <main className="impact-page">
+        {/* HERO */}
         <section className="impact-hero">
-          <div className="impact-hero-overlay" />
+          <div className="impact-hero-shade" />
+
           <div className="impact-container impact-hero-content">
-            <span className="impact-eyebrow">
-              <HeartPulse size={17} /> OUR IMPACT
+            <span className="impact-kicker impact-kicker-light">
+              <span className="impact-kicker-dot" />
+              OUR IMPACT
             </span>
 
             <h1>
-              Creating a Healthier
-              <span className="hand-accent hand-accent--on-dark"> Tomorrow, Together.</span>
+              Creating a healthier{' '}
+              <span className="hand-accent hand-accent--on-dark">
+                tomorrow, together.
+              </span>
             </h1>
 
             <p>
-              We work to strengthen communities through healthcare outreach,
-              health education, and partnerships that put people first.
+              We work to strengthen communities through healthcare
+              outreach, health education and partnerships that put
+              people first.
             </p>
 
-            <div className="impact-hero-buttons">
-              <Link to="/medical-camps" className="impact-btn impact-btn-white">
-                Explore Our Medical Camps <ArrowRight size={18} />
+            <div className="impact-hero-actions">
+              <Link to="/medical-camps" className="impact-btn impact-btn-light">
+                Explore our medical camps
+                <ArrowRight size={18} aria-hidden="true" />
               </Link>
-              <Link to="/donate" className="impact-btn impact-btn-outline">
+              <Link to="/donate" className="impact-btn btn-support">
                 Make a Donation
               </Link>
             </div>
           </div>
         </section>
 
-        <section className="impact-intro section-space">
+        {/* WHY IT MATTERS */}
+        <section className="impact-intro">
           <div className="impact-container impact-intro-grid">
             <div className="impact-intro-copy">
-              <span className="impact-section-label">WHY OUR WORK MATTERS</span>
+              <span className="impact-kicker">
+                <span className="impact-kicker-dot" />
+                WHY OUR WORK MATTERS
+              </span>
+
               <h2>
-                Making healthcare more accessible, one community at a time.
+                Making healthcare more accessible,{' '}
+                <span className="hand-accent">one community at a time.</span>
               </h2>
-              <p>
-                Access to healthcare and reliable health information can make
-                a meaningful difference in people's lives. Our work focuses on
-                community-centred initiatives designed to help bridge gaps in
-                access, awareness, and support.
+
+              <p className="impact-lead">
+                Access to healthcare and reliable health information can
+                make a meaningful difference in people’s lives.
               </p>
+
               <p>
-                We believe lasting impact grows through listening, collaboration,
-                and a commitment to treating every person with dignity.
+                Our work focuses on community-centred initiatives that help
+                bridge gaps in access, awareness and support. We believe
+                lasting impact grows through listening, collaboration and a
+                commitment to treating every person with dignity.
               </p>
+
               <Link to="/about" className="impact-text-link">
-                Learn about our organisation <ArrowRight size={17} />
+                Learn about our organisation
+                <span>
+                  <ArrowRight size={18} aria-hidden="true" />
+                </span>
               </Link>
             </div>
 
-            <div className="impact-intro-visual">
-              <img
-                src="/images/camp-village-tents.jpg"
-                alt="Community health outreach activity"
-                onError={(event) => {
-                  event.currentTarget.style.display = 'none';
-                }}
-              />
-              <div className="impact-image-note">
-                <HeartPulse size={25} />
-                <div>
-                  <strong>People first. Community always.</strong>
-                  <span>Working together for better health.</span>
-                </div>
+            <figure className="impact-intro-visual">
+              <div className="impact-intro-photo">
+                <img
+                  src="/images/camp-village-tents.jpg"
+                  alt="Our medical camp tents set up in a village, with a large crowd gathered"
+                  loading="lazy"
+                />
               </div>
-            </div>
+
+              <figcaption className="impact-intro-badge">
+                <span className="impact-icon-box">
+                  <Tent size={22} aria-hidden="true" />
+                </span>
+                <span>
+                  <strong>Camps that reach whole villages</strong>
+                  <span>Bringing care to where families live.</span>
+                </span>
+              </figcaption>
+            </figure>
           </div>
         </section>
 
-        <section className="impact-areas section-space">
+        {/* AREAS OF IMPACT (deep blue) */}
+        <section className="impact-areas" aria-labelledby="impact-areas-title">
           <div className="impact-container">
-            <div className="impact-section-heading">
-              <span className="impact-section-label">OUR AREAS OF IMPACT</span>
-              <h2>Where we focus our efforts</h2>
+            <div className="impact-heading impact-heading-center">
+              <span className="impact-kicker impact-kicker-light">
+                <span className="impact-kicker-dot" />
+                OUR AREAS OF IMPACT
+              </span>
+              <h2 id="impact-areas-title">
+                Where we focus{' '}
+                <span className="hand-accent hand-accent--on-dark">
+                  our efforts.
+                </span>
+              </h2>
               <p>
                 Our initiatives are guided by the needs of the communities
                 we work with.
@@ -151,9 +181,9 @@ export default function Impact() {
 
                 return (
                   <article className="impact-area-card" key={area.title}>
-                    <div className="impact-area-icon">
-                      <Icon size={27} />
-                    </div>
+                    <span className="impact-icon-box">
+                      <Icon size={24} aria-hidden="true" />
+                    </span>
                     <h3>{area.title}</h3>
                     <p>{area.text}</p>
                   </article>
@@ -163,32 +193,36 @@ export default function Impact() {
           </div>
         </section>
 
-        <section className="impact-activities section-space">
+        {/* WORK IN ACTION */}
+        <section className="impact-action" aria-labelledby="impact-action-title">
           <div className="impact-container">
-            <div className="impact-section-heading impact-heading-row">
+            <div className="impact-heading impact-heading-split">
               <div>
-                <span className="impact-section-label">OUR WORK IN ACTION</span>
-                <h2>Turning commitment into action</h2>
+                <span className="impact-kicker">
+                  <span className="impact-kicker-dot" />
+                  OUR WORK IN ACTION
+                </span>
+                <h2 id="impact-action-title">
+                  Turning commitment{' '}
+                  <span className="hand-accent">into action.</span>
+                </h2>
               </div>
               <Link to="/medical-camps" className="impact-text-link">
-                View medical camps <ArrowRight size={17} />
+                View medical camps
+                <span>
+                  <ArrowRight size={18} aria-hidden="true" />
+                </span>
               </Link>
             </div>
 
-            <div className="impact-activity-grid">
+            <div className="impact-action-grid">
               {activities.map((activity) => (
-                <article className="impact-activity-card" key={activity.number}>
-                  <div className="impact-activity-image">
-                    <img
-                      src={activity.image}
-                      alt={activity.title}
-                      onError={(event) => {
-                        event.currentTarget.style.display = 'none';
-                      }}
-                    />
-                    <span>{activity.number}</span>
+                <article className="impact-action-card" key={activity.number}>
+                  <div className="impact-action-photo">
+                    <img src={activity.image} alt={activity.alt} loading="lazy" />
+                    <span className="impact-action-number">{activity.number}</span>
                   </div>
-                  <div className="impact-activity-copy">
+                  <div className="impact-action-body">
                     <h3>{activity.title}</h3>
                     <p>{activity.text}</p>
                   </div>
@@ -197,56 +231,6 @@ export default function Impact() {
             </div>
           </div>
         </section>
-
-        <section className="impact-commitment">
-          <div className="impact-container impact-commitment-inner">
-            <div className="impact-commitment-icon">
-              <Activity size={31} />
-            </div>
-            <div className="impact-commitment-copy">
-              <span className="impact-section-label">OUR COMMITMENT</span>
-              <h2>Impact that starts with people.</h2>
-              <p>
-                We aim to build meaningful, responsible, and community-led
-                programmes. As our work grows, we remain committed to learning
-                from the people and partners we serve.
-              </p>
-            </div>
-            <Link to="/contact" className="impact-btn impact-btn-white">
-              Partner With Us <ArrowRight size={18} />
-            </Link>
-          </div>
-        </section>
-
-        <section className="impact-cta section-space">
-          <div className="impact-container impact-cta-inner">
-            <div>
-              <span className="impact-section-label">BE PART OF THE CHANGE</span>
-              <h2>Help us reach more communities.</h2>
-              <p>
-                Your time, partnership, or contribution can help support
-                community-focused health initiatives.
-              </p>
-            </div>
-            <div className="impact-cta-buttons">
-              <Link to="/donate" className="impact-btn impact-btn-primary btn-support">
-                <HandHeart size={18} /> Make a Donation
-              </Link>
-              <Link to="/contact" className="impact-btn impact-btn-light">
-                Get in Touch <ArrowRight size={18} />
-              </Link>
-            </div>
-          </div>
-        </section>
-
-        <div className="impact-location-strip">
-          <div className="impact-container">
-            <MapPin size={18} />
-            <span>THE WEB INITIATIVE LTD</span>
-            <span className="impact-location-divider">|</span>
-            <span>Jinja, Uganda</span>
-          </div>
-        </div>
       </main>
 
       <Footer />

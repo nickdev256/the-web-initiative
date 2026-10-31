@@ -14,6 +14,7 @@ import {
   Lightbulb,
   ShieldCheck,
   MapPin,
+  Baby,
 } from 'lucide-react';
 
 import Navbar from '../components/Navbar.jsx';
@@ -25,12 +26,12 @@ const glance = [
   {
     icon: MapPin,
     label: 'Where we work',
-    text: 'Based in Jinja, Uganda, reaching nearby communities.',
+    text: 'Headquartered in Jinja, serving marginalised communities in Northern Uganda.',
   },
   {
     icon: Users,
     label: 'Who we serve',
-    text: 'Children and families affected by malnutrition, sickle cell disease and HIV.',
+    text: 'Children living with sickle cell disease, HIV and malnutrition, and their families.',
   },
   {
     icon: Stethoscope,
@@ -47,10 +48,10 @@ const values = [
       'We put people first and approach community wellbeing with care, dignity and respect.',
   },
   {
-    icon: Users,
-    title: 'Community',
+    icon: ShieldCheck,
+    title: 'Trust',
     description:
-      'We believe meaningful progress grows through listening, collaboration and participation.',
+      'We act with honesty and accountability, earning the confidence of the families, partners and donors we serve.',
   },
   {
     icon: HandHeart,
@@ -121,7 +122,7 @@ function About() {
             <p>
               We are a community-based health organisation working to
               reduce malnutrition among children living with sickle
-              cell disease and HIV.
+              cell disease and HIV in Northern Uganda.
             </p>
           </div>
         </section>
@@ -141,11 +142,11 @@ function About() {
               </h2>
 
               <p className="about-lead">
-                The Web Initiative is a community-based organisation 
-                working to reduce, and where possible eliminate, 
-                malnutrition in children living with sickle cell 
-                disease and HIV in marginalised communities of northern 
-                Uganda.
+                The Web Initiative Ltd is a community-based organisation,
+                headquartered in Jinja, working to reduce, and where
+                possible eliminate, malnutrition in children living with
+                sickle cell disease and HIV in marginalised communities of
+                Northern Uganda.
               </p>
 
               <p>
@@ -232,9 +233,9 @@ function About() {
                 </span>
                 <h3>Our Mission</h3>
                 <p>
-                  To support community wellbeing through healthcare,
-                  outreach, collaboration and initiatives that respond to
-                  people’s needs.
+                  To put in place strategies that minimise mortality among
+                  children living with sickle cell anaemia, HIV and
+                  malnutrition.
                 </p>
                 <div className="about-card-note">
                   <CheckCircle2 size={17} aria-hidden="true" />
@@ -248,8 +249,10 @@ function About() {
                 </span>
                 <h3>Our Vision</h3>
                 <p>
-                  Healthier, stronger communities where people are
-                  supported and have opportunities to thrive.
+                  A strong organisation working to lower, and where
+                  possible eliminate, malnutrition in children living
+                  with sickle cell disease and HIV in the marginalised
+                  parts of Northern Uganda.
                 </p>
                 <div className="about-card-note">
                   <CheckCircle2 size={17} aria-hidden="true" />
@@ -277,23 +280,23 @@ function About() {
               <div className="about-history-photo">
                 <img
                   src="/images/about-history.jpg"
-                  alt="One of our clinicians at an outreach site"
+                  alt="A volunteer holding a baby at one of our medical camps"
                   loading="lazy"
                 />
               </div>
 
               <ul className="about-history-points">
                 <li>
-                  <Users size={20} aria-hidden="true" />
-                  Community focused from the start
+                  <Baby size={20} aria-hidden="true" />
+                  Caring for babies and young children
+                </li>
+                <li>
+                  <Stethoscope size={20} aria-hidden="true" />
+                  Health checks at our medical camps
                 </li>
                 <li>
                   <HeartPulse size={20} aria-hidden="true" />
-                  Growing impact through partnerships
-                </li>
-                <li>
-                  <ShieldCheck size={20} aria-hidden="true" />
-                  Building healthier futures
+                  Every child treated with compassion
                 </li>
               </ul>
             </figure>

@@ -1,435 +1,627 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&family=Manrope:wght@500;600;700;800&display=swap');
 
-/* Readability upgrade for The Web Initiative Ltd — Our Team page.
-   Keeps the existing layout, colors, imagery, card styling and responsive behavior. */
+/* =========================================
+   THE WEB INITIATIVE LTD — OUR TEAM
+   Same type, colours and components as the other redesigned pages.
+   ========================================= */
 
 .our-team-page {
-  width: 100%;
   overflow: clip;
+  color: var(--c-navy);
   background: var(--c-white);
+  font-family: 'DM Sans', sans-serif;
+}
+
+.our-team-page *,
+.our-team-page *::before,
+.our-team-page *::after {
+  box-sizing: border-box;
+}
+
+.our-team-page h1,
+.our-team-page h2,
+.our-team-page h3,
+.our-team-page strong {
+  font-family: 'Manrope', sans-serif;
+}
+
+/* Low-specificity reset so each component's own spacing wins */
+:where(.our-team-page) :where(h1, h2, h3, p, figure, ul) {
+  margin: 0;
+}
+
+.our-team-page img {
+  display: block;
+  max-width: 100%;
 }
 
 .ot-container {
-  width: min(100% - 48px, 1240px);
+  width: min(1240px, calc(100% - 64px));
   margin-inline: auto;
 }
 
-.ot-section {
-  padding-block: clamp(55px, 8vw, 100px);
-}
+/* Shared pieces */
 
-.ot-eyebrow {
-  display: inline-block;
-  margin-bottom: 14px;
+.ot-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
   color: var(--c-blue);
   font-size: 13px;
   font-weight: 800;
-  letter-spacing: 1.8px;
+  letter-spacing: 0.16em;
+  line-height: 1.5;
+  text-transform: uppercase;
+}
+
+.ot-kicker-light {
+  color: color-mix(in srgb, var(--c-white) 88%, transparent);
+}
+
+.ot-kicker-dot {
+  flex: 0 0 8px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--c-cyan);
+  box-shadow: 0 0 0 5px color-mix(in srgb, var(--c-cyan) 18%, transparent);
+}
+
+.our-team-page h2 {
+  margin: 20px 0 18px;
+  color: var(--c-navy);
+  font-size: clamp(2.2rem, 3.6vw, 3.4rem);
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  line-height: 1.1;
+  text-wrap: balance;
+}
+
+.our-team-page p {
+  color: var(--c-slate);
+  font-size: 18px;
+  line-height: 1.8;
+}
+
+.our-team-page p + p {
+  margin-top: 16px;
+}
+
+.our-team-page .ot-lead {
+  color: var(--c-navy);
+  font-size: 20px;
   line-height: 1.7;
 }
 
-/* Hero */
-
-/* Our Team Hero Background Photo */
-.ot-hero {
-  position: relative;
-  display: flex;
-  align-items: center;
-  min-height: clamp(360px, 45vw, 520px);
-  padding-block: clamp(65px, 8vw, 100px);
-  isolation: isolate;
-  overflow: hidden;
-
-  background-color: var(--c-navy);
-  background-image: url("/images/medical-team.jpg");
-  background-position: center 40%;
-  background-size: cover;
-  background-repeat: no-repeat;
+.ot-heading {
+  margin-bottom: 48px;
 }
 
-/* Blue overlay for readable text */
-.ot-hero-overlay {
-  position: absolute;
-  z-index: -1;
-  inset: 0;
-
-  background: linear-gradient(
-    90deg,
-    color-mix(in srgb, var(--c-navy) 78%, transparent) 0%,
-    color-mix(in srgb, var(--c-navy) 55%, transparent) 55%,
-    color-mix(in srgb, var(--c-navy) 25%, transparent) 100%
-  );
-
-  pointer-events: none;
+.ot-heading-center {
+  max-width: 760px;
+  margin-inline: auto;
+  text-align: center;
 }
 
-/* Keep hero text visible */
-.ot-hero-content {
-  position: relative;
-  color: var(--c-white);
+.ot-heading-center p {
+  max-width: 640px;
+  margin-inline: auto;
 }
 
-.ot-hero .ot-eyebrow {
-  color: var(--c-cyan);
-}
-
-.ot-hero h1,
-.ot-hero-content > p {
-  color: var(--c-white);
-}
-
-
-.ot-hero-content { color: var(--c-white); }
-.ot-hero .ot-eyebrow { color: var(--c-cyan); }
-
-.ot-hero h1 {
-  margin-bottom: 20px;
-  color: var(--c-white);
-  font-size: clamp(40px, 5.7vw, 68px);
-  font-weight: 800;
-  letter-spacing: -1.5px;
-  line-height: 1.15;
-  overflow-wrap: anywhere;
-}
-
-.ot-hero-content > p {
-  max-width: 720px;
-  color: var(--c-sky);
-  font-size: clamp(17px, 1.6vw, 19px);
-  line-height: 1.85;
-}
-
-.ot-breadcrumb {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 12px;
-  margin-top: 26px;
-  color: var(--c-sky);
-  font-size: 14px;
-}
-
-.ot-breadcrumb a { color: var(--c-cyan); font-weight: 700; }
-
-/* Introduction */
-.ot-intro-grid {
+.ot-icon-box {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  place-items: center;
+  flex: 0 0 52px;
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+}
+
+.ot-btn {
+  display: inline-flex;
   align-items: center;
-  gap: clamp(35px, 7vw, 90px);
-}
-
-.ot-intro-image-wrap,
-.ot-intro-content { min-width: 0; }
-
-.ot-intro-image-wrap {
-  overflow: hidden;
-  aspect-ratio: 5 / 4;
-  border-radius: 12px;
-  background: var(--c-sky);
-}
-
-.ot-intro-image { width: 100%; height: 100%; object-fit: cover; }
-
-.ot-intro-content h2 {
-  margin-bottom: 22px;
-  font-size: clamp(32px, 4vw, 47px);
-  font-weight: 800;
-  letter-spacing: -1px;
-  line-height: 1.2;
-}
-
-.ot-intro-content > p {
-  margin-bottom: 17px;
+  justify-content: center;
+  gap: 10px;
+  min-height: 54px;
+  margin-top: 30px;
+  padding: 14px 26px;
+  border-radius: 999px;
+  color: var(--c-white);
+  background: var(--c-blue);
+  font-family: 'Manrope', sans-serif;
   font-size: 16px;
-  line-height: 1.9;
+  font-weight: 800;
+  text-decoration: none;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.ot-btn:hover {
+  background: var(--c-navy);
+  transform: translateY(-2px);
 }
 
 .ot-text-link {
   display: inline-flex;
   align-items: center;
-  flex-wrap: wrap;
-  gap: 9px;
-  min-height: 48px;
-  margin-top: 8px;
-  color: var(--c-blue);
-  font-size: 15px;
+  gap: 14px;
+  margin-top: 34px;
+  color: var(--c-navy);
+  font-size: 16px;
   font-weight: 800;
-}
-.ot-text-link:hover { color: var(--c-blue-deep); }
-
-/* Shared values */
-.ot-values { background: var(--c-paper); }
-
-.ot-section-heading {
-  max-width: 760px;
-  margin: 0 auto clamp(32px, 5vw, 48px);
-  text-align: center;
+  text-decoration: none;
 }
 
-.ot-section-heading h2 {
-  margin-bottom: 16px;
-  font-size: clamp(32px, 4vw, 45px);
+.ot-text-link > span {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border: 1px solid var(--c-line);
+  border-radius: 50%;
+  transition: background 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
+}
+
+.ot-text-link:hover > span {
+  border-color: var(--c-blue);
+  background: var(--c-blue);
+  transform: translateX(3px);
+}
+
+/* =========================================
+   HERO
+   ========================================= */
+
+.ot-hero {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  align-items: center;
+  min-height: min(560px, calc(100svh - 120px));
+  padding: 90px 0 96px;
+  overflow: hidden;
+  background: var(--c-navy) url('/images/medical-team.jpg') center 35% / cover no-repeat;
+}
+
+.ot-hero-shade {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background:
+    linear-gradient(90deg,
+      color-mix(in srgb, var(--c-navy) 95%, #000) 0%,
+      color-mix(in srgb, var(--c-navy) 86%, transparent) 42%,
+      color-mix(in srgb, var(--c-navy) 35%, transparent) 100%),
+    linear-gradient(0deg, color-mix(in srgb, var(--c-navy) 55%, transparent), transparent 45%);
+}
+
+.ot-hero h1 {
+  max-width: 780px;
+  margin: 22px 0;
+  color: var(--c-white);
+  font-size: clamp(2.6rem, 5vw, 4.4rem);
   font-weight: 800;
-  letter-spacing: -0.8px;
+  letter-spacing: -0.035em;
+  line-height: 1.06;
+  text-wrap: balance;
+  text-shadow: 0 2px 24px rgba(0, 0, 0, 0.25);
+}
+
+.ot-hero-content > p {
+  max-width: 600px;
+  color: color-mix(in srgb, var(--c-white) 90%, transparent);
+  font-size: clamp(18px, 1.5vw, 21px);
+  line-height: 1.65;
+}
+
+/* =========================================
+   INTRO
+   ========================================= */
+
+.ot-intro {
+  padding: 110px 0;
+}
+
+.ot-intro-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  align-items: center;
+  gap: clamp(50px, 7vw, 100px);
+}
+
+.ot-intro-copy {
+  max-width: 600px;
+}
+
+.ot-intro-visual {
+  position: relative;
+  padding-bottom: 48px;
+}
+
+.ot-intro-photo {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border-radius: 24px;
+  background: var(--c-line);
+  box-shadow: 0 30px 70px color-mix(in srgb, var(--c-navy) 14%, transparent);
+}
+
+.ot-intro-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 60% center;
+}
+
+.ot-intro-badge {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: min(360px, 78%);
+  padding: 18px 20px;
+  border: 1px solid var(--c-line);
+  border-radius: 18px;
+  background: var(--c-white);
+  box-shadow: 0 24px 55px color-mix(in srgb, var(--c-navy) 16%, transparent);
+}
+
+.ot-intro-badge > span:last-child {
+  display: grid;
+  gap: 3px;
+}
+
+.ot-intro-badge strong {
+  color: var(--c-navy);
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.ot-intro-badge > span:last-child > span {
+  color: var(--c-slate);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* =========================================
+   LEADERSHIP AND BOARD (deep blue)
+   Label on the left, statement on the right, then an open grid of
+   square portraits with name, role and country underneath.
+   ========================================= */
+
+.ot-teams {
+  padding: 110px 0 120px;
+  background: var(--c-navy);
+}
+
+.ot-teams-intro {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.6fr);
+  gap: 32px 60px;
+  margin-bottom: 88px;
+}
+
+.our-team-page .ot-group-title {
+  align-self: start;
+  width: fit-content;
+  padding-bottom: 6px;
+  border-bottom: 3px solid var(--c-cyan);
+  color: var(--c-cyan);
+  font-family: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  line-height: 1.3;
+  text-transform: uppercase;
+}
+
+.our-team-page .ot-teams-statement h2 {
+  margin: 0 0 26px;
+  color: var(--c-white);
+  font-size: clamp(1.6rem, 2.4vw, 2.2rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
   line-height: 1.25;
 }
 
-.ot-section-heading > p {
-  font-size: 16px;
-  line-height: 1.85;
+.our-team-page .ot-teams-statement p {
+  max-width: 760px;
+  color: color-mix(in srgb, var(--c-white) 72%, transparent);
+  font-size: 18px;
+  line-height: 1.7;
 }
 
-.ot-values-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 24px;
-}
-
-.ot-value-card {
-  min-width: 0;
-  padding: clamp(24px, 3vw, 34px);
-  border: 1px solid var(--c-line);
-  border-radius: 11px;
-  background: var(--c-white);
-  box-shadow: 0 8px 25px color-mix(in srgb, var(--c-navy) 4%, transparent);
-}
-
-.ot-value-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 58px;
-  height: 58px;
-  margin-bottom: 21px;
-  border-radius: 10px;
-  background: var(--c-sky);
-  color: var(--c-blue);
-}
-
-.ot-value-card h3 {
-  margin-bottom: 12px;
-  font-size: 22px;
-  font-weight: 800;
-}
-
-.ot-value-card > p {
-  font-size: 16px;
-  line-height: 1.85;
-}
-
-/* Team cards */
-.ot-team-grid {
+.ot-people-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 22px;
+  gap: 72px clamp(28px, 4vw, 64px);
+  padding: 0;
+  list-style: none;
 }
 
-.ot-member-card {
+.ot-person {
   min-width: 0;
+}
+
+.ot-person-photo {
+  aspect-ratio: 1 / 1;
+  margin-bottom: 26px;
   overflow: hidden;
-  border: 1px solid var(--c-line);
-  border-radius: 11px;
-  background: var(--c-white);
-  box-shadow: 0 8px 25px color-mix(in srgb, var(--c-navy) 5%, transparent);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  background: var(--c-blue-deep);
 }
 
-.ot-member-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 14px 30px color-mix(in srgb, var(--c-navy) 10%, transparent);
-}
-
-.ot-member-image-wrap { overflow: hidden; background: var(--c-sky); }
-
-.ot-member-image {
+/* Portraits are shown in black and white so different photos sit
+   together as one set. The original colour files are unchanged. */
+.ot-person-photo img {
   width: 100%;
-  aspect-ratio: 4 / 4.2;
+  height: 100%;
   object-fit: cover;
-  transition: transform 0.3s ease;
+  object-position: center 22%;
+  filter: grayscale(1) contrast(1.05);
+  transition: transform 0.6s ease;
 }
 
-.ot-member-card:hover .ot-member-image { transform: scale(1.035); }
-
-.ot-member-content { padding: 23px; }
-
-.ot-member-role {
-  display: block;
-  margin-bottom: 9px;
-  color: var(--c-blue);
-  font-size: 12px;
-  font-weight: 800;
-  letter-spacing: 0.7px;
-  line-height: 1.7;
-  text-transform: uppercase;
-  overflow-wrap: anywhere;
+.ot-person:hover .ot-person-photo img {
+  transform: scale(1.04);
 }
 
-.ot-member-content h3 {
-  margin-bottom: 12px;
-  font-size: 21px;
-  font-weight: 800;
-  line-height: 1.35;
-  overflow-wrap: anywhere;
+.ot-person-placeholder {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
 }
 
-.ot-member-content > p {
-  font-size: 15px;
-  line-height: 1.85;
-  overflow-wrap: anywhere;
+.ot-person-placeholder svg.lucide {
+  width: 96px;
+  height: 96px;
+  padding: 18px;
+  border-radius: 50%;
+  color: var(--c-cyan);
+  background: var(--c-icon-bg);
 }
 
-.ot-team-note {
-  max-width: 850px;
-  margin: 28px auto 0;
+/* Names use the handwritten Kalam font, like the accent words in headings */
+.our-team-page .ot-person h3 {
+  margin: 0 0 10px;
+  color: var(--c-white);
+  font-family: var(--font-hand);
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+}
+
+.our-team-page .ot-person-role {
+  margin: 0 0 4px;
+  color: var(--c-cyan);
   font-size: 14px;
-  line-height: 1.85;
-  text-align: center;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  line-height: 1.5;
+  text-transform: uppercase;
 }
 
-/* Call to action */
-.ot-cta {
-  padding-block: clamp(50px, 7vw, 80px);
-  background: var(--c-blue);
+.our-team-page .ot-person-location {
+  margin: 0;
+  color: color-mix(in srgb, var(--c-white) 72%, transparent);
+  font-size: 16px;
+  line-height: 1.5;
 }
 
-.ot-cta-content {
+/* =========================================
+   JOIN US
+   ========================================= */
+
+.ot-join {
+  padding: 110px 0;
+}
+
+.ot-join-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  align-items: center;
+  gap: clamp(40px, 7vw, 100px);
+}
+
+.ot-join-copy {
+  max-width: 540px;
+}
+
+.ot-join-list {
+  display: grid;
+  gap: 16px;
+  padding: 0;
+  list-style: none;
+}
+
+.ot-join-list li {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 28px 40px;
+  gap: 18px;
+  padding: 26px 28px;
+  border: 1px solid var(--c-line);
+  border-radius: 20px;
+  background: var(--c-white);
+  box-shadow: 0 14px 34px color-mix(in srgb, var(--c-navy) 7%, transparent);
 }
 
-.ot-cta-content > div { flex: 1 1 400px; min-width: 0; }
-.ot-cta .ot-eyebrow { color: var(--c-sky); }
+.ot-join-list li > span:last-child {
+  display: grid;
+  gap: 4px;
+}
 
-.ot-cta h2 {
-  margin-bottom: 15px;
-  color: var(--c-white);
-  font-size: clamp(31px, 4vw, 45px);
+.ot-join-list strong {
+  color: var(--c-navy);
+  font-size: 19px;
   font-weight: 800;
-  line-height: 1.25;
 }
 
-.ot-cta-content > div > p {
-  max-width: 650px;
-  color: var(--c-sky);
+.ot-join-list li > span:last-child > span {
+  color: var(--c-slate);
   font-size: 16px;
-  line-height: 1.9;
+  line-height: 1.6;
 }
 
-.ot-button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 9px;
-  min-height: 52px;
-  padding: 13px 22px;
-  border: 2px solid var(--c-white);
-  border-radius: 6px;
-  font-size: 15px;
-  font-weight: 800;
-  text-align: center;
-  transition: background 0.2s ease, color 0.2s ease;
+/* =========================================
+   ACCESSIBILITY
+   ========================================= */
+
+.our-team-page a:focus-visible {
+  outline: 3px solid var(--c-blue-bright);
+  outline-offset: 4px;
 }
 
-.ot-button-white { background: var(--c-white); color: var(--c-blue-deep); }
-.ot-button-white:hover { background: var(--c-sky); }
-
-/* Large desktops */
-@media (min-width: 1600px) {
-  .ot-container { width: min(100% - 100px, 1360px); }
-  .ot-team-grid { gap: 28px; }
-}
-
-/* Laptops and tablets */
-@media (max-width: 1100px) {
-  .ot-team-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .ot-values-grid { gap: 16px; }
-}
-
-@media (max-width: 800px) {
-  .ot-container { width: calc(100% - 40px); }
-  .ot-intro-grid { grid-template-columns: minmax(0, 1fr); gap: 30px; }
-  .ot-intro-image-wrap { width: min(100%, 650px); margin-inline: auto; }
-  .ot-values-grid { grid-template-columns: minmax(0, 1fr); }
-  .ot-value-card { padding: 25px; }
-}
-
-/* Mobile phones */
-@media (max-width: 600px) {
-  .ot-container { width: calc(100% - 32px); }
-  .ot-section { padding-block: 50px; }
-  .ot-hero { min-height: 310px; padding-block: 55px; background-position: 60% center; }
-  .ot-hero-overlay { background: color-mix(in srgb, var(--c-navy) 85%, transparent); }
-  .ot-hero h1 { font-size: clamp(36px, 9vw, 46px); letter-spacing: -0.8px; }
-
-  .ot-hero-content > p,
-  .ot-intro-content > p,
-  .ot-section-heading > p,
-  .ot-value-card > p,
-  .ot-member-content > p,
-  .ot-team-note,
-  .ot-cta-content > div > p {
-    font-size: 15px;
-    line-height: 1.8;
-  }
-
-  .ot-breadcrumb { gap: 9px; font-size: 13px; }
-
-  .ot-intro-content h2,
-  .ot-section-heading h2,
-  .ot-cta h2 {
-    font-size: clamp(30px, 7.8vw, 38px);
-  }
-
-  .ot-section-heading { margin-bottom: 30px; }
-  .ot-team-grid { grid-template-columns: minmax(0, 1fr); gap: 18px; }
-  .ot-member-image { aspect-ratio: 5 / 3; }
-  .ot-member-content { padding: 21px; }
-  .ot-member-card:hover { transform: none; }
-  .ot-cta-content { align-items: stretch; flex-direction: column; gap: 23px; }
-  .ot-button { width: 100%; }
-}
-
-/* Very small phones */
-@media (max-width: 360px) {
-  .ot-container { width: calc(100% - 26px); }
-  .ot-eyebrow { font-size: 11px; letter-spacing: 1.2px; }
-  .ot-hero h1 { font-size: 34px; }
-
-  .ot-hero-content > p,
-  .ot-intro-content > p,
-  .ot-section-heading > p,
-  .ot-value-card > p,
-  .ot-member-content > p,
-  .ot-team-note,
-  .ot-cta-content > div > p {
-    font-size: 14px;
-  }
-
-  .ot-value-card,
-  .ot-member-content { padding: 19px; }
-}
-
-/* Short landscape displays */
-@media (max-height: 500px) and (orientation: landscape) {
-  .ot-hero { min-height: 270px; padding-block: 35px; }
-}
-
-/* Reduced motion accessibility */
 @media (prefers-reduced-motion: reduce) {
-  .ot-member-card,
-  .ot-member-image,
-  .ot-button { transition: none; }
-
-  .ot-member-card:hover,
-  .ot-member-card:hover .ot-member-image { transform: none; }
+  .our-team-page *,
+  .our-team-page *::before,
+  .our-team-page *::after {
+    transition-duration: 0.01ms !important;
+  }
 }
 
-/* Apply Poppins to every paragraph and note on this page */
-.our-team-page p {
-  font-family: 'Poppins', sans-serif;
+/* =========================================
+   RESPONSIVE
+   ========================================= */
+
+@media (min-width: 1800px) {
+  .ot-container {
+    width: min(1360px, calc(100% - 120px));
+  }
+}
+
+@media (max-width: 1100px) {
+  .ot-people-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 900px) {
+  .ot-container {
+    width: calc(100% - 48px);
+  }
+
+  .ot-teams-intro {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .ot-intro-grid,
+  .ot-join-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 48px;
+  }
+
+  .ot-intro-visual {
+    width: min(100%, 560px);
+    margin-inline: auto;
+  }
+
+  .ot-intro-copy,
+  .ot-join-copy {
+    max-width: 640px;
+  }
+}
+
+@media (max-width: 760px) {
+  .ot-container {
+    width: calc(100% - 40px);
+  }
+
+  .ot-hero {
+    min-height: 0;
+    padding: 64px 0 72px;
+    background-position: 30% center;
+  }
+
+  .ot-hero-shade {
+    background: linear-gradient(180deg,
+      color-mix(in srgb, var(--c-navy) 80%, #000) 0%,
+      color-mix(in srgb, var(--c-navy) 74%, transparent) 55%,
+      color-mix(in srgb, var(--c-navy) 90%, #000) 100%);
+  }
+
+  .ot-intro,
+  .ot-join {
+    padding: 76px 0;
+  }
+
+  .ot-teams {
+    padding: 76px 0 84px;
+  }
+
+  .ot-teams-intro {
+    margin-bottom: 56px;
+  }
+
+  .ot-people-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 48px 24px;
+  }
+
+  .our-team-page .ot-person h3 {
+    font-size: 22px;
+  }
+
+  .ot-heading {
+    margin-bottom: 32px;
+  }
+
+  .our-team-page h2 {
+    font-size: clamp(2.1rem, 8vw, 3rem);
+  }
+
+  .our-team-page p {
+    font-size: 17px;
+  }
+
+  .our-team-page .ot-lead {
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 420px) {
+  .ot-people-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 44px;
+  }
+}
+
+@media (max-width: 600px) {
+  .ot-btn {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .ot-container {
+    width: calc(100% - 32px);
+  }
+
+  .ot-hero h1 {
+    font-size: clamp(2.3rem, 10.5vw, 2.9rem);
+  }
+
+  .ot-intro-photo {
+    width: 100%;
+    border-radius: 18px;
+  }
+
+  .ot-intro-visual {
+    padding-bottom: 0;
+  }
+
+  .ot-intro-badge {
+    position: relative;
+    width: calc(100% - 24px);
+    margin: -36px auto 0;
+  }
+
+  .ot-join-list li {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 22px;
+  }
 }

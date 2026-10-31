@@ -358,7 +358,6 @@
 .about-purpose {
   padding: 104px 0 110px;
   background: var(--c-sky);
-  scroll-margin-top: 90px;
 }
 
 .about-purpose .about-heading h2 {
@@ -441,7 +440,6 @@
 
 .about-history {
   padding: 110px 0;
-  scroll-margin-top: 90px;
 }
 
 .about-history-grid {
@@ -516,7 +514,6 @@
 .about-objectives {
   padding: 104px 0 112px;
   background: var(--c-paper);
-  scroll-margin-top: 90px;
 }
 
 .about-objectives-grid {
@@ -562,7 +559,6 @@
 .about-values {
   padding: 104px 0 112px;
   background: var(--c-navy);
-  scroll-margin-top: 90px;
 }
 
 .about-values .about-heading h2 {

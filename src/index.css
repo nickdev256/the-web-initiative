@@ -472,7 +472,7 @@ a:focus-visible {
   .navbar-donate,
   .navbar-link,
   .dropdown-toggle,
-  .gallery-photo-card
+  .gallery-photo
 ) svg.lucide {
   color: inherit;
 }
@@ -484,13 +484,13 @@ a:focus-visible {
   .home-card-icon,
   .home-priority-icon,
   .about-icon-box,
-  .ms-service-icon,
-  .mc-step-icon,
-  .cd-info-icon,
-  .ot-value-icon,
-  .impact-area-icon,
-  .donate-use-icon,
-  .gallery-cta-icon
+  .ms-icon-box,
+  .mc-icon-box,
+  .cd-icon-box,
+  .ot-icon-box,
+  .impact-icon-box,
+  .contact-icon-box,
+  .donate-icon-box
 ) {
   border-color: transparent;
   background: var(--c-icon-bg);
@@ -503,41 +503,26 @@ a:focus-visible {
   .about-card-note,
   .about-text-link > span,
   .ms-service-link,
-  .ms-promise,
-  .ms-process-caption,
-  .mc-primary-link,
-  .mc-camp-meta span,
+  .ms-focus-list li,
+  .ms-text-link > span,
+  .mc-text-link > span,
+  .mc-camp-meta li,
   .mc-camp-link,
-  .mc-image-badge,
-  .cd-activities li,
+  .cd-expect-list li,
   .cd-note,
-  .cd-help-card,
-  .cd-text-link,
-  .ot-text-link,
-  .impact-text-link,
-  .impact-image-note,
-  .impact-location-strip,
-  .impact-location-strip .impact-container,
-  .donate-trust-item,
-  .donate-hero-image-caption,
-  .donate-contact-card,
-  .donate-location,
-  .gallery-location,
-  .contact-location-strip
+  .cd-text-link > span,
+  .ot-text-link > span,
+  .impact-text-link > span,
+  .contact-text-link > span,
+  .donate-text-link > span,
+  .donate-faq-item summary
 ) > svg.lucide {
   color: var(--c-icon-bg);
 }
 
 /* Arrow circles fill with blue on hover, so the arrow turns white */
-:root .home-editorial-link:hover > span svg.lucide {
+:root :is(.home-editorial-link, .mc-text-link, .cd-text-link, .ot-text-link, .impact-text-link, .contact-text-link, .donate-text-link):hover > span svg.lucide {
   color: var(--c-white);
-}
-
-/* Large decorative watermark icons stay a faint cyan tint */
-:root :is(
-  .contact-map-decoration
-) svg.lucide {
-  color: color-mix(in srgb, var(--c-cyan) 35%, transparent);
 }
 
 /* Make a Donation buttons use their own blue (--c-support) everywhere */
@@ -614,5 +599,10 @@ html:root .btn-support:hover {
 
 /* About page: arrow circle fills with blue on hover */
 :root .about-text-link:hover > span svg.lucide {
+  color: var(--c-white);
+}
+
+/* Medical Services: arrow circle fills with blue on hover */
+:root .ms-text-link:hover > span svg.lucide {
   color: var(--c-white);
 }

@@ -3,7 +3,8 @@ import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
 // Site-wide motion and navigation behaviour, run on every route change:
-// - start each new page at the top (or at the #section in the link)
+// - start each new page at the top (or glide to the #section in the link)
+// - glide back to the top when a link points to the page already open
 // - slide page content into view as it scrolls on screen
 //
 // Elements are only hidden once JavaScript has tagged them, and any
@@ -20,15 +21,45 @@ function prefersReducedMotion() {
   return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 }
 
+// Smooth scrolling, unless the visitor has asked for less motion
+function scrollBehavior() {
+  return prefersReducedMotion() ? 'auto' : 'smooth';
+}
+
 function scrollToTarget(hash) {
   if (hash) {
     const target = document.getElementById(decodeURIComponent(hash.slice(1)));
     if (target) {
-      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      // Wait a moment so photos above the section have their size,
+      // otherwise the scroll can stop short of the section.
+      window.setTimeout(() => {
+        target.scrollIntoView({ behavior: scrollBehavior(), block: 'start' });
+      }, 120);
       return;
     }
   }
   window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+}
+
+// A link to the page that is already open would otherwise do nothing,
+// so glide back to the top instead.
+function handleSamePageClick(event) {
+  // React Router's links mark the click as handled, so that is not checked here
+  if (event.button !== 0) return;
+  if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+
+  const link = event.target.closest('a[href]');
+  if (!link || link.target === '_blank') return;
+
+  const url = new URL(link.href, window.location.href);
+  const samePage =
+    url.origin === window.location.origin &&
+    url.pathname === window.location.pathname &&
+    !url.hash;
+
+  if (samePage && window.scrollY > 0) {
+    window.scrollTo({ top: 0, behavior: scrollBehavior() });
+  }
 }
 
 // Pick the blocks to animate: the content blocks inside each section,
@@ -70,6 +101,11 @@ function PageEffects() {
   useEffect(() => {
     scrollToTarget(hash);
   }, [pathname, hash]);
+
+  useEffect(() => {
+    document.addEventListener('click', handleSamePageClick);
+    return () => document.removeEventListener('click', handleSamePageClick);
+  }, []);
 
   useEffect(() => {
     const main = document.querySelector('main');

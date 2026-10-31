@@ -1,6 +1,6 @@
 
 import { useEffect, useState } from 'react';
-import { Link, NavLink, useNavigate, useLocation } from 'react-router-dom';
+import { Link, NavLink, useLocation } from 'react-router-dom';
 import {
   Menu,
   X,
@@ -11,50 +11,16 @@ import {
   Mail,
   CalendarDays,
   ArrowRight,
-  Info,
-  Target,
-  History,
-  Flag,
   Tent,
   Images,
 } from 'lucide-react';
 import { CONTACT_EMAIL } from '../config.js';
+import SiteSearch from './SiteSearch.jsx';
 import './Navbar.css';
 
 const navLinks = [
   { label: 'Home', path: '/' },
-  {
-    id: 'about',
-    label: 'About Us',
-    path: '/about',
-    matches: ['/about'],
-    dropdown: [
-      {
-        label: 'Overview',
-        path: '/about',
-        icon: Info,
-        description: 'Who we are and what we do',
-      },
-      {
-        label: 'Our Mission & Vision',
-        path: '/about#mission-vision',
-        icon: Target,
-        description: 'The purpose that guides us',
-      },
-      {
-        label: 'Our History',
-        path: '/about#our-history',
-        icon: History,
-        description: 'How our journey began',
-      },
-      {
-        label: 'Our Objectives',
-        path: '/about#objectives',
-        icon: Flag,
-        description: 'What we are working towards',
-      },
-    ],
-  },
+  { label: 'About Us', path: '/about' },
   { label: 'Medical Services', path: '/medical-services' },
   {
     id: 'camps',
@@ -81,21 +47,14 @@ const navLinks = [
   { label: 'Contact', path: '/contact' },
 ];
 
-// Every page reachable from the menu, including dropdown items, for search.
-const searchablePages = navLinks.flatMap((link) =>
-  link.dropdown ? [link, ...link.dropdown] : [link]
-);
-
 const DESKTOP_MIN_WIDTH = 1100;
 
 function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState(null);
   const [searchOpen, setSearchOpen] = useState(false);
-  const [searchTerm, setSearchTerm] = useState('');
   const [scrolled, setScrolled] = useState(false);
 
-  const navigate = useNavigate();
   const location = useLocation();
 
   const closeMenu = () => {
@@ -118,6 +77,9 @@ function Navbar() {
     const handleOutsideClick = (event) => {
       if (!event.target.closest('.navbar-dropdown')) {
         setOpenDropdown(null);
+      }
+      if (!event.target.closest('.desktop-search-wrap')) {
+        setSearchOpen(false);
       }
     };
 
@@ -142,25 +104,7 @@ function Navbar() {
 
   useEffect(() => {
     closeMenu();
-    setSearchTerm('');
   }, [location.pathname, location.hash]);
-
-  const handleSearch = (event) => {
-    event.preventDefault();
-
-    const query = searchTerm.trim().toLowerCase();
-    if (!query) return;
-
-    const match = searchablePages.find((page) =>
-      page.label.toLowerCase().includes(query)
-    );
-
-    if (match) {
-      navigate(match.path);
-      closeMenu();
-      setSearchTerm('');
-    }
-  };
 
   const toggleDropdown = (id) => {
     setOpenDropdown((current) => (current === id ? null : id));
@@ -326,21 +270,7 @@ function Navbar() {
             </div>
 
             <div className="mobile-search-area">
-              <form className="mobile-search-form" onSubmit={handleSearch}>
-                <Search size={19} />
-
-                <input
-                  type="search"
-                  placeholder="Search pages..."
-                  aria-label="Search website pages"
-                  value={searchTerm}
-                  onChange={(event) => setSearchTerm(event.target.value)}
-                />
-
-                <button type="submit">Search</button>
-              </form>
-
-              <p>Search for Home, Medical Services, Gallery and more.</p>
+              <SiteSearch variant="drawer" onNavigate={closeMenu} />
             </div>
 
             <Link
@@ -366,20 +296,11 @@ function Navbar() {
               </button>
 
               {searchOpen && (
-                <form className="desktop-search-form" onSubmit={handleSearch}>
-                  <input
-                    type="search"
-                    placeholder="Search pages..."
-                    aria-label="Search website pages"
-                    autoFocus
-                    value={searchTerm}
-                    onChange={(event) => setSearchTerm(event.target.value)}
-                  />
-
-                  <button type="submit" aria-label="Submit search">
-                    <Search size={18} />
-                  </button>
-                </form>
+                <SiteSearch
+                  variant="panel"
+                  autoFocus
+                  onNavigate={() => setSearchOpen(false)}
+                />
               )}
             </div>
 
