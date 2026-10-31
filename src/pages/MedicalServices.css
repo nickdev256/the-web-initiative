@@ -1,847 +1,655 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap');
 
+/* =========================================
+   THE WEB INITIATIVE LTD — MEDICAL SERVICES
+   Same type, colours and components as Home and About.
+   ========================================= */
 
 .medical-services-page {
-  width: 100%;
   overflow: clip;
+  color: var(--c-navy);
   background: var(--c-white);
+  font-family: 'DM Sans', sans-serif;
+}
+
+.medical-services-page *,
+.medical-services-page *::before,
+.medical-services-page *::after {
+  box-sizing: border-box;
+}
+
+.medical-services-page h1,
+.medical-services-page h2,
+.medical-services-page h3,
+.medical-services-page strong {
+  font-family: 'Manrope', sans-serif;
+}
+
+.medical-services-page h1,
+.medical-services-page h2,
+.medical-services-page h3,
+.medical-services-page p,
+.medical-services-page figure,
+.medical-services-page ul,
+.medical-services-page ol {
+  margin: 0;
+}
+
+.medical-services-page img {
+  display: block;
+  max-width: 100%;
 }
 
 .ms-container {
-  width: min(100% - 48px, 1240px);
+  width: min(1240px, calc(100% - 64px));
   margin-inline: auto;
 }
 
-.ms-section {
-  padding-block: clamp(55px, 8vw, 100px);
+/* Shared pieces */
+
+.ms-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--c-blue);
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  line-height: 1.5;
+  text-transform: uppercase;
 }
 
-.ms-eyebrow {
-  display: inline-block;
-  margin-bottom: 15px;
-  color: var(--c-blue);
-  font-size: 12px;
+.ms-kicker-light {
+  color: color-mix(in srgb, var(--c-white) 88%, transparent);
+}
+
+.ms-kicker-dot {
+  flex: 0 0 8px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--c-cyan);
+  box-shadow: 0 0 0 5px color-mix(in srgb, var(--c-cyan) 18%, transparent);
+}
+
+.medical-services-page h2 {
+  margin: 20px 0 18px;
+  color: var(--c-navy);
+  font-size: clamp(2.2rem, 3.6vw, 3.4rem);
   font-weight: 800;
-  letter-spacing: 2.2px;
+  letter-spacing: -0.035em;
+  line-height: 1.1;
+  text-wrap: balance;
+}
+
+.medical-services-page p {
+  color: var(--c-slate);
+  font-size: 18px;
+  line-height: 1.8;
+}
+
+.medical-services-page p + p {
+  margin-top: 16px;
+}
+
+.medical-services-page .ms-lead {
+  color: var(--c-navy);
+  font-size: 20px;
   line-height: 1.7;
 }
 
-/* Hero */
+.ms-heading {
+  margin-bottom: 48px;
+}
+
+.ms-heading-center {
+  max-width: 760px;
+  margin-inline: auto;
+  text-align: center;
+}
+
+.ms-heading-center p {
+  max-width: 640px;
+  margin-inline: auto;
+}
+
+.ms-icon-box {
+  display: grid;
+  place-items: center;
+  flex: 0 0 52px;
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+}
+
+.ms-text-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 34px;
+  color: var(--c-navy);
+  font-size: 16px;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.ms-text-link > span {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border: 1px solid var(--c-line);
+  border-radius: 50%;
+  transition: background 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
+}
+
+.ms-text-link:hover > span {
+  border-color: var(--c-blue);
+  background: var(--c-blue);
+  transform: translateX(3px);
+}
+
+/* =========================================
+   HERO
+   ========================================= */
 
 .ms-hero {
   position: relative;
+  isolation: isolate;
   display: flex;
   align-items: center;
-  min-height: clamp(300px, 37vw, 440px);
-  padding-block: clamp(55px, 8vw, 90px);
-  isolation: isolate;
-  background-color: var(--c-navy);
-  background-image: url('/images/healthcare-team.jpg');
-  background-position: center;
-  background-size: cover;
+  min-height: min(560px, calc(100svh - 120px));
+  padding: 90px 0 96px;
+  overflow: hidden;
+  background: var(--c-navy) url('/images/services-hero.jpg') center 30% / cover no-repeat;
 }
 
-.ms-hero-overlay {
+.ms-hero-shade {
   position: absolute;
   z-index: -1;
   inset: 0;
-  background: linear-gradient(
-    90deg,
-    color-mix(in srgb, var(--c-navy) 94%, transparent),
-    color-mix(in srgb, var(--c-navy) 70%, transparent)
-  );
-}
-
-.ms-hero-content {
-  color: var(--c-white);
-}
-
-.ms-hero .ms-eyebrow {
-  color: var(--c-cyan);
-}
-
-.ms-hero h1 {
-  margin-bottom: 20px;
-  color: var(--c-white);
-  font-size: clamp(36px, 5.5vw, 64px);
-  font-weight: 800;
-  letter-spacing: -1.5px;
-  line-height: 1.15;
-  overflow-wrap: anywhere;
-}
-
-.ms-hero-content > p {
-  max-width: 690px;
-  color: var(--c-sky);
-  font-size: clamp(15px, 1.6vw, 18px);
-  line-height: 1.85;
+  background:
+    linear-gradient(90deg,
+      color-mix(in srgb, var(--c-navy) 95%, #000) 0%,
+      color-mix(in srgb, var(--c-navy) 86%, transparent) 42%,
+      color-mix(in srgb, var(--c-navy) 35%, transparent) 100%),
+    linear-gradient(0deg, color-mix(in srgb, var(--c-navy) 55%, transparent), transparent 45%);
 }
 
 .ms-breadcrumb {
   display: flex;
-  flex-wrap: wrap;
   align-items: center;
-  gap: 12px;
-  margin-top: 26px;
-  color: var(--c-sky);
-  font-size: 13px;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 26px;
+  color: color-mix(in srgb, var(--c-white) 80%, transparent);
+  font-size: 15px;
 }
 
 .ms-breadcrumb a {
-  color: var(--c-cyan);
-  font-weight: 700;
+  color: var(--c-white);
+  text-decoration: none;
 }
 
-/* Introduction */
+.ms-breadcrumb a:hover {
+  text-decoration: underline;
+}
+
+.ms-hero h1 {
+  max-width: 780px;
+  margin: 22px 0;
+  color: var(--c-white);
+  font-size: clamp(2.6rem, 5vw, 4.4rem);
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  line-height: 1.06;
+  text-wrap: balance;
+  text-shadow: 0 2px 24px rgba(0, 0, 0, 0.25);
+}
+
+.ms-hero-content > p {
+  max-width: 620px;
+  color: color-mix(in srgb, var(--c-white) 90%, transparent);
+  font-size: clamp(18px, 1.5vw, 21px);
+  line-height: 1.65;
+}
+
+/* =========================================
+   INTRO
+   ========================================= */
+
+.ms-intro {
+  padding: 110px 0;
+}
 
 .ms-intro-grid {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   align-items: center;
-  gap: clamp(35px, 7vw, 90px);
+  gap: clamp(50px, 7vw, 100px);
 }
 
-.ms-intro-image-wrap {
+.ms-intro-visual {
+  position: relative;
+  padding-bottom: 48px;
+}
+
+.ms-intro-photo {
+  width: 86%;
+  aspect-ratio: 4 / 5;
   overflow: hidden;
-  min-width: 0;
-  aspect-ratio: 5 / 4;
-  border-radius: 12px;
-  background: var(--c-sky);
+  border-radius: 24px;
+  background: var(--c-line);
+  box-shadow: 0 30px 70px color-mix(in srgb, var(--c-navy) 14%, transparent);
 }
 
-.ms-intro-image {
+.ms-intro-photo img {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-.ms-intro-content {
-  min-width: 0;
-}
-
-.ms-intro-content h2 {
-  margin-bottom: 22px;
-  font-size: clamp(30px, 4vw, 45px);
-  font-weight: 800;
-  letter-spacing: -1px;
-  line-height: 1.2;
-}
-
-.ms-intro-content > p {
-  margin-bottom: 16px;
-  font-size: 15px;
-  line-height: 1.9;
-}
-
-.ms-promise {
+.ms-intro-badge {
+  position: absolute;
+  right: 0;
+  bottom: 0;
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   gap: 14px;
-  margin-top: 25px;
-  padding: 20px;
-  border: 1px solid var(--c-sky);
-  border-radius: 9px;
-  background: var(--c-paper);
+  width: min(360px, 78%);
+  padding: 18px 20px;
+  border: 1px solid var(--c-line);
+  border-radius: 18px;
+  background: var(--c-white);
+  box-shadow: 0 24px 55px color-mix(in srgb, var(--c-navy) 16%, transparent);
 }
 
-.ms-promise > svg {
-  flex-shrink: 0;
-  color: var(--c-blue);
+.ms-intro-badge > span:last-child {
+  display: grid;
+  gap: 3px;
 }
 
-.ms-promise div {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-}
-
-.ms-promise strong {
+.ms-intro-badge strong {
   color: var(--c-navy);
-  font-size: 14px;
+  font-size: 16px;
+  font-weight: 800;
 }
 
-.ms-promise span {
+.ms-intro-badge > span:last-child > span {
   color: var(--c-slate);
-  font-size: 13px;
-  line-height: 1.7;
+  font-size: 14px;
+  line-height: 1.5;
 }
 
-/* Services grid */
+.ms-intro-copy {
+  max-width: 600px;
+}
+
+.ms-focus {
+  margin-top: 32px;
+  padding-top: 26px;
+  border-top: 1px solid var(--c-line);
+}
+
+.ms-focus-label {
+  display: block;
+  margin-bottom: 14px;
+  color: var(--c-navy);
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.ms-focus-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 0;
+  list-style: none;
+}
+
+.ms-focus-list li {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border: 1px solid var(--c-line);
+  border-radius: 999px;
+  background: var(--c-paper);
+  color: var(--c-navy);
+  font-size: 15px;
+  font-weight: 700;
+}
+
+/* =========================================
+   AREAS OF FOCUS (deep blue)
+   ========================================= */
 
 .ms-services {
-  background: var(--c-paper);
+  padding: 104px 0 112px;
+  background: var(--c-navy);
 }
 
-.ms-section-heading {
-  max-width: 730px;
-  margin: 0 auto clamp(32px, 5vw, 48px);
-  text-align: center;
+.ms-services .ms-heading h2 {
+  color: var(--c-white);
 }
 
-.ms-section-heading h2 {
-  margin-bottom: 16px;
-  font-size: clamp(30px, 4vw, 43px);
-  font-weight: 800;
-  letter-spacing: -0.8px;
-}
-
-.ms-section-heading > p {
-  font-size: 15px;
-  line-height: 1.85;
+.ms-services .ms-heading p {
+  color: color-mix(in srgb, var(--c-white) 82%, transparent);
 }
 
 .ms-service-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 22px;
+  gap: 24px;
 }
 
 .ms-service-card {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  min-width: 0;
-  min-height: 275px;
-  padding: clamp(23px, 3vw, 32px);
-  border: 1px solid var(--c-line);
-  border-radius: 11px;
+  padding: 32px 30px 28px;
+  border-radius: 20px;
   background: var(--c-white);
-  box-shadow: 0 8px 25px color-mix(in srgb, var(--c-navy) 4%, transparent);
-  transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease;
+  box-shadow: 0 10px 30px color-mix(in srgb, #000 15%, transparent);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .ms-service-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 14px 30px color-mix(in srgb, var(--c-navy) 9%, transparent);
-}
-
-.ms-service-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 58px;
-  height: 58px;
-  margin-bottom: 21px;
-  border-radius: 10px;
-  background: var(--c-sky);
-  color: var(--c-blue);
+  transform: translateY(-6px);
+  box-shadow: 0 26px 55px color-mix(in srgb, #000 25%, transparent);
 }
 
 .ms-service-card h3 {
-  margin-bottom: 12px;
-  font-size: 19px;
+  margin: 22px 0 10px;
+  color: var(--c-navy);
+  font-size: 21px;
   font-weight: 800;
-  overflow-wrap: anywhere;
+  letter-spacing: -0.02em;
+  line-height: 1.3;
 }
 
-.ms-service-card > p {
-  margin-bottom: 20px;
-  font-size: 14px;
-  line-height: 1.85;
-  overflow-wrap: anywhere;
+.medical-services-page .ms-service-card p {
+  margin-bottom: 22px;
+  font-size: 16px;
+  line-height: 1.7;
 }
 
 .ms-service-link {
   display: inline-flex;
   align-items: center;
-  flex-wrap: wrap;
   gap: 8px;
-  min-height: 42px;
   margin-top: auto;
-  color: var(--c-blue);
-  font-size: 13px;
-  font-weight: 800;
-}
-
-.ms-service-link:hover {
-  color: var(--c-blue-deep);
-}
-
-/* Process section */
-
-.ms-process-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 0.9fr);
-  align-items: center;
-  gap: clamp(35px, 7vw, 85px);
-}
-
-.ms-process-content {
-  min-width: 0;
-}
-
-.ms-process-content h2 {
-  margin-bottom: 20px;
-  font-size: clamp(30px, 4vw, 43px);
-  font-weight: 800;
-  letter-spacing: -0.8px;
-}
-
-.ms-process-content > p {
-  margin-bottom: 28px;
+  color: var(--c-navy);
   font-size: 15px;
-  line-height: 1.9;
+  font-weight: 800;
+  text-decoration: none;
 }
 
-.ms-process-list {
+.ms-service-link svg {
+  transition: transform 0.2s ease;
+}
+
+.ms-service-link:hover svg {
+  transform: translateX(4px);
+}
+
+/* =========================================
+   OUR APPROACH
+   ========================================= */
+
+.ms-approach {
+  padding: 110px 0;
+}
+
+.ms-approach-grid {
   display: grid;
-  gap: 22px;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  align-items: center;
+  gap: clamp(50px, 7vw, 100px);
+}
+
+.ms-approach-copy {
+  max-width: 620px;
+}
+
+.ms-steps {
+  position: relative;
+  display: grid;
+  gap: 26px;
+  margin-top: 34px;
+  padding: 0;
   list-style: none;
 }
 
-.ms-process-list li {
-  display: flex;
-  align-items: flex-start;
-  gap: 15px;
+/* Thin line joining the step numbers */
+.ms-steps::before {
+  position: absolute;
+  top: 22px;
+  bottom: 22px;
+  left: 21px;
+  width: 2px;
+  background: var(--c-line);
+  content: "";
 }
 
-.ms-process-list li > span {
+.ms-steps li {
+  position: relative;
   display: flex;
-  flex-shrink: 0;
-  align-items: center;
-  justify-content: center;
-  width: 42px;
-  height: 42px;
+  align-items: flex-start;
+  gap: 18px;
+}
+
+.ms-step-number {
+  display: grid;
+  place-items: center;
+  flex: 0 0 44px;
+  width: 44px;
+  height: 44px;
+  border: 4px solid var(--c-white);
   border-radius: 50%;
-  background: var(--c-sky);
-  color: var(--c-blue);
-  font-size: 13px;
+  color: var(--c-cyan);
+  background: var(--c-icon-bg);
+  font-family: 'Manrope', sans-serif;
+  font-size: 16px;
+  font-weight: 800;
+  box-sizing: content-box;
+  margin: -4px 0 0 -4px;
+}
+
+.ms-steps strong {
+  display: block;
+  color: var(--c-navy);
+  font-size: 19px;
   font-weight: 800;
 }
 
-.ms-process-list li > div {
-  min-width: 0;
+.medical-services-page .ms-steps p {
+  margin-top: 4px;
+  font-size: 16px;
+  line-height: 1.65;
 }
 
-.ms-process-list strong {
-  color: var(--c-navy);
-  font-size: 15px;
-}
-
-.ms-process-list li p {
-  margin-top: 5px;
-  font-size: 13px;
-  line-height: 1.8;
-}
-
-.ms-process-visual {
+.ms-approach-visual {
   position: relative;
-  min-width: 0;
-  padding-bottom: 25px;
+  padding-bottom: 40px;
 }
 
-.ms-process-visual > img {
-  width: 100%;
+.ms-approach-photo {
+  width: 88%;
+  margin-left: auto;
   aspect-ratio: 4 / 5;
-  border-radius: 12px;
-  background: var(--c-sky);
+  overflow: hidden;
+  border-radius: 24px;
+  background: var(--c-line);
+  box-shadow: 0 30px 70px color-mix(in srgb, var(--c-navy) 14%, transparent);
+}
+
+.ms-approach-photo img {
+  width: 100%;
+  height: 100%;
   object-fit: cover;
 }
 
-.ms-process-caption {
+.ms-approach-caption {
   position: absolute;
-  right: -10px;
+  left: 0;
   bottom: 0;
   display: flex;
   align-items: center;
   gap: 12px;
-  max-width: calc(100% - 8px);
-  padding: 17px 20px;
-  border: 1px solid var(--c-line);
-  border-radius: 9px;
-  background: var(--c-white);
-  box-shadow: 0 12px 30px color-mix(in srgb, var(--c-navy) 10%, transparent);
+  padding: 18px 22px;
+  border-radius: 18px;
+  background: var(--c-navy);
+  box-shadow: 0 24px 55px color-mix(in srgb, var(--c-navy) 28%, transparent);
 }
 
-.ms-process-caption > svg {
-  flex-shrink: 0;
-  color: var(--c-blue);
+.ms-approach-caption > span {
+  display: grid;
+  gap: 2px;
 }
 
-.ms-process-caption div {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.ms-process-caption strong {
-  color: var(--c-navy);
-  font-size: 13px;
-}
-
-.ms-process-caption span {
-  color: var(--c-slate);
-  font-size: 12px;
-}
-
-/* Call to action */
-
-.ms-cta {
-  padding-block: clamp(50px, 7vw, 80px);
-  background: var(--c-blue);
-}
-
-.ms-cta-content {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 30px 45px;
-} 
-
-.ms-cta-content > div:first-child {
-  flex: 1 1 400px;
-  min-width: 0;
-}
-
-.ms-cta .ms-eyebrow {
-  color: var(--c-sky);
-}
-
-.ms-cta h2 {
-  margin-bottom: 15px;
+.ms-approach-caption strong {
   color: var(--c-white);
-  font-size: clamp(29px, 4vw, 43px);
+  font-size: 16px;
   font-weight: 800;
 }
 
-.ms-cta-content > div:first-child > p {
-  max-width: 650px;
-  color: var(--c-sky);
-  font-size: 15px;
-  line-height: 1.9;
-}
-
-.ms-cta-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-}
-
-.ms-button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 9px;
-  min-height: 49px;
-  padding: 12px 20px;
-  border: 2px solid var(--c-white);
-  border-radius: 6px;
+.ms-approach-caption > span > span {
+  color: color-mix(in srgb, var(--c-white) 78%, transparent);
   font-size: 14px;
-  font-weight: 700;
-  text-align: center;
-  transition:
-    background 0.2s ease,
-    color 0.2s ease;
 }
 
-.ms-button-white {
-  background: var(--c-white);
-  color: var(--c-blue-deep);
+/* =========================================
+   ACCESSIBILITY
+   ========================================= */
+
+.medical-services-page a:focus-visible {
+  outline: 3px solid var(--c-blue-bright);
+  outline-offset: 4px;
 }
 
-.ms-button-white:hover {
-  background: var(--c-sky);
-}
-
-.ms-button-outline {
-  background: transparent;
-  color: var(--c-white);
-}
-
-.ms-button-outline:hover {
-  background: var(--c-white);
-  color: var(--c-blue-deep);
-}
-
-/* Large desktop */
-
-@media (min-width: 1600px) {
-  .ms-container {
-    width: min(100% - 100px, 1360px);
+@media (prefers-reduced-motion: reduce) {
+  .medical-services-page *,
+  .medical-services-page *::before,
+  .medical-services-page *::after {
+    transition-duration: 0.01ms !important;
   }
 }
 
-/* Smaller desktop and tablets */
+/* =========================================
+   RESPONSIVE
+   ========================================= */
 
-@media (max-width: 1000px) {
+@media (max-width: 1100px) {
   .ms-service-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
-
-  .ms-intro-grid,
-  .ms-process-grid {
-    gap: 35px;
-  }
-
-  .ms-process-caption {
-    right: 0;
-  }
 }
 
-@media (max-width: 800px) {
+@media (max-width: 900px) {
   .ms-container {
-    width: calc(100% - 40px);
+    width: calc(100% - 48px);
   }
 
   .ms-intro-grid,
-  .ms-process-grid {
+  .ms-approach-grid {
     grid-template-columns: minmax(0, 1fr);
-    gap: 38px;
+    gap: 56px;
   }
 
-  .ms-intro-image-wrap {
-    width: min(100%, 650px);
-    margin-inline: auto;
-  }
-
-  .ms-intro-content,
-  .ms-process-content {
-    max-width: 720px;
-  }
-
-  .ms-process-visual {
+  .ms-intro-visual,
+  .ms-approach-visual {
     width: min(100%, 560px);
     margin-inline: auto;
   }
 
-  .ms-process-visual > img {
-    aspect-ratio: 5 / 4;
+  .ms-intro-copy,
+  .ms-approach-copy {
+    max-width: 640px;
   }
 }
 
-/* Mobile phones */
-
-@media (max-width: 600px) {
+@media (max-width: 760px) {
   .ms-container {
-    width: calc(100% - 32px);
-  }
-
-  .ms-section {
-    padding-block: 50px;
+    width: calc(100% - 40px);
   }
 
   .ms-hero {
-    min-height: 310px;
-    padding-block: 55px;
-    background-position: 60% center;
+    min-height: 0;
+    padding: 64px 0 72px;
+    background-position: 35% center;
   }
 
-  .ms-hero-overlay {
-    background: color-mix(in srgb, var(--c-navy) 83%, transparent);
+  .ms-hero-shade {
+    background: linear-gradient(180deg,
+      color-mix(in srgb, var(--c-navy) 80%, #000) 0%,
+      color-mix(in srgb, var(--c-navy) 74%, transparent) 55%,
+      color-mix(in srgb, var(--c-navy) 90%, #000) 100%);
   }
 
-  .ms-hero h1 {
-    font-size: clamp(33px, 9vw, 43px);
-    letter-spacing: -0.8px;
+  .ms-intro,
+  .ms-approach {
+    padding: 76px 0;
   }
 
-  .ms-hero-content > p {
-    font-size: 14px;
+  .ms-services {
+    padding: 76px 0 82px;
   }
 
-  .ms-breadcrumb {
-    gap: 9px;
-    font-size: 12px;
+  .ms-heading {
+    margin-bottom: 32px;
   }
 
-  .ms-intro-grid,
-  .ms-process-grid {
-    gap: 30px;
+  .medical-services-page h2 {
+    font-size: clamp(2.1rem, 8vw, 3rem);
   }
 
-  .ms-intro-content h2,
-  .ms-process-content h2,
-  .ms-section-heading h2 {
-    font-size: clamp(27px, 7.8vw, 35px);
+  .medical-services-page p {
+    font-size: 17px;
   }
 
-  .ms-intro-content > p,
-  .ms-process-content > p {
-    font-size: 14px;
-  }
-
-  .ms-promise {
-    gap: 10px;
-    padding: 16px;
-  }
-
-  .ms-section-heading {
-    margin-bottom: 30px;
-  }
-
-  .ms-section-heading > p {
-    font-size: 14px;
+  .medical-services-page .ms-lead {
+    font-size: 18px;
   }
 
   .ms-service-grid {
     grid-template-columns: minmax(0, 1fr);
-    gap: 15px;
+    gap: 16px;
   }
 
   .ms-service-card {
-    min-height: 0;
-    padding: 24px;
-  }
-
-  .ms-service-card:hover {
-    transform: none;
-  }
-
-  .ms-process-list {
-    gap: 20px;
-  }
-
-  .ms-process-visual > img {
-    aspect-ratio: 4 / 3;
-  }
-
-  .ms-process-caption {
-    gap: 9px;
-    padding: 12px;
-  }
-
-  .ms-process-caption strong {
-    font-size: 12px;
-  }
-
-  .ms-process-caption span {
-    font-size: 11px;
-  }
-
-  .ms-cta-content {
-    align-items: stretch;
-    flex-direction: column;
-    gap: 23px;
-  }
-
-  .ms-cta h2 {
-    font-size: clamp(27px, 7.8vw, 35px);
-  }
-
-  .ms-cta-content > div:first-child > p {
-    font-size: 14px;
-  }
-
-  .ms-cta-actions {
-    flex-direction: column;
-  }
-
-  .ms-button {
-    width: 100%;
-    min-height: 49px;
+    padding: 26px 22px;
   }
 }
 
-/* Extra-small phones */
-
-@media (max-width: 360px) {
+@media (max-width: 480px) {
   .ms-container {
-    width: calc(100% - 26px);
-  }
-
-  .ms-eyebrow {
-    font-size: 10px;
-    letter-spacing: 1.5px;
+    width: calc(100% - 32px);
   }
 
   .ms-hero h1 {
-    font-size: 30px;
+    font-size: clamp(2.3rem, 10.5vw, 2.9rem);
   }
 
-  .ms-service-card {
-    padding: 20px;
+  .ms-intro-photo,
+  .ms-approach-photo {
+    width: 100%;
+    border-radius: 18px;
   }
 
-  .ms-process-list li {
-    gap: 11px;
+  .ms-intro-badge {
+    position: relative;
+    width: 100%;
+    margin-top: -36px;
   }
 
-  .ms-process-list li > span {
-    width: 36px;
-    height: 36px;
-  }
-}
-
-/* Landscape mobile screens */
-
-@media (max-height: 500px) and (orientation: landscape) {
-  .ms-hero {
-    min-height: 270px;
-    padding-block: 35px;
-  }
-}
-
-/* Accessibility */
-
-@media (prefers-reduced-motion: reduce) {
-  .ms-service-card,
-  .ms-button {
-    transition: none;
+  .ms-intro-visual {
+    padding-bottom: 0;
   }
 
-  .ms-service-card:hover {
-    transform: none;
-  }
-}
-
-
-/* =========================================================
-   READABILITY & TYPOGRAPHY ENHANCEMENTS
-   Keeps the existing layout and visual identity intact.
-   ========================================================= */
-
-.medical-services-page {
-  color: var(--c-navy);
-  font-size: 16px;
-}
-
-/* Use Poppins consistently for every paragraph on this page. */
-.medical-services-page p,
-.medical-services-page .ms-promise span,
-.medical-services-page .ms-process-caption span {
-  font-family: 'Poppins', sans-serif;
-}
-
-/* Make small labels and supporting text easier to read. */
-.medical-services-page .ms-eyebrow {
-  font-size: 13px;
-  letter-spacing: 1.8px;
-}
-
-.medical-services-page .ms-hero-content > p {
-  font-size: clamp(17px, 1.5vw, 19px);
-  line-height: 1.85;
-  max-width: 720px;
-}
-
-.medical-services-page .ms-intro-content > p,
-.medical-services-page .ms-section-heading > p,
-.medical-services-page .ms-process-content > p,
-.medical-services-page .ms-cta-content > div:first-child > p {
-  font-size: 17px;
-  line-height: 1.9;
-}
-
-.medical-services-page .ms-service-card > p {
-  font-size: 16px;
-  line-height: 1.85;
-}
-
-.medical-services-page .ms-process-list li p {
-  font-size: 15px;
-  line-height: 1.8;
-}
-
-.medical-services-page .ms-promise strong {
-  font-size: 16px;
-}
-
-.medical-services-page .ms-promise span {
-  font-size: 15px;
-  line-height: 1.75;
-}
-
-.medical-services-page .ms-process-caption strong {
-  font-size: 15px;
-}
-
-.medical-services-page .ms-process-caption span {
-  font-size: 14px;
-  line-height: 1.6;
-}
-
-.medical-services-page .ms-service-link {
-  font-size: 15px;
-}
-
-.medical-services-page .ms-button {
-  font-size: 15px;
-}
-
-.medical-services-page .ms-breadcrumb {
-  font-size: 14px;
-}
-
-/* Tablet and mobile readability. */
-@media (max-width: 800px) {
-  .medical-services-page .ms-hero-content > p {
-    font-size: 17px;
-  }
-
-  .medical-services-page .ms-intro-content > p,
-  .medical-services-page .ms-section-heading > p,
-  .medical-services-page .ms-process-content > p,
-  .medical-services-page .ms-cta-content > div:first-child > p {
-    font-size: 16px;
-  }
-
-  .medical-services-page .ms-service-card > p {
-    font-size: 16px;
-  }
-}
-
-@media (max-width: 600px) {
-  .medical-services-page .ms-eyebrow {
-    font-size: 12px;
-    letter-spacing: 1.5px;
-    line-height: 1.6;
-  }
-
-  .medical-services-page .ms-hero-content > p {
-    font-size: 16px;
-    line-height: 1.8;
-  }
-
-  .medical-services-page .ms-intro-content > p,
-  .medical-services-page .ms-section-heading > p,
-  .medical-services-page .ms-process-content > p,
-  .medical-services-page .ms-cta-content > div:first-child > p,
-  .medical-services-page .ms-service-card > p {
-    font-size: 15px;
-    line-height: 1.85;
-  }
-
-  .medical-services-page .ms-promise strong {
-    font-size: 15px;
-  }
-
-  .medical-services-page .ms-promise span,
-  .medical-services-page .ms-process-list li p {
-    font-size: 14px;
-    line-height: 1.75;
-  }
-
-  .medical-services-page .ms-process-caption strong {
-    font-size: 14px;
-  }
-
-  .medical-services-page .ms-process-caption span {
-    font-size: 13px;
-  }
-
-  .medical-services-page .ms-service-link,
-  .medical-services-page .ms-button {
-    font-size: 15px;
-  }
-
-  .medical-services-page .ms-breadcrumb {
-    font-size: 13px;
-  }
-}
-
-@media (max-width: 360px) {
-  .medical-services-page .ms-hero-content > p {
-    font-size: 15px;
-  }
-
-  .medical-services-page .ms-intro-content > p,
-  .medical-services-page .ms-section-heading > p,
-  .medical-services-page .ms-process-content > p,
-  .medical-services-page .ms-cta-content > div:first-child > p,
-  .medical-services-page .ms-service-card > p {
-    font-size: 14px;
+  .ms-approach-caption {
+    left: 12px;
   }
 }

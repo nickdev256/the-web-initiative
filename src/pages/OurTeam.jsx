@@ -1,44 +1,66 @@
-
 import { Link } from 'react-router-dom';
 import {
   ArrowRight,
-  Users,
-  HeartHandshake,
-  Target,
-  Mail,
+  Stethoscope,
+  HandHeart,
+  Handshake,
+  UserRound,
 } from 'lucide-react';
 import Navbar from '../components/Navbar.jsx';
 import Footer from '../components/Footer.jsx';
 import './OurTeam.css';
 
-const teamMembers = [
+// Team profiles, shown in this order. Put each photo in public/images/team/
+// (head and shoulders; it is shown square). Leave `photo` empty for a placeholder.
+const people = [
   {
-    name: 'Leadership Team',
-    role: 'Organizational Leadership',
-    image: '/images/healthcare-team.jpg',
-    description: 
-      'Guiding the organization’s direction, priorities, and community-focused initiatives.',
+    name: 'Mukisa George William',
+    role: 'Executive Director & Founder',
+    location: 'Uganda',
+    photo: '/images/team/mukisa-george-william.jpg',
   },
   {
-    name: 'Medical Team',
-    role: 'Healthcare Professionals',
-    image: '/images/medical-team.jpg',
-    description:
-      'Supporting appropriate healthcare activities, health education, and community outreach.',
+    name: 'Vicky Woods',
+    role: 'Director of Operations',
+    location: 'USA',
+    photo: '/images/team/vicky-woods.jpg',
   },
   {
-    name: 'Outreach Team',
-    role: 'Community Engagement',
-    image: '/images/outdoor-consultation.jpg',
-    description:
-      'Building community relationships and helping coordinate outreach activities.',
+    name: 'Joakim & Julia',
+    role: 'Directors of Operations',
+    location: 'Denmark',
+    photo: '/images/team/joakim-julia.jpg',
   },
   {
-    name: 'Support Team',
-    role: 'Operations and Partnerships',
-    image: '/images/health-screening.jpg',
-    description:
-      'Supporting coordination, collaboration, and the delivery of organizational initiatives.',
+    name: 'Joakim & Birgit',
+    role: 'Board Advisory, Finance',
+    location: 'Germany',
+    photo: '/images/team/joakim-birgit.jpg',
+  },
+  {
+    name: 'Dave',
+    role: '',
+    location: 'Kenya',
+    photo: '/images/team/dave.jpg',
+  },
+  {
+    name: 'Kwagala',
+    role: '',
+    location: 'Tanzania',
+    photo: '/images/team/kwagala.jpg',
+  },
+];
+
+const ways = [
+  {
+    icon: Stethoscope,
+    title: 'Volunteer at a camp',
+    text: 'Health workers and community volunteers help us run our medical camps.',
+  },
+  {
+    icon: Handshake,
+    title: 'Partner with us',
+    text: 'Organisations can work with us to reach more children and families.',
   },
 ];
 
@@ -48,156 +70,171 @@ function OurTeam() {
       <Navbar />
 
       <main className="our-team-page">
+        {/* HERO */}
         <section className="ot-hero">
-          <div className="ot-hero-overlay" /> 
+          <div className="ot-hero-shade" />
 
           <div className="ot-container ot-hero-content">
-            <span className="ot-eyebrow">THE PEOPLE BEHIND OUR WORK</span>
-            <h1>Meet Our Team</h1>
+            <span className="ot-kicker ot-kicker-light">
+              <span className="ot-kicker-dot" />
+              THE PEOPLE BEHIND OUR WORK
+            </span>
+
+            <h1>
+              Meet the people{' '}
+              <span className="hand-accent hand-accent--on-dark">
+                behind our care.
+              </span>
+            </h1>
 
             <p>
-              People working together to support communities, encourage
-              collaboration, and advance meaningful initiatives.
+              Clinicians, volunteers and community members working together
+              to support children and families in Northern Uganda.
             </p>
-
-           
           </div>
         </section>
 
-        <section className="ot-intro ot-section">
+        {/* INTRO */}
+        <section className="ot-intro">
           <div className="ot-container ot-intro-grid">
-            <div className="ot-intro-image-wrap">
-              <img
-                src="/images/blood-pressure-check.jpg"
-                alt="Team members working together"
-                className="ot-intro-image"
-              />
-            </div>
+            <figure className="ot-intro-visual">
+              <div className="ot-intro-photo">
+                <img
+                  src="/images/medical-team.jpg"
+                  alt="A group of health workers in scrubs talking together outdoors"
+                  loading="lazy"
+                />
+              </div>
 
-            <div className="ot-intro-content">
-              <span className="ot-eyebrow">WORKING TOGETHER</span>
+              <figcaption className="ot-intro-badge">
+                <span className="ot-icon-box">
+                  <HandHeart size={22} aria-hidden="true" />
+                </span>
+                <span>
+                  <strong>Working as one team</strong>
+                  <span>Clinicians and volunteers sharing what they know.</span>
+                </span>
+              </figcaption>
+            </figure>
+
+            <div className="ot-intro-copy">
+              <span className="ot-kicker">
+                <span className="ot-kicker-dot" />
+                WORKING TOGETHER
+              </span>
 
               <h2>
                 Driven by people.{' '}
                 <span className="hand-accent">United by purpose.</span>
               </h2>
 
-              <p>
+              <p className="ot-lead">
                 Meaningful community work depends on people who share
-                knowledge, listen to different perspectives, and work
+                knowledge, listen to different perspectives and work
                 together towards common goals.
               </p>
 
               <p>
                 At The Web Initiative Ltd, our approach values teamwork,
-                community engagement, and collaboration with relevant
-                stakeholders.
+                community engagement and collaboration with the people
+                and partners we serve.
               </p>
 
               <Link to="/about" className="ot-text-link">
-                Learn about our organization <ArrowRight size={18} />
+                Learn about our organisation
+                <span>
+                  <ArrowRight size={18} aria-hidden="true" />
+                </span>
               </Link>
             </div>
           </div>
         </section>
 
-        <section className="ot-values ot-section">
+        {/* OUR TEAMS (deep blue) */}
+        <section className="ot-teams" aria-labelledby="ot-teams-title">
           <div className="ot-container">
-            <div className="ot-section-heading">
-              <span className="ot-eyebrow">OUR SHARED VALUES</span>
-              <h2>What Brings Us Together</h2>
-              <p>
-                The principles that guide how we work with communities
-                and with one another.
-              </p>
+            <div className="ot-teams-intro">
+              <p className="ot-group-title">Leadership and Board</p>
+
+              <div className="ot-teams-statement">
+                <h2 id="ot-teams-title">
+                  Rooted in community, united across borders.
+                </h2>
+                <p>
+                  A team led from Jinja, Uganda, with partners in the United
+                  States, Denmark, and Germany. Together they set our
+                  direction, keep the mission accountable, care for our
+                  relationships with donors and partners, and make sure
+                  every resource entrusted to us reaches the children and
+                  families we serve in Eastern Uganda. 
+                </p>
+              </div>
             </div>
 
-            <div className="ot-values-grid">
-              <article className="ot-value-card">
-                <div className="ot-value-icon">
-                  <Users size={28} />
-                </div>
-                <h3>Teamwork</h3>
-                <p>
-                  Working collaboratively and valuing the contribution
-                  of every team member.
-                </p>
-              </article>
-
-              <article className="ot-value-card">
-                <div className="ot-value-icon">
-                  <HeartHandshake size={28} />
-                </div>
-                <h3>Community</h3>
-                <p>
-                  Listening to communities and building respectful,
-                  meaningful relationships.
-                </p>
-              </article>
-
-              <article className="ot-value-card">
-                <div className="ot-value-icon">
-                  <Target size={28} />
-                </div>
-                <h3>Purpose</h3>
-                <p>
-                  Keeping our efforts focused on responsible action
-                  and meaningful outcomes.
-                </p>
-              </article>
-            </div>
-          </div>
-        </section>
-
-        <section className="ot-team ot-section">
-          <div className="ot-container">
-            <div className="ot-section-heading">
-              <span className="ot-eyebrow">OUR PEOPLE</span>
-              <h2>Meet the People Behind Our Initiatives</h2>
-              <p>
-                Different responsibilities and shared commitment help
-                bring community-focused work together.
-              </p>
-            </div>
-
-            <div className="ot-team-grid">
-              {teamMembers.map((member) => (
-                <article className="ot-member-card" key={member.name}>
-                  <div className="ot-member-image-wrap">
-                    <img
-                      src={member.image}
-                      alt={member.name}
-                      className="ot-member-image"
-                      loading="lazy"
-                    />
+            <ul className="ot-people-grid">
+              {people.map((person) => (
+                <li className="ot-person" key={person.name}>
+                  <div className="ot-person-photo">
+                    {person.photo ? (
+                      <img
+                        src={person.photo}
+                        alt={`Portrait of ${person.name}`}
+                        loading="lazy"
+                      />
+                    ) : (
+                      <span className="ot-person-placeholder" aria-hidden="true">
+                        <UserRound size={56} strokeWidth={1.4} />
+                      </span>
+                    )}
                   </div>
-
-                  <div className="ot-member-content">
-                    <span className="ot-member-role">{member.role}</span>
-                    <h3>{member.name}</h3>
-                    <p>{member.description}</p>
-                  </div>
-                </article>
+                  <h3>{person.name}</h3>
+                  {person.role && <p className="ot-person-role">{person.role}</p>}
+                  <p className="ot-person-location">{person.location}</p>
+                </li>
               ))}
-            </div>
+            </ul>
           </div>
         </section>
 
-        <section className="ot-cta">
-          <div className="ot-container ot-cta-content">
-            <div>
-              <span className="ot-eyebrow">CONNECT WITH US</span>
-              <h2>Interested in working together?</h2>
+        {/* JOIN US */}
+        <section className="ot-join" aria-labelledby="ot-join-title">
+          <div className="ot-container ot-join-grid">
+            <div className="ot-join-copy">
+              <span className="ot-kicker">
+                <span className="ot-kicker-dot" />
+                JOIN OUR TEAM
+              </span>
+              <h2 id="ot-join-title">
+                Want to work{' '}
+                <span className="hand-accent">with us?</span>
+              </h2>
               <p>
-                We welcome conversations about partnerships, community
-                initiatives, and ways to contribute to our work.
+                We welcome conversations about volunteering, partnerships
+                and other ways to contribute to our work.
               </p>
+              <Link to="/contact" className="ot-btn">
+                Contact our team
+                <ArrowRight size={18} aria-hidden="true" />
+              </Link>
             </div>
 
-            <Link to="/contact" className="ot-button ot-button-white">
-              <Mail size={18} /> Contact Our Team
-              <ArrowRight size={18} />
-            </Link>
+            <ul className="ot-join-list">
+              {ways.map((way) => {
+                const Icon = way.icon;
+
+                return (
+                  <li key={way.title}>
+                    <span className="ot-icon-box">
+                      <Icon size={22} aria-hidden="true" />
+                    </span>
+                    <span>
+                      <strong>{way.title}</strong>
+                      <span>{way.text}</span>
+                    </span>
+                  </li>
+                );
+              })}
+            </ul>
           </div>
         </section>
       </main>

@@ -1,15 +1,5 @@
-
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import {
-  ArrowRight,
-  Images,
-  HeartPulse,
-  MapPin,
-  X,
-  ChevronLeft,
-  ChevronRight,
-} from 'lucide-react';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { ArrowRight, X, ChevronLeft, ChevronRight, Expand } from 'lucide-react';
 import Navbar from '../components/Navbar.jsx';
 import Footer from '../components/Footer.jsx';
 import './Gallery.css';
@@ -24,318 +14,329 @@ const campPhoto = (name) => ({
 const galleryItems = [
   {
     ...campPhoto('arm-measurement-check'),
-    title: 'Malnutrition Screening',
+    title: 'Malnutrition screening',
     category: 'Medical Camps',
     description: 'Checking upper-arm measurements to spot early signs of malnutrition.',
   },
   {
     ...campPhoto('nutrition-education'),
-    title: 'Nutrition Education',
+    title: 'Nutrition education',
     category: 'Health Education',
     description: 'Sharing practical nutrition advice with mothers and young children.',
   },
   {
     ...campPhoto('child-height-check'),
-    title: 'Child Growth Check',
+    title: 'Child growth check',
     category: 'Medical Camps',
     description: "Measuring a child's height to track healthy growth.",
   },
   {
     ...campPhoto('blood-pressure-check'),
-    title: 'Blood Pressure Check',
+    title: 'Blood pressure check',
     category: 'Medical Camps',
     description: 'Routine blood pressure checks during a community camp.',
   },
   {
     ...campPhoto('elder-consultation'),
-    title: 'Caring for Elders',
+    title: 'Caring for elders',
     category: 'Community',
     description: "Listening to an elderly patient's health concerns.",
   },
   {
     ...campPhoto('lab-blood-sample'),
-    title: 'Laboratory Testing',
+    title: 'Laboratory testing',
     category: 'Medical Camps',
     description: 'Preparing blood samples for testing.',
   },
   {
     ...campPhoto('nurse-with-baby'),
-    title: 'Caring for the Youngest',
+    title: 'Caring for the youngest',
     category: 'Community',
     description: 'Comforting a baby during a medical camp.',
   },
   {
     ...campPhoto('team-clinician'),
-    title: 'Our Team on the Ground',
+    title: 'Our team on the ground',
     category: 'Community',
     description: 'One of our clinicians at an outreach site.',
   },
   {
     ...campPhoto('prayer-support'),
-    title: 'Prayer and Encouragement',
+    title: 'Prayer and encouragement',
     category: 'Community',
     description: 'Offering prayer and encouragement alongside care.',
   },
   {
     image: '/images/medical-camp-tents.jpg',
-    title: 'Medical Outreach',
+    title: 'Camp day',
     category: 'Medical Camps',
-    description: 'Community-focused medical outreach activities.',
+    description: 'Families gathering under our medical camp tents.',
   },
   {
     image: '/images/health-screening.jpg',
-    title: 'Health Screening',
+    title: 'Finger-prick testing',
     category: 'Medical Camps',
-    description: 'Supporting access to health screening services.',
-  },
-  {
-    image: '/images/community-outreach.jpg', 
-    title: 'Community Engagement',
-    category: 'Community',
-    description: 'Working together with local communities.',
-  },
-  {
-    image: '/images/blood-pressure-check.jpg',
-    title: 'Health Education',
-    category: 'Health Education',
-    description: 'Sharing useful health information and awareness.',
-  },
-  {
-    image: '/images/medical-team.jpg',
-    title: 'Healthcare Team',
-    category: 'Medical Camps',
-    description: 'People working together to support community health.',
-  },
-  {
-    image: '/images/outreach-wheelchair.jpg',
-    title: 'Community Outreach',
-    category: 'Community',
-    description: 'Connecting with communities through outreach.',
+    description: 'A quick blood test as part of a health check.',
   },
   {
     image: '/images/camp-village-tents.jpg',
-    title: 'Volunteers in Action',
+    title: 'Reaching the village',
     category: 'Community',
-    description: 'Contributing time and effort to community initiatives.',
+    description: 'Our camp set up in the heart of a village community.',
   },
   {
     image: '/images/outdoor-consultation.jpg',
-    title: 'Health Awareness',
-    category: 'Health Education',
-    description: 'Promoting awareness and informed health decisions.',
+    title: 'Outdoor consultations',
+    category: 'Medical Camps',
+    description: 'Health workers seeing patients in the open air.',
+  },
+  {
+    image: '/images/outreach-wheelchair.jpg',
+    title: 'Care for everyone',
+    category: 'Community',
+    description: 'Helping patients with limited mobility reach care.',
   },
   {
     image: '/images/healthcare-team.jpg',
-    title: 'Serving Together',
-    category: 'Medical Camps',
-    description: 'Working towards better access to healthcare.',
+    title: 'Talking with families',
+    category: 'Health Education',
+    description: 'Explaining health information to a mother and her child.',
+  },
+  {
+    image: '/images/medical-team.jpg',
+    title: 'Working as one team',
+    category: 'Health Education',
+    description: 'Clinicians and volunteers sharing what they know.',
   },
 ];
 
-const categories = ['All Photos', 'Medical Camps', 'Community', 'Health Education'];
+const categories = ['All', 'Medical Camps', 'Community', 'Health Education'];
+
+const countFor = (category) =>
+  category === 'All'
+    ? galleryItems.length
+    : galleryItems.filter((item) => item.category === category).length;
 
 export default function Gallery() {
-  const [activeCategory, setActiveCategory] = useState('All Photos');
-  const [selectedImage, setSelectedImage] = useState(null);
+  const [activeCategory, setActiveCategory] = useState('All');
+  const [openIndex, setOpenIndex] = useState(null);
+  const lightboxRef = useRef(null);
+  const lastTriggerRef = useRef(null);
+  const touchStartRef = useRef(null);
 
   const filteredItems =
-    activeCategory === 'All Photos'
+    activeCategory === 'All'
       ? galleryItems
       : galleryItems.filter((item) => item.category === activeCategory);
 
-  function showPrevious() {
-    const currentIndex = filteredItems.findIndex(
-      (item) => item.image === selectedImage?.image
-    );
-    const previousIndex =
-      (currentIndex - 1 + filteredItems.length) % filteredItems.length;
-    setSelectedImage(filteredItems[previousIndex]);
-  }
+  const selected = openIndex === null ? null : filteredItems[openIndex];
+  const isOpen = openIndex !== null;
 
-  function showNext() {
-    const currentIndex = filteredItems.findIndex(
-      (item) => item.image === selectedImage?.image
-    );
-    const nextIndex = (currentIndex + 1) % filteredItems.length;
-    setSelectedImage(filteredItems[nextIndex]);
-  }
+  const close = useCallback(() => setOpenIndex(null), []);
+  const step = useCallback(
+    (direction) =>
+      setOpenIndex((index) =>
+        index === null ? index : (index + direction + filteredItems.length) % filteredItems.length
+      ),
+    [filteredItems.length]
+  );
+
+  // While the viewer is open: keyboard controls, no page scrolling behind
+  // it, and focus returns to the photo that opened it afterwards.
+  useEffect(() => {
+    if (!isOpen) return undefined;
+
+    const handleKey = (event) => {
+      if (event.key === 'Escape') close();
+      if (event.key === 'ArrowLeft') step(-1);
+      if (event.key === 'ArrowRight') step(1);
+    };
+
+    document.body.style.overflow = 'hidden';
+    window.addEventListener('keydown', handleKey);
+    lightboxRef.current?.focus();
+
+    return () => {
+      document.body.style.overflow = '';
+      window.removeEventListener('keydown', handleKey);
+      lastTriggerRef.current?.focus();
+    };
+  }, [isOpen, close, step]);
+
+  // Preload the neighbouring photos so arrows feel instant
+  useEffect(() => {
+    if (openIndex === null) return;
+    [1, -1].forEach((direction) => {
+      const neighbour =
+        filteredItems[(openIndex + direction + filteredItems.length) % filteredItems.length];
+      new Image().src = neighbour.image;
+    });
+  }, [openIndex, filteredItems]);
+
+  const handleTouchStart = (event) => {
+    touchStartRef.current = event.touches[0].clientX;
+  };
+
+  const handleTouchEnd = (event) => {
+    if (touchStartRef.current === null) return;
+    const distance = event.changedTouches[0].clientX - touchStartRef.current;
+    if (Math.abs(distance) > 50) step(distance < 0 ? 1 : -1);
+    touchStartRef.current = null;
+  };
 
   return (
     <>
       <Navbar />
 
       <main className="gallery-page">
+        {/* HERO */}
         <section className="gallery-hero">
           <div className="gallery-hero-shade" />
+
           <div className="gallery-container gallery-hero-content">
-            <span className="gallery-eyebrow">
-              <Images size={17} /> OUR GALLERY
+            <span className="gallery-kicker gallery-kicker-light">
+              <span className="gallery-kicker-dot" />
+              OUR GALLERY
             </span>
+
             <h1>
-              Moments That
-              <span className="hand-accent hand-accent--on-dark"> Make a Difference.</span>
+              Moments that{' '}
+              <span className="hand-accent hand-accent--on-dark">
+                make a difference.
+              </span>
             </h1>
+
             <p>
-              Explore moments from our community initiatives, health education
-              activities, and medical outreach programmes.
+              Moments from our medical camps, health education sessions and
+              community outreach across Uganda.
             </p>
-            <a href="#gallery-photos" className="gallery-btn gallery-btn-white">
-              Explore Photos <ArrowRight size={18} />
+
+            <a href="#gallery-photos" className="gallery-btn">
+              Explore the photos
+              <ArrowRight size={18} aria-hidden="true" />
             </a>
           </div>
         </section>
 
-        <section className="gallery-intro gallery-section">
+        {/* PHOTOS */}
+        <section className="gallery-main" id="gallery-photos" aria-labelledby="gallery-title">
           <div className="gallery-container">
-            <div className="gallery-section-heading">
-              <span className="gallery-label">OUR WORK IN PICTURES</span>
-              <h2>Every picture tells a story.</h2>
-              <p>
-                A glimpse into the people, activities, and partnerships that
-                help bring community-focused initiatives to life.
-              </p>
+            <div className="gallery-heading">
+              <div>
+                <span className="gallery-kicker">
+                  <span className="gallery-kicker-dot" />
+                  OUR WORK IN PICTURES
+                </span>
+                <h2 id="gallery-title">
+                  Every picture{' '}
+                  <span className="hand-accent">tells a story.</span>
+                </h2>
+              </div>
+
+              <div className="gallery-filters" role="group" aria-label="Filter photos">
+                {categories.map((category) => (
+                  <button
+                    type="button"
+                    key={category}
+                    className="gallery-filter"
+                    aria-pressed={activeCategory === category}
+                    onClick={() => {
+                      setActiveCategory(category);
+                      setOpenIndex(null);
+                    }}
+                  >
+                    {category}
+                    <span>{countFor(category)}</span>
+                  </button>
+                ))}
+              </div>
             </div>
 
-            <div className="gallery-filter-list" aria-label="Filter gallery">
-              {categories.map((category) => (
-                <button
-                  type="button"
-                  key={category}
-                  className={`gallery-filter ${
-                    activeCategory === category ? 'active' : ''
-                  }`}
-                  aria-pressed={activeCategory === category}
-                  onClick={() => {
-                    setActiveCategory(category);
-                    setSelectedImage(null);
-                  }}
-                >
-                  {category}
-                </button>
-              ))}
-            </div>
-
-            <div className="gallery-photo-grid" id="gallery-photos">
+            <ul className="gallery-grid">
               {filteredItems.map((item, index) => (
-                <button
-                  type="button"
-                  className={`gallery-photo-card gallery-photo-card-${index % 6}`}
-                  key={item.image}
-                  onClick={() => setSelectedImage(item)}
-                  aria-label={`View ${item.title}`}
-                >
-                  <div className="gallery-photo-image">
+                <li key={item.image}>
+                  <button
+                    type="button"
+                    className="gallery-photo"
+                    aria-label={`View photo: ${item.title}`}
+                    onClick={(event) => {
+                      lastTriggerRef.current = event.currentTarget;
+                      setOpenIndex(index);
+                    }}
+                  >
                     <img
                       src={item.thumb || item.image}
                       alt={item.description}
                       loading="lazy"
-                      onError={(event) => {
-                        event.currentTarget.style.display = 'none';
-                      }}
                     />
-                    <div className="gallery-photo-placeholder">
-                      <HeartPulse size={32} />
-                      <span>Gallery photo</span>
-                    </div>
-                    <div className="gallery-photo-overlay">
+                    <span className="gallery-photo-caption">
                       <span>{item.category}</span>
-                      <h3>{item.title}</h3>
-                      <span className="gallery-view-label">
-                        View photo <ArrowRight size={15} />
-                      </span>
-                    </div>
-                  </div>
-                </button>
+                      <strong>{item.title}</strong>
+                    </span>
+                    <span className="gallery-photo-expand" aria-hidden="true">
+                      <Expand size={18} />
+                    </span>
+                  </button>
+                </li>
               ))}
-            </div>
-
-            {filteredItems.length === 0 && (
-              <p className="gallery-empty">No photos found in this category.</p>
-            )}
+            </ul>
           </div>
         </section>
 
-        <section className="gallery-cta">
-          <div className="gallery-container gallery-cta-inner">
-            <div className="gallery-cta-icon">
-              <HeartPulse size={29} />
-            </div>
-            <div className="gallery-cta-copy">
-              <span className="gallery-label">BE PART OF OUR STORY</span>
-              <h2>Help us make more moments possible.</h2>
-              <p>
-                Partner with us or support initiatives focused on community
-                wellbeing and access to healthcare.
-              </p>
-            </div>
-            <div className="gallery-cta-actions">
-              <Link to="/donate" className="gallery-btn gallery-btn-primary btn-support">
-                Support Our Work <ArrowRight size={17} />
-              </Link>
-              <Link to="/contact" className="gallery-text-link">
-                Contact Us
-              </Link>
-            </div>
-          </div>
-        </section>
-
-        <div className="gallery-location">
-          <MapPin size={17} />
-          <span>THE WEB INITIATIVE LTD · Jinja, Uganda</span>
-        </div>
-
-        {selectedImage && (
+        {/* FULL-SCREEN VIEWER */}
+        {selected && (
           <div
             className="gallery-lightbox"
             role="dialog"
             aria-modal="true"
-            aria-label={selectedImage.title}
-            onClick={(event) => {
-              if (event.target === event.currentTarget) {
-                setSelectedImage(null);
-              }
-            }}
-            onKeyDown={(event) => {
-              if (event.key === 'Escape') setSelectedImage(null);
-              if (event.key === 'ArrowLeft') showPrevious();
-              if (event.key === 'ArrowRight') showNext();
-            }}
+            aria-label={`${selected.title}, photo ${openIndex + 1} of ${filteredItems.length}`}
+            ref={lightboxRef}
             tabIndex={-1}
+            onClick={(event) => {
+              if (event.target === event.currentTarget) close();
+            }}
+            onTouchStart={handleTouchStart}
+            onTouchEnd={handleTouchEnd}
           >
-            <button
-              type="button"
-              className="gallery-lightbox-close"
-              onClick={() => setSelectedImage(null)}
-              aria-label="Close photo"
-            >
-              <X size={24} />
-            </button>
-
-            <button
-              type="button"
-              className="gallery-lightbox-arrow gallery-lightbox-prev"
-              onClick={showPrevious}
-              aria-label="Previous photo"
-            >
-              <ChevronLeft size={28} />
-            </button>
-
-            <div className="gallery-lightbox-content">
-              <img src={selectedImage.image} alt={selectedImage.description} />
-              <div className="gallery-lightbox-caption">
-                <span>{selectedImage.category}</span>
-                <h2>{selectedImage.title}</h2>
-                <p>{selectedImage.description}</p>
-              </div>
+            <div className="gallery-lightbox-top">
+              <span className="gallery-lightbox-count">
+                {openIndex + 1} / {filteredItems.length}
+              </span>
+              <button
+                type="button"
+                className="gallery-lightbox-button"
+                onClick={close}
+                aria-label="Close photo"
+              >
+                <X size={22} />
+              </button>
             </div>
 
             <button
               type="button"
-              className="gallery-lightbox-arrow gallery-lightbox-next"
-              onClick={showNext}
+              className="gallery-lightbox-button gallery-lightbox-prev"
+              onClick={() => step(-1)}
+              aria-label="Previous photo"
+            >
+              <ChevronLeft size={26} />
+            </button>
+
+            <figure className="gallery-lightbox-figure">
+              <img key={selected.image} src={selected.image} alt={selected.description} />
+              <figcaption>
+                <span>{selected.category}</span>
+                <strong>{selected.title}</strong>
+                <p>{selected.description}</p>
+              </figcaption>
+            </figure>
+
+            <button
+              type="button"
+              className="gallery-lightbox-button gallery-lightbox-next"
+              onClick={() => step(1)}
               aria-label="Next photo"
             >
-              <ChevronRight size={28} />
+              <ChevronRight size={26} />
             </button>
           </div>
         )}

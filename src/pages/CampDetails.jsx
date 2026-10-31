@@ -9,6 +9,7 @@ import {
   Users,
   HandHeart,
   CheckCircle2,
+  Info,
 } from 'lucide-react';
 import Navbar from '../components/Navbar.jsx';
 import Footer from '../components/Footer.jsx';
@@ -77,18 +78,23 @@ function CampDetails() {
       <>
         <Navbar />
 
-        <main className="cd-not-found">
-          <div className="cd-container">
-            <HeartPulse size={48} />
-            <h1>Camp information unavailable</h1>
-            <p>
-              We could not find the camp you are looking for.
-              Please return to the medical camps page.
-            </p>
-            <Link to="/medical-camps" className="cd-button cd-button-primary">
-              <ArrowLeft size={18} /> Back to Medical Camps
-            </Link>
-          </div>
+        <main className="camp-details-page">
+          <section className="cd-not-found">
+            <div className="cd-container">
+              <span className="cd-icon-box cd-icon-box-lg">
+                <HeartPulse size={30} aria-hidden="true" />
+              </span>
+              <h1>Camp information unavailable</h1>
+              <p>
+                We could not find the camp you are looking for. Please
+                return to the medical camps page.
+              </p>
+              <Link to="/medical-camps" className="cd-btn cd-btn-dark">
+                <ArrowLeft size={18} aria-hidden="true" />
+                Back to Medical Camps
+              </Link>
+            </div>
+          </section>
         </main>
 
         <Footer />
@@ -96,62 +102,82 @@ function CampDetails() {
     );
   }
 
+  const otherCamps = Object.entries(camps).filter(([key]) => key !== id);
+
   return (
     <>
       <Navbar />
 
       <main className="camp-details-page">
-        <section className="cd-hero">
-          <div className="cd-hero-overlay" />
+        {/* HERO */}
+        <section
+          className="cd-hero"
+          style={{ '--cd-hero-image': `url(${camp.image})` }}
+        >
+          <div className="cd-hero-shade" />
 
           <div className="cd-container cd-hero-content">
             <Link to="/medical-camps" className="cd-back-link">
-              <ArrowLeft size={17} /> All Medical Camps
+              <ArrowLeft size={17} aria-hidden="true" />
+              All medical camps
             </Link>
 
-            <span className="cd-eyebrow">{camp.category}</span>
+            <span className="cd-kicker cd-kicker-light">
+              <span className="cd-kicker-dot" />
+              {camp.category}
+            </span>
 
             <h1>{camp.title}</h1>
 
             <p>{camp.description}</p>
 
-            <nav className="cd-breadcrumb" aria-label="Breadcrumb">
-              <Link to="/">Home</Link>
-              <span>/</span>
-              <Link to="/medical-camps">Medical Camps</Link>
-              <span>/</span>
-              <span>{camp.title}</span>
-            </nav>
+            <ul className="cd-hero-meta">
+              <li>
+                <CalendarDays size={18} aria-hidden="true" />
+                {camp.date}
+              </li>
+              <li>
+                <MapPin size={18} aria-hidden="true" />
+                {camp.location}
+              </li>
+            </ul>
           </div>
         </section>
 
-        <section className="cd-section">
-          <div className="cd-container cd-main-grid">
-            <article className="cd-main-content">
-              <div className="cd-image-wrap">
+        {/* DETAILS */}
+        <section className="cd-details">
+          <div className="cd-container cd-details-grid">
+            <article className="cd-main">
+              <figure className="cd-photo">
                 <img src={camp.image} alt={camp.title} />
-              </div>
+              </figure>
 
-              <span className="cd-eyebrow">ABOUT THIS INITIATIVE</span>
+              <span className="cd-kicker">
+                <span className="cd-kicker-dot" />
+                ABOUT THIS CAMP
+              </span>
 
-              <h2>Supporting community health and wellbeing</h2>
+              <h2>
+                Supporting community health{' '}
+                <span className="hand-accent">and wellbeing.</span>
+              </h2>
 
-              <p>{camp.overview}</p>
+              <p className="cd-lead">{camp.overview}</p>
 
               <p>
                 The Web Initiative Ltd aims to support community-focused
-                initiatives through engagement, awareness, and collaboration.
-                Please contact the organization to confirm the status and
-                availability of any specific activity.
+                initiatives through engagement, awareness and
+                collaboration. Please contact us to confirm the status of
+                any specific activity.
               </p>
 
-              <div className="cd-activities">
-                <h3>Areas of focus</h3>
+              <div className="cd-expect">
+                <h3>What to expect</h3>
 
-                <ul>
+                <ul className="cd-expect-list">
                   {camp.activities.map((activity) => (
                     <li key={activity}>
-                      <CheckCircle2 size={20} />
+                      <CheckCircle2 size={20} aria-hidden="true" />
                       <span>{activity}</span>
                     </li>
                   ))}
@@ -159,96 +185,120 @@ function CampDetails() {
               </div>
 
               <div className="cd-note">
-                <HeartPulse size={24} />
+                <Info size={22} aria-hidden="true" />
                 <p>
                   Activities depend on available resources and confirmed
-                  partnerships. Medical assessment and treatment should be
-                  provided by appropriately qualified healthcare professionals.
+                  partnerships. Medical assessment and treatment are
+                  provided by qualified healthcare professionals.
                 </p>
               </div>
             </article>
 
             <aside className="cd-sidebar">
               <div className="cd-info-card">
-                <span className="cd-eyebrow">CAMP INFORMATION</span>
+                <span className="cd-kicker">
+                  <span className="cd-kicker-dot" />
+                  CAMP INFORMATION
+                </span>
 
                 <h3>Event details</h3>
 
-                <div className="cd-info-item">
-                  <span className="cd-info-icon">
-                    <CalendarDays size={21} />
-                  </span>
-                  <div>
-                    <strong>Date</strong>
-                    <p>{camp.date}</p>
-                  </div>
-                </div>
+                <ul className="cd-info-list">
+                  <li>
+                    <span className="cd-icon-box">
+                      <CalendarDays size={21} aria-hidden="true" />
+                    </span>
+                    <span>
+                      <strong>Date</strong>
+                      <span>{camp.date}</span>
+                    </span>
+                  </li>
+                  <li>
+                    <span className="cd-icon-box">
+                      <MapPin size={21} aria-hidden="true" />
+                    </span>
+                    <span>
+                      <strong>Location</strong>
+                      <span>{camp.location}</span>
+                    </span>
+                  </li>
+                  <li>
+                    <span className="cd-icon-box">
+                      <Users size={21} aria-hidden="true" />
+                    </span>
+                    <span>
+                      <strong>Participation</strong>
+                      <span>Contact us for current arrangements.</span>
+                    </span>
+                  </li>
+                </ul>
 
-                <div className="cd-info-item">
-                  <span className="cd-info-icon">
-                    <MapPin size={21} />
-                  </span>
-                  <div>
-                    <strong>Location</strong>
-                    <p>{camp.location}</p>
-                  </div>
-                </div>
-
-                <div className="cd-info-item">
-                  <span className="cd-info-icon">
-                    <Users size={21} />
-                  </span>
-                  <div>
-                    <strong>Participation</strong>
-                    <p>Contact us for current arrangements.</p>
-                  </div>
-                </div>
-
-                <Link
-                  to="/contact"
-                  className="cd-button cd-button-primary cd-full-button"
-                >
-                  Enquire About This Camp <ArrowRight size={18} />
+                <Link to="/contact" className="cd-btn cd-btn-dark cd-btn-full">
+                  Enquire about this camp
+                  <ArrowRight size={18} aria-hidden="true" />
                 </Link>
 
                 <p className="cd-small-note">
-                  Date, venue, and participation details must be confirmed
-                  with the organization.
+                  Dates, venues and participation details are confirmed
+                  by our team.
                 </p>
               </div>
 
-              <div className="cd-help-card">
-                <HandHeart size={30} />
-                <h3>Want to support our work?</h3>
+              <div className="cd-support-card">
+                <HandHeart size={30} aria-hidden="true" />
+                <h3>Help this camp reach more families.</h3>
                 <p>
-                  Contact our team to discuss potential partnerships,
-                  volunteering, or support for community initiatives.
+                  Your support helps us bring health checks, screening and
+                  education to children and families who need them.
                 </p>
-                <Link to="/donate" className="cd-text-link">
-                  Ways to support us <ArrowRight size={17} />
+                <Link to="/donate" className="cd-btn btn-support cd-btn-full">
+                  Make a Donation
                 </Link>
               </div>
             </aside>
           </div>
         </section>
 
-        <section className="cd-bottom-cta">
-          <div className="cd-container cd-bottom-content">
-            <div>
-              <span className="cd-eyebrow">GET IN TOUCH</span>
-              <h2>
-                Let's work together for{' '}
-                <span className="hand-accent hand-accent--on-dark">healthier communities.</span>
-              </h2>
-              <p>
-                Contact The Web Initiative Ltd to learn more about our
-                community initiatives and opportunities to collaborate.
-              </p>
+        {/* OTHER CAMPS */}
+        <section className="cd-more" aria-labelledby="cd-more-title">
+          <div className="cd-container">
+            <div className="cd-heading">
+              <div>
+                <span className="cd-kicker">
+                  <span className="cd-kicker-dot" />
+                  MORE OUTREACH
+                </span>
+                <h2 id="cd-more-title">
+                  Explore other{' '}
+                  <span className="hand-accent">medical camps.</span>
+                </h2>
+              </div>
+              <Link to="/medical-camps" className="cd-text-link">
+                View all camps
+                <span>
+                  <ArrowRight size={18} aria-hidden="true" />
+                </span>
+              </Link>
             </div>
 
-            <Link to="/contact" className="cd-button cd-button-white">
-              Contact Our Team <ArrowRight size={18} />
-            </Link>
+            <div className="cd-more-grid">
+              {otherCamps.map(([key, other]) => (
+                <Link to={`/medical-camps/${key}`} className="cd-more-card" key={key}>
+                  <div className="cd-more-photo">
+                    <img src={other.image} alt="" loading="lazy" />
+                  </div>
+                  <div className="cd-more-body">
+                    <span className="cd-more-category">{other.category}</span>
+                    <h3>{other.title}</h3>
+                    <p>{other.description}</p>
+                    <span className="cd-more-link">
+                      View details
+                      <ArrowRight size={17} aria-hidden="true" />
+                    </span>
+                  </div>
+                </Link>
+              ))}
+            </div>
           </div>
         </section>
       </main>

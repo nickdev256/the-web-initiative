@@ -1,279 +1,463 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap');
 
-/* Readability and typography improvements for The Web Initiative Ltd */
+/* =========================================
+   THE WEB INITIATIVE LTD — MEDICAL CAMPS
+   Same type, colours and components as Home, About and Medical Services.
+   ========================================= */
 
 .medical-camps-page {
-  width: 100%;
   overflow: clip;
+  color: var(--c-navy);
   background: var(--c-white);
+  font-family: 'DM Sans', sans-serif;
+}
+
+.medical-camps-page *,
+.medical-camps-page *::before,
+.medical-camps-page *::after {
+  box-sizing: border-box;
+}
+
+.medical-camps-page h1,
+.medical-camps-page h2,
+.medical-camps-page h3,
+.medical-camps-page strong {
+  font-family: 'Manrope', sans-serif;
+}
+
+.medical-camps-page h1,
+.medical-camps-page h2,
+.medical-camps-page h3,
+.medical-camps-page p,
+.medical-camps-page figure,
+.medical-camps-page ul,
+.medical-camps-page ol {
+  margin: 0;
+}
+
+.medical-camps-page img {
+  display: block;
+  max-width: 100%;
 }
 
 .mc-container {
-  width: min(100% - 48px, 1240px);
+  width: min(1240px, calc(100% - 64px));
   margin-inline: auto;
 }
 
-.mc-section {
-  padding-block: clamp(55px, 8vw, 100px);
+/* Shared pieces */
+
+.mc-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--c-blue);
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  line-height: 1.5;
+  text-transform: uppercase;
 }
 
-.mc-eyebrow {
-  display: inline-block;
-  margin-bottom: 15px;
-  color: var(--c-blue);
-  font-size: 12px;
+.mc-kicker-light {
+  color: color-mix(in srgb, var(--c-white) 88%, transparent);
+}
+
+.mc-kicker-dot {
+  flex: 0 0 8px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--c-cyan);
+  box-shadow: 0 0 0 5px color-mix(in srgb, var(--c-cyan) 18%, transparent);
+}
+
+.medical-camps-page h2 {
+  margin: 20px 0 18px;
+  color: var(--c-navy);
+  font-size: clamp(2.2rem, 3.6vw, 3.4rem);
   font-weight: 800;
-  letter-spacing: 2px;
+  letter-spacing: -0.035em;
+  line-height: 1.1;
+  text-wrap: balance;
+}
+
+.medical-camps-page p {
+  color: var(--c-slate);
+  font-size: 18px;
+  line-height: 1.8;
+}
+
+.medical-camps-page p + p {
+  margin-top: 16px;
+}
+
+.medical-camps-page .mc-lead {
+  color: var(--c-navy);
+  font-size: 20px;
   line-height: 1.7;
 }
 
-/* Hero */
+.mc-heading {
+  margin-bottom: 48px;
+}
 
+.mc-heading-center {
+  max-width: 760px;
+  margin-inline: auto;
+  text-align: center;
+}
 
-/* Medical Camps Hero */
+.mc-heading-center p {
+  max-width: 640px;
+  margin-inline: auto;
+}
+
+.mc-heading-split {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px 60px;
+}
+
+.mc-heading-split h2 {
+  margin-bottom: 0;
+}
+
+.mc-heading-split > p {
+  max-width: 440px;
+}
+
+.mc-icon-box {
+  display: grid;
+  place-items: center;
+  flex: 0 0 52px;
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+}
+
+.mc-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 54px;
+  padding: 14px 26px;
+  border-radius: 999px;
+  font-family: 'Manrope', sans-serif;
+  font-size: 16px;
+  font-weight: 800;
+  text-align: center;
+  text-decoration: none;
+  transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.mc-btn:hover {
+  transform: translateY(-2px);
+}
+
+.mc-btn-light {
+  color: var(--c-navy);
+  background: var(--c-white);
+}
+
+.mc-btn-light:hover {
+  background: var(--c-cyan);
+}
+
+.mc-btn-dark {
+  margin-top: 30px;
+  color: var(--c-white);
+  background: var(--c-blue);
+}
+
+.mc-btn-dark:hover {
+  background: var(--c-navy);
+}
+
+.mc-text-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 34px;
+  color: var(--c-navy);
+  font-size: 16px;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.mc-text-link > span {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border: 1px solid var(--c-line);
+  border-radius: 50%;
+  transition: background 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
+}
+
+.mc-text-link:hover > span {
+  border-color: var(--c-blue);
+  background: var(--c-blue);
+  transform: translateX(3px);
+}
+
+/* =========================================
+   HERO (crossfading photos)
+   ========================================= */
+
 .mc-hero {
   position: relative;
+  isolation: isolate;
   display: flex;
   align-items: center;
-  min-height: clamp(360px, 45vw, 520px);
-  padding-block: clamp(65px, 8vw, 100px);
-  isolation: isolate;
+  min-height: min(600px, calc(100svh - 120px));
+  padding: 90px 0 96px;
   overflow: hidden;
-  background-color: var(--c-navy);
+  background: var(--c-navy);
 }
 
-/* Background slideshow container */
 .mc-hero-slideshow {
   position: absolute;
-  inset: 0;
   z-index: -2;
-  overflow: hidden;
+  inset: 0;
 }
 
-/* Individual photos */
 .mc-hero-slide {
   position: absolute;
   inset: 0;
-  background-size: cover;
-  background-position: center 40%;
+  background-position: center;
   background-repeat: no-repeat;
+  background-size: cover;
   opacity: 0;
-  animation: mc-hero-fade 14s ease-in-out infinite;
-  will-change: opacity;
+  animation: mc-hero-fade 16s ease-in-out infinite;
 }
 
-/* First photo */
 .mc-hero-slide-one {
-  background-image: url("/images/outdoor-consultation.jpg");
-  animation-delay: 0s;
+  background-image: url('/images/outdoor-consultation.jpg');
+  background-position: 70% 40%;
+  /* Start already faded in, so the hero never loads as a blank panel */
+  animation-delay: -1.3s;
 }
 
-/* Second photo */
 .mc-hero-slide-two {
-  background-image: url("/images/medical-camp-tents.jpg");
-  animation-delay: 7s;
+  background-image: url('/images/camps/elder-consultation.jpg');
+  background-position: 70% 35%;
+  animation-delay: 8s;
 }
 
-/* Overlay above the photos */
-.mc-hero-overlay {
+/* Each photo holds for about 6 seconds, then crossfades */
+@keyframes mc-hero-fade {
+  0% { opacity: 0; transform: scale(1.06); }
+  8%, 50% { opacity: 1; }
+  58%, 100% { opacity: 0; transform: scale(1); }
+}
+
+.mc-hero-shade {
   position: absolute;
   z-index: -1;
   inset: 0;
-  background: linear-gradient(
-    90deg,
-    color-mix(in srgb, var(--c-navy) 82%, transparent) 0%,
-    color-mix(in srgb, var(--c-navy) 60%, transparent) 55%,
-    color-mix(in srgb, var(--c-navy) 30%, transparent) 100%
-  );
-  pointer-events: none;
-}
-
-/* Keep text above the background */
-.mc-hero-content {
-  position: relative;
-  color: var(--c-white);
-}
-
-.mc-hero .mc-eyebrow {
-  color: var(--c-cyan);
-}
-
-.mc-hero h1,
-.mc-hero-content > p {
-  color: var(--c-white);
-}
-
-/* Smooth crossfade: change photos every 7 seconds */
-@keyframes mc-hero-fade {
-  0%, 3% {
-    opacity: 0;
-  }
-
-  10%, 43% {
-    opacity: 1;
-  }
-
-  50%, 100% {
-    opacity: 0;
-  }
-}
-
-/* Accessibility */
-@media (prefers-reduced-motion: reduce) {
-  .mc-hero-slide {
-    animation: none;
-  }
-
-  .mc-hero-slide-one {
-    opacity: 1;
-  }
-}
-
-/* Mobile photo positioning */
-@media (max-width: 600px) {
-  .mc-hero-slide {
-    background-position: 60% center;
-  }
-}
-
-
-/* Keep the hero text visible */
-.mc-hero-content {
-  position: relative;
-  color: var(--c-white);
-}
-
-.mc-hero .mc-eyebrow {
-  color: var(--c-cyan);
+  background:
+    linear-gradient(90deg,
+      color-mix(in srgb, var(--c-navy) 95%, #000) 0%,
+      color-mix(in srgb, var(--c-navy) 86%, transparent) 42%,
+      color-mix(in srgb, var(--c-navy) 35%, transparent) 100%),
+    linear-gradient(0deg, color-mix(in srgb, var(--c-navy) 55%, transparent), transparent 45%);
 }
 
 .mc-hero h1 {
+  max-width: 800px;
+  margin: 22px 0;
   color: var(--c-white);
+  font-size: clamp(2.6rem, 5vw, 4.4rem);
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  line-height: 1.06;
+  text-wrap: balance;
+  text-shadow: 0 2px 24px rgba(0, 0, 0, 0.25);
 }
 
 .mc-hero-content > p {
-  color: var(--c-white);
+  max-width: 620px;
+  color: color-mix(in srgb, var(--c-white) 90%, transparent);
+  font-size: clamp(18px, 1.5vw, 21px);
+  line-height: 1.65;
 }
 
-.mc-breadcrumb {
+.mc-hero-actions {
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
-  gap: 12px;
-  margin-top: 26px;
-  color: var(--c-sky);
-  font-size: 13px;
+  gap: 14px;
+  margin-top: 36px;
 }
 
-.mc-breadcrumb a {
-  color: var(--c-cyan);
-  font-weight: 700;
-}
+/* =========================================
+   INTRO
+   ========================================= */
 
-/* Introduction */
+.mc-intro {
+  padding: 110px 0;
+}
 
 .mc-intro-grid {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   align-items: center;
-  gap: clamp(35px, 7vw, 90px);
+  gap: clamp(50px, 7vw, 100px);
 }
 
-.mc-intro-content,
-.mc-intro-image-wrap {
-  min-width: 0;
+.mc-intro-copy {
+  max-width: 600px;
 }
 
-.mc-intro-content h2 {
-  margin-bottom: 22px;
-  font-size: clamp(30px, 4vw, 45px);
-  font-weight: 800;
-  letter-spacing: -1px;
-  line-height: 1.2;
-}
-
-.mc-intro-content > p {
-  margin-bottom: 16px;
-  font-size: 15px;
-  line-height: 1.9;
-}
-
-.mc-primary-link {
-  display: inline-flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 9px;
-  min-height: 46px;
-  margin-top: 8px;
-  color: var(--c-blue);
-  font-size: 14px;
-  font-weight: 800;
-}
-
-.mc-intro-image-wrap {
+.mc-intro-visual {
   position: relative;
-  padding-bottom: 24px;
+  padding-bottom: 48px;
 }
 
-.mc-intro-image {
+.mc-intro-photo {
+  width: 86%;
+  margin-left: auto;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  border-radius: 24px;
+  background: var(--c-line);
+  box-shadow: 0 30px 70px color-mix(in srgb, var(--c-navy) 14%, transparent);
+}
+
+.mc-intro-photo img {
   width: 100%;
-  aspect-ratio: 5 / 4;
-  border-radius: 12px;
-  background: var(--c-sky);
+  height: 100%;
   object-fit: cover;
 }
 
-.mc-image-badge {
+.mc-intro-badge {
   position: absolute;
-  right: 0;
+  left: 0;
   bottom: 0;
   display: flex;
   align-items: center;
-  gap: 11px;
-  max-width: calc(100% - 8px);
-  padding: 16px 19px;
+  gap: 14px;
+  width: min(360px, 78%);
+  padding: 18px 20px;
   border: 1px solid var(--c-line);
-  border-radius: 9px;
+  border-radius: 18px;
   background: var(--c-white);
-  box-shadow: 0 12px 30px color-mix(in srgb, var(--c-navy) 10%, transparent);
+  box-shadow: 0 24px 55px color-mix(in srgb, var(--c-navy) 16%, transparent);
+}
+
+.mc-intro-badge > span:last-child {
+  display: grid;
+  gap: 3px;
+}
+
+.mc-intro-badge strong {
   color: var(--c-navy);
-  font-size: 13px;
-  font-weight: 700;
+  font-size: 16px;
+  font-weight: 800;
 }
 
-.mc-image-badge svg {
-  flex-shrink: 0;
-  color: var(--c-blue);
+.mc-intro-badge > span:last-child > span {
+  color: var(--c-slate);
+  font-size: 14px;
+  line-height: 1.5;
 }
 
-/* Camp cards */
+/* =========================================
+   WHAT HAPPENS AT A CAMP (deep blue)
+   ========================================= */
+
+.mc-activities {
+  padding: 104px 0 112px;
+  background: var(--c-navy);
+}
+
+.mc-activities .mc-heading h2 {
+  color: var(--c-white);
+}
+
+.mc-activities .mc-heading p {
+  color: color-mix(in srgb, var(--c-white) 82%, transparent);
+}
+
+.mc-activity-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 22px;
+}
+
+.mc-activity-card {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: 20px;
+  background: var(--c-white);
+  box-shadow: 0 10px 30px color-mix(in srgb, #000 15%, transparent);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.mc-activity-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 26px 55px color-mix(in srgb, #000 25%, transparent);
+}
+
+.mc-activity-photo {
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: var(--c-line);
+}
+
+.mc-activity-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 25%;
+  transition: transform 0.5s ease;
+}
+
+.mc-activity-card:hover .mc-activity-photo img {
+  transform: scale(1.05);
+}
+
+.mc-activity-body {
+  position: relative;
+  padding: 0 24px 26px;
+}
+
+/* Icon box sits across the photo edge */
+.mc-activity-body .mc-icon-box {
+  margin-top: -26px;
+  border: 4px solid var(--c-white);
+  box-sizing: content-box;
+}
+
+.mc-activity-body h3 {
+  margin: 16px 0 8px;
+  color: var(--c-navy);
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.3;
+}
+
+.medical-camps-page .mc-activity-body p {
+  font-size: 16px;
+  line-height: 1.65;
+}
+
+/* =========================================
+   TYPES OF CAMP
+   ========================================= */
 
 .mc-listing {
+  padding: 110px 0;
   background: var(--c-paper);
-}
-
-.mc-section-heading {
-  max-width: 760px;
-  margin: 0 auto clamp(32px, 5vw, 48px);
-  text-align: center;
-}
-
-.mc-section-heading h2 {
-  margin-bottom: 16px;
-  font-size: clamp(30px, 4vw, 43px);
-  font-weight: 800;
-  letter-spacing: -0.8px;
-}
-
-.mc-section-heading > p {
-  font-size: 15px;
-  line-height: 1.85;
 }
 
 .mc-camp-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  align-items: stretch;
   gap: 24px;
 }
 
@@ -283,651 +467,356 @@
   min-width: 0;
   overflow: hidden;
   border: 1px solid var(--c-line);
-  border-radius: 12px;
+  border-radius: 20px;
   background: var(--c-white);
-  box-shadow: 0 8px 25px color-mix(in srgb, var(--c-navy) 5%, transparent);
-  transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease;
+  box-shadow: 0 10px 30px color-mix(in srgb, var(--c-navy) 6%, transparent);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .mc-camp-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 14px 30px color-mix(in srgb, var(--c-navy) 10%, transparent);
+  transform: translateY(-6px);
+  box-shadow: 0 26px 55px color-mix(in srgb, var(--c-navy) 14%, transparent);
 }
 
-.mc-camp-image-link {
+.mc-camp-photo {
   position: relative;
   display: block;
-  overflow: hidden;
-  background: var(--c-sky);
-}
-
-.mc-camp-image {
-  width: 100%;
   aspect-ratio: 16 / 10;
-  object-fit: cover;
-  transition: transform 0.3s ease;
+  overflow: hidden;
+  background: var(--c-line);
 }
 
-.mc-camp-card:hover .mc-camp-image {
-  transform: scale(1.035);
+.mc-camp-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.mc-camp-card:hover .mc-camp-photo img {
+  transform: scale(1.05);
 }
 
 .mc-camp-category {
   position: absolute;
-  right: 12px;
-  bottom: 12px;
-  left: 12px;
-  width: fit-content;
-  max-width: calc(100% - 24px);
-  padding: 7px 11px;
-  border-radius: 5px;
-  background: var(--c-blue);
-  color: var(--c-white);
-  font-size: 11px;
+  top: 16px;
+  left: 16px;
+  max-width: calc(100% - 32px);
+  padding: 7px 14px;
+  border-radius: 999px;
+  color: var(--c-navy);
+  background: var(--c-cyan);
+  font-size: 13px;
   font-weight: 800;
-  overflow-wrap: anywhere;
 }
 
 .mc-camp-body {
   display: flex;
   flex: 1;
   flex-direction: column;
-  min-width: 0;
-  padding: clamp(20px, 2.5vw, 28px);
+  padding: 28px 28px 24px;
 }
 
 .mc-camp-body h3 {
-  margin-bottom: 12px;
-  font-size: 20px;
+  margin-bottom: 10px;
+  font-size: 21px;
   font-weight: 800;
-  line-height: 1.4;
-  overflow-wrap: anywhere;
+  letter-spacing: -0.02em;
+  line-height: 1.3;
+}
+
+.mc-camp-body h3 a {
+  color: var(--c-navy);
+  text-decoration: none;
 }
 
 .mc-camp-body h3 a:hover {
   color: var(--c-blue);
 }
 
-.mc-camp-body > p {
-  margin-bottom: 22px;
-  font-size: 14px;
-  line-height: 1.85;
-  overflow-wrap: anywhere;
+.medical-camps-page .mc-camp-body > p {
+  font-size: 16px;
+  line-height: 1.7;
 }
 
 .mc-camp-meta {
   display: grid;
-  gap: 12px;
-  margin-bottom: 20px;
-  padding-top: 17px;
-  border-top: 1px solid var(--c-sky);
+  gap: 8px;
+  margin: 22px 0;
+  padding: 18px 0 0;
+  border-top: 1px solid var(--c-line);
+  list-style: none;
 }
 
-.mc-camp-meta span {
+.mc-camp-meta li {
   display: flex;
-  align-items: flex-start;
-  gap: 9px;
+  align-items: center;
+  gap: 10px;
   color: var(--c-slate);
-  font-size: 12px;
-  line-height: 1.7;
-  overflow-wrap: anywhere;
+  font-size: 15px;
 }
 
 .mc-camp-meta svg {
   flex-shrink: 0;
-  margin-top: 2px;
-  color: var(--c-blue);
 }
 
 .mc-camp-link {
   display: inline-flex;
   align-items: center;
-  flex-wrap: wrap;
   gap: 8px;
-  min-height: 42px;
   margin-top: auto;
-  color: var(--c-blue);
-  font-size: 13px;
+  color: var(--c-navy);
+  font-size: 15px;
   font-weight: 800;
+  text-decoration: none;
 }
 
-.mc-camp-link:hover,
-.mc-primary-link:hover {
-  color: var(--c-blue-deep);
+.mc-camp-link svg {
+  transition: transform 0.2s ease;
 }
 
-.mc-disclaimer {
-  max-width: 850px;
-  margin: 30px auto 0;
-  font-size: 12px;
-  line-height: 1.8;
-  text-align: center;
+.mc-camp-link:hover svg {
+  transform: translateX(4px);
 }
 
-/* Participation steps */
+/* =========================================
+   GET INVOLVED
+   ========================================= */
 
-.mc-steps-grid {
+.mc-involve {
+  padding: 110px 0;
+}
+
+.mc-involve-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 24px;
-}
-
-.mc-step-card {
-  position: relative;
-  min-width: 0;
-  padding: 30px;
-  border: 1px solid var(--c-line);
-  border-radius: 11px;
-  background: var(--c-white);
-}
-
-.mc-step-icon {
-  display: flex;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
   align-items: center;
-  justify-content: center;
-  width: 56px;
-  height: 56px;
-  margin-bottom: 20px;
-  border-radius: 10px;
-  background: var(--c-sky);
-  color: var(--c-blue);
+  gap: clamp(50px, 7vw, 100px);
+}
+
+.mc-involve-copy {
+  max-width: 520px;
+}
+
+.mc-steps {
+  display: grid;
+  gap: 16px;
+  padding: 0;
+  list-style: none;
+}
+
+.mc-steps li {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  padding: 26px 28px;
+  border: 1px solid var(--c-line);
+  border-radius: 20px;
+  background: var(--c-white);
+  transition: border-color 0.2s ease, box-shadow 0.3s ease;
+}
+
+.mc-steps li:hover {
+  border-color: color-mix(in srgb, var(--c-blue) 40%, var(--c-line));
+  box-shadow: 0 18px 40px color-mix(in srgb, var(--c-navy) 10%, transparent);
 }
 
 .mc-step-number {
-  position: absolute;
-  top: 28px;
-  right: 25px;
-  color: var(--c-sky);
-  font-size: 30px;
+  display: block;
+  color: var(--c-blue);
+  font-size: 13px;
   font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
 }
 
-.mc-step-card h3 {
-  margin-bottom: 12px;
+.mc-steps strong {
+  display: block;
+  margin-top: 2px;
+  color: var(--c-navy);
   font-size: 20px;
   font-weight: 800;
 }
 
-.mc-step-card > p {
-  font-size: 14px;
-  line-height: 1.9;
+.medical-camps-page .mc-steps p {
+  margin-top: 4px;
+  font-size: 16px;
+  line-height: 1.65;
 }
 
-/* Call to action */
+/* =========================================
+   ACCESSIBILITY
+   ========================================= */
 
-.mc-cta {
-  padding-block: clamp(50px, 7vw, 80px);
-  background: var(--c-blue);
+.medical-camps-page a:focus-visible {
+  outline: 3px solid var(--c-blue-bright);
+  outline-offset: 4px;
 }
 
-.mc-cta-content {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 30px 45px;
-}
+@media (prefers-reduced-motion: reduce) {
+  .medical-camps-page *,
+  .medical-camps-page *::before,
+  .medical-camps-page *::after {
+    transition-duration: 0.01ms !important;
+  }
 
-.mc-cta-content > div:first-child {
-  flex: 1 1 400px;
-  min-width: 0;
-}
+  .mc-hero-slide {
+    animation: none;
+  }
 
-.mc-cta .mc-eyebrow {
-  color: var(--c-sky);
-}
-
-.mc-cta h2 {
-  margin-bottom: 15px;
-  color: var(--c-white);
-  font-size: clamp(29px, 4vw, 43px);
-  font-weight: 800;
-}
-
-.mc-cta-content > div:first-child > p {
-  max-width: 650px;
-  color: var(--c-sky);
-  font-size: 15px;
-  line-height: 1.9;
-}
-
-.mc-cta-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-}
-
-.mc-button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 9px;
-  min-height: 49px;
-  padding: 12px 20px;
-  border: 2px solid var(--c-white);
-  border-radius: 6px;
-  font-size: 14px;
-  font-weight: 700;
-  text-align: center;
-  transition:
-    background 0.2s ease,
-    color 0.2s ease;
-}
-
-.mc-button-white {
-  background: var(--c-white);
-  color: var(--c-blue-deep);
-}
-
-.mc-button-white:hover {
-  background: var(--c-sky);
-}
-
-.mc-button-outline {
-  background: transparent;
-  color: var(--c-white);
-}
-
-.mc-button-outline:hover {
-  background: var(--c-white);
-  color: var(--c-blue-deep);
-}
-
-/* Large displays */
-
-@media (min-width: 1600px) {
-  .mc-container {
-    width: min(100% - 100px, 1360px);
+  .mc-hero-slide-one {
+    opacity: 1;
   }
 }
 
-/* Laptops and small desktops */
+/* =========================================
+   RESPONSIVE
+   ========================================= */
 
-@media (max-width: 1050px) {
-  .mc-camp-grid {
+@media (min-width: 1800px) {
+  .mc-container {
+    width: min(1360px, calc(100% - 120px));
+  }
+}
+
+@media (max-width: 1100px) {
+  .mc-activity-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .mc-steps-grid {
-    gap: 16px;
-  }
-
-  .mc-step-card {
-    padding: 24px;
+  .mc-camp-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
-/* Tablets */
+@media (max-width: 900px) {
+  .mc-container {
+    width: calc(100% - 48px);
+  }
 
-@media (max-width: 800px) {
+  .mc-intro-grid,
+  .mc-involve-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 56px;
+  }
+
+  .mc-intro-visual {
+    width: min(100%, 560px);
+    margin-inline: auto;
+  }
+
+  .mc-intro-copy,
+  .mc-involve-copy {
+    max-width: 640px;
+  }
+
+  .mc-heading-split {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 760px) {
   .mc-container {
     width: calc(100% - 40px);
   }
 
-  .mc-intro-grid {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 35px;
-  }
-
-  .mc-intro-content {
-    order: 1;
-  }
-
-  .mc-intro-image-wrap {
-    order: 2;
-    width: min(100%, 650px);
-    margin-inline: auto;
-  }
-
-  .mc-steps-grid {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 15px;
-  }
-
-  .mc-step-card {
-    padding: 25px;
-  }
-}
-
-/* Mobile phones */
-
-@media (max-width: 600px) {
-  .mc-container {
-    width: calc(100% - 32px);
-  }
-
-  .mc-section {
-    padding-block: 50px;
-  }
-
   .mc-hero {
-    min-height: 310px;
-    padding-block: 55px;
+    min-height: 0;
+    padding: 64px 0 72px;
+  }
+
+  .mc-hero-slide-one,
+  .mc-hero-slide-two {
     background-position: 60% center;
   }
 
-  .mc-hero-overlay {
-    background: color-mix(in srgb, var(--c-navy) 84%, transparent);
+  .mc-hero-shade {
+    background: linear-gradient(180deg,
+      color-mix(in srgb, var(--c-navy) 80%, #000) 0%,
+      color-mix(in srgb, var(--c-navy) 74%, transparent) 55%,
+      color-mix(in srgb, var(--c-navy) 90%, #000) 100%);
   }
 
-  .mc-hero h1 {
-    font-size: clamp(33px, 9vw, 43px);
-    letter-spacing: -0.8px;
+  .mc-intro,
+  .mc-listing,
+  .mc-involve {
+    padding: 76px 0;
   }
 
-  .mc-hero-content > p {
-    font-size: 14px;
+  .mc-activities {
+    padding: 76px 0 82px;
   }
 
-  .mc-breadcrumb {
-    gap: 9px;
-    font-size: 12px;
+  .mc-heading {
+    margin-bottom: 32px;
   }
 
-  .mc-intro-grid {
-    gap: 28px;
+  .medical-camps-page h2 {
+    font-size: clamp(2.1rem, 8vw, 3rem);
   }
 
-  .mc-intro-content h2,
-  .mc-section-heading h2 {
-    font-size: clamp(27px, 7.8vw, 35px);
+  .medical-camps-page p {
+    font-size: 17px;
   }
 
-  .mc-intro-content > p,
-  .mc-section-heading > p {
-    font-size: 14px;
-  }
-
-  .mc-image-badge {
-    gap: 8px;
-    padding: 12px;
-    font-size: 11px;
-  }
-
-  .mc-section-heading {
-    margin-bottom: 30px;
+  .medical-camps-page .mc-lead {
+    font-size: 18px;
   }
 
   .mc-camp-grid {
     grid-template-columns: minmax(0, 1fr);
     gap: 18px;
   }
-
-  .mc-camp-card:hover {
-    transform: none;
-  }
-
-  .mc-camp-body {
-    padding: 22px;
-  }
-
-  .mc-camp-body h3 {
-    font-size: 19px;
-  }
-
-  .mc-steps-grid {
-    gap: 14px;
-  }
-
-  .mc-step-card {
-    padding: 23px;
-  }
-
-  .mc-cta-content {
-    align-items: stretch;
-    flex-direction: column;
-    gap: 24px;
-  }
-
-  .mc-cta h2 {
-    font-size: clamp(27px, 7.8vw, 35px);
-  }
-
-  .mc-cta-content > div:first-child > p {
-    font-size: 14px;
-  }
-
-  .mc-cta-actions {
-    flex-direction: column;
-  }
-
-  .mc-button {
-    width: 100%;
-    min-height: 49px;
-  }
 }
 
-/* Extra-small phones */
-
-@media (max-width: 360px) {
-  .mc-container {
-    width: calc(100% - 26px);
-  }
-
-  .mc-eyebrow {
-    font-size: 10px;
-    letter-spacing: 1.5px;
-  }
-
-  .mc-hero h1 {
-    font-size: 30px;
-  }
-
-  .mc-camp-body {
-    padding: 18px;
-  }
-
-  .mc-step-card {
-    padding: 20px;
-  }
-}
-
-/* Short landscape screens */
-
-@media (max-height: 500px) and (orientation: landscape) {
-  .mc-hero {
-    min-height: 270px;
-    padding-block: 35px;
-  }
-}
-
-/* Reduced motion accessibility */
-
-@media (prefers-reduced-motion: reduce) {
-  .mc-camp-card,
-  .mc-camp-image,
-  .mc-button {
-    transition: none;
-  }
-
-  .mc-camp-card:hover,
-  .mc-camp-card:hover .mc-camp-image {
-    transform: none;
-  }
-}
-
-
-/* =========================================================
-   READABILITY UPGRADE
-   Preserves the existing layout, colors, images and effects.
-   ========================================================= */
-
-.medical-camps-page p {
-  font-family: 'Poppins', sans-serif;
-  font-size: 16px;
-  line-height: 1.85;
-}
-
-.mc-hero-content > p {
-  font-size: clamp(17px, 1.5vw, 19px);
-  line-height: 1.85;
-  max-width: 720px;
-}
-
-.mc-eyebrow {
-  font-size: 13px;
-  letter-spacing: 1.8px;
-}
-
-.mc-hero h1 {
-  font-size: clamp(40px, 5.7vw, 68px);
-}
-
-.mc-intro-content h2 {
-  font-size: clamp(32px, 4vw, 47px);
-}
-
-.mc-section-heading h2 {
-  font-size: clamp(32px, 4vw, 45px);
-}
-
-.mc-intro-content > p,
-.mc-section-heading > p,
-.mc-camp-body > p,
-.mc-step-card > p,
-.mc-cta-content > div:first-child > p {
-  font-size: 16px;
-  line-height: 1.85;
-}
-
-.mc-primary-link,
-.mc-camp-link {
-  font-size: 15px;
-}
-
-.mc-image-badge {
-  font-size: 14px;
-  line-height: 1.5;
-}
-
-.mc-camp-category {
-  font-size: 12px;
-  line-height: 1.5;
-}
-
-.mc-camp-body h3,
-.mc-step-card h3 {
-  font-size: 21px;
-  line-height: 1.4;
-}
-
-.mc-camp-meta span {
-  font-size: 14px;
-  line-height: 1.7;
-}
-
-.mc-disclaimer {
-  font-family: 'Poppins', sans-serif;
-  font-size: 14px;
-  line-height: 1.8;
-}
-
-.mc-step-number {
-  font-size: 32px;
-}
-
-.mc-cta h2 {
-  font-size: clamp(31px, 4vw, 45px);
-}
-
-.mc-button {
-  font-size: 15px;
-  min-height: 52px;
-  padding: 13px 22px;
-}
-
-/* Tablet */
-@media (max-width: 800px) {
-  .medical-camps-page p {
-    font-size: 16px;
-  }
-
-  .mc-intro-content h2,
-  .mc-section-heading h2 {
-    font-size: clamp(30px, 5vw, 40px);
-  }
-
-  .mc-camp-body h3,
-  .mc-step-card h3 {
-    font-size: 21px;
-  }
-
-  .mc-camp-meta span {
-    font-size: 14px;
-  }
-}
-
-/* Mobile */
 @media (max-width: 600px) {
-  .mc-eyebrow {
-    font-size: 12px;
-    letter-spacing: 1.5px;
+  .mc-activity-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 18px;
   }
 
-  .mc-hero h1 {
-    font-size: clamp(36px, 9vw, 46px);
+  .mc-hero-actions {
+    flex-direction: column;
+    align-items: stretch;
   }
 
-  .mc-hero-content > p,
-  .mc-intro-content > p,
-  .mc-section-heading > p,
-  .mc-camp-body > p,
-  .mc-step-card > p,
-  .mc-cta-content > div:first-child > p {
-    font-size: 15px;
-    line-height: 1.8;
-  }
-
-  .mc-intro-content h2,
-  .mc-section-heading h2,
-  .mc-cta h2 {
-    font-size: clamp(29px, 7.8vw, 37px);
-    line-height: 1.2;
-  }
-
-  .mc-image-badge {
-    font-size: 13px;
-  }
-
-  .mc-camp-body h3,
-  .mc-step-card h3 {
-    font-size: 20px;
-  }
-
-  .mc-camp-meta span {
-    font-size: 13px;
-  }
-
-  .mc-disclaimer {
-    font-size: 13px;
-  }
-
-  .mc-primary-link,
-  .mc-camp-link,
-  .mc-button {
-    font-size: 15px;
+  .mc-btn {
+    width: 100%;
   }
 }
 
-/* Very small phones */
-@media (max-width: 360px) {
-  .mc-eyebrow { 
-    font-size: 11px;
-    letter-spacing: 1.2px;
+@media (max-width: 480px) {
+  .mc-container {
+    width: calc(100% - 32px);
   }
 
   .mc-hero h1 {
-    font-size: 34px;
+    font-size: clamp(2.3rem, 10.5vw, 2.9rem);
   }
 
-  .mc-hero-content > p,
-  .mc-intro-content > p,
-  .mc-section-heading > p,
-  .mc-camp-body > p,
-  .mc-step-card > p,
-  .mc-cta-content > div:first-child > p {
-    font-size: 14px;
+  .mc-intro-photo {
+    width: 100%;
+    border-radius: 18px;
+  }
+
+  .mc-intro-visual {
+    padding-bottom: 0;
+  }
+
+  .mc-intro-badge {
+    position: relative;
+    width: calc(100% - 24px);
+    margin: -36px auto 0;
+  }
+
+  .mc-camp-body {
+    padding: 24px 22px 22px;
+  }
+
+  .mc-steps li {
+    flex-direction: column;
+    gap: 14px;
+    padding: 22px;
   }
 }

@@ -253,48 +253,6 @@
   color: var(--nav-blue);
 }
 
-.desktop-search-form {
-  position: absolute;
-  top: calc(100% + 16px);
-  right: -10px;
-  z-index: 1020;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  width: 300px;
-  padding: 8px;
-  border: 1px solid var(--nav-line);
-  border-radius: 14px;
-  background: var(--c-white);
-  box-shadow: 0 18px 40px color-mix(in srgb, var(--c-navy) 16%, transparent);
-}
-
-.desktop-search-form input {
-  width: 100%;
-  min-width: 0;
-  padding: 10px;
-  border: 0;
-  outline: none;
-  background: transparent;
-  color: var(--nav-ink);
-  font: inherit;
-  font-size: 14px;
-}
-
-.desktop-search-form button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  width: 40px;
-  height: 40px;
-  border: 0;
-  border-radius: 10px;
-  background: var(--nav-gradient);
-  color: var(--c-white);
-  cursor: pointer;
-}
-
 .navbar-donate {
   position: relative;
   display: inline-flex;
@@ -825,49 +783,6 @@
     border-top: 1px solid var(--nav-line);
   }
 
-  .mobile-search-form {
-    display: flex;
-    align-items: center;
-    gap: 9px;
-    padding: 6px 6px 6px 14px;
-    border: 1px solid var(--nav-line);
-    border-radius: 999px;
-    color: var(--c-slate);
-    background: var(--c-paper);
-  }
-
-  .mobile-search-form input {
-    width: 100%;
-    min-width: 0;
-    padding: 8px 0;
-    border: 0;
-    outline: none;
-    background: transparent;
-    color: var(--nav-ink);
-    font: inherit;
-    font-size: 15px;
-  }
-
-  .mobile-search-form button {
-    min-height: 38px;
-    padding: 0 16px;
-    border: 0;
-    border-radius: 999px;
-    background: var(--nav-gradient);
-    color: var(--c-white);
-    font-family: inherit;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-  }
-
-  .mobile-search-area p {
-    margin: 8px 0 0 4px;
-    color: var(--c-slate);
-    font-size: 12.5px;
-    line-height: 1.4;
-  }
-
   .mobile-donate {
     display: flex;
     width: 100%;
@@ -1012,5 +927,14 @@
     animation: none !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+}
+
+/* On phones the search panel hangs from the full-width header bar
+   instead of the small search button, so it never runs off screen */
+@media (max-width: 600px) {
+  .navbar-actions,
+  .desktop-search-wrap {
+    position: static;
   }
 }

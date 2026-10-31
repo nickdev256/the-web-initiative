@@ -2,17 +2,28 @@
 import { Link } from 'react-router-dom';
 import {
   ArrowRight,
+  ChevronRight,
   HeartPulse,
   Stethoscope,
   Activity,
   ShieldCheck,
   Users,
-  ClipboardCheck,
+  Microscope,
   HandHeart,
+  Apple,
+  Ribbon,
+  Droplet,
 } from 'lucide-react';
 import Navbar from '../components/Navbar.jsx';
-import Footer from '../components/Footer.jsx'; 
+import Footer from '../components/Footer.jsx';
 import './MedicalServices.css';
+
+// The three conditions named in the organisation's constitution.
+const focusConditions = [
+  { icon: Apple, label: 'Malnutrition' },
+  { icon: Droplet, label: 'Sickle cell disease' },
+  { icon: Ribbon, label: 'HIV' },
+];
 
 const services = [
   {
@@ -37,7 +48,7 @@ const services = [
     icon: ShieldCheck,
     title: 'Preventive Health Awareness',
     description:
-      'Initiatives that promote prevention, early attention to health concerns, and awareness of health risks.',
+      'Initiatives that promote prevention, early attention to health concerns and awareness of health risks.',
   },
   {
     icon: Users,
@@ -53,80 +64,137 @@ const services = [
   },
 ];
 
+const steps = [
+  {
+    title: 'Listen and understand',
+    text: 'Learn about community priorities and concerns.',
+  },
+  {
+    title: 'Plan and collaborate',
+    text: 'Work with relevant people and partners.',
+  },
+  {
+    title: 'Support and learn',
+    text: 'Review activities and identify opportunities to improve.',
+  },
+];
+
 function MedicalServices() {
   return (
     <>
       <Navbar />
 
       <main className="medical-services-page">
+        {/* HERO */}
         <section className="ms-hero">
-          <div className="ms-hero-overlay" />
+          <div className="ms-hero-shade" />
 
           <div className="ms-container ms-hero-content">
-            <span className="ms-eyebrow">OUR HEALTHCARE WORK</span>
+          
 
-            <h1>Medical Services</h1>
+            <span className="ms-kicker ms-kicker-light">
+              <span className="ms-kicker-dot" />
+              OUR HEALTHCARE WORK
+            </span>
+
+            <h1>
+              Medical services for{' '}
+              <span className="hand-accent hand-accent--on-dark">
+                healthier communities.
+              </span>
+            </h1>
 
             <p>
-              Supporting healthier communities through healthcare
-              awareness, outreach, and community-focused initiatives.
+              Health awareness, outreach and community-focused care for
+              children and families affected by malnutrition, sickle cell
+              disease and HIV in Northern Uganda.
             </p>
-
-            
           </div>
         </section>
 
-        <section className="ms-intro ms-section">
+        {/* INTRO */}
+        <section className="ms-intro">
           <div className="ms-container ms-intro-grid">
-            <div className="ms-intro-image-wrap">
-              <img
-                src="/images/outdoor-consultation.jpg"
-                alt="Healthcare professionals supporting community wellbeing"
-                className="ms-intro-image"
-              />
-            </div>
+            <figure className="ms-intro-visual">
+              <div className="ms-intro-photo">
+                <img
+                  src="/images/services-intro.jpg"
+                  alt="A team member preparing a blood sample for testing"
+                  loading="lazy"
+                />
+              </div>
 
-            <div className="ms-intro-content">
-              <span className="ms-eyebrow">HEALTH AND WELLBEING</span>
+              <div className="ms-intro-badge">
+                <span className="ms-icon-box">
+                  <Microscope size={22} aria-hidden="true" />
+                </span>
+                <span>
+                  <strong>Laboratory screening</strong>
+                  <span>Blood tests that help guide each child’s care.</span>
+                </span>
+              </div>
+            </figure>
+
+            <div className="ms-intro-copy">
+              <span className="ms-kicker">
+                <span className="ms-kicker-dot" />
+                HEALTH AND WELLBEING
+              </span>
 
               <h2>
                 Healthcare that puts{' '}
                 <span className="hand-accent">people first.</span>
               </h2>
 
-              <p>
-                Access to appropriate health information and support
-                can make a meaningful difference to individuals,
-                families, and communities.
+              <p className="ms-lead">
+                Access to appropriate health information and support can
+                make a meaningful difference to individuals, families and
+                communities.
               </p>
 
               <p>
-                The Web Initiative Ltd aims to support community
-                wellbeing through outreach, awareness, and initiatives
-                developed around local needs.
+                The Web Initiative Ltd aims to support community wellbeing
+                through outreach, awareness and initiatives developed
+                around local needs.
               </p>
 
-              <div className="ms-promise">
-                <ClipboardCheck size={23} />
-                <div>
-                  <strong>Community-focused approach</strong>
-                  <span>
-                    Listening, collaboration, and responsible support.
-                  </span>
-                </div>
+              <div className="ms-focus">
+                <span className="ms-focus-label">Our focus</span>
+                <ul className="ms-focus-list">
+                  {focusConditions.map((item) => {
+                    const Icon = item.icon;
+
+                    return (
+                      <li key={item.label}>
+                        <Icon size={17} aria-hidden="true" />
+                        {item.label}
+                      </li>
+                    );
+                  })}
+                </ul>
               </div>
             </div>
           </div>
         </section>
 
-        <section className="ms-services ms-section">
+        {/* AREAS OF FOCUS (deep blue) */}
+        <section className="ms-services" aria-labelledby="ms-services-title">
           <div className="ms-container">
-            <div className="ms-section-heading">
-              <span className="ms-eyebrow">HOW WE HELP</span>
-              <h2>Our Areas of Focus</h2>
+            <div className="ms-heading ms-heading-center">
+              <span className="ms-kicker ms-kicker-light">
+                <span className="ms-kicker-dot" />
+                HOW WE HELP
+              </span>
+              <h2 id="ms-services-title">
+                Our{' '}
+                <span className="hand-accent hand-accent--on-dark">
+                  areas of focus.
+                </span>
+              </h2>
               <p>
                 Explore the areas our healthcare and outreach initiatives
-                may cover. Contact us to confirm currently available services.
+                may cover. Contact us to confirm currently available
+                services.
               </p>
             </div>
 
@@ -136,16 +204,16 @@ function MedicalServices() {
 
                 return (
                   <article className="ms-service-card" key={service.title}>
-                    <div className="ms-service-icon">
-                      <Icon size={28} strokeWidth={1.8} />
-                    </div>
+                    <span className="ms-icon-box">
+                      <Icon size={24} strokeWidth={1.8} aria-hidden="true" />
+                    </span>
 
                     <h3>{service.title}</h3>
-
                     <p>{service.description}</p>
 
                     <Link to="/contact" className="ms-service-link">
-                      Ask us about this <ArrowRight size={17} />
+                      Ask us about this
+                      <ArrowRight size={17} aria-hidden="true" />
                     </Link>
                   </article>
                 );
@@ -154,84 +222,65 @@ function MedicalServices() {
           </div>
         </section>
 
-        <section className="ms-process ms-section">
-          <div className="ms-container ms-process-grid">
-            <div className="ms-process-content">
-              <span className="ms-eyebrow">OUR APPROACH</span>
+        {/* OUR APPROACH */}
+        <section className="ms-approach">
+          <div className="ms-container ms-approach-grid">
+            <div className="ms-approach-copy">
+              <span className="ms-kicker">
+                <span className="ms-kicker-dot" />
+                OUR APPROACH
+              </span>
 
-              <h2>Working with communities at every step.</h2>
+              <h2>
+                Working with communities{' '}
+                <span className="hand-accent">at every step.</span>
+              </h2>
 
               <p>
                 Effective community initiatives begin by understanding
-                people's needs and building relationships with the
+                people’s needs and building relationships with the
                 communities they are intended to serve.
               </p>
 
-              <ul className="ms-process-list">
-                <li>
-                  <span>01</span>
-                  <div>
-                    <strong>Listen and understand</strong>
-                    <p>Learn about community priorities and concerns.</p>
-                  </div>
-                </li>
+              <ol className="ms-steps">
+                {steps.map((step, index) => (
+                  <li key={step.title}>
+                    <span className="ms-step-number" aria-hidden="true">
+                      {index + 1}
+                    </span>
+                    <div>
+                      <strong>{step.title}</strong>
+                      <p>{step.text}</p>
+                    </div>
+                  </li>
+                ))}
+              </ol>
 
-                <li>
-                  <span>02</span>
-                  <div>
-                    <strong>Plan and collaborate</strong>
-                    <p>Work with relevant people and partners.</p>
-                  </div>
-                </li>
-
-                <li>
-                  <span>03</span>
-                  <div>
-                    <strong>Support and learn</strong>
-                    <p>Review activities and identify opportunities to improve.</p>
-                  </div>
-                </li>
-              </ul>
+              <Link to="/medical-camps" className="ms-text-link">
+                Explore our medical camps
+                <span>
+                  <ArrowRight size={18} />
+                </span>
+              </Link>
             </div>
 
-            <div className="ms-process-visual">
-              <img
-                src="/images/health-screening.jpg"
-                alt="Community health outreach"
-                loading="lazy"
-              />
-
-              <div className="ms-process-caption">
-                <HeartPulse size={25} />
-                <div>
-                  <strong>Care through collaboration</strong>
-                  <span>Supporting community wellbeing</span>
-                </div>
+            <figure className="ms-approach-visual">
+              <div className="ms-approach-photo">
+                <img
+                  src="/images/services-approach.jpg"
+                  alt="Our team leading a nutrition education session with mothers and children"
+                  loading="lazy"
+                />
               </div>
-            </div>
-          </div>
-        </section>
 
-        <section className="ms-cta">
-          <div className="ms-container ms-cta-content">
-            <div>
-              <span className="ms-eyebrow">LET'S CONNECT</span>
-              <h2>Want to learn more about our services?</h2>
-              <p>
-                Contact our team to ask about our activities, current
-                services, or opportunities to work together.
-              </p>
-            </div>
-
-            <div className="ms-cta-actions">
-              <Link to="/contact" className="ms-button ms-button-white">
-                Contact Us <ArrowRight size={18} />
-              </Link>
-
-              <Link to="/medical-camps" className="ms-button ms-button-outline">
-                Explore Medical Camps
-              </Link>
-            </div>
+              <figcaption className="ms-approach-caption">
+                <Apple size={22} aria-hidden="true" />
+                <span>
+                  <strong>Nutrition education for families</strong>
+                  <span>Sharing healthy food choices with mothers</span>
+                </span>
+              </figcaption>
+            </figure>
           </div>
         </section>
       </main>

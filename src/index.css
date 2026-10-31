@@ -26,7 +26,7 @@
   /* Badge behind icons on light backgrounds */
   --c-icon-bg: #123653;
 
-  /* Support Our Work (donate) buttons */
+  /* Make a Donation (donate) buttons */
   --c-support: #0878c9;
 
   /* Status colours for form confirmations (not part of the brand palette) */
@@ -472,7 +472,7 @@ a:focus-visible {
   .navbar-donate,
   .navbar-link,
   .dropdown-toggle,
-  .gallery-photo-card
+  .gallery-photo
 ) svg.lucide {
   color: inherit;
 }
@@ -483,17 +483,14 @@ a:focus-visible {
   .home-wwd-icon,
   .home-card-icon,
   .home-priority-icon,
-  .home-cta-symbol,
-  .about-label-icon,
-  .about-objective-icon,
-  .about-value-icon,
-  .ms-service-icon,
-  .mc-step-icon,
-  .cd-info-icon,
-  .ot-value-icon,
-  .impact-area-icon,
-  .donate-use-icon,
-  .gallery-cta-icon
+  .about-icon-box,
+  .ms-icon-box,
+  .mc-icon-box,
+  .cd-icon-box,
+  .ot-icon-box,
+  .impact-icon-box,
+  .contact-icon-box,
+  .donate-icon-box
 ) {
   border-color: transparent;
   background: var(--c-icon-bg);
@@ -503,48 +500,32 @@ a:focus-visible {
 :root :is(
   .home-editorial-link > span,
   .home-wwd-link,
-  .home-feature-stamp,
-  .about-card-bottom,
+  .about-card-note,
+  .about-text-link > span,
   .ms-service-link,
-  .ms-promise,
-  .ms-process-caption,
-  .mc-primary-link,
-  .mc-camp-meta span,
+  .ms-focus-list li,
+  .ms-text-link > span,
+  .mc-text-link > span,
+  .mc-camp-meta li,
   .mc-camp-link,
-  .mc-image-badge,
-  .cd-activities li,
+  .cd-expect-list li,
   .cd-note,
-  .cd-help-card,
-  .cd-text-link,
-  .ot-text-link,
-  .impact-text-link,
-  .impact-image-note,
-  .impact-location-strip,
-  .impact-location-strip .impact-container,
-  .donate-trust-item,
-  .donate-hero-image-caption,
-  .donate-contact-card,
-  .donate-location,
-  .gallery-location,
-  .contact-location-strip
+  .cd-text-link > span,
+  .ot-text-link > span,
+  .impact-text-link > span,
+  .contact-text-link > span,
+  .donate-text-link > span,
+  .donate-faq-item summary
 ) > svg.lucide {
   color: var(--c-icon-bg);
 }
 
 /* Arrow circles fill with blue on hover, so the arrow turns white */
-:root .home-editorial-link:hover > span svg.lucide {
+:root :is(.home-editorial-link, .mc-text-link, .cd-text-link, .ot-text-link, .impact-text-link, .contact-text-link, .donate-text-link):hover > span svg.lucide {
   color: var(--c-white);
 }
 
-/* Large decorative watermark icons stay a faint cyan tint */
-:root :is(
-  .home-cta-decoration,
-  .contact-map-decoration
-) svg.lucide {
-  color: color-mix(in srgb, var(--c-cyan) 35%, transparent);
-}
-
-/* Support Our Work buttons use their own blue (--c-support) everywhere */
+/* Make a Donation buttons use their own blue (--c-support) everywhere */
 :root .btn-support {
   color: var(--c-white);
   background: var(--c-support);
@@ -553,4 +534,75 @@ a:focus-visible {
 html:root .btn-support:hover {
   color: var(--c-white);
   background: color-mix(in srgb, var(--c-support) 82%, var(--c-navy));
+}
+
+/* Text read by screen readers but not shown on screen */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* =========================================
+   MOTION
+   Page entrance and scroll reveals (see PageEffects.jsx).
+   Animations only use "backwards" fill, so nothing keeps a transform
+   once they finish. The page entrance moves the page's blocks, never
+   <main> itself, so full-screen overlays inside it (like the gallery
+   viewer) are always positioned against the screen.
+   ========================================= */
+
+.page-transition > main > :not(.gallery-lightbox),
+.page-transition > div > main > :not(.gallery-lightbox) {
+  animation: page-enter 0.6s cubic-bezier(0.22, 0.7, 0.2, 1) backwards;
+}
+
+.reveal:not(.is-revealed) {
+  opacity: 0;
+}
+
+.reveal.is-revealed {
+  animation: reveal-up 0.8s cubic-bezier(0.22, 0.7, 0.2, 1) backwards;
+}
+
+@keyframes page-enter {
+  from {
+    opacity: 0;
+    translate: 0 18px;
+  }
+}
+
+@keyframes reveal-up {
+  from {
+    opacity: 0;
+    translate: 0 32px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-transition > main > *,
+  .page-transition > div > main > *,
+  .reveal.is-revealed {
+    animation: none;
+  }
+
+  .reveal:not(.is-revealed) {
+    opacity: 1;
+  }
+}
+
+/* About page: arrow circle fills with blue on hover */
+:root .about-text-link:hover > span svg.lucide {
+  color: var(--c-white);
+}
+
+/* Medical Services: arrow circle fills with blue on hover */
+:root .ms-text-link:hover > span svg.lucide {
+  color: var(--c-white);
 }

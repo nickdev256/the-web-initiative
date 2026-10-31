@@ -1,95 +1,132 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap');
 
-/* Typography and hero visibility improvements for The Web Initiative Ltd — Impact page */
+/* =========================================
+   THE WEB INITIATIVE LTD — OUR IMPACT
+   Same type, colours and components as the other redesigned pages.
+   ========================================= */
 
 .impact-page {
+  overflow: clip;
   color: var(--c-navy);
   background: var(--c-white);
-  overflow: hidden;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.impact-page *,
+.impact-page *::before,
+.impact-page *::after {
+  box-sizing: border-box;
+}
+
+.impact-page h1,
+.impact-page h2,
+.impact-page h3,
+.impact-page strong {
+  font-family: 'Manrope', sans-serif;
+}
+
+/* Low-specificity reset so each component's own spacing wins */
+:where(.impact-page) :where(h1, h2, h3, p, figure, ul) {
+  margin: 0;
+}
+
+.impact-page img {
+  display: block;
+  max-width: 100%;
 }
 
 .impact-container {
-  width: min(1160px, calc(100% - 48px));
-  margin: 0 auto;
+  width: min(1240px, calc(100% - 64px));
+  margin-inline: auto;
 }
 
-.section-space {
-  padding: 88px 0;
-}
+/* Shared pieces */
 
-.impact-hero {
-  position: relative;
-  display: flex;
-  align-items: center;
-  min-height: 520px;
-  padding: 90px 0;
-  background:
-    linear-gradient(90deg, color-mix(in srgb, var(--c-navy) 94%, transparent), color-mix(in srgb, var(--c-navy) 72%, transparent)),
-    url('/images/outreach-wheelchair.jpg') center/cover no-repeat,
-    var(--c-blue);
-}
-
-.impact-hero-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(90deg, color-mix(in srgb, var(--c-navy) 45%, transparent), transparent);
-  pointer-events: none;
-}
-
-.impact-hero-content {
-  position: relative;
-  z-index: 1;
-  color: var(--c-white);
-}
-
-.impact-eyebrow,
-.impact-section-label {
+.impact-kicker {
   display: inline-flex;
   align-items: center;
-  gap: 9px;
+  gap: 10px;
   color: var(--c-blue);
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 800;
-  letter-spacing: 1.7px;
+  letter-spacing: 0.16em;
+  line-height: 1.5;
   text-transform: uppercase;
 }
 
-.impact-eyebrow {
-  color: var(--c-white);
-  padding: 9px 14px;
-  border: 1px solid color-mix(in srgb, var(--c-white) 42%, transparent);
-  border-radius: 30px;
-  background: color-mix(in srgb, var(--c-white) 10%, transparent);
-}
-
-.impact-hero h1 {
-  max-width: 760px;
-  margin: 25px 0 20px;
-  font-size: clamp(38px, 5.5vw, 66px);
-  line-height: 1.08;
-  letter-spacing: -2px;
-  font-weight: 800;
-}
-
-.impact-hero h1 span {
-  display: block;
-  color: var(--c-cyan);
-}
-
-.impact-hero-content > p {
-  max-width: 620px;
-  margin: 0;
+.impact-kicker-light {
   color: color-mix(in srgb, var(--c-white) 88%, transparent);
-  font-size: 17px;
+}
+
+.impact-kicker-dot {
+  flex: 0 0 8px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--c-cyan);
+  box-shadow: 0 0 0 5px color-mix(in srgb, var(--c-cyan) 18%, transparent);
+}
+
+.impact-page h2 {
+  margin: 20px 0 18px;
+  color: var(--c-navy);
+  font-size: clamp(2.2rem, 3.6vw, 3.4rem);
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  line-height: 1.1;
+  text-wrap: balance;
+}
+
+.impact-page p {
+  color: var(--c-slate);
+  font-size: 18px;
   line-height: 1.8;
 }
 
-.impact-hero-buttons,
-.impact-cta-buttons {
+.impact-page p + p {
+  margin-top: 16px;
+}
+
+.impact-page .impact-lead {
+  color: var(--c-navy);
+  font-size: 20px;
+  line-height: 1.7;
+}
+
+.impact-heading {
+  margin-bottom: 48px;
+}
+
+.impact-heading-center {
+  max-width: 760px;
+  margin-inline: auto;
+  text-align: center;
+}
+
+.impact-heading-center p {
+  max-width: 640px;
+  margin-inline: auto;
+}
+
+.impact-heading-split {
   display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
   flex-wrap: wrap;
-  gap: 14px;
-  margin-top: 30px;
+  gap: 20px 40px;
+}
+
+.impact-heading-split h2 {
+  margin-bottom: 0;
+}
+
+.impact-icon-box {
+  display: grid;
+  place-items: center;
+  flex: 0 0 52px;
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
 }
 
 .impact-btn {
@@ -97,846 +134,466 @@
   align-items: center;
   justify-content: center;
   gap: 10px;
-  min-height: 48px;
-  padding: 13px 20px;
-  border: 1px solid transparent;
-  border-radius: 7px;
+  min-height: 54px;
+  padding: 14px 26px;
+  border-radius: 999px;
+  font-family: 'Manrope', sans-serif;
+  font-size: 16px;
+  font-weight: 800;
+  text-align: center;
   text-decoration: none;
-  font-size: 14px;
-  font-weight: 750;
-  transition: transform 0.2s ease, background 0.2s ease;
+  transition: background 0.2s ease, transform 0.2s ease;
 }
 
 .impact-btn:hover {
   transform: translateY(-2px);
 }
 
-.impact-btn-white {
-  color: var(--c-blue-deep);
-  background: var(--c-white);
-}
-
-.impact-btn-outline {
-  color: var(--c-white);
-  border-color: color-mix(in srgb, var(--c-white) 75%, transparent);
-  background: transparent;
-}
-
-.impact-btn-primary {
-  color: var(--c-white);
-  background: var(--c-blue);
-}
-
 .impact-btn-light {
-  color: var(--c-blue);
-  border-color: var(--c-sky);
+  color: var(--c-navy);
   background: var(--c-white);
 }
 
-.impact-intro-grid {
-  display: grid;
-  grid-template-columns: 1fr 0.9fr;
-  align-items: center;
-  gap: 65px;
-}
-
-.impact-intro-copy h2,
-.impact-section-heading h2,
-.impact-commitment-copy h2,
-.impact-cta h2 {
-  margin: 15px 0 20px;
-  color: var(--c-navy);
-  font-size: clamp(28px, 3.3vw, 42px);
-  line-height: 1.2;
-  letter-spacing: -1px;
-}
-
-.impact-intro-copy p,
-.impact-section-heading > p,
-.impact-area-card p,
-.impact-activity-copy p,
-.impact-commitment-copy p,
-.impact-cta p {
-  color: var(--c-slate);
-  font-size: 15px;
-  line-height: 1.85;
-}
-
-.impact-intro-copy p {
-  margin: 0 0 15px;
+.impact-btn-light:hover {
+  background: var(--c-cyan);
 }
 
 .impact-text-link {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  margin-top: 12px;
-  color: var(--c-blue);
-  font-size: 14px;
+  gap: 14px;
+  color: var(--c-navy);
+  font-size: 16px;
   font-weight: 800;
   text-decoration: none;
 }
 
-.impact-text-link:hover {
-  gap: 12px;
+.impact-intro-copy .impact-text-link {
+  margin-top: 34px;
+}
+
+.impact-text-link > span {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border: 1px solid var(--c-line);
+  border-radius: 50%;
+  transition: background 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
+}
+
+.impact-text-link:hover > span {
+  border-color: var(--c-blue);
+  background: var(--c-blue);
+  transform: translateX(3px);
+}
+
+/* =========================================
+   HERO
+   ========================================= */
+
+.impact-hero {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  align-items: center;
+  min-height: min(600px, calc(100svh - 120px));
+  padding: 90px 0 96px;
+  overflow: hidden;
+  background: var(--c-navy) url('/images/outreach-wheelchair.jpg') 65% center / cover no-repeat;
+}
+
+.impact-hero-shade {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background:
+    linear-gradient(90deg,
+      color-mix(in srgb, var(--c-navy) 95%, #000) 0%,
+      color-mix(in srgb, var(--c-navy) 86%, transparent) 42%,
+      color-mix(in srgb, var(--c-navy) 35%, transparent) 100%),
+    linear-gradient(0deg, color-mix(in srgb, var(--c-navy) 55%, transparent), transparent 45%);
+}
+
+.impact-hero h1 {
+  max-width: 800px;
+  margin: 22px 0;
+  color: var(--c-white);
+  font-size: clamp(2.6rem, 5vw, 4.4rem);
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  line-height: 1.06;
+  text-wrap: balance;
+  text-shadow: 0 2px 24px rgba(0, 0, 0, 0.25);
+}
+
+.impact-hero-content > p {
+  max-width: 620px;
+  color: color-mix(in srgb, var(--c-white) 90%, transparent);
+  font-size: clamp(18px, 1.5vw, 21px);
+  line-height: 1.65;
+}
+
+.impact-hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 36px;
+}
+
+/* =========================================
+   WHY IT MATTERS
+   ========================================= */
+
+.impact-intro {
+  padding: 110px 0;
+}
+
+.impact-intro-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  align-items: center;
+  gap: clamp(50px, 7vw, 100px);
+}
+
+.impact-intro-copy {
+  max-width: 600px;
 }
 
 .impact-intro-visual {
   position: relative;
-  min-height: 390px;
-  border-radius: 16px;
-  background: linear-gradient(135deg, var(--c-sky), var(--c-sky));
+  padding-bottom: 48px;
+}
+
+.impact-intro-photo {
+  width: 86%;
+  margin-left: auto;
+  aspect-ratio: 4 / 5;
   overflow: hidden;
+  border-radius: 24px;
+  background: var(--c-line);
+  box-shadow: 0 30px 70px color-mix(in srgb, var(--c-navy) 14%, transparent);
 }
 
-.impact-intro-visual > img {
-  width: 100%;
-  height: 390px;
-  object-fit: cover;
-  display: block;
-}
-
-.impact-image-note {
-  position: absolute;
-  right: 18px;
-  bottom: 18px;
-  left: 18px;
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  padding: 17px;
-  color: var(--c-navy);
-  border: 1px solid color-mix(in srgb, var(--c-white) 65%, transparent);
-  border-radius: 10px;
-  background: color-mix(in srgb, var(--c-white) 94%, transparent);
-}
-
-.impact-image-note > svg {
-  flex-shrink: 0;
-  color: var(--c-blue);
-}
-
-.impact-image-note strong,
-.impact-image-note span {
-  display: block;
-}
-
-.impact-image-note strong {
-  font-size: 14px;
-}
-
-.impact-image-note span {
-  margin-top: 5px;
-  color: var(--c-slate);
-  font-size: 12px;
-}
-
-.impact-areas {
-  background: var(--c-paper);
-}
-
-.impact-section-heading {
-  max-width: 700px;
-  margin: 0 auto 40px;
-  text-align: center;
-}
-
-.impact-section-heading h2 {
-  margin-bottom: 12px;
-}
-
-.impact-section-heading > p {
-  margin: 0;
-}
-
-.impact-area-grid {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 20px;
-}
-
-.impact-area-card {
-  padding: 28px 23px;
-  border: 1px solid var(--c-sky);
-  border-radius: 12px;
-  background: var(--c-white);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.impact-area-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 14px 35px color-mix(in srgb, var(--c-navy) 8%, transparent);
-}
-
-.impact-area-icon {
-  display: grid;
-  place-items: center;
-  width: 58px;
-  height: 58px;
-  color: var(--c-blue);
-  border-radius: 12px;
-  background: var(--c-sky);
-}
-
-.impact-area-card h3 {
-  margin: 21px 0 10px;
-  color: var(--c-navy);
-  font-size: 18px;
-  line-height: 1.4;
-}
-
-.impact-area-card p {
-  margin: 0;
-  font-size: 14px;
-}
-
-.impact-heading-row {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 25px;
-  max-width: none;
-  text-align: left;
-}
-
-.impact-heading-row h2 {
-  margin-bottom: 0;
-}
-
-.impact-heading-row .impact-text-link {
-  flex-shrink: 0;
-  margin-bottom: 5px;
-}
-
-.impact-activity-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 24px;
-}
-
-.impact-activity-card {
-  border: 1px solid var(--c-sky);
-  border-radius: 12px;
-  background: var(--c-white);
-  overflow: hidden;
-}
-
-.impact-activity-image {
-  position: relative;
-  height: 235px;
-  background: linear-gradient(135deg, var(--c-sky), var(--c-sky));
-  overflow: hidden;
-}
-
-.impact-activity-image img {
-  display: block;
+.impact-intro-photo img {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-.impact-activity-image > span {
+.impact-intro-badge {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: min(360px, 78%);
+  padding: 18px 20px;
+  border: 1px solid var(--c-line);
+  border-radius: 18px;
+  background: var(--c-white);
+  box-shadow: 0 24px 55px color-mix(in srgb, var(--c-navy) 16%, transparent);
+}
+
+.impact-intro-badge > span:last-child {
+  display: grid;
+  gap: 3px;
+}
+
+.impact-intro-badge strong {
+  color: var(--c-navy);
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.impact-intro-badge > span:last-child > span {
+  color: var(--c-slate);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* =========================================
+   AREAS OF IMPACT (deep blue)
+   ========================================= */
+
+.impact-areas {
+  padding: 104px 0 112px;
+  background: var(--c-navy);
+}
+
+.impact-areas .impact-heading h2 {
+  color: var(--c-white);
+}
+
+.impact-areas .impact-heading p {
+  color: color-mix(in srgb, var(--c-white) 82%, transparent);
+}
+
+.impact-area-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 22px;
+}
+
+.impact-area-card {
+  padding: 32px 28px;
+  border-radius: 20px;
+  background: var(--c-white);
+  box-shadow: 0 10px 30px color-mix(in srgb, #000 15%, transparent);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.impact-area-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 26px 55px color-mix(in srgb, #000 25%, transparent);
+}
+
+.impact-area-card h3 {
+  margin: 22px 0 10px;
+  color: var(--c-navy);
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.3;
+}
+
+.impact-page .impact-area-card p {
+  font-size: 16px;
+  line-height: 1.7;
+}
+
+/* =========================================
+   WORK IN ACTION
+   ========================================= */
+
+.impact-action {
+  padding: 110px 0;
+  background: var(--c-paper);
+}
+
+.impact-action-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.impact-action-card {
+  overflow: hidden;
+  border: 1px solid var(--c-line);
+  border-radius: 20px;
+  background: var(--c-white);
+  box-shadow: 0 10px 30px color-mix(in srgb, var(--c-navy) 6%, transparent);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.impact-action-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 26px 55px color-mix(in srgb, var(--c-navy) 14%, transparent);
+}
+
+.impact-action-photo {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: var(--c-line);
+}
+
+.impact-action-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 30%;
+  transition: transform 0.5s ease;
+}
+
+.impact-action-card:hover .impact-action-photo img {
+  transform: scale(1.05);
+}
+
+.impact-action-number {
   position: absolute;
   top: 16px;
   left: 16px;
   display: grid;
   place-items: center;
-  width: 42px;
-  height: 42px;
-  color: var(--c-blue);
+  width: 46px;
+  height: 46px;
   border-radius: 50%;
-  background: var(--c-white);
-  font-size: 13px;
+  color: var(--c-navy);
+  background: var(--c-cyan);
+  font-family: 'Manrope', sans-serif;
+  font-size: 15px;
   font-weight: 800;
 }
 
-.impact-activity-copy {
-  padding: 24px;
+.impact-action-body {
+  padding: 28px;
 }
 
-.impact-activity-copy h3 {
-  margin: 0 0 10px;
+.impact-action-body h3 {
+  margin-bottom: 10px;
   color: var(--c-navy);
-  font-size: 20px;
-}
-
-.impact-activity-copy p {
-  margin: 0;
-  font-size: 14px;
-}
-
-.impact-commitment {
-  padding: 62px 0;
-  background: var(--c-navy);
-}
-
-.impact-commitment-inner {
-  display: flex;
-  align-items: center;
-  gap: 25px;
-}
-
-.impact-commitment-icon {
-  display: grid;
-  place-items: center;
-  flex-shrink: 0;
-  width: 68px;
-  height: 68px;
-  color: var(--c-white);
-  border-radius: 15px;
-  background: var(--c-blue);
-}
-
-.impact-commitment-copy {
-  flex: 1;
-}
-
-.impact-commitment-copy .impact-section-label {
-  color: var(--c-cyan);
-}
-
-.impact-commitment-copy h2 {
-  margin: 9px 0 8px;
-  color: var(--c-white);
-  font-size: clamp(25px, 3vw, 35px);
-}
-
-.impact-commitment-copy p {
-  max-width: 650px;
-  margin: 0;
-  color: var(--c-line);
-  font-size: 14px;
-}
-
-.impact-commitment-inner > .impact-btn {
-  flex-shrink: 0;
-}
-
-.impact-cta-inner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 35px;
-  padding: 42px;
-  border: 1px solid var(--c-sky);
-  border-radius: 16px;
-  background: var(--c-paper);
-}
-
-.impact-cta-inner > div:first-child {
-  max-width: 590px;
-}
-
-.impact-cta h2 {
-  margin: 12px 0 10px;
-}
-
-.impact-cta p {
-  margin: 0;
-}
-
-.impact-cta-buttons {
-  flex-shrink: 0;
-  margin-top: 0;
-}
-
-.impact-location-strip {
-  padding: 20px 0;
-  color: var(--c-slate);
-  border-top: 1px solid var(--c-sky);
-  background: var(--c-white);
-}
-
-.impact-location-strip .impact-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 10px;
-  font-size: 13px;
-}
-
-.impact-location-strip svg {
-  color: var(--c-blue);
-}
-
-.impact-location-strip .impact-container > span:first-of-type {
-  color: var(--c-navy);
+  font-size: 21px;
   font-weight: 800;
-  letter-spacing: 0.5px;
+  letter-spacing: -0.02em;
 }
 
-.impact-location-divider {
-  color: var(--c-slate-light);
+.impact-page .impact-action-body p {
+  font-size: 16px;
+  line-height: 1.7;
 }
 
-@media (max-width: 1050px) {
-  .impact-area-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
+/* =========================================
+   ACCESSIBILITY
+   ========================================= */
 
-  .impact-intro-grid {
-    gap: 35px;
-  }
-
-  .impact-commitment-inner {
-    flex-wrap: wrap;
-  }
-
-  .impact-commitment-copy {
-    min-width: 60%;
-  }
-
-  .impact-commitment-inner > .impact-btn {
-    margin-left: 93px;
-  }
-
-  .impact-cta-inner {
-    align-items: flex-start;
-    flex-direction: column;
-  }
-}
-
-@media (max-width: 760px) {
-  .impact-container {
-    width: min(100% - 36px, 560px);
-  }
-
-  .section-space {
-    padding: 62px 0;
-  }
-
-  .impact-hero {
-    min-height: 470px;
-    padding: 70px 0;
-    background-position: center;
-  }
-
-  .impact-hero h1 {
-    font-size: clamp(36px, 9vw, 52px);
-    letter-spacing: -1.3px;
-  }
-
-  .impact-hero-content > p {
-    font-size: 15px;
-  }
-
-  .impact-hero-buttons {
-    align-items: stretch;
-    flex-direction: column;
-    max-width: 320px;
-  }
-
-  .impact-intro-grid {
-    grid-template-columns: 1fr;
-    gap: 32px;
-  }
-
-  .impact-intro-visual,
-  .impact-intro-visual > img {
-    min-height: 300px;
-    height: 300px;
-  }
-
-  .impact-section-heading {
-    margin-bottom: 30px;
-  }
-
-  .impact-heading-row {
-    align-items: flex-start;
-    flex-direction: column;
-    gap: 12px;
-  }
-
-  .impact-activity-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .impact-activity-image {
-    height: 260px;
-  }
-
-  .impact-commitment-inner {
-    align-items: flex-start;
-    flex-direction: column;
-  }
-
-  .impact-commitment-copy {
-    min-width: 0;
-  }
-
-  .impact-commitment-inner > .impact-btn {
-    margin-left: 0;
-  }
-
-  .impact-cta-inner {
-    padding: 28px 22px;
-  }
-
-  .impact-cta-buttons {
-    align-items: stretch;
-    flex-direction: column;
-    width: 100%;
-  }
-
-  .impact-cta-buttons .impact-btn {
-    width: 100%;
-  }
-}
-
-@media (max-width: 480px) {
-  .impact-container {
-    width: calc(100% - 30px);
-  }
-
-  .impact-hero {
-    min-height: 440px;
-    padding: 55px 0;
-  }
-
-  .impact-hero h1 {
-    font-size: 36px;
-  }
-
-  .impact-eyebrow,
-  .impact-section-label {
-    font-size: 10px;
-    letter-spacing: 1.2px;
-  }
-
-  .impact-area-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .impact-area-card {
-    padding: 23px;
-  }
-
-  .impact-intro-copy h2,
-  .impact-section-heading h2,
-  .impact-cta h2 {
-    font-size: 29px;
-  }
-
-  .impact-image-note {
-    right: 10px;
-    bottom: 10px;
-    left: 10px;
-    padding: 12px;
-  }
-
-  .impact-image-note strong {
-    font-size: 12px;
-  }
-
-  .impact-image-note span {
-    font-size: 11px;
-  }
-
-  .impact-location-strip .impact-container {
-    gap: 7px;
-    font-size: 11px;
-  }
+.impact-page a:focus-visible {
+  outline: 3px solid var(--c-blue-bright);
+  outline-offset: 4px;
 }
 
 @media (prefers-reduced-motion: reduce) {
   .impact-page *,
   .impact-page *::before,
   .impact-page *::after {
-    transition: none !important;
-    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
   }
 }
 
+/* =========================================
+   RESPONSIVE
+   ========================================= */
 
-/* =========================================================
-   READABILITY + HERO VISIBILITY UPGRADE
-   Appended after the original styles to preserve existing layout.
-   ========================================================= */
-
-.impact-page p {
-  font-family: 'Poppins', sans-serif;
-  font-size: 16px;
-  line-height: 1.85;
-}
-
-/* Make the hero background more visible while keeping text readable */
-.impact-hero {
-  min-height: clamp(520px, 52vw, 650px);
-  background-image:
-    linear-gradient(90deg, color-mix(in srgb, var(--c-navy) 84%, transparent) 0%, color-mix(in srgb, var(--c-navy) 62%, transparent) 52%, color-mix(in srgb, var(--c-navy) 28%, transparent) 100%),
-    url('/images/outreach-wheelchair.jpg');
-  background-position: center;
-  background-size: cover;
-  background-repeat: no-repeat;
-}
-
-.impact-hero-overlay {
-  background: linear-gradient(
-    90deg,
-    color-mix(in srgb, var(--c-navy) 22%, transparent) 0%,
-    color-mix(in srgb, var(--c-navy) 8%, transparent) 65%,
-    color-mix(in srgb, var(--c-navy) 2%, transparent) 100%
-  );
-}
-
-.impact-hero-content {
-  max-width: 100%;
-  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.14);
-}
-
-.impact-eyebrow {
-  font-size: 13px;
-  padding: 10px 16px;
-  background: color-mix(in srgb, var(--c-navy) 36%, transparent);
-  border-color: color-mix(in srgb, var(--c-white) 62%, transparent);
-  backdrop-filter: blur(5px);
-}
-
-.impact-hero h1 {
-  max-width: 820px;
-  font-size: clamp(44px, 6vw, 76px);
-  line-height: 1.08;
-  letter-spacing: -1.8px;
-  text-shadow: 0 3px 22px rgba(0, 0, 0, 0.22);
-}
-
-.impact-hero h1 span {
-  color: var(--c-cyan);
-}
-
-.impact-hero-content > p {
-  max-width: 700px;
-  font-size: clamp(18px, 1.7vw, 20px);
-  line-height: 1.8;
-  color: var(--c-white);
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-}
-
-.impact-btn {
-  min-height: 52px;
-  padding: 14px 22px;
-  font-size: 15px;
-}
-
-/* Section headings */
-.impact-intro-copy h2,
-.impact-section-heading h2,
-.impact-cta h2 {
-  font-size: clamp(32px, 3.6vw, 46px);
-  line-height: 1.2;
-}
-
-.impact-commitment-copy h2 {
-  font-size: clamp(29px, 3.2vw, 38px);
-  line-height: 1.25;
-}
-
-.impact-section-label {
-  font-size: 13px;
-  letter-spacing: 1.5px;
-}
-
-.impact-intro-copy p,
-.impact-section-heading > p,
-.impact-area-card p,
-.impact-activity-copy p,
-.impact-commitment-copy p,
-.impact-cta p {
-  font-size: 16px;
-  line-height: 1.85;
-}
-
-.impact-text-link {
-  font-size: 15px;
-  min-height: 44px;
-}
-
-.impact-image-note strong {
-  font-size: 15px;
-}
-
-.impact-image-note span {
-  font-size: 14px;
-  line-height: 1.6;
-}
-
-.impact-area-card h3 {
-  font-size: 20px;
-  line-height: 1.4;
-}
-
-.impact-area-card {
-  padding: 30px 25px;
-}
-
-.impact-activity-copy h3 {
-  font-size: 22px;
-  line-height: 1.4;
-}
-
-.impact-activity-copy {
-  padding: 26px;
-}
-
-.impact-commitment-copy p {
-  color: var(--c-sky);
-}
-
-.impact-location-strip .impact-container {
-  font-size: 14px;
-}
-
-/* Tablet */
-@media (max-width: 1050px) {
-  .impact-hero {
-    min-height: 540px;
-  }
-
-  .impact-hero h1 {
-    font-size: clamp(42px, 6vw, 64px);
-  }
-
-  .impact-area-card p,
-  .impact-activity-copy p,
-  .impact-intro-copy p,
-  .impact-section-heading > p,
-  .impact-commitment-copy p,
-  .impact-cta p {
-    font-size: 16px;
+@media (min-width: 1800px) {
+  .impact-container {
+    width: min(1360px, calc(100% - 120px));
   }
 }
 
-/* Mobile */
+@media (max-width: 1100px) {
+  .impact-area-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .impact-action-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 900px) {
+  .impact-container {
+    width: calc(100% - 48px);
+  }
+
+  .impact-intro-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 56px;
+  }
+
+  .impact-intro-visual {
+    width: min(100%, 560px);
+    margin-inline: auto;
+  }
+
+  .impact-intro-copy {
+    max-width: 640px;
+  }
+}
+
 @media (max-width: 760px) {
+  .impact-container {
+    width: calc(100% - 40px);
+  }
+
   .impact-hero {
-    min-height: 500px;
+    min-height: 0;
+    padding: 64px 0 72px;
+  }
+
+  .impact-hero-shade {
+    background: linear-gradient(180deg,
+      color-mix(in srgb, var(--c-navy) 80%, #000) 0%,
+      color-mix(in srgb, var(--c-navy) 74%, transparent) 55%,
+      color-mix(in srgb, var(--c-navy) 90%, #000) 100%);
+  }
+
+  .impact-intro,
+  .impact-action {
     padding: 76px 0;
-    background-position: 60% center;
-    background-image:
-      linear-gradient(90deg, color-mix(in srgb, var(--c-navy) 84%, transparent), color-mix(in srgb, var(--c-navy) 58%, transparent)),
-      url('/images/outreach-wheelchair.jpg');
   }
 
-  .impact-hero-overlay {
-    background: color-mix(in srgb, var(--c-navy) 12%, transparent);
+  .impact-areas {
+    padding: 76px 0 82px;
   }
 
-  .impact-hero h1 {
-    font-size: clamp(38px, 8.5vw, 54px);
-    letter-spacing: -1px;
+  .impact-heading {
+    margin-bottom: 32px;
   }
 
-  .impact-hero-content > p {
+  .impact-page h2 {
+    font-size: clamp(2.1rem, 8vw, 3rem);
+  }
+
+  .impact-page p {
     font-size: 17px;
-    line-height: 1.8;
   }
 
-  .impact-hero-buttons {
-    max-width: 360px;
+  .impact-page .impact-lead {
+    font-size: 18px;
   }
 
-  .impact-intro-copy h2,
-  .impact-section-heading h2,
-  .impact-cta h2 {
-    font-size: clamp(30px, 6.5vw, 39px);
-  }
-
-  .impact-intro-copy p,
-  .impact-section-heading > p,
-  .impact-area-card p,
-  .impact-activity-copy p,
-  .impact-commitment-copy p,
-  .impact-cta p {
-    font-size: 15px;
-    line-height: 1.8;
-  }
-
-  .impact-area-card h3,
-  .impact-activity-copy h3 {
-    font-size: 21px;
-  }
-
-  .impact-commitment-copy h2 {
-    font-size: clamp(29px, 6.5vw, 37px);
-  }
-
-  .impact-image-note strong {
-    font-size: 14px;
-  }
-
-  .impact-image-note span {
-    font-size: 13px;
+  .impact-action-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 18px;
   }
 }
 
-/* Smaller phones */
-@media (max-width: 480px) {
-  .impact-hero {
-    min-height: 470px;
-    padding: 62px 0;
-    background-position: 58% center;
-    background-image:
-      linear-gradient(90deg, color-mix(in srgb, var(--c-navy) 88%, transparent), color-mix(in srgb, var(--c-navy) 66%, transparent)),
-      url('/images/outreach-wheelchair.jpg');
+@media (max-width: 600px) {
+  .impact-area-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
   }
 
-  .impact-eyebrow,
-  .impact-section-label {
-    font-size: 11px;
-    letter-spacing: 1.2px;
+  .impact-hero-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .impact-btn {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .impact-container {
+    width: calc(100% - 32px);
   }
 
   .impact-hero h1 {
-    font-size: clamp(35px, 9vw, 43px);
-    line-height: 1.12;
+    font-size: clamp(2.3rem, 10.5vw, 2.9rem);
   }
 
-  .impact-hero-content > p {
-    font-size: 16px;
-  }
-
-  .impact-hero-buttons .impact-btn,
-  .impact-cta-buttons .impact-btn {
+  .impact-intro-photo {
     width: 100%;
-    min-height: 52px;
-    font-size: 15px;
+    border-radius: 18px;
   }
 
-  .impact-intro-copy h2,
-  .impact-section-heading h2,
-  .impact-cta h2 {
-    font-size: 30px;
+  .impact-intro-visual {
+    padding-bottom: 0;
   }
 
-  .impact-intro-copy p,
-  .impact-section-heading > p,
-  .impact-area-card p,
-  .impact-activity-copy p,
-  .impact-commitment-copy p,
-  .impact-cta p {
-    font-size: 15px;
+  .impact-intro-badge {
+    position: relative;
+    width: calc(100% - 24px);
+    margin: -36px auto 0;
   }
 
-  .impact-location-strip .impact-container {
-    font-size: 12px;
+  .impact-area-card {
+    padding: 28px 22px;
   }
-}
 
-@media (prefers-reduced-motion: reduce) {
-  .impact-page .impact-btn,
-  .impact-page .impact-text-link,
-  .impact-page .impact-area-card {
-    transition: none;
+  .impact-action-body {
+    padding: 24px 22px;
   }
-}
-
-/* HERO HEADING VISIBILITY FIX */
-.impact-page .impact-hero h1 {
-  color: var(--c-white) !important;
-  text-shadow: 0 3px 18px color-mix(in srgb, var(--c-navy) 28%, transparent);
-}
-
-.impact-page .impact-hero h1 span {
-  color: var(--c-cyan) !important;
 }
