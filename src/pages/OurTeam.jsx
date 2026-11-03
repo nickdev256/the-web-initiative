@@ -12,41 +12,48 @@ import './OurTeam.css';
 
 // Team profiles, shown in this order. Put each photo in public/images/team/
 // (head and shoulders; it is shown square). Leave `photo` empty for a placeholder.
+// `flag` is the two-letter country code of a flag in public/images/flags/.
 const people = [
   {
     name: 'Mukisa George William',
     role: 'Executive Director & Founder',
     location: 'Uganda',
+    flag: 'ug',
     photo: '/images/team/mukisa-george-william.jpg',
   },
   {
     name: 'Vicky Woods',
     role: 'Director of Operations',
     location: 'USA',
+    flag: 'us',
     photo: '/images/team/vicky-woods.jpg',
   },
   {
     name: 'Joakim & Julia',
     role: 'Directors of Operations',
     location: 'Denmark',
+    flag: 'dk',
     photo: '/images/team/joakim-julia.jpg',
   },
   {
     name: 'Joakim & Birgit',
     role: 'Board Advisory, Finance',
     location: 'Germany',
+    flag: 'de',
     photo: '/images/team/joakim-birgit.jpg',
   },
   {
     name: 'Dave',
     role: '',
     location: 'Kenya',
+    flag: 'ke',
     photo: '/images/team/dave.jpg',
   },
   {
     name: 'Kwagala',
     role: '',
     location: 'Tanzania',
+    flag: 'tz',
     photo: '/images/team/kwagala.jpg',
   },
 ];
@@ -88,7 +95,7 @@ function OurTeam() {
             </h1>
 
             <p>
-              Doctors, Nurses, Volunteers, Donners and community members working together
+              Doctors, Nurses, Volunteers, Donors and community members working together
               to support children and families across Uganda.
             </p>
           </div>
@@ -112,7 +119,6 @@ function OurTeam() {
                 </span>
                 <span>
                   <strong>Working as a team</strong>
-                  <span></span>
                 </span>
               </figcaption>
             </figure>
@@ -189,7 +195,18 @@ function OurTeam() {
                   </div>
                   <h3>{person.name}</h3>
                   {person.role && <p className="ot-person-role">{person.role}</p>}
-                  <p className="ot-person-location">{person.location}</p>
+                  <p className="ot-person-location">
+                    {person.flag && (
+                      <img
+                        className="ot-person-flag"
+                        src={`/images/flags/${person.flag}.svg`}
+                        alt=""
+                        width="24"
+                        height="18"
+                      />
+                    )}
+                    {person.location}
+                  </p>
                 </li>
               ))}
             </ul>
@@ -208,12 +225,8 @@ function OurTeam() {
                 Want to work{' '}
                 <span className="hand-accent">With us?</span>
               </h2>
-              <p>
-                Work with us as a volunteer. 
-                <p>
-                Work with us as a partner.
-                </p>
-              </p>
+              <p>Work with us as a volunteer.</p>
+              <p>Work with us as a partner.</p>
               <Link to="/contact" className="ot-btn">
                 Contact our team
                 <ArrowRight size={18} aria-hidden="true" />

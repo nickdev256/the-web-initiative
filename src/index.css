@@ -488,7 +488,6 @@ a:focus-visible {
   .mc-icon-box,
   .cd-icon-box,
   .ot-icon-box,
-  .impact-icon-box,
   .contact-icon-box,
   .donate-icon-box
 ) {
@@ -512,7 +511,6 @@ a:focus-visible {
   .cd-note,
   .cd-text-link > span,
   .ot-text-link > span,
-  .impact-text-link > span,
   .contact-text-link > span,
   .donate-text-link > span,
   .donate-faq-item summary
@@ -521,7 +519,7 @@ a:focus-visible {
 }
 
 /* Arrow circles fill with blue on hover, so the arrow turns white */
-:root :is(.home-editorial-link, .mc-text-link, .cd-text-link, .ot-text-link, .impact-text-link, .contact-text-link, .donate-text-link):hover > span svg.lucide {
+:root :is(.home-editorial-link, .mc-text-link, .cd-text-link, .ot-text-link, .contact-text-link, .donate-text-link):hover > span svg.lucide {
   color: var(--c-white);
 }
 

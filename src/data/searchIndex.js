@@ -96,12 +96,6 @@ export const SEARCH_INDEX = [
     keywords: 'volunteer join partner partnership help work with us careers',
   },
   {
-    title: 'Our impact',
-    description: 'Where we focus and our work in action',
-    path: '/impact',
-    keywords: 'impact results difference work action',
-  },
-  {
     title: 'Sponsor a patient',
     description: 'Give monthly care to a child: from $65 a month',
     path: '/donate#give',

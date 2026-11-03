@@ -122,8 +122,8 @@ function MedicalCamps() {
             </h1>
 
             <p>
-              We bring medicalcare directly to maginalised communities in the most parts of
-          Northern Uganda.
+              We bring medical care directly to marginalised communities in
+              most parts of Northern Uganda.
             </p>
 
             <div className="mc-hero-actions">
@@ -157,17 +157,14 @@ function MedicalCamps() {
                 journey away. Our medical camps go to them.
               </p>
 
-              <p> 
-                Each camp is a chance for a family to access healthcare. We triage for
-                malnutrition, HIV, sickle cell disease and any other underlying 
-                medical problems.
+              <p>
+                Each camp is a chance for a family to access healthcare. We
+                triage for malnutrition, HIV, sickle cell disease and any
+                other underlying medical problems.
+              </p>
 
-                <p>
-                We seek to tackle the root causes and rather not just the symptoms.
-                 </p>
-
-
-                
+              <p>
+                We seek to tackle the root causes, not just the symptoms.
               </p>
 
               <Link to="/medical-services" className="mc-text-link">
@@ -327,7 +324,7 @@ function MedicalCamps() {
               </h2>
               <p>
                 Whether you are a community leader, a health worker or a
-                donner, there is a place for you at our next camp.
+                donor, there is a place for you at our next camp.
               </p>
               <Link to="/contact" className="mc-btn mc-btn-dark">
                 Contact our team

@@ -1,12 +1,11 @@
 
-import { Routes, Route, useLocation } from 'react-router-dom';
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import Home from './pages/Home.jsx';
 import About from './pages/About.jsx';
 import MedicalServices from './pages/MedicalServices.jsx';
 import MedicalCamps from './pages/MedicalCamps.jsx';
 import CampDetails from './pages/CampDetails.jsx';
 import OurTeam from './pages/OurTeam.jsx';
-import Impact from './pages/Impact.jsx';
 import Donate from './pages/Donate.jsx';
 import Gallery from './pages/Gallery.jsx';
 import Contact from './pages/Contact.jsx';
@@ -35,7 +34,8 @@ function App() {
           element={<CampDetails />}
         />
         <Route path="/our-team" element={<OurTeam />} />
-        <Route path="/impact" element={<Impact />} />
+        {/* The Our Impact page was removed; old links go to Home */}
+        <Route path="/impact" element={<Navigate to="/" replace />} />
         <Route path="/donate" element={<Donate />} />
         <Route path="/gallery" element={<Gallery />} />
         <Route path="/contact" element={<Contact />} />

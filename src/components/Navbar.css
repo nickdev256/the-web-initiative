@@ -204,6 +204,48 @@
   color: var(--nav-blue);
 }
 
+/* Desktop menu: a soft cyan pill grows in behind a link on hover.
+   The current page keeps its white pill. */
+@media (min-width: 1101px) {
+  .navbar-link,
+  .navbar-dropdown-trigger {
+    position: relative;
+    isolation: isolate;
+  }
+
+  /* Plain links draw the pill themselves; the Medical Camps trigger draws
+     one pill around both its link and its arrow */
+  .navbar-links > .navbar-link::before,
+  .navbar-dropdown-trigger::before {
+    position: absolute;
+    z-index: -1;
+    inset: 0;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--c-cyan) 32%, var(--c-white));
+    content: "";
+    opacity: 0;
+    transform: scale(0.75);
+    transition: opacity 0.25s ease, transform 0.25s ease;
+  }
+
+  .navbar-links > .navbar-link:hover::before,
+  .navbar-dropdown-trigger:hover::before,
+  .navbar-dropdown.dropdown-open .navbar-dropdown-trigger::before {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  .navbar-dropdown-trigger:hover .navbar-link,
+  .navbar-dropdown-trigger:hover .dropdown-toggle {
+    color: var(--nav-blue);
+  }
+
+  .navbar-links > .navbar-link.active::before,
+  .navbar-dropdown-trigger.active::before {
+    display: none;
+  }
+}
+
 .navbar-link.active {
   color: var(--nav-blue);
   font-weight: 600;

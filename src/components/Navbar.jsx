@@ -43,7 +43,6 @@ const navLinks = [
     ],
   },
   { label: 'Our Team', path: '/our-team' },
-  { label: 'Our Impact', path: '/impact' },
   { label: 'Contact', path: '/contact' },
 ];
 

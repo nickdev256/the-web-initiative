@@ -360,10 +360,13 @@
   object-fit: cover;
   object-position: center 22%;
   filter: grayscale(1) contrast(1.05);
-  transition: transform 0.6s ease;
+  transition: transform 0.6s ease, filter 0.6s ease;
 }
 
-.ot-person:hover .ot-person-photo img {
+/* Hovering a person brings their portrait into full colour */
+.ot-person:hover .ot-person-photo img,
+.ot-person:focus-within .ot-person-photo img {
+  filter: none;
   transform: scale(1.04);
 }
 
@@ -405,10 +408,23 @@
 }
 
 .our-team-page .ot-person-location {
+  display: flex;
+  align-items: center;
+  gap: 9px;
   margin: 0;
   color: color-mix(in srgb, var(--c-white) 72%, transparent);
   font-size: 16px;
   line-height: 1.5;
+}
+
+/* Small country flag before the country name */
+.ot-person-flag {
+  flex-shrink: 0;
+  width: 24px;
+  height: 18px;
+  border-radius: 3px;
+  object-fit: cover;
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--c-white) 25%, transparent);
 }
 
 /* =========================================
