@@ -138,7 +138,8 @@
   min-height: 74px;
 }
 
-/* Logo: the image has wide white margins, so crop to the artwork */
+/* Logo: transparent PNG trimmed to the artwork, so it sits cleanly on
+   the header (including the see-through header when scrolled) */
 
 .navbar-brand {
   display: inline-flex;
@@ -152,7 +153,7 @@
   display: block;
   width: 152px;
   height: 76px;
-  object-fit: cover;
+  object-fit: contain;
   object-position: center;
   transition: width 0.3s ease, height 0.3s ease;
 }
@@ -697,7 +698,7 @@
     display: block;
     width: 116px;
     height: 58px;
-    object-fit: cover;
+    object-fit: contain;
   }
 
   .mobile-close-button {

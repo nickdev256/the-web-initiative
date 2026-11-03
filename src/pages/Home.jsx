@@ -23,9 +23,10 @@ import Footer from '../components/Footer.jsx';
 import { getUpcomingEvents } from '../data/events.js';
 import './Home.css';
 
-// Hero background video in public/videos/: a 540p file for laptops and a
-// sharper 720p file for large or high-resolution screens. If neither
-// loads, the poster photo is shown instead.
+// Hero background video in public/videos/: a light portrait cut for
+// phones (about 3 MB), a 540p file for laptops and a sharper 720p file for
+// large or high-resolution screens. If none loads, the poster photo shows.
+const HERO_VIDEO_MOBILE = '/videos/hero-mobile.mp4';
 const HERO_VIDEO = '/videos/hero.mp4';
 const HERO_VIDEO_HD = '/videos/hero-720.mp4';
 const HERO_POSTER = '/images/hero-poster.jpg';
@@ -103,18 +104,23 @@ function Home() {
     const video = videoRef.current;
     if (!video) return;
 
-    // Skip the video for visitors who asked for less motion, phones (to
-    // save mobile data) and data-saver mode; they see the poster photo.
+    // Skip the video for visitors who asked for less motion or turned on
+    // data saver; they see the poster photo instead.
     const reduceMotion = window.matchMedia(
       '(prefers-reduced-motion: reduce)'
     ).matches;
-    const smallScreen = window.matchMedia('(max-width: 760px)').matches;
     const saveData = navigator.connection?.saveData === true;
 
-    if (reduceMotion || smallScreen || saveData) return;
+    if (reduceMotion || saveData) return;
 
+    // Phones get the light portrait cut to save mobile data
+    const smallScreen = window.matchMedia('(max-width: 760px)').matches;
     const renderedWidth = window.innerWidth * (window.devicePixelRatio || 1);
-    video.src = renderedWidth > 1920 ? HERO_VIDEO_HD : HERO_VIDEO;
+    video.src = smallScreen
+      ? HERO_VIDEO_MOBILE
+      : renderedWidth > 1920
+        ? HERO_VIDEO_HD
+        : HERO_VIDEO;
     video.play().catch(() => setVideoPlaying(false));
   }, []);
 

@@ -147,7 +147,7 @@ function Navbar() {
             onClick={closeMenu}
           >
             <img
-              src="/images/logo.jpeg"
+              src="/images/logo.png"
               alt="The Web Initiative logo"
               className="navbar-logo"
             />
@@ -160,7 +160,7 @@ function Navbar() {
           >
             <div className="mobile-menu-heading">
               <img
-                src="/images/logo.jpeg"
+                src="/images/logo.png"
                 alt=""
                 className="mobile-heading-logo"
               />
