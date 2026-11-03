@@ -9,7 +9,7 @@
   min-height: 100vh;
   padding: 70px 8%;
   background:
-    linear-gradient(90deg, rgba(8, 42, 70, 0.94), rgba(8, 65, 105, 0.72)),
+    linear-gradient(90deg, color-mix(in srgb, var(--c-navy) 94%, transparent), color-mix(in srgb, var(--c-navy) 72%, transparent)),
     url('/images/healthcare-team.jpg') center / cover no-repeat;
   color: white;
 }
@@ -22,7 +22,7 @@
 .setup-label {
   display: inline-block;
   margin-bottom: 22px;
-  color: #8bd4ff;
+  color: var(--c-cyan);
   font-size: 14px;
   font-weight: 800;
   letter-spacing: 3px;
@@ -38,7 +38,7 @@
 
 .setup-content p {
   max-width: 620px;
-  color: #e2edf5;
+  color: var(--c-sky);
   font-size: 18px;
   line-height: 1.8;
 }
@@ -56,17 +56,17 @@
   justify-content: center;
   min-height: 50px;
   padding: 14px 25px;
-  border: 2px solid #0878c9;
+  border: 2px solid var(--c-blue);
   border-radius: 6px;
-  background: #0878c9;
+  background: var(--c-blue);
   color: white;
   font-weight: 700;
   transition: 0.2s ease;
 }
 
 .setup-button:hover {
-  border-color: #42b7ff;
-  background: #075da0;
+  border-color: var(--c-blue-bright);
+  background: var(--c-blue-deep);
 }
 
 .setup-button.outline {
@@ -76,12 +76,12 @@
 
 .setup-button.outline:hover {
   background: white;
-  color: #123653;
+  color: var(--c-navy);
 }
 
 .setup-note {
   margin-top: 55px;
-  color: #d1e6f4;
+  color: var(--c-sky);
   font-size: 13px;
 }
 

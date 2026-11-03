@@ -4,26 +4,60 @@
    GLOBAL STYLES — TIMES NEW ROMAN
    ========================================= */
 
+/* Brand palette: the three chosen brand colours. Every other colour on
+   the site is mixed from these, so change a value here and it updates
+   everywhere. */
+:root {
+  --c-navy: #144164;   /* primary (deep blue): headings, dark sections */
+  --c-cyan: #8be2ee;   /* secondary (light cyan): highlights on dark */
+  --c-white: #ffffff;  /* secondary (white): backgrounds, text on dark */
+
+  /* Shades mixed from the three above. Text and button shades are kept
+     dark enough to stay readable (WCAG AA contrast). */
+  --c-blue: color-mix(in srgb, var(--c-cyan) 30%, var(--c-navy));          /* buttons, links */
+  --c-blue-deep: color-mix(in srgb, var(--c-blue) 70%, var(--c-navy));     /* hover states */
+  --c-blue-bright: color-mix(in srgb, var(--c-blue) 85%, var(--c-cyan));   /* gradient ends, focus rings */
+  --c-slate: color-mix(in srgb, var(--c-navy) 80%, var(--c-white));        /* paragraph text */
+  --c-slate-light: color-mix(in srgb, var(--c-navy) 45%, var(--c-white));  /* soft text on dark */
+  --c-sky: color-mix(in srgb, var(--c-cyan) 15%, var(--c-white));          /* pale backgrounds */
+  --c-line: color-mix(in srgb, var(--c-navy) 12%, var(--c-white));         /* borders */
+  --c-paper: color-mix(in srgb, var(--c-cyan) 4%, var(--c-white));         /* subtle section backgrounds */
+
+  /* Badge behind icons on light backgrounds */
+  --c-icon-bg: #123653;
+
+  /* Make a Donation (donate) buttons */
+  --c-support: #0878c9;
+
+  /* Status colours for form confirmations (not part of the brand palette) */
+  --c-success: #145b38;
+  --c-success-bg: #eaf8ef;
+}
+
 :root {
   font-family: "Times New Roman", Times, serif;
   font-size: 18px;
-  color: #17324d;
-  background: #ffffff;
+  color: var(--c-navy);
+  background: var(--c-white);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-  --primary: #0878c9;
-  --primary-dark: #075da0;
-  --navy: #123653;
-  --light-blue: #eaf6ff;
-  --text: #17324d;
-  --muted: #63788b;
-  --white: #ffffff;
-  --border: #e0eaf1;
+  --primary: var(--c-blue);
+  --primary-dark: var(--c-blue-deep);
+  --navy: var(--c-navy);
+  --light-blue: var(--c-sky);
+  --text: var(--c-navy);
+  --muted: var(--c-slate);
+  --white: var(--c-white);
+  --border: var(--c-line);
   --radius: 14px;
-  --shadow: 0 12px 35px rgba(20, 65, 100, 0.09);
+  --shadow: 0 12px 35px color-mix(in srgb, var(--c-navy) 9%, transparent);
+
+  /* Handwritten accent font. Use sparingly: short accent phrases only,
+     never body text or whole headings. */
+  --font-hand: 'Kalam', 'Segoe Print', 'Bradley Hand', cursive;
 }
 
 /* Reset */
@@ -381,4 +415,194 @@ a:focus-visible {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
+}
+
+/* Handwritten accent for a short highlighted phrase in a heading or link.
+   Inherits the surrounding colour and size so it fits any heading. */
+.hand-accent {
+  font-family: var(--font-hand);
+  font-size: 1.06em;
+  font-weight: 700;
+  font-style: normal;
+  letter-spacing: -0.01em;
+}
+
+/* Light cyan is too pale to read as text on white, so on light
+   backgrounds the words stay deep blue with a cyan marker stroke behind
+   them. On dark backgrounds (add .hand-accent--on-dark) the words
+   themselves are cyan. */
+:root {
+  --hand-highlight: linear-gradient(
+    transparent 58%,
+    var(--c-cyan) 58%,
+    var(--c-cyan) 92%,
+    transparent 92%
+  );
+}
+
+.hand-accent:not(.hand-accent--on-dark) {
+  padding: 0 0.12em;
+  color: var(--c-navy);
+  background-image: var(--hand-highlight);
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+.hand-accent.hand-accent--on-dark {
+  color: var(--c-cyan);
+}
+
+/* =========================================
+   ICONS
+   Feature icons (cards, menu items, priorities) are light cyan on a
+   grey-blue box (--c-icon-bg). Small helper icons on light backgrounds
+   (link arrows, pins, ticks) have no box and use --c-icon-bg as their
+   colour. On dark backgrounds icons are plain cyan. Icons inside
+   buttons keep the button's text colour.
+   ========================================= */
+
+:root svg.lucide {
+  color: var(--c-cyan);
+}
+
+:root :is(
+  button,
+  [class*="btn"],
+  [class*="button"],
+  .navbar-donate,
+  .navbar-link,
+  .dropdown-toggle,
+  .gallery-photo
+) svg.lucide {
+  color: inherit;
+}
+
+/* Feature icon boxes get the grey-blue background */
+:root :is(
+  .submenu-icon,
+  .home-wwd-icon,
+  .home-card-icon,
+  .home-priority-icon,
+  .about-icon-box,
+  .ms-icon-box,
+  .mc-icon-box,
+  .cd-icon-box,
+  .ot-icon-box,
+  .impact-icon-box,
+  .contact-icon-box,
+  .donate-icon-box
+) {
+  border-color: transparent;
+  background: var(--c-icon-bg);
+}
+
+/* Small helper icons on light backgrounds: no box, grey-blue icon */
+:root :is(
+  .home-editorial-link > span,
+  .home-wwd-link,
+  .about-card-note,
+  .about-text-link > span,
+  .ms-service-link,
+  .ms-focus-list li,
+  .ms-text-link > span,
+  .mc-text-link > span,
+  .mc-camp-meta li,
+  .mc-camp-link,
+  .cd-expect-list li,
+  .cd-note,
+  .cd-text-link > span,
+  .ot-text-link > span,
+  .impact-text-link > span,
+  .contact-text-link > span,
+  .donate-text-link > span,
+  .donate-faq-item summary
+) > svg.lucide {
+  color: var(--c-icon-bg);
+}
+
+/* Arrow circles fill with blue on hover, so the arrow turns white */
+:root :is(.home-editorial-link, .mc-text-link, .cd-text-link, .ot-text-link, .impact-text-link, .contact-text-link, .donate-text-link):hover > span svg.lucide {
+  color: var(--c-white);
+}
+
+/* Make a Donation buttons use their own blue (--c-support) everywhere */
+:root .btn-support {
+  color: var(--c-white);
+  background: var(--c-support);
+}
+
+html:root .btn-support:hover {
+  color: var(--c-white);
+  background: color-mix(in srgb, var(--c-support) 82%, var(--c-navy));
+}
+
+/* Text read by screen readers but not shown on screen */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* =========================================
+   MOTION
+   Page entrance and scroll reveals (see PageEffects.jsx).
+   Animations only use "backwards" fill, so nothing keeps a transform
+   once they finish. The page entrance moves the page's blocks, never
+   <main> itself, so full-screen overlays inside it (like the gallery
+   viewer) are always positioned against the screen.
+   ========================================= */
+
+.page-transition > main > :not(.gallery-lightbox),
+.page-transition > div > main > :not(.gallery-lightbox) {
+  animation: page-enter 0.6s cubic-bezier(0.22, 0.7, 0.2, 1) backwards;
+}
+
+.reveal:not(.is-revealed) {
+  opacity: 0;
+}
+
+.reveal.is-revealed {
+  animation: reveal-up 0.8s cubic-bezier(0.22, 0.7, 0.2, 1) backwards;
+}
+
+@keyframes page-enter {
+  from {
+    opacity: 0;
+    translate: 0 18px;
+  }
+}
+
+@keyframes reveal-up {
+  from {
+    opacity: 0;
+    translate: 0 32px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-transition > main > *,
+  .page-transition > div > main > *,
+  .reveal.is-revealed {
+    animation: none;
+  }
+
+  .reveal:not(.is-revealed) {
+    opacity: 1;
+  }
+}
+
+/* About page: arrow circle fills with blue on hover */
+:root .about-text-link:hover > span svg.lucide {
+  color: var(--c-white);
+}
+
+/* Medical Services: arrow circle fills with blue on hover */
+:root .ms-text-link:hover > span svg.lucide {
+  color: var(--c-white);
 }
