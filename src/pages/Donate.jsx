@@ -1,1037 +1,599 @@
-import React, { useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useState } from "react";
 import {
-  AlertCircle,
-  Apple,
-  ArrowRight,
-  BookOpen,
-  CheckCircle2,
-  CreditCard,
-  HandHeart,
   Heart,
-  Info,
-  LoaderCircle,
-  Lock,
-  Mail,
-  MapPin,
+  ArrowRight,
   ShieldCheck,
-  Smartphone,
-  Stethoscope,
+  Leaf,
   Users,
-  Wallet,
-} from 'lucide-react';
+  Apple,
+  Stethoscope,
+  BookOpen,
+  HandHeart,
+  CheckCircle2,
+  LockKeyhole,
+  ChevronDown,
+  LoaderCircle,
+} from "lucide-react";
 
-import Navbar from '../components/Navbar.jsx';
-import Footer from '../components/Footer.jsx';
-import { createDonationCheckout } from '../services/donationService.js';
-import './Donate.css';
-
-/* =========================================================
-   CONFIGURATION
-   ========================================================= */
-
-const donationUses = [
-  {
-    icon: Stethoscope,
-    title: 'Medical Outreach',
-    text: 'Help support community outreach activities and access to essential health services.',
-  },
-  {
-    icon: Users,
-    title: 'Community Education',
-    text: 'Support health awareness and education activities for the communities we serve.',
-  },
-  {
-    icon: HandHeart,
-    title: 'Community Support',
-    text: 'Help strengthen initiatives that respond to local needs through collaboration.',
-  },
-];
+import { createDonationCheckout } from "../services/donationService.js";
+import "./Donate.css";
 
 const causes = [
   {
-    id: 'nutrition',
-    title: 'Child Nutrition Support',
-    description: 'Nutritious food and nutritional support for vulnerable children.',
+    title: "Child Nutrition Support",
+    description:
+      "Nutritious food and nutritional support for vulnerable children.",
     icon: Apple,
   },
   {
-    id: 'medical',
-    title: 'Medical Outreach',
-    description: 'Medical camps, healthcare services and essential supplies.',
+    title: "Medical Outreach",
+    description:
+      "Medical camps, healthcare services and essential supplies.",
     icon: Stethoscope,
   },
   {
-    id: 'education',
-    title: 'Health Education',
-    description: 'Practical health and nutrition education for families.',
+    title: "Health Education",
+    description:
+      "Practical health and nutrition education for families.",
     icon: BookOpen,
   },
   {
-    id: 'general',
-    title: 'Where Most Needed',
-    description: 'Direct your gift to the programme with the greatest need.',
+    title: "Where Most Needed",
+    description:
+      "Direct your gift to the programme with the greatest need.",
     icon: HandHeart,
   },
 ];
 
-const frequencies = [
-  { id: 'Once', label: 'One-time', suffix: '' },
-  { id: 'Monthly', label: 'Monthly', suffix: ' / month' },
-];
-
 const currencies = {
-  UGX: { label: 'Ugandan Shilling', amounts: [10000, 25000, 50000, 100000], minimum: 1000, decimals: 0 },
-  USD: { label: 'US Dollar', amounts: [10, 25, 50, 100], minimum: 1, decimals: 2 },
-  GBP: { label: 'British Pound', amounts: [10, 25, 50, 100], minimum: 1, decimals: 2 },
-  EUR: { label: 'Euro', amounts: [10, 25, 50, 100], minimum: 1, decimals: 2 },
+  UGX: {
+    label: "UGX (Ugandan Shilling)",
+    symbol: "UGX",
+    amounts: [10000, 25000, 50000, 100000],
+  },
+  USD: {
+    label: "USD (US Dollar)",
+    symbol: "$",
+    amounts: [5, 10, 25, 50],
+  },
+  EUR: {
+    label: "EUR (Euro)",
+    symbol: "€",
+    amounts: [5, 10, 25, 50],
+  },
+  GBP: {
+    label: "GBP (British Pound)",
+    symbol: "£",
+    amounts: [5, 10, 25, 50],
+  },
 };
 
 const paymentMethods = [
-  {
-    id: 'card',
-    title: 'Visa / Mastercard',
-    description: 'Pay securely using your Visa or Mastercard.',
-    brand: 'card',
-    icon: CreditCard,
-    status: 'Supported when card checkout is configured',
-  },
-  {
-    id: 'paypal',
-    title: 'PayPal',
-    description: 'Pay with your PayPal account where merchant receiving is enabled.',
-    brand: 'paypal',
-    icon: Wallet,
-    status: 'Receiving availability depends on your PayPal merchant account',
-    unsupportedCurrencies: ['UGX'],
-  },
-  {
-    id: 'google_pay',
-    title: 'Google Pay',
-    description: 'Availability depends on your device, country and payment provider.',
-    brand: 'google_pay',
-    icon: Smartphone,
-    status: 'Coming soon',
-    disabled: true,
-  },
-  {
-    id: 'mtn_mobile_money',
-    title: 'MTN Mobile Money',
-    description: 'Pay using your MTN Mobile Money account.',
-    brand: 'mtn',
-    icon: Smartphone,
-    status: 'Requires an active DPO Pay / mobile money integration',
-  },
-  {
-    id: 'airtel_money',
-    title: 'Airtel Money',
-    description: 'Pay using your Airtel Money account.',
-    brand: 'airtel',
-    icon: Smartphone,
-    status: 'Requires an active DPO Pay / mobile money integration',
-  },
+  { id: "card", name: "Visa / Mastercard", className: "visa" },
+  { id: "paypal", name: "PayPal", className: "paypal" },
+  { id: "mtn_momo", name: "MTN MoMo", className: "mtn" },
+  { id: "airtel_money", name: "Airtel Money", className: "airtel" },
 ];
 
-const MOBILE_MONEY_METHODS = ['mtn_mobile_money', 'airtel_money'];
-const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const MESSAGE_LIMIT = 500;
-
-/**
- * Logo files: public/images/payments/<file>.svg
- * A missing file shows a text badge instead of a broken image.
- */
-const brandLogos = {
-  card: [
-    { src: '/images/payments/visa.svg', alt: 'Visa', fallback: 'VISA' },
-    { src: '/images/payments/mastercard.svg', alt: 'Mastercard', fallback: 'Mastercard' },
-  ],
-  paypal: [{ src: '/images/payments/paypal.svg', alt: 'PayPal', fallback: 'PayPal' }],
-  google_pay: [{ src: '/images/payments/google-pay.svg', alt: 'Google Pay', fallback: 'G Pay' }],
-  mtn: [{ src: '/images/payments/mtn-momo.svg', alt: 'MTN Mobile Money', fallback: 'MTN MoMo' }],
-  airtel: [{ src: '/images/payments/airtel-money.svg', alt: 'Airtel Money', fallback: 'Airtel Money' }],
-};
-
-/* =========================================================
-   HELPERS
-   ========================================================= */
-
-function formatMoney(value, currency) {
-  const { decimals } = currencies[currency];
-
-  return new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency,
-    minimumFractionDigits: Number.isInteger(value) ? 0 : decimals,
-    maximumFractionDigits: decimals,
-  }).format(value);
-}
-
-/** Digits only, at most one decimal point, limited to the currency's decimals. */
-function sanitizeAmount(raw, decimals) {
-  const cleaned = raw.replace(/[^\d.]/g, '');
-
-  if (decimals === 0) return cleaned.replace(/\./g, '');
-
-  const [whole, ...rest] = cleaned.split('.');
-  if (rest.length === 0) return whole;
-
-  return `${whole}.${rest.join('').slice(0, decimals)}`;
-}
-
-/** Keeps the 9 local digits of a Ugandan mobile number (7XXXXXXXX). */
-function toLocalMobile(value) {
-  let digits = value.replace(/\D/g, '');
-
-  if (digits.startsWith('256')) digits = digits.slice(3);
-  if (digits.startsWith('0')) digits = digits.slice(1);
-
-  return digits.slice(0, 9);
-}
-
-function formatLocalMobile(value) {
-  return [value.slice(0, 3), value.slice(3, 6), value.slice(6, 9)]
-    .filter(Boolean)
-    .join(' ');
-}
-
-const isValidLocalMobile = (digits) => /^7\d{8}$/.test(digits);
-
-const supportsCurrency = (method, code) =>
-  !method?.unsupportedCurrencies?.includes(code);
-
-/* =========================================================
-   SMALL COMPONENTS
-   ========================================================= */
-
-function BrandLogo({ src, alt, fallback }) {
-  const [failed, setFailed] = useState(false);
-
-  if (failed) {
-    return (
-      <span className="donate-logo-fallback" role="img" aria-label={alt}>
-        {fallback}
-      </span>
-    );
-  }
-
-  return (
-    <img
-      src={src}
-      alt={alt}
-      loading="lazy"
-      decoding="async"
-      draggable="false"
-      onError={() => setFailed(true)}
-    />
-  );
-}
-
-function BrandLogos({ brand }) {
-  return (
-    <span className={`donate-brand-logos donate-brand-${brand}`}>
-      {brandLogos[brand].map((logo) => (
-        <BrandLogo key={logo.src} {...logo} />
-      ))}
-    </span>
-  );
-}
-
-function FieldError({ id, children }) {
-  if (!children) return null;
-
-  return (
-    <span className="donate-field-error" id={id} role="alert">
-      <AlertCircle size={14} />
-      {children}
-    </span>
-  );
-}
-
-function HeroImage() {
-  const [failed, setFailed] = useState(false);
-
-  return (
-    <div className={`donate-hero-image ${failed ? 'is-placeholder' : ''}`}>
-      {failed ? (
-        <div className="donate-hero-placeholder" aria-hidden="true">
-          <Heart size={64} strokeWidth={1.4} />
-        </div>
-      ) : (
-        <img
-          src="/images/donate-hero.jpg"
-          alt="Community healthcare outreach"
-          onError={() => setFailed(true)}
-        />
-      )}
-
-      <div className="donate-hero-image-caption">
-        <span className="donate-hero-caption-icon">
-          <HandHeart size={22} />
-        </span>
-
-        <div>
-          <strong>Every contribution matters</strong>
-          <span>Join us in supporting communities.</span>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-/* =========================================================
-   PAGE
-   ========================================================= */
+const formatAmount = (amount) =>
+  new Intl.NumberFormat("en-US").format(amount);
 
 export default function Donate() {
-  const [cause, setCause] = useState('nutrition');
-  const [currency, setCurrency] = useState('UGX');
-  const [amount, setAmount] = useState(25000);
-  const [customAmount, setCustomAmount] = useState('');
-  const [frequency, setFrequency] = useState('Once');
-  const [paymentMethod, setPaymentMethod] = useState('card');
+  const [formData, setFormData] = useState({
+    cause: "Where Most Needed",
+    frequency: "one-time",
+    currency: "UGX",
+    amount: 10000,
+    customAmount: "",
+    fullName: "",
+    email: "",
+    phone: "",
+    message: "",
+    paymentMethod: "card",
+  });
 
-  const [fullName, setFullName] = useState('');
-  const [email, setEmail] = useState('');
-  const [phone, setPhone] = useState('');
-  const [message, setMessage] = useState('');
-
-  const [errors, setErrors] = useState({});
-  const [formError, setFormError] = useState('');
-  const [notice, setNotice] = useState('');
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
-  const fieldRefs = {
-    amount: useRef(null),
-    phone: useRef(null),
-    fullName: useRef(null),
-    email: useRef(null),
+  const selectedCurrency = currencies[formData.currency];
+
+  const currentAmount = formData.customAmount
+    ? Number(formData.customAmount)
+    : Number(formData.amount);
+
+  const updateField = (field, value) => {
+    setFormData((previous) => ({
+      ...previous,
+      [field]: value,
+    }));
+
+    setError("");
   };
 
-  const config = currencies[currency];
-  const selectedMethod = paymentMethods.find((method) => method.id === paymentMethod);
-  const selectedCause = causes.find((item) => item.id === cause);
-  const selectedFrequency = frequencies.find((item) => item.id === frequency);
+  const selectAmount = (amount) => {
+    setFormData((previous) => ({
+      ...previous,
+      amount,
+      customAmount: "",
+    }));
 
-  const selectedAmount = customAmount !== '' ? Number(customAmount) : amount;
-  const validAmount =
-    Number.isFinite(selectedAmount) && selectedAmount >= config.minimum;
-
-  const isMobileMoney = MOBILE_MONEY_METHODS.includes(paymentMethod);
-  const isPayPal = paymentMethod === 'paypal';
-
-  const totalLabel = validAmount
-    ? `${formatMoney(selectedAmount, currency)}${selectedFrequency.suffix}`
-    : '—';
-
-  /* ---------- state helpers ---------- */
-
-  const clearError = (key) => {
-    setErrors((current) => (current[key] ? { ...current, [key]: '' } : current));
-    setFormError('');
+    setError("");
   };
 
-  const changeCurrency = (code) => {
-    setCurrency(code);
-    setAmount(currencies[code].amounts[1]);
-    setCustomAmount('');
-    setNotice('');
-    clearError('amount');
-  };
+  const handleCurrencyChange = (currency) => {
+    setFormData((previous) => ({
+      ...previous,
+      currency,
+      amount: currencies[currency].amounts[0],
+      customAmount: "",
+    }));
 
-  const changePaymentMethod = (id) => {
-    const method = paymentMethods.find((item) => item.id === id);
-    if (!method || method.disabled) return;
-
-    setPaymentMethod(id);
-    clearError('phone');
-
-    if (!supportsCurrency(method, currency)) {
-      changeCurrency('USD');
-      setNotice(
-        `${method.title} does not support ${currency} checkout, so your donation currency has been changed to USD.`
-      );
-    } else {
-      setNotice('');
-    }
-  };
-
-  /* ---------- validation + submit ---------- */
-
-  const validate = () => {
-    const next = {};
-
-    if (!validAmount) {
-      next.amount = `Enter at least ${formatMoney(config.minimum, currency)}.`;
-    } else if (!supportsCurrency(selectedMethod, currency)) {
-      next.amount = `${selectedMethod.title} does not support ${currency}. Please choose another currency.`;
-    }
-
-    if (isMobileMoney && !isValidLocalMobile(phone)) {
-      next.phone = phone
-        ? 'Enter a valid Ugandan mobile number, e.g. 772 123 456.'
-        : 'Please enter your mobile money number.';
-    }
-
-    if (!fullName.trim()) {
-      next.fullName = 'Please enter your full name.';
-    }
-
-    if (!email.trim()) {
-      next.email = 'Please enter your email address.';
-    } else if (!EMAIL_PATTERN.test(email.trim())) {
-      next.email = 'Please enter a valid email address.';
-    }
-
-    return next;
+    setError("");
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    if (loading) return;
+    setError("");
 
-    setFormError('');
-
-    const nextErrors = validate();
-    setErrors(nextErrors);
-
-    const firstInvalid = ['amount', 'phone', 'fullName', 'email'].find(
-      (key) => nextErrors[key]
-    );
-
-    if (firstInvalid) {
-      fieldRefs[firstInvalid].current?.focus();
+    if (!formData.fullName.trim()) {
+      setError("Please enter your full name.");
       return;
     }
 
-    const donationData = {
-      cause,
-      amount: selectedAmount,
-      currency,
-      frequency,
-      paymentMethod,
-      fullName: fullName.trim(),
-      email: email.trim(),
-      ...(isMobileMoney && { phoneNumber: `256${phone}` }),
-      message: message.trim(),
-    };
+    if (!formData.email.trim()) {
+      setError("Please enter your email address.");
+      return;
+    }
+
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      setError("Please enter a valid email address.");
+      return;
+    }
+
+    if (!currentAmount || currentAmount <= 0 || !Number.isFinite(currentAmount)) {
+      setError("Please enter a valid donation amount.");
+      return;
+    }
+
+    if (
+      formData.paymentMethod === "mtn_momo" ||
+      formData.paymentMethod === "airtel_money"
+    ) {
+      if (!formData.phone.trim()) {
+        setError("Please enter your phone number for mobile money payments.");
+        return;
+      }
+    }
+
+    setLoading(true);
 
     try {
-      setLoading(true);
+      const result = await createDonationCheckout({
+        donorName: formData.fullName.trim(),
+        email: formData.email.trim(),
+        phone: formData.phone.trim(),
+        amount: currentAmount,
+        currency: formData.currency,
+        cause: formData.cause,
+        frequency: formData.frequency,
+        paymentMethod: formData.paymentMethod,
+        message: formData.message.trim(),
+      });
 
-      const result = await createDonationCheckout(donationData);
-
-      if (!result?.checkoutUrl) {
-        throw new Error('The payment provider did not return a checkout link.');
+      if (result.checkoutUrl) {
+        window.location.href = result.checkoutUrl;
+      } else {
+        throw new Error("The payment provider did not return a checkout link.");
       }
-
-      window.location.assign(result.checkoutUrl);
-    } catch (error) {
-      setFormError(
-        error?.message ||
-          'Online checkout is not available yet. Please contact our team for verified donation instructions.'
+    } catch (err) {
+      setError(
+        err.message || "We could not start your donation. Please try again."
       );
+    } finally {
       setLoading(false);
     }
   };
 
-  /* ---------- render ---------- */
-
   return (
-    <>
-      <Navbar />
+    <main className="donate-page">
+      {/* HERO SECTION */}
+      <section className="donate-hero">
+        <div className="donate-hero-overlay" />
 
-      <main className="donate-page">
-        {/* ================= HERO ================= */}
-        <section className="donate-hero">
-          <div className="donate-container donate-hero-inner">
-            <div className="donate-hero-copy">
-              <span className="donate-eyebrow">
-                <Heart size={16} />
-                Make a difference
-              </span>
+        <div className="donate-hero-content">
+          <div className="hero-label">
+            <Heart size={19} />
+            <span>SUPPORT OUR WORK</span>
+          </div>
 
-              <h1>
-                Your generosity can help
-                <span> change lives.</span>
-              </h1>
+          <h1>
+            Make a Difference
+            <br />
+            in Our Communities
+          </h1>
 
-              <p>
-                Support community-centred health initiatives, medical outreach
-                and health education with THE WEB INITIATIVE LTD.
-              </p>
+          <p>
+            Your gift helps us deliver medical outreach, health education
+            and community support to the people who need it most.
+          </p>
 
-              <div className="donate-hero-actions">
-                <a href="#donation-form" className="donate-btn donate-btn-white">
-                  Make a Donation
-                  <ArrowRight size={18} />
-                </a>
+          <a href="#donation-form" className="hero-donate-button">
+            Donate Now <ArrowRight size={19} />
+          </a>
 
-                <Link to="/contact" className="donate-btn donate-btn-ghost">
-                  Talk to our team
-                </Link>
-              </div>
+          <div className="hero-trust-items">
+            <div>
+              <ShieldCheck size={25} />
+              <span>Secure Payment</span>
+            </div>
 
-              <ul className="donate-hero-trust">
+            <div>
+              <Leaf size={25} />
+              <span>Meaningful Impact</span>
+            </div>
+
+            <div>
+              <Users size={25} />
+              <span>Real People, Real Change</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* MAIN CONTENT */}
+      <section className="donate-main">
+        <div className="donate-left-content">
+          <div className="programmes-heading">
+            <h2>Where Your Donation Goes</h2>
+            <p>
+              Your support helps us run life-changing programmes, including:
+            </p>
+          </div>
+
+          <div className="programme-grid">
+            {causes.map((cause) => {
+              const Icon = cause.icon;
+
+              return (
+                <article className="programme-card" key={cause.title}>
+                  <Icon className="programme-icon" size={42} strokeWidth={1.8} />
+
+                  <h3>{cause.title}</h3>
+
+                  <p>{cause.description}</p>
+                </article>
+              );
+            })}
+          </div>
+
+          {/* IMPACT SECTION */}
+          <div className="impact-card">
+            <div className="impact-image">
+              <img
+                src="/images/community-outreach.jpg"
+                alt="Community healthcare outreach"
+              />
+            </div>
+
+            <div className="impact-information">
+              <h3>The Impact of Your Support</h3>
+
+              <ul>
                 <li>
-                  <ShieldCheck size={16} /> Secure provider checkout
+                  <CheckCircle2 />
+                  Brings healthcare closer to communities.
                 </li>
+
                 <li>
-                  <CreditCard size={16} /> Visa &amp; Mastercard
+                  <CheckCircle2 />
+                  Improves health and nutrition outcomes.
                 </li>
+
                 <li>
-                  <Wallet size={16} /> PayPal
-                </li>
-                <li>
-                  <Smartphone size={16} /> MTN &amp; Airtel Money
+                  <CheckCircle2 />
+                  Builds healthier, more resilient families.
                 </li>
               </ul>
             </div>
-
-            <HeroImage />
           </div>
-        </section>
 
-        {/* ================= WHY GIVE ================= */}
-        <section className="donate-section donate-why">
-          <div className="donate-container">
-            <div className="donate-section-heading">
-              <span className="donate-label">Why give?</span>
-              <h2>Help support work that puts people first.</h2>
-              <p>
-                Your support can help community programmes grow. We welcome
-                individuals and organisations who share our commitment to
-                community wellbeing.
-              </p>
+          {/* STATISTICS */}
+          <div className="impact-statistics">
+            <div className="stat-item">
+              <Users size={38} />
+              <strong>10,000+</strong>
+              <span>People Reached</span>
             </div>
 
-            <div className="donate-use-grid">
-              {donationUses.map(({ icon: Icon, title, text }) => (
-                <article className="donate-use-card" key={title}>
-                  <div className="donate-use-icon">
-                    <Icon size={26} />
-                  </div>
-                  <h3>{title}</h3>
-                  <p>{text}</p>
-                </article>
-              ))}
+            <div className="stat-item">
+              <Stethoscope size={38} />
+              <strong>50+</strong>
+              <span>Medical Camps</span>
+            </div>
+
+            <div className="stat-item">
+              <Heart size={38} />
+              <strong>20+</strong>
+              <span>Communities Served</span>
             </div>
           </div>
-        </section>
-
-        {/* ================= DONATION FORM ================= */}
-        <section className="donate-form-section" id="donation-form">
-          <div className="donate-container donate-form-layout">
-            {/* ---------- left info column ---------- */}
-            <aside className="donate-form-info">
-              <span className="donate-label">Support our mission</span>
-              <h2>Choose how you would like to contribute.</h2>
-              <p>
-                Select a programme, contribution amount and payment method. Your
-                payment will continue through the configured provider's secure
-                checkout.
-              </p>
-
-              <div className="donate-trust-list">
-                <div className="donate-trust-item">
-                  <span className="donate-trust-icon">
-                    <ShieldCheck size={20} />
-                  </span>
-                  <div>
-                    <strong>Secure payment details</strong>
-                    <span>
-                      Card and wallet details are entered only on the payment
-                      provider's secure checkout.
-                    </span>
-                  </div>
-                </div>
-
-                <div className="donate-trust-item">
-                  <span className="donate-trust-icon">
-                    <CheckCircle2 size={20} />
-                  </span>
-                  <div>
-                    <strong>Support communities</strong>
-                    <span>
-                      Your contribution supports nutrition, healthcare and
-                      community education.
-                    </span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Live summary (desktop) */}
-              <div className="donate-side-summary" aria-hidden="true">
-                <span className="donate-side-summary-label">Your donation</span>
-                <strong className="donate-side-summary-total">{totalLabel}</strong>
-                <ul>
-                  <li>
-                    <span>Supporting</span>
-                    <b>{selectedCause.title}</b>
-                  </li>
-                  <li>
-                    <span>Frequency</span>
-                    <b>{selectedFrequency.label}</b>
-                  </li>
-                  <li>
-                    <span>Paying with</span>
-                    <b>{selectedMethod.title}</b>
-                  </li>
-                </ul>
-              </div>
-
-              <div className="donate-contact-card">
-                <span className="donate-trust-icon">
-                  <Mail size={19} />
-                </span>
-                <div>
-                  <strong>Have a question?</strong>
-                  <Link to="/contact">
-                    Contact our team <ArrowRight size={14} />
-                  </Link>
-                </div>
-              </div>
-            </aside>
-
-            {/* ---------- form ---------- */}
-            <form className="donate-form" onSubmit={handleSubmit} noValidate>
-              <div className="donate-form-heading">
-                <span className="donate-label">Contribution details</span>
-                <h3>Make your donation</h3>
-                <p>Complete the details below to continue to payment.</p>
-              </div>
-
-              {/* 01 CAUSE */}
-              <fieldset className="donate-form-fieldset">
-                <legend>
-                  <span className="donate-step">1</span>
-                  What would you like to support?
-                </legend>
-
-                <div className="donate-cause-options">
-                  {causes.map(({ id, title, description, icon: Icon }) => (
-                    <label
-                      key={id}
-                      className={`donate-cause-option ${cause === id ? 'active' : ''}`}
-                    >
-                      <input
-                        type="radio"
-                        name="cause"
-                        value={id}
-                        checked={cause === id}
-                        onChange={() => setCause(id)}
-                        className="donate-sr-only"
-                      />
-
-                      <span className="donate-cause-icon" aria-hidden="true">
-                        <Icon size={20} />
-                      </span>
-
-                      <span className="donate-cause-copy">
-                        <strong>{title}</strong>
-                        <small>{description}</small>
-                      </span>
-
-                      <CheckCircle2
-                        size={19}
-                        className="donate-cause-check"
-                        aria-hidden="true"
-                      />
-                    </label>
-                  ))}
-                </div>
-              </fieldset>
-
-              {/* 02 FREQUENCY */}
-              <fieldset className="donate-form-fieldset">
-                <legend>
-                  <span className="donate-step">2</span>
-                  Contribution frequency
-                </legend>
-
-                <div className="donate-segmented" role="radiogroup" aria-label="Frequency">
-                  {frequencies.map((option) => (
-                    <label
-                      key={option.id}
-                      className={`donate-segment ${frequency === option.id ? 'active' : ''}`}
-                    >
-                      <input
-                        type="radio"
-                        name="frequency"
-                        value={option.id}
-                        checked={frequency === option.id}
-                        onChange={() => setFrequency(option.id)}
-                        className="donate-sr-only"
-                      />
-                      {option.id === 'Monthly' && <Heart size={14} />}
-                      {option.label}
-                    </label>
-                  ))}
-                </div>
-
-                {frequency === 'Monthly' && (
-                  <p className="donate-hint">
-                    <Info size={14} />
-                    Monthly giving is recorded as your preference. Automatic
-                    recurring billing starts only once the provider supports it.
-                  </p>
-                )}
-              </fieldset>
-
-              {/* 03 AMOUNT */}
-              <fieldset className="donate-form-fieldset">
-                <legend>
-                  <span className="donate-step">3</span>
-                  Choose an amount
-                </legend>
-
-                <div
-                  className="donate-segmented donate-currency-options"
-                  role="radiogroup"
-                  aria-label="Donation currency"
-                >
-                  {Object.entries(currencies).map(([code, item]) => {
-                    const unavailable = !supportsCurrency(selectedMethod, code);
-
-                    return (
-                      <label
-                        key={code}
-                        className={`donate-segment ${currency === code ? 'active' : ''} ${
-                          unavailable ? 'is-disabled' : ''
-                        }`}
-                        title={
-                          unavailable
-                            ? `${item.label} is not available with ${selectedMethod.title}`
-                            : item.label
-                        }
-                      >
-                        <input
-                          type="radio"
-                          name="currency"
-                          value={code}
-                          checked={currency === code}
-                          disabled={unavailable}
-                          onChange={() => changeCurrency(code)}
-                          className="donate-sr-only"
-                        />
-                        {code}
-                      </label>
-                    );
-                  })}
-                </div>
-
-                {notice && (
-                  <p className="donate-notice" role="status">
-                    <Info size={15} />
-                    {notice}
-                  </p>
-                )}
-
-                <div className="donate-amount-grid">
-                  {config.amounts.map((value) => {
-                    const active = customAmount === '' && amount === value;
-
-                    return (
-                      <button
-                        type="button"
-                        key={value}
-                        className={`donate-amount-option ${active ? 'active' : ''}`}
-                        aria-pressed={active}
-                        onClick={() => {
-                          setAmount(value);
-                          setCustomAmount('');
-                          clearError('amount');
-                        }}
-                      >
-                        {formatMoney(value, currency)}
-                      </button>
-                    );
-                  })}
-                </div>
-
-                <div className="donate-field">
-                  <label htmlFor="donate-custom-amount">Or enter a custom amount</label>
-
-                  <div
-                    className={`donate-input-group ${customAmount !== '' ? 'is-filled' : ''} ${
-                      errors.amount ? 'has-error' : ''
-                    }`}
-                  >
-                    <span className="donate-input-prefix">{currency}</span>
-                    <input
-                      ref={fieldRefs.amount}
-                      id="donate-custom-amount"
-                      type="text"
-                      inputMode={config.decimals ? 'decimal' : 'numeric'}
-                      placeholder={`Minimum ${formatMoney(config.minimum, currency)}`}
-                      value={customAmount}
-                      onChange={(event) => {
-                        setCustomAmount(sanitizeAmount(event.target.value, config.decimals));
-                        clearError('amount');
-                      }}
-                      aria-invalid={Boolean(errors.amount)}
-                      aria-describedby={errors.amount ? 'amount-error' : undefined}
-                    />
-                  </div>
-
-                  <FieldError id="amount-error">{errors.amount}</FieldError>
-                </div>
-              </fieldset>
-
-              {/* 04 PAYMENT */}
-              <fieldset className="donate-form-fieldset">
-                <legend>
-                  <span className="donate-step">4</span>
-                  Choose payment method
-                </legend>
-
-                <div className="donate-payment-options">
-                  {paymentMethods.map((method) => {
-                    const active = paymentMethod === method.id;
-
-                    return (
-                      <label
-                        key={method.id}
-                        className={`donate-payment-option ${active ? 'active' : ''} ${
-                          method.disabled ? 'is-disabled' : ''
-                        }`}
-                      >
-                        <input
-                          type="radio"
-                          name="paymentMethod"
-                          value={method.id}
-                          checked={active}
-                          disabled={Boolean(method.disabled)}
-                          onChange={() => changePaymentMethod(method.id)}
-                          className="donate-sr-only"
-                        />
-
-                        <span className="donate-payment-radio" aria-hidden="true" />
-
-                        <span className="donate-payment-details">
-                          <strong>
-                            {method.title}
-                            {method.disabled && (
-                              <em className="donate-badge">Coming soon</em>
-                            )}
-                          </strong>
-                          <small>{method.description}</small>
-                          {!method.disabled && (
-                            <small className="donate-payment-status">{method.status}</small>
-                          )}
-                        </span>
-
-                        <BrandLogos brand={method.brand} />
-                      </label>
-                    );
-                  })}
-                </div>
-
-                {paymentMethod === 'card' && (
-                  <div className="donate-payment-instructions">
-                    <CreditCard size={19} />
-                    <p>
-                      You will be redirected to the payment provider's secure
-                      checkout to enter your card details.{' '}
-                      <strong>Never enter card details on this page.</strong>
-                    </p>
-                  </div>
-                )}
-
-                {isPayPal && (
-                  <div className="donate-payment-instructions">
-                    <Wallet size={19} />
-                    <p>
-                      You will be redirected to PayPal to log in and approve your
-                      donation. PayPal is not offered in UGX, so{' '}
-                      <strong>USD, GBP or EUR</strong> must be selected.
-                    </p>
-                  </div>
-                )}
-
-                {isMobileMoney && (
-                  <div className="donate-payment-instructions">
-                    <Smartphone size={19} />
-                    <p>
-                      Enter the Ugandan number registered to your{' '}
-                      <strong>{selectedMethod.title}</strong> account. A payment
-                      prompt is sent to your phone once checkout starts.
-                    </p>
-
-                    <div className="donate-field">
-                      <label htmlFor="donate-phone">Mobile money number</label>
-
-                      <div className={`donate-input-group ${errors.phone ? 'has-error' : ''}`}>
-                        <span className="donate-input-prefix">+256</span>
-                        <input
-                          ref={fieldRefs.phone}
-                          id="donate-phone"
-                          type="tel"
-                          inputMode="numeric"
-                          autoComplete="tel-national"
-                          placeholder="772 123 456"
-                          value={formatLocalMobile(phone)}
-                          onChange={(event) => {
-                            setPhone(toLocalMobile(event.target.value));
-                            clearError('phone');
-                          }}
-                          aria-invalid={Boolean(errors.phone)}
-                          aria-describedby={errors.phone ? 'phone-error' : undefined}
-                        />
-                        {isValidLocalMobile(phone) && (
-                          <CheckCircle2 size={18} className="donate-input-valid" aria-hidden="true" />
-                        )}
-                      </div>
-
-                      <FieldError id="phone-error">{errors.phone}</FieldError>
-                    </div>
-                  </div>
-                )}
-              </fieldset>
-
-              {/* 05 DETAILS */}
-              <fieldset className="donate-form-fieldset">
-                <legend>
-                  <span className="donate-step">5</span>
-                  Your details
-                </legend>
-
-                <div className="donate-field-row">
-                  <div className="donate-field">
-                    <label htmlFor="donate-name">Full name</label>
-                    <input
-                      ref={fieldRefs.fullName}
-                      id="donate-name"
-                      type="text"
-                      autoComplete="name"
-                      placeholder="Your full name"
-                      className={errors.fullName ? 'has-error' : ''}
-                      value={fullName}
-                      onChange={(event) => {
-                        setFullName(event.target.value);
-                        clearError('fullName');
-                      }}
-                      aria-invalid={Boolean(errors.fullName)}
-                      aria-describedby={errors.fullName ? 'name-error' : undefined}
-                    />
-                    <FieldError id="name-error">{errors.fullName}</FieldError>
-                  </div>
-
-                  <div className="donate-field">
-                    <label htmlFor="donate-email">Email address</label>
-                    <input
-                      ref={fieldRefs.email}
-                      id="donate-email"
-                      type="email"
-                      autoComplete="email"
-                      placeholder="you@example.com"
-                      className={errors.email ? 'has-error' : ''}
-                      value={email}
-                      onChange={(event) => {
-                        setEmail(event.target.value);
-                        clearError('email');
-                      }}
-                      aria-invalid={Boolean(errors.email)}
-                      aria-describedby={errors.email ? 'email-error' : undefined}
-                    />
-                    <FieldError id="email-error">{errors.email}</FieldError>
-                  </div>
-                </div>
-
-                <div className="donate-field">
-                  <label htmlFor="donate-message">
-                    Message <span className="donate-optional">(optional)</span>
-                  </label>
-                  <textarea
-                    id="donate-message"
-                    rows="3"
-                    maxLength={MESSAGE_LIMIT}
-                    placeholder="Tell us anything you would like us to know..."
-                    value={message}
-                    onChange={(event) => setMessage(event.target.value)}
-                  />
-                  <span className="donate-char-count">
-                    {message.length}/{MESSAGE_LIMIT}
-                  </span>
-                </div>
-              </fieldset>
-
-              {/* SUMMARY */}
-              <div className="donate-selected-summary" aria-live="polite">
-                <div>
-                  <span>Selected contribution</span>
-                  <small>
-                    {selectedCause.title} · {selectedMethod.title}
-                  </small>
-                </div>
-                <strong>{validAmount ? totalLabel : 'Enter a valid amount'}</strong>
-              </div>
-
-              {formError && (
-                <div className="donate-form-error" role="alert">
-                  <AlertCircle size={18} />
-                  <span>{formError}</span>
-                </div>
-              )}
-
-              <button
-                className={`donate-btn donate-submit-btn ${isPayPal ? 'is-paypal' : ''}`}
-                type="submit"
-                disabled={loading}
-                aria-busy={loading}
-              >
-                {loading ? (
-                  <>
-                    <LoaderCircle size={18} className="donate-loading-icon" />
-                    {isPayPal ? 'Connecting to PayPal…' : 'Preparing secure checkout…'}
-                  </>
-                ) : (
-                  <>
-                    <Lock size={16} />
-                    {validAmount ? `Donate ${totalLabel}` : 'Continue to payment'}
-                    <ArrowRight size={18} />
-                  </>
-                )}
-              </button>
-
-              <p className="donate-form-disclaimer">
-                Payment processing depends on the payment provider integrations
-                and merchant account settings. Monthly selection is a donor
-                preference and recurring billing must be enabled by the provider
-                before it can be charged automatically.
-              </p>
-            </form>
-          </div>
-        </section>
-
-        {/* ================= BOTTOM CTA ================= */}
-        <section className="donate-bottom-cta">
-          <div className="donate-container">
-            <div className="donate-bottom-inner">
-              <div>
-                <span className="donate-label donate-label-light">Let's work together</span>
-                <h2>Interested in partnering with us?</h2>
-                <p>
-                  We welcome conversations with organisations, community groups
-                  and individuals interested in supporting our mission.
-                </p>
-              </div>
-
-              <Link to="/contact" className="donate-btn donate-btn-white">
-                Contact Us
-                <ArrowRight size={18} />
-              </Link>
-            </div>
-          </div>
-        </section>
-
-        {/* ================= LOCATION ================= */}
-        <div className="donate-location">
-          <MapPin size={16} />
-          <span>THE WEB INITIATIVE LTD · Jinja, Uganda</span>
         </div>
-      </main>
 
-      <Footer />
-    </>
+        {/* DONATION FORM */}
+        <div className="donation-form-card" id="donation-form">
+          <div className="form-heading">
+            <div className="form-heading-icon">
+              <HandHeart size={46} strokeWidth={1.8} />
+            </div>
+
+            <div>
+              <h2>Make a Donation</h2>
+              <p>
+                Choose an amount, your preferred payment method,
+                and help us continue our work.
+              </p>
+            </div>
+          </div>
+
+          <form onSubmit={handleSubmit}>
+            {/* CAUSE */}
+            <div className="form-section">
+              <div className="form-section-title">
+                <span className="step-number">1</span>
+                <h3>Choose a Cause</h3>
+              </div>
+
+              <div className="select-wrapper">
+                <select
+                  value={formData.cause}
+                  onChange={(e) => updateField("cause", e.target.value)}
+                  aria-label="Choose a donation cause"
+                >
+                  {causes.map((cause) => (
+                    <option value={cause.title} key={cause.title}>
+                      {cause.title}
+                    </option>
+                  ))}
+                </select>
+
+                <ChevronDown size={18} />
+              </div>
+            </div>
+
+            {/* FREQUENCY */}
+            <div className="form-section">
+              <div className="form-section-title">
+                <span className="step-number">2</span>
+                <h3>Select Donation Frequency</h3>
+              </div>
+
+              <div className="frequency-options">
+                <button
+                  type="button"
+                  className={
+                    formData.frequency === "one-time" ? "active" : ""
+                  }
+                  onClick={() => updateField("frequency", "one-time")}
+                >
+                  {formData.frequency === "one-time" && (
+                    <CheckCircle2 size={16} />
+                  )}
+                  One-time
+                </button>
+
+                <button
+                  type="button"
+                  className={
+                    formData.frequency === "monthly" ? "active" : ""
+                  }
+                  onClick={() => updateField("frequency", "monthly")}
+                >
+                  {formData.frequency === "monthly" && (
+                    <CheckCircle2 size={16} />
+                  )}
+                  Monthly
+                </button>
+              </div>
+            </div>
+
+            {/* AMOUNT */}
+            <div className="form-section">
+              <div className="amount-heading-row">
+                <div className="form-section-title">
+                  <span className="step-number">3</span>
+                  <h3>Choose Amount</h3>
+                </div>
+
+                <div className="currency-select">
+                  <select
+                    value={formData.currency}
+                    onChange={(e) => handleCurrencyChange(e.target.value)}
+                    aria-label="Select currency"
+                  >
+                    {Object.entries(currencies).map(([code, currency]) => (
+                      <option value={code} key={code}>
+                        {currency.label}
+                      </option>
+                    ))}
+                  </select>
+
+                  <ChevronDown size={15} />
+                </div>
+              </div>
+
+              <div className="amount-options">
+                {selectedCurrency.amounts.map((amount) => (
+                  <button
+                    type="button"
+                    key={amount}
+                    className={
+                      !formData.customAmount && formData.amount === amount
+                        ? "active"
+                        : ""
+                    }
+                    onClick={() => selectAmount(amount)}
+                  >
+                    {selectedCurrency.symbol} {formatAmount(amount)}
+                  </button>
+                ))}
+              </div>
+
+              <div className="custom-amount">
+                <input
+                  type="number"
+                  min="1"
+                  placeholder="Or enter a custom amount"
+                  value={formData.customAmount}
+                  onChange={(e) =>
+                    updateField("customAmount", e.target.value)
+                  }
+                />
+
+                <span>{selectedCurrency.symbol}</span>
+              </div>
+            </div>
+
+            {/* DONOR DETAILS */}
+            <div className="form-section">
+              <div className="form-section-title">
+                <span className="step-number">4</span>
+                <h3>Your Details</h3>
+              </div>
+
+              <div className="donor-details-grid">
+                <input
+                  type="text"
+                  placeholder="Full Name *"
+                  value={formData.fullName}
+                  onChange={(e) => updateField("fullName", e.target.value)}
+                  autoComplete="name"
+                  required
+                />
+
+                <input
+                  type="email"
+                  placeholder="Email Address *"
+                  value={formData.email}
+                  onChange={(e) => updateField("email", e.target.value)}
+                  autoComplete="email"
+                  required
+                />
+
+                <input
+                  type="tel"
+                  placeholder="Phone Number (Optional)"
+                  value={formData.phone}
+                  onChange={(e) => updateField("phone", e.target.value)}
+                  autoComplete="tel"
+                  className="full-width-field"
+                />
+
+                <textarea
+                  placeholder="Message (Optional)"
+                  value={formData.message}
+                  onChange={(e) => updateField("message", e.target.value)}
+                  rows="3"
+                  className="full-width-field"
+                />
+              </div>
+            </div>
+
+            {/* PAYMENT METHOD */}
+            <div className="form-section">
+              <div className="form-section-title">
+                <span className="step-number">5</span>
+                <h3>Payment Method</h3>
+              </div>
+
+              <div className="payment-method-grid">
+                {paymentMethods.map((method) => (
+                  <button
+                    type="button"
+                    key={method.id}
+                    className={`payment-method ${
+                      formData.paymentMethod === method.id ? "selected" : ""
+                    }`}
+                    onClick={() =>
+                      updateField("paymentMethod", method.id)
+                    }
+                    aria-pressed={formData.paymentMethod === method.id}
+                  >
+                    <span className="payment-radio">
+                      {formData.paymentMethod === method.id && (
+                        <span />
+                      )}
+                    </span>
+
+                    <span className={`payment-brand ${method.className}`}>
+                      {method.id === "card" && (
+                        <>
+                          <strong>VISA</strong>
+                          <span className="mastercard-symbol">
+                            <i />
+                            <i />
+                          </span>
+                        </>
+                      )}
+
+                      {method.id === "paypal" && (
+                        <strong>
+                          <span className="paypal-p">P</span> PayPal
+                        </strong>
+                      )}
+
+                      {method.id === "mtn_momo" && (
+                        <strong>
+                          <span className="mtn-circle">MTN</span>
+                          <span>MoMo</span>
+                        </strong>
+                      )}
+
+                      {method.id === "airtel_money" && (
+                        <strong>
+                          <span className="airtel-symbol">◔</span>
+                          Airtel
+                        </strong>
+                      )}
+                    </span>
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* ERROR MESSAGE */}
+            {error && (
+              <div className="donation-error" role="alert">
+                {error}
+              </div>
+            )}
+
+            {/* SUBMIT */}
+            <button
+              type="submit"
+              className="secure-donate-button"
+              disabled={loading}
+            >
+              {loading ? (
+                <>
+                  <LoaderCircle className="loading-spinner" size={20} />
+                  Processing...
+                </>
+              ) : (
+                <>
+                  <LockKeyhole size={19} />
+                  Donate Securely Now
+                  <ArrowRight size={19} />
+                </>
+              )}
+            </button>
+
+            <div className="payment-security-note">
+              <ShieldCheck size={17} />
+              <span>Your payment is secure and encrypted.</span>
+            </div>
+          </form>
+        </div>
+      </section>
+    </main>
   );
 }
