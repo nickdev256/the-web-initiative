@@ -121,7 +121,7 @@ function About() {
 
             <p>
               We are a community-based health organisation working to
-              reduce malnutrition among children living with sickle
+              reduce or posibly eliminate malnutrition among children, battling with sickle
               cell disease and HIV in Northern Uganda.
             </p>
           </div>
@@ -153,8 +153,7 @@ function About() {
                 We empower affected families and individuals towards 
                 self-sufficiency and good health, and build sustainable, 
                 healthy communities by promoting healthy habits, restoring 
-                hope, and sharing knowledge and God’s love so that everyone 
-                can live a fulfilled life.
+                hope, and sharing knowledge and God’s love.
               </p>
 
               <div className="about-actions">
@@ -234,12 +233,12 @@ function About() {
                 <h3>Our Mission</h3>
                 <p>
                   To put in place strategies that minimise mortality among
-                  children living with sickle cell anaemia, HIV and
+                  children battling with sickle cell disease, HIV and
                   malnutrition.
                 </p>
                 <div className="about-card-note">
                   <CheckCircle2 size={17} aria-hidden="true" />
-                  <span>People first, always.</span>
+                  <span>Progress with strategy.</span>
                 </div>
               </article>
 
@@ -250,7 +249,7 @@ function About() {
                 <h3>Our Vision</h3>
                 <p>
                   A strong organisation working to lower, and where
-                  possible eliminate, malnutrition in children living
+                  possible eliminate, malnutrition in children battling
                   with sickle cell disease and HIV in the marginalised
                   parts of Northern Uganda.
                 </p>
@@ -314,13 +313,13 @@ function About() {
 
               <p>
                 The Web Initiative Ltd is built on the belief that
-                healthier communities create brighter futures.
+                healthier communities begins with Us.
               </p>
 
               <p>
                 Our work centres on healthcare support, reaching
                 communities, and working with partners who share a
-                vision for healthier and stronger communities.
+                vision for healthier and stronger livelihood.
               </p>
 
               <p>
@@ -348,8 +347,8 @@ function About() {
                 OUR OBJECTIVES
               </span>
               <h2>
-                Turning our purpose{' '}
-                <span className="hand-accent">into action.</span>
+                Purpose{' '}
+                <span className="hand-accent">for Action.</span>
               </h2>
               <p>
                 Our focus areas guide how we engage communities and

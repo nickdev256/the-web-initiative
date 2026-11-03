@@ -115,16 +115,15 @@ function MedicalCamps() {
             </span>
 
             <h1>
-              Medical camps that bring care{' '}
+              Medical camps that bring healthcare{' '}
               <span className="hand-accent hand-accent--on-dark">
-                closer to home.
+                closer.
               </span>
             </h1>
 
             <p>
-              We take health checks, screening and education directly to
-              children and families in marginalised communities of
-              Northern Uganda.
+              We bring medicalcare directly to maginalised communities in the most parts of
+          Northern Uganda.
             </p>
 
             <div className="mc-hero-actions">
@@ -150,7 +149,7 @@ function MedicalCamps() {
 
               <h2>
                 Bringing health care{' '}
-                <span className="hand-accent">closer to people.</span>
+                <span className="hand-accent">closer to Families.</span>
               </h2>
 
               <p className="mc-lead">
@@ -158,11 +157,17 @@ function MedicalCamps() {
                 journey away. Our medical camps go to them.
               </p>
 
-              <p>
-                Each camp is a chance to check on children’s health, look
-                out for signs of malnutrition, and help families affected
-                by sickle cell disease and HIV understand where to seek
-                further care.
+              <p> 
+                Each camp is a chance for a family to access healthcare. We triage for
+                malnutrition, HIV, sickle cell disease and any other underlying 
+                medical problems.
+
+                <p>
+                We seek to tackle the root causes and rather not just the symptoms.
+                 </p>
+
+
+                
               </p>
 
               <Link to="/medical-services" className="mc-text-link">
@@ -188,7 +193,7 @@ function MedicalCamps() {
                 </span>
                 <span>
                   <strong>Health checks on the day</strong>
-                  <span>Our team checks and advises visitors.</span>
+                  <span>Malnutrition screening.</span>
                 </span>
               </figcaption>
             </figure>
@@ -206,7 +211,7 @@ function MedicalCamps() {
               <h2 id="mc-activities-title">
                 What happens at{' '}
                 <span className="hand-accent hand-accent--on-dark">
-                  our camps.
+                  our Camps.
                 </span>
               </h2>
               <p>
@@ -322,7 +327,7 @@ function MedicalCamps() {
               </h2>
               <p>
                 Whether you are a community leader, a health worker or a
-                supporter, there is a place for you at our next camp.
+                donner, there is a place for you at our next camp.
               </p>
               <Link to="/contact" className="mc-btn mc-btn-dark">
                 Contact our team

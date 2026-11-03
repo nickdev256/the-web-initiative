@@ -207,7 +207,7 @@ export default function Gallery() {
             </h1>
 
             <p>
-              Moments from our medical camps, health education sessions and
+              Pictures from our medical camps, health education sessions and
               community outreach across Uganda.
             </p>
 

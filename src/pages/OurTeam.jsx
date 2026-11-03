@@ -88,8 +88,8 @@ function OurTeam() {
             </h1>
 
             <p>
-              Clinicians, volunteers and community members working together
-              to support children and families in Northern Uganda.
+              Doctors, Nurses, Volunteers, Donners and community members working together
+              to support children and families across Uganda.
             </p>
           </div>
         </section>
@@ -111,8 +111,8 @@ function OurTeam() {
                   <HandHeart size={22} aria-hidden="true" />
                 </span>
                 <span>
-                  <strong>Working as one team</strong>
-                  <span>Clinicians and volunteers sharing what they know.</span>
+                  <strong>Working as a team</strong>
+                  <span></span>
                 </span>
               </figcaption>
             </figure>
@@ -124,12 +124,12 @@ function OurTeam() {
               </span>
 
               <h2>
-                Driven by people.{' '}
-                <span className="hand-accent">United by purpose.</span>
+                United by {' '}
+                <span className="hand-accent">Purpose.</span>
               </h2>
 
               <p className="ot-lead">
-                Meaningful community work depends on people who share
+                Our work depends on highly committed people who share
                 knowledge, listen to different perspectives and work
                 together towards common goals.
               </p>
@@ -137,7 +137,7 @@ function OurTeam() {
               <p>
                 At The Web Initiative Ltd, our approach values teamwork,
                 community engagement and collaboration with the people
-                and partners we serve.
+                and our partners.
               </p>
 
               <Link to="/about" className="ot-text-link">
@@ -206,11 +206,13 @@ function OurTeam() {
               </span>
               <h2 id="ot-join-title">
                 Want to work{' '}
-                <span className="hand-accent">with us?</span>
+                <span className="hand-accent">With us?</span>
               </h2>
               <p>
-                We welcome conversations about volunteering, partnerships
-                and other ways to contribute to our work.
+                Work with us as a volunteer. 
+                <p>
+                Work with us as a partner.
+                </p>
               </p>
               <Link to="/contact" className="ot-btn">
                 Contact our team

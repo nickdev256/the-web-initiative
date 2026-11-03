@@ -222,8 +222,8 @@ function Home() {
                     <MapPin size={19} aria-hidden="true" />
                   </span>
                   <span>
-                    Medical camps and health education across{' '}
-                    <strong>Jinja, Uganda.</strong>
+                    Medical camps and health care across{' '}
+                    <strong>Uganda.</strong>
                   </span>
                 </div>
               </div>
@@ -282,8 +282,7 @@ function Home() {
                 We empower affected families and individuals towards
                 self-sufficiency and good health, and build sustainable,
                 healthy communities by promoting healthy habits,
-                restoring hope, and sharing knowledge and God’s love so
-                that everyone can live a fulfilled life.
+                restoring hope, and sharing knowledge and God’s love.
               </p>
 
               <ul className="home-intro-priorities">
@@ -515,7 +514,7 @@ function Home() {
               <h2>
                 Better health
                 <br />
-                begins <span>together.</span>
+                begins <span> With Us.</span>
               </h2>
 
               <p>

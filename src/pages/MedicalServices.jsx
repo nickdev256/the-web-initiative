@@ -98,14 +98,14 @@ function MedicalServices() {
             </span>
 
             <h1>
-              Medical services for{' '}
+              Medical services to{' '}
               <span className="hand-accent hand-accent--on-dark">
-                healthier communities.
+                maginalised communities.
               </span>
             </h1>
 
             <p>
-              Health awareness, outreach and community-focused care for
+              We bring health awareness, outreach and community-focused care for
               children and families affected by malnutrition, sickle cell
               disease and HIV in Northern Uganda.
             </p>
@@ -130,7 +130,7 @@ function MedicalServices() {
                 </span>
                 <span>
                   <strong>Laboratory screening</strong>
-                  <span>Blood tests that help guide each child’s care.</span>
+                  <span>Blood tests that help guide medical care.</span>
                 </span>
               </div>
             </figure>
@@ -142,12 +142,12 @@ function MedicalServices() {
               </span>
 
               <h2>
-                Healthcare that puts{' '}
-                <span className="hand-accent">people first.</span>
+                Striving for{' '}
+                <span className="hand-accent">Impact.</span>
               </h2>
 
               <p className="ms-lead">
-                Access to appropriate health information and support can
+                Access to appropriate healthcare, information and support can
                 make a meaningful difference to individuals, families and
                 communities.
               </p>
@@ -193,8 +193,7 @@ function MedicalServices() {
               </h2>
               <p>
                 Explore the areas our healthcare and outreach initiatives
-                may cover. Contact us to confirm currently available
-                services.
+                cover. 
               </p>
             </div>
 
@@ -232,14 +231,14 @@ function MedicalServices() {
               </span>
 
               <h2>
-                Working with communities{' '}
-                <span className="hand-accent">at every step.</span>
+                Working with Communities{' '}
+                <span className="hand-accent">One Step at a Time.</span>
               </h2>
 
               <p>
-                Effective community initiatives begin by understanding
-                people’s needs and building relationships with the
-                communities they are intended to serve.
+                We understand that effective community initiatives begin by understanding
+                people’s needs and building relationships with
+                communities.
               </p>
 
               <ol className="ms-steps">
@@ -276,8 +275,8 @@ function MedicalServices() {
               <figcaption className="ms-approach-caption">
                 <Apple size={22} aria-hidden="true" />
                 <span>
-                  <strong>Nutrition education for families</strong>
-                  <span>Sharing healthy food choices with mothers</span>
+                  <strong>Nutritional education for breat feeding mothers</strong>
+                  <span>Feeding a mother is feeding a child</span>
                 </span>
               </figcaption>
             </figure>
