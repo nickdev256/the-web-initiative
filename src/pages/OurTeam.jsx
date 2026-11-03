@@ -12,41 +12,48 @@ import './OurTeam.css';
 
 // Team profiles, shown in this order. Put each photo in public/images/team/
 // (head and shoulders; it is shown square). Leave `photo` empty for a placeholder.
+// `flag` is the two-letter country code of a flag in public/images/flags/.
 const people = [
   {
     name: 'Mukisa George William',
     role: 'Executive Director & Founder',
     location: 'Uganda',
+    flag: 'ug',
     photo: '/images/team/mukisa-george-william.jpg',
   },
   {
     name: 'Vicky Woods',
     role: 'Director of Operations',
     location: 'USA',
+    flag: 'us',
     photo: '/images/team/vicky-woods.jpg',
   },
   {
     name: 'Joakim & Julia',
     role: 'Directors of Operations',
     location: 'Denmark',
+    flag: 'dk',
     photo: '/images/team/joakim-julia.jpg',
   },
   {
     name: 'Joakim & Birgit',
     role: 'Board Advisory, Finance',
     location: 'Germany',
+    flag: 'de',
     photo: '/images/team/joakim-birgit.jpg',
   },
   {
     name: 'Dave',
     role: '',
     location: 'Kenya',
+    flag: 'ke',
     photo: '/images/team/dave.jpg',
   },
   {
     name: 'Kwagala',
     role: '',
     location: 'Tanzania',
+    flag: 'tz',
     photo: '/images/team/kwagala.jpg',
   },
 ];
@@ -188,7 +195,18 @@ function OurTeam() {
                   </div>
                   <h3>{person.name}</h3>
                   {person.role && <p className="ot-person-role">{person.role}</p>}
-                  <p className="ot-person-location">{person.location}</p>
+                  <p className="ot-person-location">
+                    {person.flag && (
+                      <img
+                        className="ot-person-flag"
+                        src={`/images/flags/${person.flag}.svg`}
+                        alt=""
+                        width="24"
+                        height="18"
+                      />
+                    )}
+                    {person.location}
+                  </p>
                 </li>
               ))}
             </ul>

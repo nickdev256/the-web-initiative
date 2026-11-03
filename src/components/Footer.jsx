@@ -19,7 +19,6 @@ const exploreLinks = [
   { label: 'Home', path: '/' },
   { label: 'About Us', path: '/about' },
   { label: 'Our Team', path: '/our-team' },
-  { label: 'Our Impact', path: '/impact' },
   { label: 'Gallery', path: '/gallery' },
 ];
 
