@@ -88,7 +88,7 @@ function OurTeam() {
             </h1>
 
             <p>
-              Doctors, Nurses, Volunteers, Donners and community members working together
+              Doctors, Nurses, Volunteers, Donors and community members working together
               to support children and families across Uganda.
             </p>
           </div>
@@ -112,7 +112,6 @@ function OurTeam() {
                 </span>
                 <span>
                   <strong>Working as a team</strong>
-                  <span></span>
                 </span>
               </figcaption>
             </figure>
@@ -208,12 +207,8 @@ function OurTeam() {
                 Want to work{' '}
                 <span className="hand-accent">With us?</span>
               </h2>
-              <p>
-                Work with us as a volunteer. 
-                <p>
-                Work with us as a partner.
-                </p>
-              </p>
+              <p>Work with us as a volunteer.</p>
+              <p>Work with us as a partner.</p>
               <Link to="/contact" className="ot-btn">
                 Contact our team
                 <ArrowRight size={18} aria-hidden="true" />

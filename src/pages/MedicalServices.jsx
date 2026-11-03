@@ -100,7 +100,7 @@ function MedicalServices() {
             <h1>
               Medical services to{' '}
               <span className="hand-accent hand-accent--on-dark">
-                maginalised communities.
+                marginalised communities.
               </span>
             </h1>
 
@@ -275,7 +275,7 @@ function MedicalServices() {
               <figcaption className="ms-approach-caption">
                 <Apple size={22} aria-hidden="true" />
                 <span>
-                  <strong>Nutritional education for breat feeding mothers</strong>
+                  <strong>Nutritional education for breastfeeding mothers</strong>
                   <span>Feeding a mother is feeding a child</span>
                 </span>
               </figcaption>

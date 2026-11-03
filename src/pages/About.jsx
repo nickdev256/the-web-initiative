@@ -121,8 +121,8 @@ function About() {
 
             <p>
               We are a community-based health organisation working to
-              reduce or posibly eliminate malnutrition among children, battling with sickle
-              cell disease and HIV in Northern Uganda.
+              reduce or possibly eliminate malnutrition among children
+              battling with sickle cell disease and HIV in Northern Uganda.
             </p>
           </div>
         </section>

@@ -292,10 +292,9 @@ export default function Contact() {
                 <span className="hand-accent">Jinja, Uganda.</span>
               </h2>
               <p>
-                The Web Initiative Ltd has its Offices located in Jinja, in Eastern Uganda.
-                while as its operations are mostly centered in the most parts of Northern Uganda.
+                The Web Initiative Ltd has its office in Jinja, in Eastern
+                Uganda, while most of its work takes place in Northern Uganda.
                 Please contact us before visiting.
-            
               </p>
               <a
                 className="contact-text-link"
