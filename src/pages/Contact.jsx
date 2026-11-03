@@ -90,7 +90,7 @@ export default function Contact() {
             </h1>
 
             <p>
-              Have a question, want to partner with us, or need more
+              Have a question? Want to partner with us? Or need more
               information about our work? We would love to hear from you.
             </p>
 
@@ -292,9 +292,10 @@ export default function Contact() {
                 <span className="hand-accent">Jinja, Uganda.</span>
               </h2>
               <p>
-                The Web Initiative Ltd is based in Jinja, in Eastern Uganda.
-                Please contact us before visiting so we can confirm the right
-                meeting place.
+                The Web Initiative Ltd has its Offices located in Jinja, in Eastern Uganda.
+                while as its operations are mostly centered in the most parts of Northern Uganda.
+                Please contact us before visiting.
+            
               </p>
               <a
                 className="contact-text-link"
