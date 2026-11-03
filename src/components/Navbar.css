@@ -276,7 +276,19 @@
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-/* Light sweep across the button on hover */
+/* =========================================
+   MAKE A DONATION: attention loop
+   Every 4.5s the heart beats (lub-dub), a soft ring ripples out from the
+   button and a shine sweeps across it. All three share one timeline so
+   they read as a single gesture. The loop pauses on hover and is turned
+   off for visitors who ask for reduced motion.
+   ========================================= */
+
+.navbar-donate {
+  animation: donate-ripple 4.5s ease-out infinite;
+}
+
+/* Shine that sweeps across the button */
 .navbar-donate::before {
   position: absolute;
   top: 0;
@@ -286,7 +298,8 @@
   background: linear-gradient(100deg, transparent, color-mix(in srgb, var(--c-white) 45%, transparent), transparent);
   content: "";
   transform: skewX(-20deg);
-  transition: left 0.55s ease;
+  animation: donate-shine 4.5s ease-in-out infinite;
+  pointer-events: none;
 }
 
 .navbar-donate:hover {
@@ -295,8 +308,13 @@
   transform: translateY(-2px);
 }
 
-.navbar-donate:hover::before {
-  left: 120%;
+.navbar-donate:hover,
+.navbar-donate:hover::before,
+.navbar-donate:hover .donate-heart,
+.navbar-donate:focus-visible,
+.navbar-donate:focus-visible::before,
+.navbar-donate:focus-visible .donate-heart {
+  animation-play-state: paused;
 }
 
 .navbar-donate svg {
@@ -304,13 +322,44 @@
 }
 
 .donate-heart {
-  animation: navbar-heartbeat 2.4s ease-in-out infinite;
+  animation: donate-heartbeat 4.5s ease-in-out infinite;
+  transform-origin: center;
 }
 
-@keyframes navbar-heartbeat {
-  0%, 60%, 100% { transform: scale(1); }
-  20% { transform: scale(1.22); }
-  35% { transform: scale(0.95); }
+/* Lub-dub: two quick beats, then rest */
+@keyframes donate-heartbeat {
+  0%, 26%, 100% { transform: scale(1); }
+  6% { transform: scale(1.28); }
+  12% { transform: scale(0.96); }
+  18% { transform: scale(1.2); }
+}
+
+/* Soft ring that grows out from the button and fades, on the first beat */
+@keyframes donate-ripple {
+  0% {
+    box-shadow:
+      0 8px 22px color-mix(in srgb, var(--c-blue) 32%, transparent),
+      0 0 0 0 color-mix(in srgb, var(--c-support) 55%, transparent);
+  }
+  35%, 100% {
+    box-shadow:
+      0 8px 22px color-mix(in srgb, var(--c-blue) 32%, transparent),
+      0 0 0 14px color-mix(in srgb, var(--c-support) 0%, transparent);
+  }
+}
+
+/* The shine crosses just after the heartbeat */
+@keyframes donate-shine {
+  0%, 30% { left: -60%; }
+  55%, 100% { left: 130%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .navbar-donate,
+  .navbar-donate::before,
+  .donate-heart {
+    animation: none;
+  }
 }
 
 /* Dropdowns */
