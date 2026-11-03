@@ -242,11 +242,27 @@
   font-size: 14px;
 }
 
-.footer-tagline {
+.footer-credit {
   display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 17px;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 6px;
+  color: color-mix(in srgb, var(--c-white) 75%, transparent);
+  font-size: 14px;
+}
+
+.footer-credit .hand-accent {
+  font-size: 1.35em;
+}
+
+.footer-credit a {
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+
+.footer-credit a:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
 }
 
 .footer-top-button {

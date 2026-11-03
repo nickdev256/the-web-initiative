@@ -12,3 +12,10 @@ export const SOCIAL_LINKS = {
   youtube: '',
   whatsapp: '', // e.g. 'https://wa.me/256700000000'
 };
+
+// Website credit shown at the bottom of the footer. Add the company's
+// website address to `url` to make the name a link.
+export const DESIGNER = {
+  name: 'Eth-tech Solutions',
+  url: 'https://ethtechsolutions.com/',
+};

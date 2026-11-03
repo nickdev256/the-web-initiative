@@ -12,7 +12,7 @@ import {
   Linkedin,
   Youtube,
 } from 'lucide-react';
-import { CONTACT_EMAIL, SOCIAL_LINKS } from '../config.js';
+import { CONTACT_EMAIL, SOCIAL_LINKS, DESIGNER } from '../config.js';
 import './Footer.css';
 
 const exploreLinks = [
@@ -203,11 +203,23 @@ function Footer() {
         <div className="footer-container footer-bottom-inner">
           <p>© {currentYear} The Web Initiative Ltd. All rights reserved.</p>
 
-          <p className="footer-tagline">
-            <span className="hand-accent hand-accent--on-dark">
-              Made to make a difference
-            </span>
-            <Heart size={15} aria-hidden="true" />
+          <p className="footer-credit">
+            Designed by{' '}
+            {DESIGNER.url ? (
+              <a
+                href={DESIGNER.url}
+                target="_blank"
+                rel="noreferrer"
+                className="hand-accent hand-accent--on-dark"
+              >
+                {DESIGNER.name}
+                <span className="sr-only"> (opens in a new tab)</span>
+              </a>
+            ) : (
+              <span className="hand-accent hand-accent--on-dark">
+                {DESIGNER.name}
+              </span>
+            )}
           </p>
 
           <button
