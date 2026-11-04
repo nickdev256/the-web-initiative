@@ -1,0 +1,195 @@
+/* =========================================
+   PHONE INPUT with country code picker
+   ========================================= */
+
+.phone-input {
+  position: relative;
+}
+
+.phone-input-row {
+  display: flex;
+  align-items: stretch;
+  min-height: 48px;
+  overflow: hidden;
+  border: 1px solid var(--c-line);
+  border-radius: 12px;
+  background: var(--c-paper);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.phone-input-row:focus-within {
+  border-color: var(--c-blue);
+  background: var(--c-white);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--c-cyan) 35%, transparent);
+}
+
+.phone-country {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  gap: 7px;
+  padding: 0 10px 0 12px;
+  border: 0;
+  border-right: 1px solid var(--c-line);
+  color: var(--c-navy);
+  background: transparent;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.phone-country:hover,
+.phone-country[aria-expanded="true"] {
+  background: color-mix(in srgb, var(--c-cyan) 18%, transparent);
+}
+
+.phone-country:focus-visible {
+  outline: 3px solid var(--c-blue-bright);
+  outline-offset: -3px;
+}
+
+:root .phone-country svg.lucide {
+  color: var(--c-icon-bg);
+  transition: transform 0.2s ease;
+}
+
+.phone-country[aria-expanded="true"] svg.lucide {
+  transform: rotate(180deg);
+}
+
+/* The row draws the border, so the field itself has none
+   (overrides the site-wide input styles) */
+.phone-input-row input,
+.phone-input-row input:focus {
+  flex: 1;
+  width: auto;
+  min-width: 0;
+  min-height: 46px;
+  padding: 0 14px;
+  border: 0;
+  border-radius: 0;
+  outline: none;
+  box-shadow: none;
+  color: var(--c-navy);
+  background: transparent;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 16px;
+}
+
+.phone-flag {
+  display: block;
+  flex-shrink: 0;
+  width: 22px;
+  height: 16px;
+  border-radius: 3px;
+  object-fit: cover;
+  background: var(--c-line);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--c-navy) 12%, transparent);
+}
+
+/* Dropdown */
+.phone-picker {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  left: 0;
+  z-index: 30;
+  display: grid;
+  gap: 6px;
+  padding: 8px;
+  border: 1px solid var(--c-line);
+  border-radius: 14px;
+  background: var(--c-white);
+  box-shadow: 0 24px 50px color-mix(in srgb, var(--c-navy) 20%, transparent);
+}
+
+.phone-search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 12px;
+  border: 1px solid var(--c-line);
+  border-radius: 10px;
+  background: var(--c-paper);
+}
+
+:root .phone-search svg.lucide {
+  flex-shrink: 0;
+  color: var(--c-icon-bg);
+}
+
+.phone-search input,
+.phone-search input:focus {
+  width: 100%;
+  min-width: 0;
+  min-height: 40px;
+  padding: 0;
+  border: 0;
+  outline: none;
+  box-shadow: none;
+  color: var(--c-navy);
+  background: transparent;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 16px;
+}
+
+.phone-search:focus-within {
+  border-color: var(--c-blue);
+}
+
+/* The surrounding box shows focus, so the fields need no outline of their
+   own (overrides page-wide focus outlines such as the Donate page's) */
+.phone-input .phone-search input:focus-visible,
+.phone-input .phone-input-row input:focus-visible {
+  outline: none;
+}
+
+.phone-list {
+  max-height: 260px;
+  margin: 0;
+  padding: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  list-style: none;
+}
+
+.phone-list li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 42px;
+  padding: 8px 10px;
+  border-radius: 9px;
+  color: var(--c-navy);
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.phone-list li.is-active {
+  background: color-mix(in srgb, var(--c-cyan) 22%, var(--c-white));
+}
+
+.phone-list li[aria-selected="true"] {
+  font-weight: 700;
+}
+
+.phone-list-name {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.phone-list-dial {
+  flex-shrink: 0;
+  color: var(--c-slate);
+  font-variant-numeric: tabular-nums;
+}
+
+.phone-empty {
+  margin: 4px 8px 8px;
+  color: var(--c-slate);
+  font-size: 14px;
+}

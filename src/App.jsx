@@ -1,4 +1,5 @@
 
+import { lazy, Suspense } from 'react';
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import Home from './pages/Home.jsx';
 import About from './pages/About.jsx';
@@ -6,11 +7,14 @@ import MedicalServices from './pages/MedicalServices.jsx';
 import MedicalCamps from './pages/MedicalCamps.jsx';
 import CampDetails from './pages/CampDetails.jsx';
 import OurTeam from './pages/OurTeam.jsx';
-import Donate from './pages/Donate.jsx';
 import Gallery from './pages/Gallery.jsx';
 import Contact from './pages/Contact.jsx';
 import PageEffects from './components/PageEffects.jsx';
 import './App.css';
+
+// The Donate page carries the phone-number library, so it loads on its own
+// and the other pages stay light
+const Donate = lazy(() => import('./pages/Donate.jsx'));
 
 function App() {
   const location = useLocation();
@@ -36,7 +40,14 @@ function App() {
         <Route path="/our-team" element={<OurTeam />} />
         {/* The Our Impact page was removed; old links go to Home */}
         <Route path="/impact" element={<Navigate to="/" replace />} />
-        <Route path="/donate" element={<Donate />} />
+        <Route
+          path="/donate"
+          element={
+            <Suspense fallback={null}>
+              <Donate />
+            </Suspense>
+          }
+        />
         <Route path="/gallery" element={<Gallery />} />
         <Route path="/contact" element={<Contact />} />
 

@@ -27,18 +27,25 @@ function scrollBehavior() {
 }
 
 function scrollToTarget(hash) {
-  if (hash) {
-    const target = document.getElementById(decodeURIComponent(hash.slice(1)));
-    if (target) {
-      // Wait a moment so photos above the section have their size,
-      // otherwise the scroll can stop short of the section.
-      window.setTimeout(() => {
-        target.scrollIntoView({ behavior: scrollBehavior(), block: 'start' });
-      }, 120);
-      return;
-    }
+  if (!hash) {
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    return;
   }
-  window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+
+  // Pages that load on their own (like Donate) may not have drawn the
+  // section yet, so look for it a few times. A short wait also lets photos
+  // above it take their size, so the scroll doesn't stop short.
+  const id = decodeURIComponent(hash.slice(1));
+  let tries = 0;
+  const attempt = () => {
+    const target = document.getElementById(id);
+    if (target) {
+      target.scrollIntoView({ behavior: scrollBehavior(), block: 'start' });
+    } else if (tries++ < 20) {
+      window.setTimeout(attempt, 100);
+    }
+  };
+  window.setTimeout(attempt, 120);
 }
 
 // A link to the page that is already open would otherwise do nothing,

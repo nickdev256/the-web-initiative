@@ -521,7 +521,8 @@
   gap: 6px;
 }
 
-.donate-field > span {
+.donate-field > span,
+.donate-field > label {
   color: var(--c-navy);
   font-size: 14px;
   font-weight: 700;

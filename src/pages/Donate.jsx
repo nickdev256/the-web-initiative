@@ -17,6 +17,8 @@ import {
 import Navbar from '../components/Navbar.jsx';
 import Footer from '../components/Footer.jsx';
 import { CONTACT_EMAIL } from '../config.js';
+import { parsePhoneNumberFromString } from 'libphonenumber-js';
+import PhoneInput from '../components/PhoneInput.jsx';
 import { createDonationCheckout } from '../services/donationService.js';
 import './Donate.css';
 
@@ -147,7 +149,7 @@ const faqs = [
   {
     question: 'Can I pay with mobile money?',
     answer:
-      'Yes. Choose MTN MoMo or Airtel Money and enter the phone number you pay with, including the country code.',
+      'Yes. Choose MTN MoMo or Airtel Money, pick your country code and enter the phone number you pay with.',
   },
   {
     question: 'Can I give once instead of every month?',
@@ -174,6 +176,8 @@ export default function Donate() {
   const [frequency, setFrequency] = useState('Monthly');
   const [step, setStep] = useState('amount');
   const [donor, setDonor] = useState({ name: '', email: '', phone: '', message: '' });
+  // Country for the phone number; the United States is the default
+  const [phoneCountry, setPhoneCountry] = useState('US');
   const [paymentMethod, setPaymentMethod] = useState('card');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -199,6 +203,11 @@ export default function Donate() {
     : 'Enter an amount';
   const giftText = usingCustom ? `Other amount (${programme.label})` : selectedOption?.label;
   const method = paymentMethods.find((item) => item.id === paymentMethod);
+  // The phone number in full international form, e.g. +256772123456
+  const parsedPhone = donor.phone.trim()
+    ? parsePhoneNumberFromString(donor.phone, phoneCountry)
+    : undefined;
+  const phoneIsValid = Boolean(parsedPhone?.isValid());
 
   function chooseProgramme(id) {
     setProgrammeId(id);
@@ -248,7 +257,7 @@ Amount: ${amountLabel} USD
 Frequency: ${frequency === 'Monthly' ? 'Monthly' : 'One-time'}
 Preferred payment: ${method.name}
 Name: ${donor.name}
-Phone: ${donor.phone || 'Not given'}
+Phone: ${parsedPhone ? parsedPhone.formatInternational() : 'Not given'}
 Message: ${donor.message || 'None'}
 
 Please send me your official payment details.`
@@ -262,8 +271,11 @@ Please send me your official payment details.`
 
     if (!donor.name.trim()) return setError('Please enter your full name.');
     if (!EMAIL_PATTERN.test(donor.email.trim())) return setError('Please enter a valid email address.');
-    if (method.mobileMoney && donor.phone.replace(/\D/g, '').length < 9) {
+    if (method.mobileMoney && !donor.phone.trim()) {
       return setError(`Please enter the phone number you pay with on ${method.name}.`);
+    }
+    if (donor.phone.trim() && !phoneIsValid) {
+      return setError('Please check your phone number and country code.');
     }
 
     setLoading(true);
@@ -271,7 +283,7 @@ Please send me your official payment details.`
       const result = await createDonationCheckout({
         donorName: donor.name.trim(),
         email: donor.email.trim(),
-        phone: donor.phone.trim(),
+        phone: parsedPhone ? parsedPhone.number : '',
         amount: selectedAmount,
         currency: 'USD',
         cause: programme.label,
@@ -523,21 +535,25 @@ Please send me your official payment details.`
                       </div>
                     </fieldset>
 
-                    <label className="donate-field">
-                      <span>
+                    <div className="donate-field">
+                      <label htmlFor="donate-phone">
                         Phone number {method.mobileMoney ? '*' : '(optional)'}
-                      </span>
-                      <input
-                        type="tel"
-                        autoComplete="tel"
-                        placeholder="e.g. +256 700 000 000"
+                      </label>
+                      <PhoneInput
+                        id="donate-phone"
+                        country={phoneCountry}
+                        onCountryChange={(code) => {
+                          setPhoneCountry(code);
+                          setError('');
+                        }}
                         value={donor.phone}
-                        onChange={(event) => updateDonor('phone', event.target.value)}
+                        onChange={(value) => updateDonor('phone', value)}
+                        required={method.mobileMoney}
                       />
                       {method.mobileMoney && (
                         <small>The number you pay with on {method.name}.</small>
                       )}
-                    </label>
+                    </div>
 
                     <label className="donate-field">
                       <span>Message (optional)</span>
