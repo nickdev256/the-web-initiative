@@ -1,13 +1,11 @@
-
 import { useRef, useState } from 'react';
-
 import { Link } from 'react-router-dom';
-
 import {
   ArrowRight,
   CheckCircle2,
   ShieldCheck,
   RefreshCw,
+  Mail,
   Heart,
   Pill,
   ChevronDown,
@@ -19,11 +17,14 @@ import {
 
 import Navbar from '../components/Navbar.jsx';
 import Footer from '../components/Footer.jsx';
+import { CONTACT_EMAIL } from '../config.js';
+import { parsePhoneNumberFromString } from 'libphonenumber-js';
+import PhoneInput from '../components/PhoneInput.jsx';
 import { createDonationCheckout } from '../services/donationService.js';
-
 import './Donate.css';
 
 // What one gift provides for each kind of patient we support
+
 const programmes = [
   {
     id: 'sickle-cell',
@@ -69,50 +70,31 @@ const programmes = [
   },
 ];
 
-// Amount choices in the gift widget
+// Amount choices in the gift widget. Each one belongs to a programme.
+
 const amountOptions = [
-  {
-    id: 'malnutrition-1',
-    amount: 65,
-    label: '1 malnourished child',
-    programme: 'malnutrition',
-  },
-  {
-    id: 'sickle-cell-1',
-    amount: 75,
-    label: '1 sickle cell patient',
-    programme: 'sickle-cell',
-  },
-  {
-    id: 'hiv-1',
-    amount: 75,
-    label: '1 HIV patient',
-    programme: 'hiv',
-  },
-  {
-    id: 'malnutrition-2',
-    amount: 130,
-    label: '2 malnourished children',
-    programme: 'malnutrition',
-  },
+  { id: 'malnutrition-1', amount: 65, label: '1 malnourished child', programme: 'malnutrition' },
+  { id: 'sickle-cell-1', amount: 75, label: '1 sickle cell patient', programme: 'sickle-cell' },
+  { id: 'hiv-1', amount: 75, label: '1 HIV patient', programme: 'hiv' },
+  { id: 'malnutrition-2', amount: 130, label: '2 malnourished children', programme: 'malnutrition' },
 ];
 
-// Only supported online payment methods
+// Ways to pay. The ids are the values the backend expects.
+
 const paymentMethods = [
-  { id: 'card', name: 'Visa / Mastercard' },
-  { id: 'paypal', name: 'PayPal' },
+  { id: 'card', name: 'Visa / Mastercard', mobileMoney: false },
+  { id: 'paypal', name: 'PayPal', mobileMoney: false },
+  { id: 'mtn_momo', name: 'MTN MoMo', mobileMoney: true },
+  { id: 'airtel_money', name: 'Airtel Money', mobileMoney: true },
 ];
 
-// Payment brand marks
+// Small brand marks so donors recognise each payment method
+
 function PaymentBrand({ id }) {
   if (id === 'card') {
     return (
-      <span
-        className="donate-brand donate-brand-card"
-        aria-hidden="true"
-      >
+      <span className="donate-brand donate-brand-card" aria-hidden="true">
         <strong>VISA</strong>
-
         <span className="donate-brand-mc">
           <span />
           <span />
@@ -121,13 +103,26 @@ function PaymentBrand({ id }) {
     );
   }
 
+  if (id === 'paypal') {
+    return (
+      <span className="donate-brand donate-brand-paypal" aria-hidden="true">
+        <strong>Pay</strong>
+        <strong>Pal</strong>
+      </span>
+    );
+  }
+
+  if (id === 'mtn_momo') {
+    return (
+      <span className="donate-brand donate-brand-mtn" aria-hidden="true">
+        <strong>MTN</strong>
+      </span>
+    );
+  }
+
   return (
-    <span
-      className="donate-brand donate-brand-paypal"
-      aria-hidden="true"
-    >
-      <strong>Pay</strong>
-      <strong>Pal</strong>
+    <span className="donate-brand donate-brand-airtel" aria-hidden="true">
+      <strong>airtel</strong>
     </span>
   );
 }
@@ -135,6 +130,7 @@ function PaymentBrand({ id }) {
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 // What happens after a donor presses Continue
+
 const givingSteps = [
   {
     icon: Heart,
@@ -144,7 +140,7 @@ const givingSteps = [
   {
     icon: LockKeyhole,
     title: 'Pay your way',
-    text: 'Add your details and pay securely using Visa, Mastercard or PayPal.',
+    text: 'Add your details and pay by Visa, Mastercard, PayPal, MTN MoMo or Airtel Money on a secure checkout page.',
   },
   {
     icon: Pill,
@@ -157,7 +153,12 @@ const faqs = [
   {
     question: 'How do I pay?',
     answer:
-      'Choose your gift and press Continue. Add your name and email, then select Visa, Mastercard or PayPal. You will complete your donation through a secure checkout page.',
+      'Choose your gift and press Continue. Then add your name and email and pick Visa or Mastercard, PayPal, MTN MoMo or Airtel Money. You finish your gift on a secure checkout page.',
+  },
+  {
+    question: 'Can I pay with mobile money?',
+    answer:
+      'Yes. Choose MTN MoMo or Airtel Money, pick your country code and enter the phone number you pay with.',
   },
   {
     question: 'Can I give once instead of every month?',
@@ -166,13 +167,11 @@ const faqs = [
   },
   {
     question: 'Can I give a different amount?',
-    answer:
-      'Yes. Type any amount in the Other box and press Continue.',
+    answer: 'Yes. Type any amount in the Other box and press Continue.',
   },
   {
     question: 'How do I change or stop a monthly gift?',
-    answer:
-      'Please contact our team for assistance with changing or stopping a monthly gift.',
+    answer: `Email us at ${CONTACT_EMAIL} and our team will help you.`,
   },
 ];
 
@@ -193,16 +192,20 @@ export default function Donate() {
     message: '',
   });
 
+  // Country for the phone number; the United States is the default
+  const [phoneCountry, setPhoneCountry] = useState('US');
+
   const [paymentMethod, setPaymentMethod] = useState('card');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
+  // Shown when online payment can't start
+  const [offline, setOffline] = useState(false);
+
   const widgetRef = useRef(null);
   const nameRef = useRef(null);
 
-  const programme = programmes.find(
-    (item) => item.id === programmeId
-  );
+  const programme = programmes.find((item) => item.id === programmeId);
 
   const selectedOption = amountOptions.find(
     (option) => option.id === optionId
@@ -219,9 +222,7 @@ export default function Donate() {
 
   const amountLabel = amountIsValid
     ? `$${selectedAmount.toLocaleString('en-US', {
-        minimumFractionDigits: Number.isInteger(selectedAmount)
-          ? 0
-          : 2,
+        minimumFractionDigits: Number.isInteger(selectedAmount) ? 0 : 2,
         maximumFractionDigits: 2,
       })}`
     : '';
@@ -241,19 +242,24 @@ export default function Donate() {
     (item) => item.id === paymentMethod
   );
 
+  // The phone number in full international form
+  const parsedPhone = donor.phone.trim()
+    ? parsePhoneNumberFromString(donor.phone, phoneCountry)
+    : undefined;
+
+  const phoneIsValid = Boolean(parsedPhone?.isValid());
+
   function chooseProgramme(id) {
     setProgrammeId(id);
     setOptionId(firstOptionFor(id));
     setCustomAmount('');
     setStep('amount');
-    setError('');
   }
 
   function chooseOption(option) {
     setOptionId(option.id);
     setProgrammeId(option.programme);
     setCustomAmount('');
-    setError('');
   }
 
   function updateDonor(field, value) {
@@ -265,7 +271,8 @@ export default function Donate() {
     setError('');
   }
 
-  // Move the widget into view and focus the first field
+  // Move the widget into view and put the cursor in the first field
+
   function focusWidget(target) {
     const reduceMotion = window.matchMedia(
       '(prefers-reduced-motion: reduce)'
@@ -286,13 +293,45 @@ export default function Donate() {
 
     setStep('details');
     setError('');
+    setOffline(false);
 
-    window.setTimeout(() => {
-      focusWidget(nameRef.current);
-    }, 0);
+    window.setTimeout(() => focusWidget(nameRef.current), 0);
   }
 
-  // Start secure online donation checkout
+  // Email fallback, used when online payment is not available
+
+  function emailHref() {
+    const subject = encodeURIComponent(
+      'Donation - The Web Initiative Ltd'
+    );
+
+    const body = encodeURIComponent(
+      `Hello The Web Initiative Ltd,
+
+I would like to make a donation.
+
+Programme: ${programme.label}
+
+Gift: ${giftText}
+
+Amount: ${amountLabel} USD
+
+Frequency: ${frequency === 'Monthly' ? 'Monthly' : 'One-time'}
+
+Preferred payment: ${method.name}
+
+Name: ${donor.name}
+
+Phone: ${parsedPhone ? parsedPhone.formatInternational() : 'Not given'}
+
+Message: ${donor.message || 'None'}
+
+Please send me your official payment details.`
+    );
+
+    return `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`;
+  }
+
   async function handleDonate(event) {
     event.preventDefault();
 
@@ -306,12 +345,16 @@ export default function Donate() {
       return setError('Please enter a valid email address.');
     }
 
-    if (!method) {
-      return setError('Please select a payment method.');
+    if (method.mobileMoney && !donor.phone.trim()) {
+      return setError(
+        `Please enter the phone number you pay with on ${method.name}.`
+      );
     }
 
-    if (!amountIsValid) {
-      return setError('Please enter a valid donation amount.');
+    if (donor.phone.trim() && !phoneIsValid) {
+      return setError(
+        'Please check your phone number and country code.'
+      );
     }
 
     setLoading(true);
@@ -320,7 +363,7 @@ export default function Donate() {
       const result = await createDonationCheckout({
         donorName: donor.name.trim(),
         email: donor.email.trim(),
-        phone: donor.phone.trim(),
+        phone: parsedPhone ? parsedPhone.number : '',
         amount: selectedAmount,
         currency: 'USD',
         cause: programme.label,
@@ -337,15 +380,21 @@ export default function Donate() {
         );
       }
 
-      // Redirect donor to the payment provider
       window.location.assign(result.checkoutUrl);
     } catch (err) {
-      console.error('Donation checkout error:', err);
+      // No backend yet, or it can't be reached: offer the email route
+      const unreachable =
+        err instanceof TypeError ||
+        /not configured/i.test(err.message || '');
 
-      setError(
-        err.message ||
-          'We could not start your donation. Please try again.'
-      );
+      if (unreachable) {
+        setOffline(true);
+      } else {
+        setError(
+          err.message ||
+            'We could not start your donation. Please try again.'
+        );
+      }
 
       setLoading(false);
     }
@@ -356,7 +405,6 @@ export default function Donate() {
       <Navbar />
 
       <main className="donate-page">
-
         {/* HERO */}
         <section className="donate-hero">
           <div className="donate-hero-shade" />
@@ -380,10 +428,7 @@ export default function Donate() {
               grow up healthy.
             </p>
 
-            <a
-              href="#give"
-              className="donate-btn donate-btn-light"
-            >
+            <a href="#give" className="donate-btn donate-btn-light">
               Choose your gift
               <ArrowRight size={18} aria-hidden="true" />
             </a>
@@ -397,7 +442,6 @@ export default function Donate() {
           aria-labelledby="donate-give-title"
         >
           <div className="donate-container">
-
             <div className="donate-give-heading">
               <span className="donate-kicker donate-kicker-light">
                 <span className="donate-kicker-dot" />
@@ -413,7 +457,6 @@ export default function Donate() {
             </div>
 
             <div className="donate-card">
-
               {/* What the gift provides */}
               <div className="donate-card-info">
                 <div
@@ -450,10 +493,7 @@ export default function Donate() {
                 <ul className="donate-items">
                   {programme.items.map((item) => (
                     <li key={item}>
-                      <CheckCircle2
-                        size={22}
-                        aria-hidden="true"
-                      />
+                      <CheckCircle2 size={22} aria-hidden="true" />
                       {item}
                     </li>
                   ))}
@@ -462,7 +502,6 @@ export default function Donate() {
 
               {/* Gift widget */}
               <div className="donate-widget" ref={widgetRef}>
-
                 {step === 'amount' ? (
                   <form
                     className="donate-widget-body"
@@ -485,9 +524,7 @@ export default function Donate() {
                           aria-pressed={frequency === option}
                           onClick={() => setFrequency(option)}
                         >
-                          {option === 'Once'
-                            ? 'One-time'
-                            : 'Monthly'}
+                          {option === 'Once' ? 'One-time' : 'Monthly'}
                         </button>
                       ))}
                     </div>
@@ -495,18 +532,14 @@ export default function Donate() {
                     {frequency === 'Monthly' && (
                       <div className="donate-recurring">
                         <span className="donate-recurring-icon">
-                          <RefreshCw
-                            size={18}
-                            aria-hidden="true"
-                          />
+                          <RefreshCw size={18} aria-hidden="true" />
                         </span>
 
                         <span>
                           <strong>Recurring donation</strong>
                           <span>
-                            Monthly giving selected. Recurring
-                            billing must be enabled by the payment
-                            provider.
+                            Monthly giving is selected. Automatic recurring
+                            billing depends on the payment provider.
                           </span>
                         </span>
                       </div>
@@ -538,7 +571,7 @@ export default function Donate() {
                       <input
                         type="number"
                         min="1"
-                        step="0.01"
+                        step="1"
                         inputMode="decimal"
                         placeholder="Other"
                         aria-label="Other amount in US dollars"
@@ -572,6 +605,7 @@ export default function Donate() {
                       onClick={() => {
                         setStep('amount');
                         setError('');
+                        setOffline(false);
                       }}
                     >
                       <ArrowLeft size={16} aria-hidden="true" />
@@ -580,7 +614,6 @@ export default function Donate() {
 
                     <div className="donate-summary-chip">
                       <span>{programme.label}</span>
-
                       <strong>
                         {amountLabel} {frequencyLabel}
                       </strong>
@@ -599,7 +632,6 @@ export default function Donate() {
                           onChange={(event) =>
                             updateDonor('name', event.target.value)
                           }
-                          required
                         />
                       </label>
 
@@ -614,7 +646,6 @@ export default function Donate() {
                           onChange={(event) =>
                             updateDonor('email', event.target.value)
                           }
-                          required
                         />
                       </label>
                     </div>
@@ -659,19 +690,32 @@ export default function Donate() {
                       </div>
                     </fieldset>
 
-                    <label className="donate-field">
-                      <span>Phone number (optional)</span>
+                    <div className="donate-field">
+                      <label htmlFor="donate-phone">
+                        Phone number{' '}
+                        {method.mobileMoney ? '*' : '(optional)'}
+                      </label>
 
-                      <input
-                        type="tel"
-                        autoComplete="tel"
-                        placeholder="e.g. +256 700 000 000"
+                      <PhoneInput
+                        id="donate-phone"
+                        country={phoneCountry}
+                        onCountryChange={(code) => {
+                          setPhoneCountry(code);
+                          setError('');
+                        }}
                         value={donor.phone}
-                        onChange={(event) =>
-                          updateDonor('phone', event.target.value)
+                        onChange={(value) =>
+                          updateDonor('phone', value)
                         }
+                        required={method.mobileMoney}
                       />
-                    </label>
+
+                      {method.mobileMoney && (
+                        <small>
+                          The number you pay with on {method.name}.
+                        </small>
+                      )}
+                    </div>
 
                     <label className="donate-field">
                       <span>Message (optional)</span>
@@ -688,45 +732,60 @@ export default function Donate() {
 
                     {error && (
                       <p className="donate-error" role="alert">
-                        <AlertCircle
-                          size={18}
-                          aria-hidden="true"
-                        />
+                        <AlertCircle size={18} aria-hidden="true" />
                         {error}
                       </p>
                     )}
 
-                    <button
-                      type="submit"
-                      className="donate-btn donate-continue"
-                      disabled={loading}
-                    >
-                      {loading ? (
-                        <>
-                          <LoaderCircle
-                            className="donate-spin"
-                            size={18}
-                            aria-hidden="true"
-                          />
-                          Starting secure checkout…
-                        </>
-                      ) : (
-                        <>
-                          <LockKeyhole
-                            size={18}
-                            aria-hidden="true"
-                          />
-                          Donate {amountLabel} {frequencyLabel}
-                        </>
-                      )}
-                    </button>
+                    {offline ? (
+                      <div className="donate-offline" role="status">
+                        <p>
+                          Online payment isn’t available just yet. You can
+                          still give today: email us your gift and our team
+                          will send you secure payment details.
+                        </p>
+
+                        <a
+                          className="donate-btn donate-continue"
+                          href={emailHref()}
+                        >
+                          <Mail size={18} aria-hidden="true" />
+                          Email us your gift
+                        </a>
+                      </div>
+                    ) : (
+                      <button
+                        type="submit"
+                        className="donate-btn donate-continue"
+                        disabled={loading}
+                      >
+                        {loading ? (
+                          <>
+                            <LoaderCircle
+                              className="donate-spin"
+                              size={18}
+                              aria-hidden="true"
+                            />
+                            Starting secure checkout…
+                          </>
+                        ) : (
+                          <>
+                            <LockKeyhole
+                              size={18}
+                              aria-hidden="true"
+                            />
+                            Donate {amountLabel} {frequencyLabel}
+                          </>
+                        )}
+                      </button>
+                    )}
                   </form>
                 )}
 
                 <p className="donate-widget-foot">
                   <LockKeyhole size={16} aria-hidden="true" />
-                  Secure payments accepted through Visa, Mastercard
-                  and PayPal.
+                  Visa, Mastercard, PayPal, MTN MoMo and Airtel Money
+                  accepted.
                 </p>
               </div>
             </div>
@@ -795,8 +854,8 @@ export default function Donate() {
               </h2>
 
               <p>
-                Want to help in another way? You can also volunteer
-                at a camp or partner with us.
+                Want to help in another way? You can also volunteer at a
+                camp or partner with us.
               </p>
 
               <Link to="/contact" className="donate-text-link">
@@ -816,10 +875,7 @@ export default function Donate() {
                 >
                   <summary>
                     {item.question}
-                    <ChevronDown
-                      size={20}
-                      aria-hidden="true"
-                    />
+                    <ChevronDown size={20} aria-hidden="true" />
                   </summary>
 
                   <p>{item.answer}</p>
