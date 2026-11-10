@@ -1,28 +1,52 @@
+
 import { Router } from "express";
 
 import {
   createCheckout,
-  pesapalCallback,
-  pesapalIpn,
+  obpayCallback,
+  obpayWebhook,
   paypalReturn,
   paypalWebhook,
+  getDonationPaymentStatus,
 } from "../controllers/paymentController.js";
 
 const router = Router();
 
-// Create a donation payment checkout.
+// ==================================================
+// DONATION CHECKOUT
+// POST /api/payments/checkout
+// ==================================================
+
 router.post("/checkout", createCheckout);
 
-// Pesapal payment callback.
-router.get("/pesapal/callback", pesapalCallback);
+// ==================================================
+// OBPAY ROUTES
+// ==================================================
 
-// Pesapal IPN notification.
-router.get("/pesapal/ipn", pesapalIpn);
+// Donor returns after ObPay checkout.
+router.get("/obpay/callback", obpayCallback);
 
-// PayPal payment return.
+// ObPay server-to-server webhook.
+router.post("/obpay/webhook", obpayWebhook);
+
+// ==================================================
+// PAYPAL ROUTES
+// ==================================================
+
+// Donor returns after PayPal checkout.
 router.get("/paypal/return", paypalReturn);
 
-// PayPal webhook notification.
+// PayPal server-to-server webhook.
 router.post("/paypal/webhook", paypalWebhook);
+
+// ==================================================
+// DONATION STATUS
+// GET /api/payments/status/:reference
+// ==================================================
+
+router.get(
+  "/status/:reference",
+  getDonationPaymentStatus
+);
 
 export default router;

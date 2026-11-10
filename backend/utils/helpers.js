@@ -1,3 +1,4 @@
+
 // Escape special characters before inserting values into XML.
 export function xmlEscape(value = "") {
   return String(value).replace(/[<>&'"]/g, (character) => {
@@ -15,8 +16,11 @@ export function xmlEscape(value = "") {
 
 // Extract a value from an XML response.
 export function xmlValue(xml, tag) {
+  // Escape the tag name before using it in a regular expression.
+  const safeTag = String(tag).replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
   const expression = new RegExp(
-    `<${tag}(?:\\s[^>]*)?>([\\s\\S]*?)</${tag}>`,
+    `<${safeTag}(?:\\s[^>]*)?>([\\s\\S]*?)</${safeTag}>`,
     "i"
   );
 
@@ -37,19 +41,25 @@ export function xmlValue(xml, tag) {
 }
 
 // Make HTTP requests with a 20-second timeout.
-export async function timedFetch(url, options = {}) {
+export async function timedFetch(url, options = {}, timeout = 20000) {
   const controller = new AbortController();
 
-  const timeout = setTimeout(() => {
+  const timeoutId = setTimeout(() => {
     controller.abort();
-  }, 20000);
+  }, timeout);
 
   try {
     return await fetch(url, {
       ...options,
       signal: controller.signal,
     });
+  } catch (error) {
+    if (error.name === "AbortError") {
+      throw new Error("The request timed out. Please try again.");
+    }
+
+    throw error;
   } finally {
-    clearTimeout(timeout);
+    clearTimeout(timeoutId);
   }
 }

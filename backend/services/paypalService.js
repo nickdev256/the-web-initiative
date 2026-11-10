@@ -1,14 +1,14 @@
 
 import { timedFetch } from "../utils/helpers.js";
 
+// --------------------------------------------------
+// PAYPAL CONFIGURATION
+// --------------------------------------------------
+
 const PAYPAL_BASE_URL = (
   process.env.PAYPAL_BASE_URL ||
   "https://api-m.sandbox.paypal.com"
 ).replace(/\/+$/, "");
-
-// --------------------------------------------------
-// PAYPAL CONFIGURATION
-// --------------------------------------------------
 
 function requirePaypalConfig() {
   const clientId = process.env.PAYPAL_CLIENT_ID;
@@ -23,13 +23,10 @@ function requirePaypalConfig() {
   return { clientId, clientSecret };
 }
 
-// Safely parse API responses.
 async function readResponse(response) {
   const text = await response.text();
 
-  if (!text) {
-    return {};
-  }
+  if (!text) return {};
 
   try {
     return JSON.parse(text);
@@ -109,6 +106,9 @@ export async function createPaypalOrder(donation) {
 
   const accessToken = await getPaypalAccessToken();
 
+  const cleanFrontendUrl = frontendUrl.replace(/\/+$/, "");
+  const cleanBackendUrl = backendUrl.replace(/\/+$/, "");
+
   const response = await timedFetch(
     `${PAYPAL_BASE_URL}/v2/checkout/orders`,
     {
@@ -144,8 +144,8 @@ export async function createPaypalOrder(donation) {
             experience_context: {
               brand_name: "THE WEB INITIATIVE LIMITED",
               user_action: "PAY_NOW",
-              return_url: `${backendUrl}/api/payments/paypal/return`,
-              cancel_url: `${frontendUrl}/donate?payment=cancelled`,
+              return_url: `${cleanBackendUrl}/api/payments/paypal/return`,
+              cancel_url: `${cleanFrontendUrl}/donate?payment=cancelled`,
             },
           },
         },

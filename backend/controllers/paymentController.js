@@ -2,9 +2,14 @@
 import { supabase } from "../config/supabase.js";
 
 import {
-  createPesapalCheckout,
-  getPesapalTransactionStatus,
-} from "../services/pesapalService.js";
+  createHmac,
+  timingSafeEqual,
+} from "node:crypto";
+
+import {
+  createObPayCheckout,
+  verifyObPayTransaction,
+} from "../services/obpayService.js";
 
 import {
   createPaypalOrder,
@@ -22,6 +27,7 @@ const FRONTEND_URL = (
 
 const ALLOWED_METHODS = ["card", "paypal"];
 const ALLOWED_FREQUENCIES = ["one-time", "monthly"];
+const MAX_DONATION_AMOUNT = 1000000;
 
 // --------------------------------------------------
 // GENERAL HELPERS
@@ -50,6 +56,24 @@ function validEmail(email) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
+function normalizeStatus(status) {
+  const value = String(status || "").trim().toLowerCase();
+
+  if (["success", "successful", "completed", "paid"].includes(value)) {
+    return "success";
+  }
+
+  if (["failed", "failure", "declined", "cancelled", "canceled"].includes(value)) {
+    return "failed";
+  }
+
+  if (["pending", "processing", "initiated"].includes(value)) {
+    return "pending";
+  }
+
+  return value;
+}
+
 async function findDonationById(id) {
   const { data, error } = await supabase
     .from("donations")
@@ -60,6 +84,42 @@ async function findDonationById(id) {
   if (error) throw error;
 
   return data;
+}
+
+async function findDonationByReference(reference) {
+  const { data, error } = await supabase
+    .from("donations")
+    .select("*")
+    .eq("reference", reference)
+    .maybeSingle();
+
+  if (error) throw error;
+
+  return data;
+}
+
+async function findDonationByProviderReference(reference) {
+  const { data, error } = await supabase
+    .from("donations")
+    .select("*")
+    .eq("provider_reference", reference)
+    .maybeSingle();
+
+  if (error) throw error;
+
+  return data;
+}
+
+async function findDonationForObPay(reference) {
+  // First, try the donation's own reference.
+  let donation = await findDonationByReference(reference);
+
+  // If that fails, try the provider reference.
+  if (!donation) {
+    donation = await findDonationByProviderReference(reference);
+  }
+
+  return donation;
 }
 
 async function markDonationPaid(id, paymentNote = "") {
@@ -92,6 +152,39 @@ async function markDonationFailed(id, paymentNote = "") {
 }
 
 // --------------------------------------------------
+// OBPAY WEBHOOK SIGNATURE VERIFICATION
+// --------------------------------------------------
+
+function verifyObPayWebhookSignature(req) {
+  const secret = process.env.OBPAY_WEBHOOK_SECRET;
+  const signature = req.get("X-ObPay-Signature");
+
+  if (!secret || !signature || !req.rawBody) {
+    return false;
+  }
+
+  const suppliedSignature = signature.trim().toLowerCase();
+
+  if (!/^[a-f0-9]{64}$/.test(suppliedSignature)) {
+    return false;
+  }
+
+  const expectedSignature = createHmac("sha256", secret)
+    .update(req.rawBody)
+    .digest();
+
+  const receivedSignature = Buffer.from(
+    suppliedSignature,
+    "hex"
+  );
+
+  return (
+    expectedSignature.length === receivedSignature.length &&
+    timingSafeEqual(expectedSignature, receivedSignature)
+  );
+}
+
+// --------------------------------------------------
 // 1. CREATE DONATION CHECKOUT
 // POST /api/payments/checkout
 // --------------------------------------------------
@@ -104,82 +197,41 @@ export async function createCheckout(req, res) {
       donorName,
       email,
       phone,
-
-      // Billing address
       addressLine1,
       addressLine2,
       city,
       state,
       postalCode,
-      countryCode = "UG",
-
-      // Donation information
       amount,
       currency = "USD",
       cause,
+      gift,
       frequency = "one-time",
       paymentMethod,
       message,
     } = req.body || {};
 
-    // Clean donor information
     const cleanName = String(donorName || "").trim();
-
-    const cleanEmail = String(email || "")
-      .trim()
-      .toLowerCase();
-
+    const cleanEmail = String(email || "").trim().toLowerCase();
     const cleanPhone = String(phone || "").trim();
-
-    // Clean billing address
-    const cleanAddressLine1 = String(
-      addressLine1 || ""
-    ).trim();
-
-    const cleanAddressLine2 = String(
-      addressLine2 || ""
-    ).trim();
-
-    const cleanCity = String(city || "").trim();
-
-    const cleanState = String(state || "").trim();
-
-    const cleanPostalCode = String(
-      postalCode || ""
-    ).trim();
-
-    const cleanCountryCode = String(
-      countryCode || "UG"
-    )
-      .trim()
-      .toUpperCase();
-
-    const cleanCause = String(cause || "").trim();
-
+    const cleanCause = String(cause || gift || "").trim();
     const cleanMessage = String(message || "").trim();
-
-    const donationAmount = Number(amount);
 
     const cleanCurrency = String(currency || "")
       .trim()
       .toUpperCase();
 
-    const cleanPaymentMethod = String(
-      paymentMethod || ""
-    )
+    const cleanPaymentMethod = String(paymentMethod || "")
       .trim()
       .toLowerCase();
 
-    const cleanFrequency = String(
-      frequency || "one-time"
-    )
+    const cleanFrequency = String(frequency || "one-time")
       .trim()
       .toLowerCase();
 
-    // --------------------------------------------------
-    // REQUIRED FIELD VALIDATION
-    // --------------------------------------------------
+    const donationAmount = Number(amount);
 
+    // Required fields
     if (
       !cleanName ||
       !cleanEmail ||
@@ -190,15 +242,11 @@ export async function createCheckout(req, res) {
     ) {
       return res.status(400).json({
         success: false,
-        message:
-          "Please provide all required donation details.",
+        message: "Please provide all required donation details.",
       });
     }
 
-    // --------------------------------------------------
-    // EMAIL VALIDATION
-    // --------------------------------------------------
-
+    // Email validation
     if (!validEmail(cleanEmail)) {
       return res.status(400).json({
         success: false,
@@ -206,46 +254,31 @@ export async function createCheckout(req, res) {
       });
     }
 
-    // --------------------------------------------------
-    // DONATION AMOUNT VALIDATION
-    // --------------------------------------------------
-
-    if (donationAmount > 1000000) {
+    // Amount validation
+    if (donationAmount > MAX_DONATION_AMOUNT) {
       return res.status(400).json({
         success: false,
-        message:
-          "The donation amount is above the allowed limit.",
+        message: "The donation amount is above the allowed limit.",
       });
     }
 
-    // --------------------------------------------------
-    // CURRENCY VALIDATION
-    // --------------------------------------------------
-
+    // Currency validation
     if (cleanCurrency !== "USD") {
       return res.status(400).json({
         success: false,
-        message:
-          "Only USD donations are currently supported.",
+        message: "Only USD donations are currently supported.",
       });
     }
 
-    // --------------------------------------------------
-    // PAYMENT METHOD VALIDATION
-    // --------------------------------------------------
-
+    // Payment method validation
     if (!ALLOWED_METHODS.includes(cleanPaymentMethod)) {
       return res.status(400).json({
         success: false,
-        message:
-          "Please select Visa, Mastercard or PayPal.",
+        message: "Please select card payment or PayPal.",
       });
     }
 
-    // --------------------------------------------------
-    // FREQUENCY VALIDATION
-    // --------------------------------------------------
-
+    // Frequency validation
     if (!ALLOWED_FREQUENCIES.includes(cleanFrequency)) {
       return res.status(400).json({
         success: false,
@@ -253,68 +286,48 @@ export async function createCheckout(req, res) {
       });
     }
 
-    // --------------------------------------------------
-    // PESAPAL BILLING ADDRESS VALIDATION
-    // --------------------------------------------------
-
-    if (cleanPaymentMethod === "card") {
-      if (!cleanAddressLine1) {
-        return res.status(400).json({
-          success: false,
-          message:
-            "Please enter your billing Address Line 1 before continuing.",
-        });
-      }
-
-      if (!/^[A-Z]{2}$/.test(cleanCountryCode)) {
-        return res.status(400).json({
-          success: false,
-          message:
-            "Please provide a valid two-letter country code.",
-        });
-      }
+    // ObPay USD minimum
+    if (cleanPaymentMethod === "card" && donationAmount < 0.5) {
+      return res.status(400).json({
+        success: false,
+        message: "The minimum ObPay card payment is USD 0.50.",
+      });
     }
 
     const reference = createReference();
 
-    // --------------------------------------------------
-    // SAVE DONATION BEFORE STARTING PAYMENT
-    // --------------------------------------------------
+    const billingAddress = {
+      addressLine1: String(addressLine1 || "").trim(),
+      addressLine2: String(addressLine2 || "").trim(),
+      city: String(city || "").trim(),
+      state: String(state || "").trim(),
+      postalCode: String(postalCode || "").trim(),
+    };
 
-    const { data: donation, error: insertError } =
-      await supabase
-        .from("donations")
-        .insert({
-          reference,
-
-          full_name: cleanName,
-          donor_name: cleanName,
-
-          email: cleanEmail,
-          phone: cleanPhone || null,
-
-          amount: donationAmount,
-          currency: cleanCurrency,
-
-          cause: cleanCause,
-          frequency: cleanFrequency,
-
-          payment_method: cleanPaymentMethod,
-
-          status: "pending",
-          payment_status: "pending",
-
-          message: cleanMessage || null,
-        })
-        .select()
-        .single();
+    // Save donation before creating checkout.
+    const { data: donation, error: insertError } = await supabase
+      .from("donations")
+      .insert({
+        reference,
+        full_name: cleanName,
+        donor_name: cleanName,
+        email: cleanEmail,
+        phone: cleanPhone || null,
+        billing_address: billingAddress,
+        amount: donationAmount,
+        currency: cleanCurrency,
+        cause: cleanCause,
+        frequency: cleanFrequency,
+        payment_method: cleanPaymentMethod,
+        status: "pending",
+        payment_status: "pending",
+        message: cleanMessage || null,
+      })
+      .select()
+      .single();
 
     if (insertError) {
-      console.error(
-        "Donation database error:",
-        insertError
-      );
-
+      console.error("Donation database error:", insertError);
       throw new Error("Unable to save your donation.");
     }
 
@@ -322,54 +335,31 @@ export async function createCheckout(req, res) {
 
     let checkout;
 
-    // --------------------------------------------------
-    // PAYPAL CHECKOUT
-    // --------------------------------------------------
-
+    // PayPal checkout
     if (cleanPaymentMethod === "paypal") {
       checkout = await createPaypalOrder({
         id: donation.id,
         reference,
-
         donorName: cleanName,
         email: cleanEmail,
-
         amount: donationAmount,
         currency: cleanCurrency,
         cause: cleanCause,
       });
     }
 
-    // --------------------------------------------------
-    // PESAPAL CHECKOUT
-    // VISA / MASTERCARD
-    // --------------------------------------------------
-
-    else if (cleanPaymentMethod === "card") {
-      checkout = await createPesapalCheckout({
+    // ObPay hosted card checkout
+    if (cleanPaymentMethod === "card") {
+      checkout = await createObPayCheckout({
+        id: donation.id,
         reference,
-
         donorName: cleanName,
         email: cleanEmail,
-        phone: cleanPhone,
-
-        // Billing address passed to Pesapal
-        addressLine1: cleanAddressLine1,
-        addressLine2: cleanAddressLine2,
-        city: cleanCity,
-        state: cleanState,
-        postalCode: cleanPostalCode,
-        countryCode: cleanCountryCode,
-
         amount: donationAmount,
         currency: cleanCurrency,
         cause: cleanCause,
       });
     }
-
-    // --------------------------------------------------
-    // CHECKOUT VALIDATION
-    // --------------------------------------------------
 
     if (!checkout?.checkoutUrl) {
       throw new Error(
@@ -380,17 +370,13 @@ export async function createCheckout(req, res) {
     const providerReference =
       cleanPaymentMethod === "paypal"
         ? checkout.orderId
-        : checkout.orderTrackingId;
+        : checkout.providerReference || reference;
 
     if (!providerReference) {
       throw new Error(
         "The payment provider did not return a transaction reference."
       );
     }
-
-    // --------------------------------------------------
-    // SAVE PROVIDER TRANSACTION REFERENCE
-    // --------------------------------------------------
 
     const { error: updateError } = await supabase
       .from("donations")
@@ -399,9 +385,7 @@ export async function createCheckout(req, res) {
       })
       .eq("id", donation.id);
 
-    if (updateError) {
-      throw updateError;
-    }
+    if (updateError) throw updateError;
 
     return res.status(200).json({
       success: true,
@@ -412,7 +396,6 @@ export async function createCheckout(req, res) {
   } catch (error) {
     console.error("Create checkout error:", error);
 
-    // Mark failed if a donation record was already created.
     if (donationId) {
       try {
         await markDonationFailed(
@@ -420,10 +403,7 @@ export async function createCheckout(req, res) {
           "Checkout could not be created."
         );
       } catch (updateError) {
-        console.error(
-          "Could not update donation:",
-          updateError
-        );
+        console.error("Could not update donation:", updateError);
       }
     }
 
@@ -438,78 +418,88 @@ export async function createCheckout(req, res) {
 }
 
 // --------------------------------------------------
-// 2. PESAPAL PAYMENT VERIFICATION
+// 2. OBPAY TRANSACTION VERIFICATION
 // --------------------------------------------------
 
-async function processPesapalNotification(req) {
-  const orderTrackingId =
-    req.query.OrderTrackingId ||
-    req.body?.OrderTrackingId ||
-    req.body?.orderTrackingId;
-
-  const merchantReference =
-    req.query.OrderMerchantReference ||
-    req.body?.OrderMerchantReference ||
-    req.body?.orderMerchantReference;
-
-  if (!orderTrackingId || !merchantReference) {
-    throw new Error(
-      "Pesapal notification is missing transaction details."
-    );
+async function processObPayNotification(reference) {
+  if (!reference) {
+    throw new Error("ObPay transaction reference is missing.");
   }
 
-  const { data: donation, error } = await supabase
-    .from("donations")
-    .select("*")
-    .eq("reference", merchantReference)
-    .maybeSingle();
-
-  if (error) throw error;
+  const donation = await findDonationForObPay(reference);
 
   if (!donation) {
     throw new Error("Donation record was not found.");
   }
 
-  if (
-    donation.payment_method !== "card" ||
-    donation.provider_reference !== orderTrackingId
-  ) {
-    throw new Error(
-      "Pesapal transaction does not match the donation."
-    );
+  if (donation.payment_method !== "card") {
+    throw new Error("This donation is not an ObPay card payment.");
   }
 
-  // Always verify directly with Pesapal.
-  const transaction =
-    await getPesapalTransactionStatus(orderTrackingId);
+  if (donation.payment_status === "paid") {
+    return {
+      status: "success",
+      reference: donation.reference,
+    };
+  }
 
-  const paymentStatus = String(
-    transaction.payment_status_description || ""
-  )
-    .trim()
-    .toUpperCase();
+  // Verify directly with ObPay.
+  // Never trust the browser redirect as proof of payment.
+  const referenceToVerify =
+    donation.provider_reference || donation.reference;
+
+  const transaction = await verifyObPayTransaction(
+    referenceToVerify
+  );
+
+  const transactionReference = String(
+    transaction.reference ||
+    transaction.transaction_reference ||
+    ""
+  ).trim();
+
+  const transactionStatus = normalizeStatus(
+    transaction.status || transaction.payment_status
+  );
+
+  const transactionType = String(
+    transaction.type || ""
+  ).trim().toLowerCase();
+
+  const transactionAmount = Number(transaction.amount);
+
+  const transactionCurrency = String(
+    transaction.currency || ""
+  ).trim().toUpperCase();
+
+  // Accept only the reference that was actually sent to ObPay.
+  const validReferences = [
+    donation.reference,
+    donation.provider_reference,
+  ].filter(Boolean);
+
+  const referenceMatches = validReferences.includes(
+    transactionReference
+  );
 
   const paymentMatches =
-    transaction.merchant_reference === donation.reference &&
-    Number(transaction.amount) === Number(donation.amount) &&
-    String(transaction.currency || "").toUpperCase() ===
-      String(donation.currency || "").toUpperCase();
+    referenceMatches &&
+    transactionType === "collection" &&
+    Number.isFinite(transactionAmount) &&
+    transactionAmount === Number(donation.amount) &&
+    transactionCurrency === String(donation.currency).toUpperCase();
 
   if (!paymentMatches) {
     throw new Error(
-      "Pesapal payment amount, currency or reference does not match."
+      "ObPay payment amount, currency, type or reference does not match."
     );
   }
 
-  if (paymentStatus === "COMPLETED") {
-    if (donation.payment_status !== "paid") {
-      await markDonationPaid(
-        donation.id,
-        `Pesapal payment verified: ${
-          transaction.confirmation_code || orderTrackingId
-        }`
-      );
-    }
+  if (transactionStatus === "success") {
+    await markDonationPaid(
+      donation.id,
+      `ObPay payment verified: ${donation.reference}`
+    );
 
     return {
       status: "success",
@@ -517,13 +507,11 @@ async function processPesapalNotification(req) {
     };
   }
 
-  if (paymentStatus === "FAILED") {
-    if (donation.payment_status === "pending") {
-      await markDonationFailed(
-        donation.id,
-        "Pesapal reported that the payment failed."
-      );
-    }
+  if (transactionStatus === "failed") {
+    await markDonationFailed(
+      donation.id,
+      "ObPay reported that the payment failed."
+    );
 
     return {
       status: "failed",
@@ -531,26 +519,36 @@ async function processPesapalNotification(req) {
     };
   }
 
-  return {
-    status: "pending",
-    reference: donation.reference,
-  };
+  if (transactionStatus === "pending") {
+    return {
+      status: "pending",
+      reference: donation.reference,
+    };
+  }
+
+  throw new Error(
+    "ObPay returned an unrecognised transaction status."
+  );
 }
 
 // --------------------------------------------------
-// 3. PESAPAL CALLBACK
-// GET /api/payments/pesapal/callback
+// 3. OBPAY CALLBACK
+// GET /api/payments/obpay/callback
 // --------------------------------------------------
 
-export async function pesapalCallback(req, res) {
+export async function obpayCallback(req, res) {
   try {
-    const result = await processPesapalNotification(req);
+    const reference =
+      req.query.reference ||
+      req.query.transaction_reference;
+
+    const result = await processObPayNotification(reference);
 
     return res.redirect(
       redirectToDonation(result.status, result.reference)
     );
   } catch (error) {
-    console.error("Pesapal callback error:", error);
+    console.error("ObPay callback error:", error);
 
     return res.redirect(
       redirectToDonation("pending")
@@ -559,33 +557,48 @@ export async function pesapalCallback(req, res) {
 }
 
 // --------------------------------------------------
-// 4. PESAPAL IPN
-// GET /api/payments/pesapal/ipn
+// 4. OBPAY WEBHOOK
+// POST /api/payments/obpay/webhook
 // --------------------------------------------------
 
-export async function pesapalIpn(req, res) {
+export async function obpayWebhook(req, res) {
   try {
-    const result = await processPesapalNotification(req);
+    // Verify signature before processing the notification.
+    if (!verifyObPayWebhookSignature(req)) {
+      console.error("ObPay webhook signature verification failed.");
+
+      return res.status(401).json({
+        success: false,
+        message: "Invalid ObPay webhook signature.",
+      });
+    }
+
+    const reference =
+      req.body?.reference ||
+      req.body?.transaction_reference ||
+      req.body?.data?.reference ||
+      req.body?.data?.transaction_reference;
+
+    if (!reference) {
+      return res.status(400).json({
+        success: false,
+        message: "ObPay notification is missing its reference.",
+      });
+    }
+
+    const result = await processObPayNotification(reference);
 
     return res.status(200).json({
-      orderNotificationType:
-        req.query.OrderNotificationType || "IPNCHANGE",
-
-      orderTrackingId:
-        req.query.OrderTrackingId || "",
-
-      orderMerchantReference:
-        req.query.OrderMerchantReference || "",
-
-      status: 200,
+      success: true,
       paymentStatus: result.status,
+      reference: result.reference,
     });
   } catch (error) {
-    console.error("Pesapal IPN error:", error);
+    console.error("ObPay webhook error:", error);
 
     return res.status(500).json({
-      status: 500,
-      message: "Unable to process Pesapal notification.",
+      success: false,
+      message: "Unable to verify ObPay notification.",
     });
   }
 }
@@ -605,16 +618,13 @@ export async function paypalReturn(req, res) {
       );
     }
 
-    const { data: donation, error } = await supabase
-      .from("donations")
-      .select("*")
-      .eq("provider_reference", orderId)
-      .maybeSingle();
+    const donation = await findDonationByProviderReference(
+      orderId
+    );
 
-    if (error || !donation) {
+    if (!donation) {
       console.error(
-        "PayPal donation lookup failed:",
-        error
+        "PayPal donation lookup failed: no matching donation."
       );
 
       return res.redirect(
@@ -635,7 +645,8 @@ export async function paypalReturn(req, res) {
       capture.donationId === donation.id &&
       capture.reference === donation.reference &&
       Number(capture.amount) === Number(donation.amount) &&
-      capture.currency === donation.currency.toUpperCase();
+      String(capture.currency).toUpperCase() ===
+        String(donation.currency).toUpperCase();
 
     if (!paymentMatches) {
       return res.redirect(
@@ -681,9 +692,7 @@ export async function paypalWebhook(req, res) {
       });
     }
 
-    if (
-      event.event_type !== "PAYMENT.CAPTURE.COMPLETED"
-    ) {
+    if (event.event_type !== "PAYMENT.CAPTURE.COMPLETED") {
       return res.status(200).json({
         success: true,
         message: "Webhook received.",
@@ -696,11 +705,10 @@ export async function paypalWebhook(req, res) {
     const amount = capture.amount?.value;
     const currency = capture.amount?.currency_code;
 
-    if (!donationId || !amount || !currency) {
+    if (!donationId || amount == null || !currency) {
       return res.status(200).json({
         success: true,
-        message:
-          "Webhook received without donation details.",
+        message: "Webhook received without donation details.",
       });
     }
 
@@ -715,8 +723,7 @@ export async function paypalWebhook(req, res) {
 
     const paymentMatches =
       Number(amount) === Number(donation.amount) &&
-      currency.toUpperCase() ===
-        donation.currency.toUpperCase() &&
+      currency.toUpperCase() === donation.currency.toUpperCase() &&
       donation.payment_method === "paypal";
 
     if (!paymentMatches) {
@@ -727,8 +734,7 @@ export async function paypalWebhook(req, res) {
 
       return res.status(200).json({
         success: true,
-        message:
-          "Payment details did not match the donation.",
+        message: "Payment details did not match the donation.",
       });
     }
 
@@ -749,6 +755,72 @@ export async function paypalWebhook(req, res) {
     return res.status(500).json({
       success: false,
       message: "Unable to process PayPal webhook.",
+    });
+  }
+}
+
+// --------------------------------------------------
+// 7. DONATION PAYMENT STATUS
+// GET /api/payments/status/:reference
+// --------------------------------------------------
+
+export async function getDonationPaymentStatus(req, res) {
+  try {
+    const reference = String(
+      req.params.reference || ""
+    ).trim();
+
+    if (!reference) {
+      return res.status(400).json({
+        success: false,
+        message: "A donation reference is required.",
+      });
+    }
+
+    const donation = await findDonationByReference(reference);
+
+    if (!donation) {
+      return res.status(404).json({
+        success: false,
+        message: "Donation record was not found.",
+      });
+    }
+
+    // Re-check ObPay while the payment is still pending.
+    if (
+      donation.payment_method === "card" &&
+      donation.payment_status === "pending"
+    ) {
+      try {
+        const result = await processObPayNotification(reference);
+
+        return res.status(200).json({
+          success: true,
+          reference,
+          paymentStatus: result.status,
+        });
+      } catch (verificationError) {
+        console.error(
+          "ObPay status verification error:",
+          verificationError
+        );
+      }
+    }
+
+    return res.status(200).json({
+      success: true,
+      reference,
+      paymentStatus:
+        donation.payment_status === "paid"
+          ? "success"
+          : donation.payment_status,
+    });
+  } catch (error) {
+    console.error("Donation status error:", error);
+
+    return res.status(500).json({
+      success: false,
+      message: "Unable to retrieve donation status.",
     });
   }
 }

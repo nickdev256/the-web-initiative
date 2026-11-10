@@ -1,5 +1,5 @@
 
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import {
@@ -15,7 +15,6 @@ import {
   LockKeyhole,
   LoaderCircle,
   AlertCircle,
-  X,
 } from 'lucide-react';
 
 import Navbar from '../components/Navbar.jsx';
@@ -23,7 +22,10 @@ import Footer from '../components/Footer.jsx';
 import { CONTACT_EMAIL } from '../config.js';
 import { parsePhoneNumberFromString } from 'libphonenumber-js';
 import PhoneInput from '../components/PhoneInput.jsx';
-import { createDonationCheckout } from '../services/donationService.js';
+import {
+  createDonationCheckout,
+  getDonationPaymentStatus,
+} from '../services/donationService.js';
 
 import './Donate.css';
 
@@ -129,8 +131,12 @@ const paymentMethods = [
 function PaymentBrand({ id }) {
   if (id === 'card') {
     return (
-      <span className="donate-brand donate-brand-card" aria-hidden="true">
+      <span
+        className="donate-brand donate-brand-card"
+        aria-hidden="true"
+      >
         <strong>VISA</strong>
+
         <span className="donate-brand-mc">
           <span />
           <span />
@@ -141,7 +147,10 @@ function PaymentBrand({ id }) {
 
   if (id === 'paypal') {
     return (
-      <span className="donate-brand donate-brand-paypal" aria-hidden="true">
+      <span
+        className="donate-brand donate-brand-paypal"
+        aria-hidden="true"
+      >
         <strong>Pay</strong>
         <strong>Pal</strong>
       </span>
@@ -183,7 +192,7 @@ const faqs = [
   {
     question: 'How do I pay?',
     answer:
-      'Choose your gift, enter your donor details and select Visa or Mastercard or PayPal. Card payments are processed through Pesapal secure checkout.',
+      'Choose your gift, enter your donor details and select Visa or Mastercard or PayPal. Card payments are completed through the secure hosted checkout provided by our payment partner.',
   },
   {
     question: 'Which payment methods are available?',
@@ -207,8 +216,9 @@ const faqs = [
 ];
 
 const firstOptionFor = (programmeId) =>
-  amountOptions.find((option) => option.programme === programmeId)?.id ||
-  amountOptions[0].id;
+  amountOptions.find(
+    (option) => option.programme === programmeId
+  )?.id || amountOptions[0].id;
 
 // ==================================================
 // DONATE COMPONENT
@@ -239,18 +249,116 @@ export default function Donate() {
   const [loading, setLoading] = useState(false);
   const [offline, setOffline] = useState(false);
 
-  // Embedded Pesapal checkout
-  const [checkoutUrl, setCheckoutUrl] = useState('');
+  // Confirm payments with the backend.
+  // Query parameters alone are not proof of payment.
 
-  // Payment result from backend callback
-  const [paymentResult] = useState(() => {
+  const [paymentResult, setPaymentResult] = useState({
+    status: '',
+    reference: '',
+    message: '',
+  });
+
+  useEffect(() => {
     const params = new URLSearchParams(window.location.search);
 
-    return {
-      status: params.get('payment'),
-      reference: params.get('reference'),
+    const requestedStatus = params.get('payment');
+    const reference = params.get('reference');
+
+    if (!requestedStatus) return;
+
+    let active = true;
+
+    async function confirmPayment() {
+      if (
+        requestedStatus === 'cancelled' ||
+        requestedStatus === 'failed'
+      ) {
+        if (active) {
+          setPaymentResult({
+            status: requestedStatus,
+            reference: reference || '',
+            message:
+              requestedStatus === 'cancelled'
+                ? 'You left checkout before completing the payment. You can try again.'
+                : 'The payment provider reported that the payment was not completed.',
+          });
+        }
+
+        return;
+      }
+
+      if (!reference) {
+        if (active) {
+          setPaymentResult({
+            status: 'pending',
+            reference: '',
+            message:
+              'We returned from checkout, but no payment reference was supplied. Please contact our team before trying again.',
+          });
+        }
+
+        return;
+      }
+
+      try {
+        const result = await getDonationPaymentStatus(reference);
+
+        const status = String(
+          result.paymentStatus ||
+          result.payment_status ||
+          result.status ||
+          result.data?.paymentStatus ||
+          result.data?.payment_status ||
+          result.data?.status ||
+          ''
+        ).toLowerCase();
+
+        if (!active) return;
+
+        if (
+          ['paid', 'completed', 'success', 'successful'].includes(status)
+        ) {
+          setPaymentResult({
+            status: 'success',
+            reference,
+            message:
+              'Thank you for supporting The Web Initiative Ltd. Your payment has been verified.',
+          });
+        } else if (
+          ['failed', 'cancelled', 'canceled'].includes(status)
+        ) {
+          setPaymentResult({
+            status: 'failed',
+            reference,
+            message:
+              'The payment was not completed. You can try again or contact our team for assistance.',
+          });
+        } else {
+          setPaymentResult({
+            status: 'pending',
+            reference,
+            message:
+              'Your payment is still being confirmed. Please allow a short time for the provider to update the transaction.',
+          });
+        }
+      } catch {
+        if (active) {
+          setPaymentResult({
+            status: 'pending',
+            reference,
+            message:
+              'We could not verify the payment just yet. Please wait a moment or contact our team with your reference.',
+          });
+        }
+      }
+    }
+
+    confirmPayment();
+
+    return () => {
+      active = false;
     };
-  });
+  }, []);
 
   const widgetRef = useRef(null);
   const nameRef = useRef(null);
@@ -309,7 +417,6 @@ export default function Donate() {
     setOptionId(firstOptionFor(id));
     setCustomAmount('');
     setStep('amount');
-    setCheckoutUrl('');
     setError('');
   }
 
@@ -317,7 +424,6 @@ export default function Donate() {
     setOptionId(option.id);
     setProgrammeId(option.programme);
     setCustomAmount('');
-    setCheckoutUrl('');
     setError('');
   }
 
@@ -355,7 +461,6 @@ export default function Donate() {
     setStep('details');
     setError('');
     setOffline(false);
-    setCheckoutUrl('');
 
     window.setTimeout(() => focusWidget(nameRef.current), 0);
   }
@@ -371,27 +476,16 @@ export default function Donate() {
 
     const body = encodeURIComponent(
       `Hello The Web Initiative Ltd,
-
 I would like to make a donation.
-
 Programme: ${programme.label}
-
 Gift: ${giftText}
-
 Amount: ${amountLabel} USD
-
 Frequency: ${frequency === 'Monthly' ? 'Monthly' : 'One-time'}
-
 Preferred payment: ${method?.name || paymentMethod}
-
 Name: ${donor.name}
-
 Email: ${donor.email}
-
 Phone: ${parsedPhone ? parsedPhone.formatInternational() : 'Not given'}
-
 Message: ${donor.message || 'None'}
-
 Please send me your official payment details.`
     );
 
@@ -426,10 +520,15 @@ Please send me your official payment details.`
       );
     }
 
-    // Pesapal billing address validation
+    // Billing address validation
+
     if (paymentMethod === 'card') {
       if (!donor.addressLine1.trim()) {
         return setError('Please enter your billing address.');
+      }
+
+      if (!donor.addressLine2.trim()) {
+        return setError('Please enter Billing Address Line 2.');
       }
 
       if (!donor.city.trim()) {
@@ -442,7 +541,6 @@ Please send me your official payment details.`
     }
 
     setLoading(true);
-    setCheckoutUrl('');
 
     try {
       const result = await createDonationCheckout({
@@ -450,14 +548,14 @@ Please send me your official payment details.`
         email: donor.email.trim(),
         phone: parsedPhone ? parsedPhone.number : '',
 
-        // Pesapal billing address
+        // Billing address
         addressLine1: donor.addressLine1.trim(),
         addressLine2: donor.addressLine2.trim(),
         city: donor.city.trim(),
         state: donor.state.trim(),
         postalCode: donor.postalCode.trim(),
 
-        amount: selectedAmount,
+        amount: Number(Number(selectedAmount).toFixed(2)),
         currency: 'USD',
         cause: programme.label,
         gift: giftText,
@@ -475,23 +573,10 @@ Please send me your official payment details.`
         );
       }
 
-      if (paymentMethod === 'card') {
-        // Keep the donor on our website.
-        // Pesapal checkout is displayed inside this page.
-        setCheckoutUrl(result.checkoutUrl);
+      // ObPay and PayPal return provider-hosted checkout pages.
+      // Redirect rather than embedding an unverified third-party page in an iframe.
 
-        window.setTimeout(() => {
-          document
-            .getElementById('donate-embedded-checkout')
-            ?.scrollIntoView({
-              behavior: 'smooth',
-              block: 'start',
-            });
-        }, 150);
-      } else {
-        // PayPal retains its existing redirect flow.
-        window.location.assign(result.checkoutUrl);
-      }
+      window.location.assign(result.checkoutUrl);
     } catch (err) {
       const unreachable =
         err instanceof TypeError ||
@@ -502,84 +587,51 @@ Please send me your official payment details.`
       } else {
         setError(
           err.message ||
-            'We could not start your donation. Please try again.'
+          'We could not start your donation. Please try again.'
         );
       }
     } finally {
       setLoading(false);
     }
-  }
-
-  function closeEmbeddedCheckout() {
-    // This only closes the iframe.
-    // It does not cancel the Pesapal payment order.
-    setCheckoutUrl('');
-    setError('');
-  }
-
-  // ==================================================
-  // PAGE
-  // ==================================================
-
-  return (
+  }  return (
     <>
       <Navbar />
 
       <main className="donate-page">
-
         {/* PAYMENT RESULT */}
-
         {paymentResult.status && (
           <section
-            className="donate-payment-result"
+            className={`donate-payment-result donate-payment-result--${paymentResult.status}`}
             role="status"
             aria-live="polite"
           >
             {paymentResult.status === 'success' ? (
-              <>
-                <CheckCircle2 size={22} aria-hidden="true" />
-                <div>
-                  <strong>Payment confirmation received</strong>
-                  <p>
-                    Thank you for supporting The Web Initiative Ltd.
-                    Your payment has been confirmed by our payment
-                    processing system.
-                  </p>
-                  {paymentResult.reference && (
-                    <p>
-                      Reference: {paymentResult.reference}
-                    </p>
-                  )}
-                </div>
-              </>
-            ) : paymentResult.status === 'failed' ? (
-              <>
-                <AlertCircle size={22} aria-hidden="true" />
-                <div>
-                  <strong>Payment was not completed</strong>
-                  <p>
-                    Your donation could not be confirmed. You can
-                    try again or contact our team for assistance.
-                  </p>
-                </div>
-              </>
+              <CheckCircle2 size={22} aria-hidden="true" />
             ) : (
-              <>
-                <AlertCircle size={22} aria-hidden="true" />
-                <div>
-                  <strong>Payment status is being checked</strong>
-                  <p>
-                    Your payment is not yet confirmed. Please contact
-                    our team if the status does not update.
-                  </p>
-                </div>
-              </>
+              <AlertCircle size={22} aria-hidden="true" />
             )}
+
+            <div>
+              <strong>
+                {paymentResult.status === 'success'
+                  ? 'Payment confirmed'
+                  : paymentResult.status === 'pending'
+                    ? 'Payment confirmation pending'
+                    : paymentResult.status === 'cancelled'
+                      ? 'Checkout cancelled'
+                      : 'Payment not completed'}
+              </strong>
+
+              <p>{paymentResult.message}</p>
+
+              {paymentResult.reference && (
+                <p>Reference: {paymentResult.reference}</p>
+              )}
+            </div>
           </section>
         )}
 
         {/* HERO */}
-
         <section className="donate-hero">
           <div className="donate-hero-shade" />
 
@@ -610,7 +662,6 @@ Please send me your official payment details.`
         </section>
 
         {/* GIVE */}
-
         <section
           className="donate-give"
           id="give"
@@ -632,9 +683,7 @@ Please send me your official payment details.`
             </div>
 
             <div className="donate-card">
-
               {/* PROGRAMME INFORMATION */}
-
               <div className="donate-card-info">
                 <div
                   className="donate-tabs"
@@ -680,7 +729,6 @@ Please send me your official payment details.`
               </div>
 
               {/* DONATION WIDGET */}
-
               <div className="donate-widget" ref={widgetRef}>
                 {step === 'amount' ? (
                   <form
@@ -803,7 +851,6 @@ Please send me your official payment details.`
                         setStep('amount');
                         setError('');
                         setOffline(false);
-                        setCheckoutUrl('');
                       }}
                     >
                       <ArrowLeft size={16} aria-hidden="true" />
@@ -818,7 +865,6 @@ Please send me your official payment details.`
                     </div>
 
                     {/* DONOR DETAILS */}
-
                     <div className="donate-fields">
                       <label className="donate-field">
                         <span>Full name *</span>
@@ -853,7 +899,6 @@ Please send me your official payment details.`
                     </div>
 
                     {/* PAYMENT METHOD */}
-
                     <fieldset className="donate-methods">
                       <legend>Payment method</legend>
 
@@ -876,7 +921,6 @@ Please send me your official payment details.`
                                 setPaymentMethod(item.id);
                                 setError('');
                                 setOffline(false);
-                                setCheckoutUrl('');
                               }}
                             />
 
@@ -897,7 +941,6 @@ Please send me your official payment details.`
                     </fieldset>
 
                     {/* SECURE CARD CHECKOUT INFORMATION */}
-
                     {paymentMethod === 'card' && (
                       <section
                         className="donate-card-entry"
@@ -909,17 +952,15 @@ Please send me your official payment details.`
                         </div>
 
                         <p className="donate-card-provider-note">
-                          After you click Donate, the secure Pesapal
-                          payment window will appear here. Enter your
-                          card details directly in that payment window.
-                          This website does not collect or store your
-                          card number, CVC or expiry date.
+                          After you click Donate, you will be redirected
+                          to ObPay's secure hosted checkout to enter your
+                          card details. This website does not collect or
+                          store your card number, CVC or expiry date.
                         </p>
                       </section>
                     )}
 
                     {/* PHONE NUMBER */}
-
                     <div className="donate-field">
                       <label htmlFor="donate-phone">
                         Phone number (optional)
@@ -939,8 +980,7 @@ Please send me your official payment details.`
                       />
                     </div>
 
-                    {/* BILLING ADDRESS FOR PESAPAL */}
-
+                    {/* BILLING ADDRESS */}
                     {paymentMethod === 'card' && (
                       <section className="donate-billing-address">
                         <div className="donate-card-entry-heading">
@@ -972,7 +1012,7 @@ Please send me your official payment details.`
                           </label>
 
                           <label className="donate-field">
-                            <span>Address line 2 (optional)</span>
+                            <span>Address line 2</span>
                             <input
                               type="text"
                               autoComplete="address-line2"
@@ -1037,10 +1077,8 @@ Please send me your official payment details.`
                     )}
 
                     {/* OPTIONAL MESSAGE */}
-
                     <label className="donate-field">
                       <span>Message (optional)</span>
-
                       <textarea
                         rows="2"
                         placeholder="A note to our team..."
@@ -1101,62 +1139,12 @@ Please send me your official payment details.`
                         )}
                       </button>
                     )}
-
-                    {/* EMBEDDED PESAPAL CHECKOUT */}
-
-                    {checkoutUrl && paymentMethod === 'card' && (
-                      <section
-                        id="donate-embedded-checkout"
-                        className="donate-embedded-checkout"
-                        aria-label="Secure card payment"
-                      >
-                        <div className="donate-embedded-checkout-heading">
-                          <div>
-                            <h3>Complete your donation</h3>
-                            <p>
-                              Enter your card details in the secure
-                              payment window below.
-                            </p>
-                          </div>
-
-                          <button
-                            type="button"
-                            className="donate-checkout-close"
-                            onClick={closeEmbeddedCheckout}
-                            aria-label="Close payment window"
-                          >
-                            <X size={18} />
-                          </button>
-                        </div>
-
-                        <iframe
-                          src={checkoutUrl}
-                          title="Secure Pesapal donation checkout"
-                          className="donate-pesapal-iframe"
-                          width="100%"
-                          height="720"
-                          loading="eager"
-                          allow="payment"
-                          referrerPolicy="strict-origin-when-cross-origin"
-                        >
-                          Your browser does not support embedded
-                          payment. Please contact our team for
-                          assistance.
-                        </iframe>
-
-                        <p className="donate-iframe-security">
-                          <LockKeyhole size={15} aria-hidden="true" />
-                          Your card payment is securely processed
-                          by Pesapal.
-                        </p>
-                      </section>
-                    )}
                   </form>
                 )}
 
                 <p className="donate-widget-foot">
                   <LockKeyhole size={16} aria-hidden="true" />
-                  Visa, Mastercard and PayPal accepted.
+                  Visa, Mastercard and PayPal checkout options are available.
                 </p>
               </div>
             </div>
@@ -1164,7 +1152,6 @@ Please send me your official payment details.`
         </section>
 
         {/* HOW GIVING WORKS */}
-
         <section
           className="donate-steps"
           aria-labelledby="donate-steps-title"
@@ -1209,7 +1196,6 @@ Please send me your official payment details.`
         </section>
 
         {/* FAQ */}
-
         <section
           className="donate-faq"
           aria-labelledby="donate-faq-title"
@@ -1233,7 +1219,6 @@ Please send me your official payment details.`
 
               <Link to="/contact" className="donate-text-link">
                 Contact our team
-
                 <span>
                   <ArrowRight size={18} aria-hidden="true" />
                 </span>

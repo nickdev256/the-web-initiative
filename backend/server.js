@@ -3,16 +3,15 @@ import "dotenv/config";
 
 import express from "express";
 import cors from "cors";
-
 import { supabase } from "./config/supabase.js";
 import paymentRoutes from "./routes/paymentRoutes.js";
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// --------------------------------------------------
+// ==================================================
 // CORS CONFIGURATION
-// --------------------------------------------------
+// ==================================================
 
 const defaultOrigins = [
   "https://www.thewebinitiativeltd.org",
@@ -23,7 +22,7 @@ const defaultOrigins = [
 const allowedOrigins = [
   ...new Set([
     ...defaultOrigins,
-    ...(process.env.FRONTEND_URL || "")
+    ...(process.env.CORS_ORIGINS || process.env.FRONTEND_URL || "")
       .split(",")
       .map((origin) => origin.trim().replace(/\/+$/, ""))
       .filter(Boolean),
@@ -35,12 +34,14 @@ console.log("Allowed frontend origins:", allowedOrigins);
 app.use(
   cors({
     origin(origin, callback) {
-      // Allow server-to-server requests and local tools.
+      // Allow server-to-server requests without an Origin header.
       if (!origin) {
         return callback(null, true);
       }
 
-      const normalizedOrigin = origin.trim().replace(/\/+$/, "");
+      const normalizedOrigin = origin
+        .trim()
+        .replace(/\/+$/, "");
 
       if (allowedOrigins.includes(normalizedOrigin)) {
         return callback(null, true);
@@ -48,7 +49,9 @@ app.use(
 
       console.warn("Blocked CORS origin:", normalizedOrigin);
 
-      return callback(null, false);
+      return callback(
+        new Error("Origin not allowed by CORS.")
+      );
     },
 
     methods: [
@@ -63,36 +66,51 @@ app.use(
     allowedHeaders: [
       "Content-Type",
       "Authorization",
+      "X-ObPay-Signature",
     ],
 
     credentials: false,
-
     optionsSuccessStatus: 204,
   })
 );
 
-// --------------------------------------------------
+// ==================================================
 // REQUEST PARSING
-// --------------------------------------------------
+// ==================================================
 
-app.use(express.json({ limit: "100kb" }));
-app.use(express.urlencoded({ extended: true }));
+// Preserve the exact raw request body for ObPay HMAC verification.
+app.use(
+  express.json({
+    limit: "100kb",
 
-// --------------------------------------------------
+    verify(req, res, buffer) {
+      req.rawBody = Buffer.from(buffer);
+    },
+  })
+);
+
+app.use(
+  express.urlencoded({
+    extended: true,
+    limit: "100kb",
+  })
+);
+
+// ==================================================
 // ROOT ROUTE
-// --------------------------------------------------
+// ==================================================
 
 app.get("/", (req, res) => {
   return res.status(200).json({
     success: true,
     message: "THE WEB INITIATIVE LIMITED API is running.",
+    paymentGateways: ["ObPay", "PayPal"],
   });
 });
 
-// --------------------------------------------------
+// ==================================================
 // HEALTH CHECK
-// Checks backend and Supabase connectivity.
-// --------------------------------------------------
+// ==================================================
 
 app.get("/api/health", async (req, res) => {
   try {
@@ -119,15 +137,15 @@ app.get("/api/health", async (req, res) => {
   }
 });
 
-// --------------------------------------------------
+// ==================================================
 // PAYMENT ROUTES
-// --------------------------------------------------
+// ==================================================
 
 app.use("/api/payments", paymentRoutes);
 
-// --------------------------------------------------
+// ==================================================
 // 404 HANDLER
-// --------------------------------------------------
+// ==================================================
 
 app.use((req, res) => {
   return res.status(404).json({
@@ -137,9 +155,9 @@ app.use((req, res) => {
   });
 });
 
-// --------------------------------------------------
+// ==================================================
 // GLOBAL ERROR HANDLER
-// --------------------------------------------------
+// ==================================================
 
 app.use((error, req, res, next) => {
   console.error("Backend error:", error);
@@ -148,18 +166,27 @@ app.use((error, req, res, next) => {
     return next(error);
   }
 
-  return res.status(500).json({
+  const status =
+    error.message === "Origin not allowed by CORS."
+      ? 403
+      : error.type === "entity.parse.failed"
+        ? 400
+        : 500;
+
+  return res.status(status).json({
     success: false,
     message:
       process.env.NODE_ENV === "production"
-        ? "An internal server error occurred."
+        ? status === 400
+          ? "Invalid JSON request body."
+          : "An internal server error occurred."
         : error.message,
   });
 });
 
-// --------------------------------------------------
+// ==================================================
 // START SERVER
-// --------------------------------------------------
+// ==================================================
 
 app.listen(PORT, () => {
   console.log(
