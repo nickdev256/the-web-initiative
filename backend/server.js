@@ -8,21 +8,23 @@ import { supabase } from "./config/supabase.js";
 import paymentRoutes from "./routes/paymentRoutes.js";
 
 const app = express();
-
 const PORT = process.env.PORT || 5000;
 
-// Allow local development and your deployed frontend.
+// --------------------------------------------------
+// CORS CONFIGURATION
+// --------------------------------------------------
+
 const allowedOrigins = (
   process.env.FRONTEND_URL || "http://localhost:5173"
 )
   .split(",")
-  .map((origin) => origin.trim().replace(/\/+$/, ""));
+  .map((origin) => origin.trim().replace(/\/+$/, ""))
+  .filter(Boolean);
 
 app.use(
   cors({
     origin(origin, callback) {
-      // Allow requests without an Origin header,
-      // such as server-to-server requests.
+      // Allow server-to-server requests without an Origin header.
       if (!origin) {
         return callback(null, true);
       }
@@ -33,26 +35,40 @@ app.use(
         return callback(null, true);
       }
 
+      console.warn("Blocked CORS origin:", normalizedOrigin);
+
       return callback(new Error("Origin is not allowed by CORS."));
     },
+
     methods: ["GET", "POST", "OPTIONS"],
+
     allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
 
-// Parse incoming requests.
+// --------------------------------------------------
+// REQUEST PARSING
+// --------------------------------------------------
+
 app.use(express.json({ limit: "100kb" }));
 app.use(express.urlencoded({ extended: true }));
 
-// Main backend route.
+// --------------------------------------------------
+// ROOT ROUTE
+// --------------------------------------------------
+
 app.get("/", (req, res) => {
-  res.status(200).json({
+  return res.status(200).json({
     success: true,
     message: "THE WEB INITIATIVE LIMITED API is running.",
   });
 });
 
-// Health check: verifies backend and Supabase connectivity.
+// --------------------------------------------------
+// HEALTH CHECK
+// Checks backend and Supabase connectivity.
+// --------------------------------------------------
+
 app.get("/api/health", async (req, res) => {
   try {
     const { error } = await supabase
@@ -78,18 +94,28 @@ app.get("/api/health", async (req, res) => {
   }
 });
 
-// Donation and payment routes.
+// --------------------------------------------------
+// PAYMENT ROUTES
+// --------------------------------------------------
+
 app.use("/api/payments", paymentRoutes);
 
-// Handle unknown routes.
+// --------------------------------------------------
+// 404 HANDLER
+// --------------------------------------------------
+
 app.use((req, res) => {
-  res.status(404).json({
+  return res.status(404).json({
     success: false,
     message: "API route not found.",
+    path: req.originalUrl,
   });
 });
 
-// Global error handler.
+// --------------------------------------------------
+// GLOBAL ERROR HANDLER
+// --------------------------------------------------
+
 app.use((error, req, res, next) => {
   console.error("Backend error:", error);
 
@@ -97,7 +123,15 @@ app.use((error, req, res, next) => {
     return next(error);
   }
 
-  res.status(500).json({
+  // Handle CORS errors.
+  if (error.message === "Origin is not allowed by CORS.") {
+    return res.status(403).json({
+      success: false,
+      message: "This website is not allowed to access the API.",
+    });
+  }
+
+  return res.status(500).json({
     success: false,
     message:
       process.env.NODE_ENV === "production"
@@ -106,7 +140,10 @@ app.use((error, req, res, next) => {
   });
 });
 
-// Start the server.
+// --------------------------------------------------
+// START SERVER
+// --------------------------------------------------
+
 app.listen(PORT, () => {
   console.log(
     `THE WEB INITIATIVE backend running on port ${PORT}`

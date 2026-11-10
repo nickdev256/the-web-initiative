@@ -12,11 +12,20 @@ import {
   verifyPaypalWebhook,
 } from "../services/paypalService.js";
 
-const FRONTEND_URL =
-  process.env.FRONTEND_URL || "http://localhost:5173";
+// --------------------------------------------------
+// CONFIGURATION
+// --------------------------------------------------
+
+const FRONTEND_URL = (
+  process.env.FRONTEND_URL || "http://localhost:5173"
+).replace(/\/+$/, "");
 
 const ALLOWED_METHODS = ["card", "paypal"];
 const ALLOWED_FREQUENCIES = ["one-time", "monthly"];
+
+// --------------------------------------------------
+// GENERAL HELPERS
+// --------------------------------------------------
 
 function createReference() {
   return `TWI-${Date.now()}-${Math.random()
@@ -95,32 +104,100 @@ export async function createCheckout(req, res) {
       donorName,
       email,
       phone,
+
+      // Billing address
+      addressLine1,
+      addressLine2,
+      city,
+      state,
+      postalCode,
+      countryCode = "UG",
+
+      // Donation information
       amount,
       currency = "USD",
       cause,
       frequency = "one-time",
       paymentMethod,
       message,
-    } = req.body;
+    } = req.body || {};
 
+    // Clean donor information
     const cleanName = String(donorName || "").trim();
-    const cleanEmail = String(email || "").trim().toLowerCase();
+
+    const cleanEmail = String(email || "")
+      .trim()
+      .toLowerCase();
+
     const cleanPhone = String(phone || "").trim();
+
+    // Clean billing address
+    const cleanAddressLine1 = String(
+      addressLine1 || ""
+    ).trim();
+
+    const cleanAddressLine2 = String(
+      addressLine2 || ""
+    ).trim();
+
+    const cleanCity = String(city || "").trim();
+
+    const cleanState = String(state || "").trim();
+
+    const cleanPostalCode = String(
+      postalCode || ""
+    ).trim();
+
+    const cleanCountryCode = String(
+      countryCode || "UG"
+    )
+      .trim()
+      .toUpperCase();
+
+    const cleanCause = String(cause || "").trim();
+
+    const cleanMessage = String(message || "").trim();
+
     const donationAmount = Number(amount);
+
+    const cleanCurrency = String(currency || "")
+      .trim()
+      .toUpperCase();
+
+    const cleanPaymentMethod = String(
+      paymentMethod || ""
+    )
+      .trim()
+      .toLowerCase();
+
+    const cleanFrequency = String(
+      frequency || "one-time"
+    )
+      .trim()
+      .toLowerCase();
+
+    // --------------------------------------------------
+    // REQUIRED FIELD VALIDATION
+    // --------------------------------------------------
 
     if (
       !cleanName ||
       !cleanEmail ||
-      !cause ||
-      !paymentMethod ||
+      !cleanCause ||
+      !cleanPaymentMethod ||
       !Number.isFinite(donationAmount) ||
       donationAmount <= 0
     ) {
       return res.status(400).json({
         success: false,
-        message: "Please provide all required donation details.",
+        message:
+          "Please provide all required donation details.",
       });
     }
+
+    // --------------------------------------------------
+    // EMAIL VALIDATION
+    // --------------------------------------------------
 
     if (!validEmail(cleanEmail)) {
       return res.status(400).json({
@@ -129,59 +206,115 @@ export async function createCheckout(req, res) {
       });
     }
 
+    // --------------------------------------------------
+    // DONATION AMOUNT VALIDATION
+    // --------------------------------------------------
+
     if (donationAmount > 1000000) {
       return res.status(400).json({
         success: false,
-        message: "The donation amount is above the allowed limit.",
+        message:
+          "The donation amount is above the allowed limit.",
       });
     }
 
-    if (String(currency).toUpperCase() !== "USD") {
+    // --------------------------------------------------
+    // CURRENCY VALIDATION
+    // --------------------------------------------------
+
+    if (cleanCurrency !== "USD") {
       return res.status(400).json({
         success: false,
-        message: "Only USD donations are currently supported.",
+        message:
+          "Only USD donations are currently supported.",
       });
     }
 
-    if (!ALLOWED_METHODS.includes(paymentMethod)) {
+    // --------------------------------------------------
+    // PAYMENT METHOD VALIDATION
+    // --------------------------------------------------
+
+    if (!ALLOWED_METHODS.includes(cleanPaymentMethod)) {
       return res.status(400).json({
         success: false,
-        message: "Please select Visa, Mastercard or PayPal.",
+        message:
+          "Please select Visa, Mastercard or PayPal.",
       });
     }
 
-    if (!ALLOWED_FREQUENCIES.includes(frequency)) {
+    // --------------------------------------------------
+    // FREQUENCY VALIDATION
+    // --------------------------------------------------
+
+    if (!ALLOWED_FREQUENCIES.includes(cleanFrequency)) {
       return res.status(400).json({
         success: false,
         message: "Invalid donation frequency.",
       });
     }
 
+    // --------------------------------------------------
+    // PESAPAL BILLING ADDRESS VALIDATION
+    // --------------------------------------------------
+
+    if (cleanPaymentMethod === "card") {
+      if (!cleanAddressLine1) {
+        return res.status(400).json({
+          success: false,
+          message:
+            "Please enter your billing Address Line 1 before continuing.",
+        });
+      }
+
+      if (!/^[A-Z]{2}$/.test(cleanCountryCode)) {
+        return res.status(400).json({
+          success: false,
+          message:
+            "Please provide a valid two-letter country code.",
+        });
+      }
+    }
+
     const reference = createReference();
 
-    // Save donation before starting payment.
-    const { data: donation, error: insertError } = await supabase
-      .from("donations")
-      .insert({
-        reference,
-        full_name: cleanName,
-        donor_name: cleanName,
-        email: cleanEmail,
-        phone: cleanPhone || null,
-        amount: donationAmount,
-        currency: "USD",
-        cause: String(cause).trim(),
-        frequency,
-        payment_method: paymentMethod,
-        status: "pending",
-        payment_status: "pending",
-        message: String(message || "").trim() || null,
-      })
-      .select()
-      .single();
+    // --------------------------------------------------
+    // SAVE DONATION BEFORE STARTING PAYMENT
+    // --------------------------------------------------
+
+    const { data: donation, error: insertError } =
+      await supabase
+        .from("donations")
+        .insert({
+          reference,
+
+          full_name: cleanName,
+          donor_name: cleanName,
+
+          email: cleanEmail,
+          phone: cleanPhone || null,
+
+          amount: donationAmount,
+          currency: cleanCurrency,
+
+          cause: cleanCause,
+          frequency: cleanFrequency,
+
+          payment_method: cleanPaymentMethod,
+
+          status: "pending",
+          payment_status: "pending",
+
+          message: cleanMessage || null,
+        })
+        .select()
+        .single();
 
     if (insertError) {
-      console.error("Donation database error:", insertError);
+      console.error(
+        "Donation database error:",
+        insertError
+      );
+
       throw new Error("Unable to save your donation.");
     }
 
@@ -189,27 +322,54 @@ export async function createCheckout(req, res) {
 
     let checkout;
 
-    if (paymentMethod === "paypal") {
+    // --------------------------------------------------
+    // PAYPAL CHECKOUT
+    // --------------------------------------------------
+
+    if (cleanPaymentMethod === "paypal") {
       checkout = await createPaypalOrder({
         id: donation.id,
         reference,
+
         donorName: cleanName,
         email: cleanEmail,
+
         amount: donationAmount,
-        currency: "USD",
-        cause,
+        currency: cleanCurrency,
+        cause: cleanCause,
       });
-    } else {
+    }
+
+    // --------------------------------------------------
+    // PESAPAL CHECKOUT
+    // VISA / MASTERCARD
+    // --------------------------------------------------
+
+    else if (cleanPaymentMethod === "card") {
       checkout = await createPesapalCheckout({
         reference,
+
         donorName: cleanName,
         email: cleanEmail,
         phone: cleanPhone,
+
+        // Billing address passed to Pesapal
+        addressLine1: cleanAddressLine1,
+        addressLine2: cleanAddressLine2,
+        city: cleanCity,
+        state: cleanState,
+        postalCode: cleanPostalCode,
+        countryCode: cleanCountryCode,
+
         amount: donationAmount,
-        currency: "USD",
-        cause,
+        currency: cleanCurrency,
+        cause: cleanCause,
       });
     }
+
+    // --------------------------------------------------
+    // CHECKOUT VALIDATION
+    // --------------------------------------------------
 
     if (!checkout?.checkoutUrl) {
       throw new Error(
@@ -218,7 +378,7 @@ export async function createCheckout(req, res) {
     }
 
     const providerReference =
-      paymentMethod === "paypal"
+      cleanPaymentMethod === "paypal"
         ? checkout.orderId
         : checkout.orderTrackingId;
 
@@ -228,6 +388,10 @@ export async function createCheckout(req, res) {
       );
     }
 
+    // --------------------------------------------------
+    // SAVE PROVIDER TRANSACTION REFERENCE
+    // --------------------------------------------------
+
     const { error: updateError } = await supabase
       .from("donations")
       .update({
@@ -235,7 +399,9 @@ export async function createCheckout(req, res) {
       })
       .eq("id", donation.id);
 
-    if (updateError) throw updateError;
+    if (updateError) {
+      throw updateError;
+    }
 
     return res.status(200).json({
       success: true,
@@ -246,6 +412,7 @@ export async function createCheckout(req, res) {
   } catch (error) {
     console.error("Create checkout error:", error);
 
+    // Mark failed if a donation record was already created.
     if (donationId) {
       try {
         await markDonationFailed(
@@ -253,7 +420,10 @@ export async function createCheckout(req, res) {
           "Checkout could not be created."
         );
       } catch (updateError) {
-        console.error("Could not update donation:", updateError);
+        console.error(
+          "Could not update donation:",
+          updateError
+        );
       }
     }
 
@@ -283,7 +453,9 @@ async function processPesapalNotification(req) {
     req.body?.orderMerchantReference;
 
   if (!orderTrackingId || !merchantReference) {
-    throw new Error("Pesapal notification is missing transaction details.");
+    throw new Error(
+      "Pesapal notification is missing transaction details."
+    );
   }
 
   const { data: donation, error } = await supabase
@@ -302,16 +474,20 @@ async function processPesapalNotification(req) {
     donation.payment_method !== "card" ||
     donation.provider_reference !== orderTrackingId
   ) {
-    throw new Error("Pesapal transaction does not match the donation.");
+    throw new Error(
+      "Pesapal transaction does not match the donation."
+    );
   }
 
-  // Always verify payment directly with Pesapal.
+  // Always verify directly with Pesapal.
   const transaction =
     await getPesapalTransactionStatus(orderTrackingId);
 
   const paymentStatus = String(
     transaction.payment_status_description || ""
-  ).trim().toUpperCase();
+  )
+    .trim()
+    .toUpperCase();
 
   const paymentMatches =
     transaction.merchant_reference === donation.reference &&
@@ -376,7 +552,9 @@ export async function pesapalCallback(req, res) {
   } catch (error) {
     console.error("Pesapal callback error:", error);
 
-    return res.redirect(redirectToDonation("pending"));
+    return res.redirect(
+      redirectToDonation("pending")
+    );
   }
 }
 
@@ -392,9 +570,13 @@ export async function pesapalIpn(req, res) {
     return res.status(200).json({
       orderNotificationType:
         req.query.OrderNotificationType || "IPNCHANGE",
-      orderTrackingId: req.query.OrderTrackingId || "",
+
+      orderTrackingId:
+        req.query.OrderTrackingId || "",
+
       orderMerchantReference:
         req.query.OrderMerchantReference || "",
+
       status: 200,
       paymentStatus: result.status,
     });
@@ -418,7 +600,9 @@ export async function paypalReturn(req, res) {
     const orderId = req.query.token;
 
     if (!orderId) {
-      return res.redirect(redirectToDonation("pending"));
+      return res.redirect(
+        redirectToDonation("pending")
+      );
     }
 
     const { data: donation, error } = await supabase
@@ -428,9 +612,14 @@ export async function paypalReturn(req, res) {
       .maybeSingle();
 
     if (error || !donation) {
-      console.error("PayPal donation lookup failed:", error);
+      console.error(
+        "PayPal donation lookup failed:",
+        error
+      );
 
-      return res.redirect(redirectToDonation("pending"));
+      return res.redirect(
+        redirectToDonation("pending")
+      );
     }
 
     if (donation.payment_status === "paid") {
@@ -465,7 +654,9 @@ export async function paypalReturn(req, res) {
   } catch (error) {
     console.error("PayPal return error:", error);
 
-    return res.redirect(redirectToDonation("pending"));
+    return res.redirect(
+      redirectToDonation("pending")
+    );
   }
 }
 
@@ -490,7 +681,9 @@ export async function paypalWebhook(req, res) {
       });
     }
 
-    if (event.event_type !== "PAYMENT.CAPTURE.COMPLETED") {
+    if (
+      event.event_type !== "PAYMENT.CAPTURE.COMPLETED"
+    ) {
       return res.status(200).json({
         success: true,
         message: "Webhook received.",
@@ -506,7 +699,8 @@ export async function paypalWebhook(req, res) {
     if (!donationId || !amount || !currency) {
       return res.status(200).json({
         success: true,
-        message: "Webhook received without donation details.",
+        message:
+          "Webhook received without donation details.",
       });
     }
 
@@ -521,7 +715,8 @@ export async function paypalWebhook(req, res) {
 
     const paymentMatches =
       Number(amount) === Number(donation.amount) &&
-      currency.toUpperCase() === donation.currency.toUpperCase() &&
+      currency.toUpperCase() ===
+        donation.currency.toUpperCase() &&
       donation.payment_method === "paypal";
 
     if (!paymentMatches) {
@@ -532,7 +727,8 @@ export async function paypalWebhook(req, res) {
 
       return res.status(200).json({
         success: true,
-        message: "Payment details did not match the donation.",
+        message:
+          "Payment details did not match the donation.",
       });
     }
 

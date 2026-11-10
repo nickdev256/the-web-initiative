@@ -1,9 +1,14 @@
+
 import { timedFetch } from "../utils/helpers.js";
 
 const PAYPAL_BASE_URL = (
   process.env.PAYPAL_BASE_URL ||
   "https://api-m.sandbox.paypal.com"
-).replace(/\/$/, "");
+).replace(/\/+$/, "");
+
+// --------------------------------------------------
+// PAYPAL CONFIGURATION
+// --------------------------------------------------
 
 function requirePaypalConfig() {
   const clientId = process.env.PAYPAL_CLIENT_ID;
@@ -11,14 +16,32 @@ function requirePaypalConfig() {
 
   if (!clientId || !clientSecret) {
     throw new Error(
-      "PayPal credentials are missing. Check your backend/.env file."
+      "PayPal credentials are missing. Check your backend environment variables."
     );
   }
 
   return { clientId, clientSecret };
 }
 
-// Obtain an access token from PayPal.
+// Safely parse API responses.
+async function readResponse(response) {
+  const text = await response.text();
+
+  if (!text) {
+    return {};
+  }
+
+  try {
+    return JSON.parse(text);
+  } catch {
+    throw new Error("PayPal returned an invalid response.");
+  }
+}
+
+// --------------------------------------------------
+// GET PAYPAL ACCESS TOKEN
+// --------------------------------------------------
+
 async function getPaypalAccessToken() {
   const { clientId, clientSecret } = requirePaypalConfig();
 
@@ -38,18 +61,28 @@ async function getPaypalAccessToken() {
     }
   );
 
-  const data = await response.json();
+  const data = await readResponse(response);
 
   if (!response.ok || !data.access_token) {
+    console.error("PayPal authentication failed:", {
+      status: response.status,
+      message: data.error_description || data.error,
+    });
+
     throw new Error("Unable to authenticate with PayPal.");
   }
 
   return data.access_token;
 }
 
-// Create a PayPal donation checkout.
+// --------------------------------------------------
+// CREATE PAYPAL DONATION CHECKOUT
+// --------------------------------------------------
+
 export async function createPaypalOrder(donation) {
-  const accessToken = await getPaypalAccessToken();
+  if (!donation?.reference || !donation?.id) {
+    throw new Error("Donation reference or ID is missing.");
+  }
 
   const frontendUrl = process.env.FRONTEND_URL;
   const backendUrl = process.env.BACKEND_URL;
@@ -64,11 +97,17 @@ export async function createPaypalOrder(donation) {
     throw new Error("Invalid donation amount.");
   }
 
-  const currency = String(donation.currency || "USD").toUpperCase();
+  const currency = String(
+    donation.currency || "USD"
+  ).toUpperCase();
 
   if (currency !== "USD") {
-    throw new Error("This PayPal checkout currently supports USD only.");
+    throw new Error(
+      "This PayPal checkout currently supports USD only."
+    );
   }
+
+  const accessToken = await getPaypalAccessToken();
 
   const response = await timedFetch(
     `${PAYPAL_BASE_URL}/v2/checkout/orders`,
@@ -85,11 +124,12 @@ export async function createPaypalOrder(donation) {
         purchase_units: [
           {
             reference_id: donation.reference,
-            custom_id: donation.id,
+            custom_id: String(donation.id),
             invoice_id: donation.reference,
 
             description: String(
-              donation.cause || "Donation to The Web Initiative Limited"
+              donation.cause ||
+                "Donation to The Web Initiative Limited"
             ).slice(0, 127),
 
             amount: {
@@ -113,20 +153,27 @@ export async function createPaypalOrder(donation) {
     }
   );
 
-  const data = await response.json();
+  const data = await readResponse(response);
 
   if (!response.ok) {
-    console.error("PayPal order creation failed:", data);
+    console.error("PayPal order creation failed:", {
+      status: response.status,
+      details: data,
+    });
+
     throw new Error("Unable to create PayPal checkout.");
   }
 
   const approvalLink = data.links?.find(
     (link) =>
-      link.rel === "payer-action" || link.rel === "approve"
+      link.rel === "payer-action" ||
+      link.rel === "approve"
   );
 
   if (!data.id || !approvalLink?.href) {
-    throw new Error("PayPal did not return a checkout URL.");
+    throw new Error(
+      "PayPal did not return a valid checkout URL."
+    );
   }
 
   return {
@@ -135,7 +182,10 @@ export async function createPaypalOrder(donation) {
   };
 }
 
-// Capture an approved PayPal order.
+// --------------------------------------------------
+// CAPTURE APPROVED PAYPAL PAYMENT
+// --------------------------------------------------
+
 export async function capturePaypalOrder(orderId) {
   if (!orderId) {
     throw new Error("PayPal order ID is missing.");
@@ -158,10 +208,14 @@ export async function capturePaypalOrder(orderId) {
     }
   );
 
-  const data = await response.json();
+  const data = await readResponse(response);
 
   if (!response.ok) {
-    console.error("PayPal capture failed:", data);
+    console.error("PayPal capture failed:", {
+      status: response.status,
+      details: data,
+    });
+
     throw new Error("Unable to capture PayPal payment.");
   }
 
@@ -169,7 +223,9 @@ export async function capturePaypalOrder(orderId) {
   const capture = purchaseUnit?.payments?.captures?.[0];
 
   if (!capture) {
-    throw new Error("PayPal did not return payment capture details.");
+    throw new Error(
+      "PayPal did not return payment capture details."
+    );
   }
 
   return {
@@ -183,12 +239,34 @@ export async function capturePaypalOrder(orderId) {
   };
 }
 
-// Verify that a webhook notification genuinely came from PayPal.
-export async function verifyPaypalWebhook(headers, webhookEvent) {
+// --------------------------------------------------
+// VERIFY PAYPAL WEBHOOK
+// --------------------------------------------------
+
+export async function verifyPaypalWebhook(
+  headers,
+  webhookEvent
+) {
   const webhookId = process.env.PAYPAL_WEBHOOK_ID;
 
   if (!webhookId) {
-    throw new Error("PAYPAL_WEBHOOK_ID is missing from backend/.env.");
+    throw new Error(
+      "PAYPAL_WEBHOOK_ID is missing from backend environment variables."
+    );
+  }
+
+  const requiredHeaders = [
+    "paypal-auth-algo",
+    "paypal-cert-url",
+    "paypal-transmission-id",
+    "paypal-transmission-sig",
+    "paypal-transmission-time",
+  ];
+
+  for (const header of requiredHeaders) {
+    if (!headers[header]) {
+      return false;
+    }
   }
 
   const accessToken = await getPaypalAccessToken();
@@ -213,10 +291,14 @@ export async function verifyPaypalWebhook(headers, webhookEvent) {
     }
   );
 
-  const data = await response.json();
+  const data = await readResponse(response);
 
   if (!response.ok) {
-    console.error("PayPal webhook verification failed:", data);
+    console.error("PayPal webhook verification failed:", {
+      status: response.status,
+      details: data,
+    });
+
     return false;
   }
 

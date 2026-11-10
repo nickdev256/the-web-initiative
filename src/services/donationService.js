@@ -17,7 +17,7 @@ export async function createDonationCheckout(data) {
       body: JSON.stringify(data),
     });
 
-    const result = await response.json();
+    const result = await response.json().catch(() => ({}));
 
     if (!response.ok) {
       throw new Error(
