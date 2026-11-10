@@ -14,22 +14,33 @@ const PORT = process.env.PORT || 5000;
 // CORS CONFIGURATION
 // --------------------------------------------------
 
-const allowedOrigins = (
-  process.env.FRONTEND_URL || "http://localhost:5173"
-)
-  .split(",")
-  .map((origin) => origin.trim().replace(/\/+$/, ""))
-  .filter(Boolean);
+const defaultOrigins = [
+  "https://www.thewebinitiativeltd.org",
+  "https://thewebinitiativeltd.org",
+  "http://localhost:5173",
+];
+
+const allowedOrigins = [
+  ...new Set([
+    ...defaultOrigins,
+    ...(process.env.FRONTEND_URL || "")
+      .split(",")
+      .map((origin) => origin.trim().replace(/\/+$/, ""))
+      .filter(Boolean),
+  ]),
+];
+
+console.log("Allowed frontend origins:", allowedOrigins);
 
 app.use(
   cors({
     origin(origin, callback) {
-      // Allow server-to-server requests without an Origin header.
+      // Allow server-to-server requests and local tools.
       if (!origin) {
         return callback(null, true);
       }
 
-      const normalizedOrigin = origin.replace(/\/+$/, "");
+      const normalizedOrigin = origin.trim().replace(/\/+$/, "");
 
       if (allowedOrigins.includes(normalizedOrigin)) {
         return callback(null, true);
@@ -37,12 +48,26 @@ app.use(
 
       console.warn("Blocked CORS origin:", normalizedOrigin);
 
-      return callback(new Error("Origin is not allowed by CORS."));
+      return callback(null, false);
     },
 
-    methods: ["GET", "POST", "OPTIONS"],
+    methods: [
+      "GET",
+      "POST",
+      "PUT",
+      "PATCH",
+      "DELETE",
+      "OPTIONS",
+    ],
 
-    allowedHeaders: ["Content-Type", "Authorization"],
+    allowedHeaders: [
+      "Content-Type",
+      "Authorization",
+    ],
+
+    credentials: false,
+
+    optionsSuccessStatus: 204,
   })
 );
 
@@ -121,14 +146,6 @@ app.use((error, req, res, next) => {
 
   if (res.headersSent) {
     return next(error);
-  }
-
-  // Handle CORS errors.
-  if (error.message === "Origin is not allowed by CORS.") {
-    return res.status(403).json({
-      success: false,
-      message: "This website is not allowed to access the API.",
-    });
   }
 
   return res.status(500).json({
