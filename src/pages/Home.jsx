@@ -1,5 +1,5 @@
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import {
   Play,
@@ -22,14 +22,6 @@ import Navbar from '../components/Navbar.jsx';
 import Footer from '../components/Footer.jsx';
 import { getUpcomingEvents } from '../data/events.js';
 import './Home.css';
-
-// Hero background video in public/videos/: a light portrait cut for
-// phones (about 3 MB), a 540p file for laptops and a sharper 720p file for
-// large or high-resolution screens. If none loads, the poster photo shows.
-const HERO_VIDEO_MOBILE = '/videos/hero-mobile.mp4';
-const HERO_VIDEO = '/videos/hero.mp4';
-const HERO_VIDEO_HD = '/videos/hero-720.mp4';
-const HERO_POSTER = '/images/hero-poster.jpg';
 
 // The three health issues named in the hero, shown in "Who we are".
 const healthPriorities = [
@@ -96,45 +88,6 @@ const focusAreas = [
 
 function Home() {
   const upcomingEvents = getUpcomingEvents();
-  const videoRef = useRef(null);
-  const [videoReady, setVideoReady] = useState(false);
-  const [videoPlaying, setVideoPlaying] = useState(false);
-
-  useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
-
-    // Skip the video for visitors who asked for less motion or turned on
-    // data saver; they see the poster photo instead.
-    const reduceMotion = window.matchMedia(
-      '(prefers-reduced-motion: reduce)'
-    ).matches;
-    const saveData = navigator.connection?.saveData === true;
-
-    if (reduceMotion || saveData) return;
-
-    // Phones get the light portrait cut to save mobile data
-    const smallScreen = window.matchMedia('(max-width: 760px)').matches;
-    const renderedWidth = window.innerWidth * (window.devicePixelRatio || 1);
-    video.src = smallScreen
-      ? HERO_VIDEO_MOBILE
-      : renderedWidth > 1920
-        ? HERO_VIDEO_HD
-        : HERO_VIDEO;
-    video.play().catch(() => setVideoPlaying(false));
-  }, []);
-
-  const toggleVideo = () => {
-    const video = videoRef.current;
-    if (!video) return;
-
-    if (video.paused) {
-      video.play().catch(() => {});
-    } else {
-      video.pause();
-    }
-  };
-
   useEffect(() => {
     const elements = document.querySelectorAll('.home-reveal');
 
@@ -166,21 +119,17 @@ function Home() {
         {/* HERO */}
         <div className="home-hero-stage"> 
           <section className="home-hero">
-            <div className="home-hero-image" />
-            <video
-              ref={videoRef}
-              className={`home-hero-video ${videoReady ? 'is-ready' : ''}`}
-              poster={HERO_POSTER}
-              muted
-              loop
-              playsInline
-              preload="none"
-              aria-hidden="true"
-              onPlaying={() => setVideoReady(true)}
-              onPlay={() => setVideoPlaying(true)}
-              onPause={() => setVideoPlaying(false)}
-              onError={() => setVideoReady(false)}
-            />
+            {/* Four camp photos that crossfade and slowly zoom out */}
+            <div
+              className="home-hero-slides"
+              role="img"
+              aria-label="Photos from our medical camps: a volunteer nurse holding a baby, a volunteer listening to an elderly woman, a clinician checking a woman's arm, and a lab worker preparing a blood sample"
+            >
+              <div className="home-hero-slide home-hero-slide-nurse" />
+              <div className="home-hero-slide home-hero-slide-elder" />
+              <div className="home-hero-slide home-hero-slide-screening" />
+              <div className="home-hero-slide home-hero-slide-lab" />
+            </div>
             <div className="home-hero-shade" />
 
             <div className="home-container home-hero-inner">
