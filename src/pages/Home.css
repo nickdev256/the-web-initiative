@@ -48,59 +48,77 @@
   background: var(--home-ink-deep);
   overflow: hidden;
 }
-.home-hero-image {
+.home-hero-slides {
   position: absolute;
   z-index: -3;
   inset: 0;
-  background-image: url('/images/hero-poster.jpg');
+  overflow: hidden;
+  background: var(--home-ink-deep);
+}
+
+/* Each photo holds for about 6 seconds: it fades in, zooms out slowly while
+   on screen, then crossfades into the next. Four photos make a 24s loop;
+   each photo's delay is 6s after the one before it. */
+.home-hero-slide {
+  position: absolute;
+  inset: 0;
+  background-repeat: no-repeat;
   background-size: cover;
-  background-position: center 40%;
-  transform: scale(1.02);
-}
-/* Background video sits over the photo and fades in once it can play;
-   if the file is missing the photo stays visible. */
-.home-hero-video {
-  position: absolute;
-  z-index: -3;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
   opacity: 0;
-  transform: scale(1.08); /* trims thin dark bars at the clip's edges */
-  transition: opacity .8s ease;
+  animation: home-hero-slide 24s linear infinite;
+  will-change: opacity, transform;
 }
-.home-hero-video.is-ready { opacity: 1; }
-.home-video-toggle {
-  position: absolute;
-  right: max(32px, calc((100% - 1240px) / 2));
-  bottom: 22px;
-  z-index: 2;
-  display: inline-flex;
-  align-items: center;
-  gap: 9px;
-  min-height: 40px;
-  padding: 0 16px 0 13px;
-  border: 1px solid color-mix(in srgb, var(--c-white) 35%, transparent);
-  border-radius: 999px;
-  color: var(--c-white);
-  background: color-mix(in srgb, var(--c-navy) 45%, transparent);
-  backdrop-filter: blur(8px);
-  font: inherit;
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: .02em;
-  cursor: pointer;
-  transition: background .2s ease, border-color .2s ease;
+
+/* The first photo starts already visible, so the hero never opens empty */
+.home-hero-slide-nurse {
+  background-image: url('/images/camps/nurse-with-baby.jpg');
+  background-position: center 18%;
+  animation-delay: -1.5s;
 }
-.home-video-toggle:hover { border-color: var(--c-white); background: color-mix(in srgb, var(--c-navy) 70%, transparent); }
-.home-video-toggle:focus-visible { outline: 3px solid var(--c-cyan); outline-offset: 3px; }
+
+.home-hero-slide-elder {
+  background-image: url('/images/camps/elder-consultation.jpg');
+  background-position: center 30%;
+  animation-delay: 4.5s;
+}
+
+.home-hero-slide-screening {
+  background-image: url('/images/camps/arm-measurement-check.jpg');
+  background-position: center 6%;
+  animation-delay: 10.5s;
+}
+
+.home-hero-slide-lab {
+  background-image: url('/images/camps/lab-blood-sample.jpg');
+  background-position: center 14%;
+  animation-delay: 16.5s;
+}
+
+/* Percentages are of the 24s loop: fade in over 1.5s, show until 6s,
+   fade out by 7.5s while the next photo fades in */
+@keyframes home-hero-slide {
+  0% { opacity: 0; transform: scale(1.14); }
+  6.25% { opacity: 1; }
+  25% { opacity: 1; }
+  31.25% { opacity: 0; transform: scale(1); }
+  100% { opacity: 0; transform: scale(1); }
+}
+
+/* Reduced motion: no slideshow, the nurse photo stands still */
+@media (prefers-reduced-motion: reduce) {
+  .home-hero-slide {
+    animation: none;
+  }
+
+  .home-hero-slide-nurse {
+    opacity: 1;
+  }
+}
 .home-hero-shade {
   position: absolute;
   z-index: -2;
   inset: 0;
-  /* Deep blue darkened a little so white and cyan text stay crisp over the video */
+  /* Deep blue darkened a little so white and cyan text stay crisp over the photo */
   --hero-ink: color-mix(in srgb, var(--c-navy) 65%, #000);
   background:
     radial-gradient(ellipse 50% 48% at 50% 47%, color-mix(in srgb, var(--hero-ink) 72%, transparent), color-mix(in srgb, var(--hero-ink) 0%, transparent) 100%),
@@ -599,6 +617,11 @@
   .home-intro-copy { max-width: 640px; margin-inline: auto; }
 }
 @media (max-width: 760px) {
+  /* Tall phone hero: move each photo's faces into the top area */
+  .home-hero-slide-nurse { background-position: 72% 20%; }
+  .home-hero-slide-elder { background-position: 84% 22%; }
+  .home-hero-slide-screening { background-position: 62% 18%; }
+  .home-hero-slide-lab { background-position: 45% 15%; }
   .home-container { width: calc(100% - 40px); }
   .home-hero { min-height: 0; padding: 72px 0 82px; }
   .home-hero-shade {
@@ -612,7 +635,7 @@
   .home-hero-description { font-size: 18px; line-height: 1.7; }
   .home-hero-actions { gap: 11px; margin-top: 25px; }
   .home-btn { min-height: 52px; padding-inline: 18px; font-size: 15px; }
-  .home-hero-trust { margin-top: 23px; font-size: 14px; }  .home-video-toggle { right: 20px; bottom: 18px; }
+  .home-hero-trust { margin-top: 23px; font-size: 14px; }
   .home-intro { padding: 76px 0 80px; }
   .home-intro-grid, .home-feature-grid { grid-template-columns: 1fr; gap: 43px; }
   .home-intro-visual { width: min(100%, 560px); margin-inline: auto; padding-bottom: 48px; }
@@ -639,14 +662,18 @@
   .home-events-empty { grid-template-columns: 1fr; gap: 18px; padding: 26px 22px; }
   .home-events-empty .home-btn { justify-self: stretch; }
 }
+/* Phones: hero buttons stacked and centred at one compact width, rather
+   than edge to edge (from 480px they sit side by side) */
+@media (max-width: 479px) {
+  .home-hero-actions { align-items: center; flex-direction: column; width: 100%; }
+  .home-hero-actions .home-btn { width: min(100%, 280px); }
+}
+
 @media (max-width: 420px) {
   .home-container { width: calc(100% - 32px); }
   .home-hero { padding-top: 58px; }
   .home-hero h1 { font-size: clamp(2.65rem, 12vw, 3.3rem); }
-  .home-hero-actions { align-items: stretch; flex-direction: column; width: 100%; }
-  .home-hero-actions .home-btn { width: 100%; }  .home-hero .home-kicker { padding: 7px 12px; font-size: 10.5px; letter-spacing: .06em; }
-  .home-video-toggle span { display: none; }
-  .home-video-toggle { width: 40px; padding: 0; justify-content: center; }
+  .home-hero .home-kicker { padding: 7px 12px; font-size: 10.5px; letter-spacing: .06em; }
   .home-intro { padding: 62px 0 68px; }
   .home-intro-photo-main { width: 86%; border-radius: 18px; }
   .home-intro-photo-inset { width: 58%; border-width: 4px; border-radius: 14px; }
