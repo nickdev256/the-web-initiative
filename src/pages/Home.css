@@ -71,13 +71,13 @@
 
 /* The first photo starts already visible, so the hero never opens empty */
 .home-hero-slide-nurse {
-  background-image: url('/images/camps/nurse-with-baby.jpg');
+  background-image: url('/images/camps/lab-blood-sample.jpg');
   background-position: center 18%;
   animation-delay: -1.5s;
 }
 
 .home-hero-slide-elder {
-  background-image: url('/images/camps/elder-consultation.jpg');
+  background-image: url('/images/camps/nurse-with-baby.jpg');
   background-position: center 30%;
   animation-delay: 4.5s;
 }
@@ -89,7 +89,7 @@
 }
 
 .home-hero-slide-lab {
-  background-image: url('/images/camps/lab-blood-sample.jpg');
+  background-image: url('/images/camps/elder-consultation.jpg');
   background-position: center 14%;
   animation-delay: 16.5s;
 }

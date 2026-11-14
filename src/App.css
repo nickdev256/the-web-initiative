@@ -10,7 +10,7 @@
   padding: 70px 8%;
   background:
     linear-gradient(90deg, color-mix(in srgb, var(--c-navy) 94%, transparent), color-mix(in srgb, var(--c-navy) 72%, transparent)),
-    url('/images/healthcare-team.jpg') center / cover no-repeat;
+    url('/images/medical-team.jpg') center / cover no-repeat;
   color: white;
 }
 

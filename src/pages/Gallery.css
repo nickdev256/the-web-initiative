@@ -141,7 +141,7 @@
    ========================================= */
 
 .gallery-main {
-  padding: 110px 0 120px;
+  padding: 110px 0 96px;
 }
 
 .gallery-heading {
@@ -311,6 +311,124 @@
 }
 
 /* =========================================
+   VIDEO
+   ========================================= */
+
+.gallery-watch {
+  padding: 0 0 120px;
+}
+
+.gallery-heading-center {
+  justify-content: center;
+  text-align: center;
+}
+
+.gallery-video {
+  position: relative;
+  width: min(100%, 1040px);
+  margin-inline: auto;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: 24px;
+  background: var(--c-navy);
+  box-shadow: 0 30px 70px color-mix(in srgb, var(--c-navy) 20%, transparent);
+}
+
+.gallery-video video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background: #000;
+}
+
+.gallery-video-cover {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  background: var(--c-navy);
+  cursor: pointer;
+}
+
+.gallery-video-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+
+/* Darken the edges so the play button and title stay clear */
+.gallery-video-cover::after {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at center, transparent 30%, color-mix(in srgb, var(--c-navy) 45%, transparent) 100%),
+    linear-gradient(0deg, color-mix(in srgb, var(--c-navy) 75%, transparent), transparent 45%);
+  content: "";
+}
+
+.gallery-video-cover:hover img {
+  transform: scale(1.03);
+}
+
+.gallery-video-play {
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  left: 50%;
+  display: grid;
+  place-items: center;
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
+  color: var(--c-navy);
+  background: var(--c-cyan);
+  box-shadow: 0 0 0 10px color-mix(in srgb, var(--c-cyan) 30%, transparent);
+  transform: translate(-50%, -50%);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.gallery-page .gallery-video-play svg.lucide {
+  margin-left: 4px;
+  color: inherit;
+}
+
+.gallery-video-cover:hover .gallery-video-play,
+.gallery-video-cover:focus-visible .gallery-video-play {
+  box-shadow: 0 0 0 16px color-mix(in srgb, var(--c-cyan) 25%, transparent);
+  transform: translate(-50%, -50%) scale(1.06);
+}
+
+.gallery-video-cover:focus-visible {
+  outline: 3px solid var(--c-blue-bright);
+  outline-offset: 4px;
+}
+
+.gallery-video-meta {
+  position: absolute;
+  z-index: 1;
+  bottom: 24px;
+  left: 28px;
+  display: grid;
+  gap: 2px;
+  color: var(--c-white);
+  text-align: left;
+}
+
+.gallery-video-meta strong {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.gallery-video-meta span {
+  color: color-mix(in srgb, var(--c-white) 82%, transparent);
+  font-size: 14px;
+}
+
+/* =========================================
    FULL-SCREEN VIEWER
    ========================================= */
 
@@ -455,6 +573,28 @@
 }
 
 @media (max-width: 760px) {
+  .gallery-watch {
+    padding-bottom: 84px;
+  }
+
+  .gallery-video {
+    border-radius: 18px;
+  }
+
+  .gallery-video-play {
+    width: 68px;
+    height: 68px;
+  }
+
+  .gallery-video-meta {
+    bottom: 14px;
+    left: 16px;
+  }
+
+  .gallery-video-meta strong {
+    font-size: 16px;
+  }
+
   .gallery-container {
     width: calc(100% - 40px);
   }
@@ -472,7 +612,7 @@
   }
 
   .gallery-main {
-    padding: 76px 0 84px;
+    padding: 76px 0 64px;
   }
 
   .gallery-heading {
@@ -537,6 +677,17 @@
 }
 
 @media (max-width: 480px) {
+  /* The card is short here, so the section heading does the titling */
+  .gallery-video-meta {
+    display: none;
+  }
+
+  .gallery-video-play {
+    width: 60px;
+    height: 60px;
+    box-shadow: 0 0 0 8px color-mix(in srgb, var(--c-cyan) 30%, transparent);
+  }
+
   .gallery-container {
     width: calc(100% - 32px);
   }

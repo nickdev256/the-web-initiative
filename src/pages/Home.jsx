@@ -113,7 +113,7 @@ function Home() {
 
   return (
     <>
-      <Navbar />
+      <Navbar /> 
 
       <main className="home-page">
         {/* HERO */}

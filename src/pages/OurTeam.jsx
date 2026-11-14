@@ -141,7 +141,7 @@ function OurTeam() {
               </p>
 
               <p>
-                At The Web Initiative Ltd, our approach values teamwork,
+                At The Web Initiative Ltd, our approach values teamwork, 
                 community engagement and collaboration with the people
                 and our partners.
               </p>

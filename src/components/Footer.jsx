@@ -1,4 +1,5 @@
 
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
   MapPin,
@@ -7,6 +8,7 @@ import {
   Heart,
   ArrowRight,
   ArrowUp,
+  Check,
   Facebook,
   Instagram,
   Linkedin,
@@ -54,6 +56,48 @@ const socialPlatforms = [
   { key: 'whatsapp', label: 'WhatsApp', icon: MessageCircle },
 ];
 
+// Small email signup. There is no mailing-list service yet, so it opens
+// the visitor's email app with a ready-to-send request to our inbox.
+function FooterSubscribe() {
+  const [email, setEmail] = useState('');
+  const [sent, setSent] = useState(false);
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const subject = encodeURIComponent('Please add me to your email updates');
+    const body = encodeURIComponent(
+      `Hello,\n\nPlease send news and updates from The Web Initiative to ${email.trim()}.\n\nThank you.`
+    );
+    window.location.href = `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`;
+    setSent(true);
+  };
+
+  return (
+    <form className="footer-subscribe" onSubmit={handleSubmit}>
+      <label htmlFor="footer-subscribe-email">Get updates by email</label>
+      <div className="footer-subscribe-row">
+        <input
+          id="footer-subscribe-email"
+          type="email"
+          autoComplete="email"
+          placeholder="Your email"
+          required
+          value={email}
+          onChange={(event) => {
+            setEmail(event.target.value);
+            setSent(false);
+          }}
+        />
+        <button type="submit" aria-label="Subscribe">
+          {sent ? <Check size={16} aria-hidden="true" /> : <ArrowRight size={16} aria-hidden="true" />}
+        </button>
+      </div>
+      <p className="footer-subscribe-note" aria-live="polite">
+        {sent ? 'Thank you! Send the email that opened to finish.' : 'News from our camps. No spam.'}
+      </p>
+    </form>
+  );
+}
 
 function Footer() {
   const currentYear = new Date().getFullYear();
@@ -194,6 +238,8 @@ function Footer() {
                 <Link to="/contact">Send us a message</Link>
               </li>
             </ul>
+
+            <FooterSubscribe />
           </div>
         </div>
       </div>
