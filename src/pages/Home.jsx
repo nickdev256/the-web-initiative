@@ -21,6 +21,7 @@ import Navbar from '../components/Navbar.jsx';
 import Footer from '../components/Footer.jsx';
 import { getUpcomingEvents } from '../data/events.js';
 import './Home.css';
+import { responsiveImage } from '../utils/responsiveImage.js';
 
 // The three health issues named in the hero, shown in "Who we are".
 const healthPriorities = [
@@ -168,7 +169,7 @@ function Home() {
             <figure className="home-intro-visual home-reveal">
               <div className="home-intro-photo-main">
                 <img
-                  src="/images/who-we-are-main.jpg"
+                  {...responsiveImage('/images/who-we-are-main.jpg')}
                   alt="A clinician measuring a woman's upper arm during malnutrition screening"
                   loading="lazy"
                 />
@@ -176,7 +177,7 @@ function Home() {
 
               <div className="home-intro-photo-inset">
                 <img
-                  src="/images/who-we-are-inset.jpg"
+                  {...responsiveImage('/images/who-we-are-inset.jpg', '(max-width: 760px) 60vw, 320px')}
                   alt="Our team leading a nutrition education session with mothers and young children"
                   loading="lazy"
                 />
@@ -271,7 +272,7 @@ function Home() {
                     <div className="home-wwd-visual">
                       <div className="home-wwd-media">
                         <img
-                          src={area.image}
+                          {...responsiveImage(area.image, '(max-width: 760px) 100vw, 320px')}
                           alt={area.imageAlt}
                           loading="lazy"
                           style={
@@ -343,7 +344,7 @@ function Home() {
               <span className="motion-curtain" aria-hidden="true" />
               <span className="motion-light" aria-hidden="true" />
               <img
-                src="/images/how-can-i-serve-you.jpg"
+                {...responsiveImage('/images/how-can-i-serve-you.jpg', '(max-width: 1280px) 100vw, 1240px')}
                 alt="A smiling man holding a red sign that reads “How can I serve you?”"
                 loading="lazy"
               />
@@ -455,7 +456,7 @@ function Home() {
             <div className="home-feature-visual home-reveal">
               <div className="home-feature-photo">
                 <img
-                  src="/images/camps/blood-pressure-check.jpg"
+                  {...responsiveImage('/images/camps/blood-pressure-check.jpg')}
                   alt="A volunteer checking a woman's blood pressure at a community camp"
                   loading="lazy"
                 />

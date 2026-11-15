@@ -152,7 +152,7 @@ function Navbar() {
             onClick={closeMenu}
           >
             <img
-              src="/images/logo.png"
+              src="/images/logo-320.png"
               alt="The Web Initiative logo"
               className="navbar-logo"
             />
@@ -165,7 +165,7 @@ function Navbar() {
           >
             <div className="mobile-menu-heading">
               <img
-                src="/images/logo.png"
+                src="/images/logo-320.png"
                 alt=""
                 className="mobile-heading-logo"
               />
@@ -316,7 +316,8 @@ function Navbar() {
               onClick={closeMenu}
             >
               <Heart size={16} fill="currentColor" className="donate-heart" />
-              <span>Make a Donation</span>
+              <span className="donate-label-full">Make a Donation</span>
+              <span className="donate-label-short" aria-hidden="true">Donate</span>
             </Link>
 
             <button

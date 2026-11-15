@@ -3,6 +3,7 @@ import { ArrowRight, X, ChevronLeft, ChevronRight, Expand, Play } from 'lucide-r
 import Navbar from '../components/Navbar.jsx';
 import Footer from '../components/Footer.jsx';
 import './Gallery.css';
+import { smallVersion } from '../utils/responsiveImage.js';
 
 // Real photos from our camps: a light thumbnail for the grid and a
 // Full HD version for the full-screen viewer.
@@ -102,6 +103,7 @@ const galleryItems = [
   },
   {
     image: '/images/camp-village-tents.jpg',
+    thumb: '/images/sm/camp-village-tents.jpg',
     title: 'Reaching the village',
     category: 'Community',
     description: 'Our camp set up in the heart of a village community.',
@@ -321,7 +323,7 @@ export default function Gallery() {
                     }}
                   >
                     <img
-                      src={item.thumb || item.image}
+                      src={item.thumb || smallVersion(item.image) || item.image}
                       alt={item.description}
                       loading="lazy"
                     />

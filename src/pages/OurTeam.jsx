@@ -9,6 +9,7 @@ import {
 import Navbar from '../components/Navbar.jsx';
 import Footer from '../components/Footer.jsx';
 import './OurTeam.css';
+import { responsiveImage } from '../utils/responsiveImage.js';
 
 // Team profiles, shown in this order. Put each photo in public/images/team/
 // (head and shoulders; it is shown square). Leave `photo` empty for a placeholder.
@@ -102,7 +103,7 @@ function OurTeam() {
             <figure className="ot-intro-visual">
               <div className="ot-intro-photo">
                 <img
-                  src="/images/medical-team.jpg"
+                  {...responsiveImage('/images/medical-team.jpg')}
                   alt="Members of our team smiling together outdoors"
                   loading="lazy"
                 />

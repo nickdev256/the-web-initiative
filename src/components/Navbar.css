@@ -18,7 +18,7 @@
   top: 0;
   z-index: 1000;
   width: 100%;
-  font-family: 'Poppins', sans-serif;
+  font-family: 'DM Sans', sans-serif;
 }
 
 /* Info strip */
@@ -569,6 +569,11 @@
   box-shadow: inset 0 0 0 2px var(--c-blue-bright);
 }
 
+/* Short "Donate" label is only used on phones and tablets */
+.donate-label-short {
+  display: none;
+}
+
 /* Mobile-only elements */
 
 .mobile-menu-toggle,
@@ -883,8 +888,18 @@
     font-size: 16px;
   }
 
+  /* Phones and tablets keep a compact Donate button in the header, so
+     giving is one tap away without opening the menu */
   .desktop-donate {
-    display: none;
+    width: auto;
+    min-height: 44px;
+    padding: 0 16px;
+    gap: 7px;
+  }
+
+  .desktop-donate .donate-label-short {
+    display: inline;
+    font-size: 14px;
   }
 
   .mobile-menu-toggle {
@@ -1028,5 +1043,17 @@
   .navbar-actions,
   .desktop-search-wrap {
     position: static;
+  }
+}
+
+/* Very narrow phones: the header Donate button shows just the heart */
+@media (max-width: 359px) {
+  .desktop-donate {
+    width: 44px;
+    padding: 0;
+  }
+
+  .desktop-donate .donate-label-short {
+    display: none;
   }
 }

@@ -102,3 +102,9 @@
     width: 100%;
   }
 }
+
+/* Shown for a moment while a page's code loads (keeps the footer from jumping up) */
+.page-loading {
+  min-height: 100vh;
+  background: var(--c-white);
+}

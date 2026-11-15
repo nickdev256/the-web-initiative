@@ -581,3 +581,132 @@ html.lenis {
 :root .ms-text-link:hover > span svg.lucide {
   color: var(--c-white);
 }
+
+/* =========================================
+   MOBILE COMFORT (phones and small tablets)
+   Every link and button gives at least a 44px tap area (Apple and
+   Google's minimum), form fields use 16px text so iPhones don't zoom in
+   when tapped, and small print stays readable.
+   ========================================= */
+@media (max-width: 760px) {
+  html .navbar-search-button,
+  html .mobile-menu-toggle {
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  /* Arrow links such as "Explore services" */
+  html [class$="-text-link"],
+  html .home-editorial-link,
+  html .footer-learn-link,
+  html .ms-service-link,
+  html .mc-camp-link {
+    min-height: 44px;
+  }
+
+  /* Footer link lists become tall, easy-to-tap rows */
+  html .footer-column ul {
+    gap: 0;
+  }
+
+  html .footer-column ul:not(.footer-contact-list) a,
+  html .footer-contact-list a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
+
+  html .footer-contact-list li {
+    align-items: center;
+    min-height: 44px;
+  }
+
+  html .footer-contact-list svg {
+    margin-top: 0;
+  }
+
+  html .footer-top-button {
+    min-height: 44px;
+  }
+
+  html .footer-social a,
+  html .footer-social-pending {
+    width: 44px;
+    height: 44px;
+  }
+
+  html .footer-subscribe-row {
+    padding: 2px 2px 2px 16px;
+  }
+
+  html .site-footer .footer-subscribe input {
+    min-height: 44px;
+    font-size: 16px;
+  }
+
+  html .site-footer .footer-subscribe button {
+    width: 44px;
+    height: 44px;
+  }
+
+  html .footer-subscribe label {
+    font-size: 14px;
+  }
+
+  html .footer-subscribe-note {
+    font-size: 13px;
+  }
+
+  /* Contact page */
+  html .contact-topics button {
+    min-height: 44px;
+  }
+
+  html .contact-info-list a {
+    display: inline-block;
+    padding: 9px 0;
+    margin: -9px 0;
+  }
+
+  /* Medical Camps: camp titles are links too */
+  html .mc-camp-card h3 a {
+    display: inline-block;
+    padding: 8px 0;
+    margin: -8px 0;
+  }
+
+  /* Donate page */
+  html .donate-tab {
+    min-height: 44px;
+    font-size: 14px;
+  }
+
+  html .donate-widget-foot {
+    font-size: 13px;
+  }
+
+  /* Small photo labels */
+  html .home-feature-caption span {
+    font-size: 12px;
+  }
+}
+
+/* =========================================
+   LIGHTER PHOTOS ON PHONES
+   Background photos switch to 1080px-wide copies in /images/sm/ (about
+   40% of the weight), which are still sharp on phone screens.
+   ========================================= */
+@media (max-width: 760px) {
+  html .about-hero { background-image: url('/images/sm/about-hero.jpg'); }
+  html .contact-hero { background-image: url('/images/sm/camp-village-tents.jpg'); }
+  html .donate-hero { background-image: url('/images/sm/donation-hero.jpg'); }
+  html .gallery-hero { background-image: url('/images/sm/medical-camp-tents.jpg'); }
+  html .ms-hero { background-image: url('/images/sm/services-hero.jpg'); }
+  html .ot-hero { background-image: url('/images/sm/medical-team.jpg'); }
+  html .mc-hero-slide-one { background-image: url('/images/sm/outdoor-consultation.jpg'); }
+  html .mc-hero-slide-two { background-image: url('/images/sm/camps/elder-consultation.jpg'); }
+  html .home-hero-slide-nurse { background-image: url('/images/sm/camps/lab-blood-sample.jpg'); }
+  html .home-hero-slide-elder { background-image: url('/images/sm/camps/nurse-with-baby.jpg'); }
+  html .home-hero-slide-screening { background-image: url('/images/sm/camps/arm-measurement-check.jpg'); }
+  html .home-hero-slide-lab { background-image: url('/images/sm/camps/elder-consultation.jpg'); }
+}

@@ -147,7 +147,7 @@ function Footer() {
               aria-label="The Web Initiative Ltd home"
             >
               <img
-                src="/images/logo.jpeg"
+                src="/images/logo-footer.jpg"
                 alt="The Web Initiative logo"
                 className="footer-logo"
               />

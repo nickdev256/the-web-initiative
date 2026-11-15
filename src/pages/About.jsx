@@ -20,6 +20,7 @@ import {
 import Navbar from '../components/Navbar.jsx';
 import Footer from '../components/Footer.jsx';
 import './About.css';
+import { responsiveImage } from '../utils/responsiveImage.js';
 
 // Facts taken from what the organisation already states on the site.
 const glance = [
@@ -172,7 +173,7 @@ function About() {
 
               <div className="about-photo-inset">
                 <img
-                  src="/images/about-story-inset.jpg"
+                  {...responsiveImage('/images/about-story-inset.jpg', '(max-width: 760px) 60vw, 320px')}
                   alt="A volunteer listening to an elderly patient at a medical camp"
                   loading="lazy"
                 />
@@ -265,7 +266,7 @@ function About() {
             <figure className="about-history-visual">
               <div className="about-history-photo">
                 <img
-                  src="/images/about-history.jpg"
+                  {...responsiveImage('/images/about-history.jpg')}
                   alt="A volunteer holding a baby at one of our medical camps"
                   loading="lazy"
                 />

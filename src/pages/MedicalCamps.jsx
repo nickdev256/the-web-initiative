@@ -15,6 +15,7 @@ import {
 import Navbar from '../components/Navbar.jsx';
 import Footer from '../components/Footer.jsx';
 import './MedicalCamps.css';
+import { responsiveImage } from '../utils/responsiveImage.js';
 
 // What a visit to one of our camps looks like, shown with real camp photos.
 const activities = [
@@ -212,7 +213,7 @@ function MedicalCamps() {
                   <article className="mc-activity-card" key={item.title}>
                     <div className="mc-activity-photo">
                       <img
-                        src={item.image}
+                        {...responsiveImage(item.image, '(max-width: 760px) 100vw, 400px')}
                         alt={item.alt}
                         loading="lazy"
                         style={item.position ? { objectPosition: item.position } : undefined}
@@ -258,7 +259,7 @@ function MedicalCamps() {
                     tabIndex={-1}
                     aria-hidden="true"
                   >
-                    <img src={camp.image} alt="" loading="lazy" />
+                    <img {...responsiveImage(camp.image, '(max-width: 760px) 100vw, 400px')} alt="" loading="lazy" />
                     <span className="mc-camp-category">{camp.category}</span>
                   </Link>
 

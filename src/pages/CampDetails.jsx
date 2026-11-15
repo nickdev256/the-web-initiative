@@ -14,6 +14,7 @@ import {
 import Navbar from '../components/Navbar.jsx';
 import Footer from '../components/Footer.jsx';
 import './CampDetails.css';
+import { responsiveImage } from '../utils/responsiveImage.js';
 
 const camps = {
   'community-health': {
@@ -148,7 +149,7 @@ function CampDetails() {
             <article className="cd-main">
               <div className={`cd-photo-wrap${camp.noteImage ? ' has-note' : ''}`}>
                 <figure className="cd-photo">
-                  <img src={camp.image} alt={camp.title} />
+                  <img {...responsiveImage(camp.image, '(max-width: 960px) 100vw, 800px')} alt={camp.title} />
                 </figure>
 
                 {camp.noteImage && (
@@ -278,7 +279,7 @@ function CampDetails() {
               {otherCamps.map(([key, other]) => (
                 <Link to={`/medical-camps/${key}`} className="cd-more-card" key={key}>
                   <div className="cd-more-photo">
-                    <img src={other.image} alt="" loading="lazy" />
+                    <img {...responsiveImage(other.image, '(max-width: 760px) 100vw, 400px')} alt="" loading="lazy" />
                   </div>
                   <div className="cd-more-body">
                     <span className="cd-more-category">{other.category}</span>

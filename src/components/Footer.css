@@ -1,22 +1,24 @@
-
 /* =========================================
    THE WEB INITIATIVE LTD — FOOTER
    Call-to-action band, four link columns, bottom bar.
    ========================================= */
 
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
 
 .site-footer {
   color: var(--c-white);
   background: var(--c-navy);
-  font-family: 'Poppins', sans-serif;
+  font-family: 'DM Sans', sans-serif;
 }
 
 .site-footer h2,
 .site-footer h3,
 .site-footer p {
   margin: 0;
-  font-family: 'Poppins', sans-serif;
+}
+
+.site-footer h2,
+.site-footer h3 {
+  font-family: 'Manrope', sans-serif;
 }
 
 .footer-container {
@@ -524,7 +526,7 @@
       color-mix(in srgb, var(--c-navy) 96%, transparent) 0%,
       color-mix(in srgb, var(--c-support) 80%, transparent) 62%,
       color-mix(in srgb, var(--c-cyan) 45%, transparent) 100%),
-    var(--c-navy) url('/images/camp-village-tents.jpg') center 55% / cover no-repeat;
+    var(--c-navy) url('/images/sm/camp-village-tents.jpg') center 55% / cover no-repeat;
   box-shadow: 0 30px 60px color-mix(in srgb, #000 28%, transparent);
 }
 
