@@ -109,11 +109,6 @@ function MedicalCamps() {
           <div className="mc-hero-shade" />
 
           <div className="mc-container mc-hero-content">
-            <span className="mc-kicker mc-kicker-light">
-              <span className="mc-kicker-dot" />
-              COMMUNITY OUTREACH
-            </span>
-
             <h1>
               Medical camps that bring healthcare{' '}
               <span className="hand-accent hand-accent--on-dark">
@@ -142,11 +137,6 @@ function MedicalCamps() {
         <section className="mc-intro">
           <div className="mc-container mc-intro-grid">
             <div className="mc-intro-copy">
-              <span className="mc-kicker">
-                <span className="mc-kicker-dot" />
-                REACHING COMMUNITIES
-              </span>
-
               <h2>
                 Bringing health care{' '}
                 <span className="hand-accent">closer to Families.</span>
@@ -201,10 +191,7 @@ function MedicalCamps() {
         <section className="mc-activities" aria-labelledby="mc-activities-title">
           <div className="mc-container">
             <div className="mc-heading mc-heading-center">
-              <span className="mc-kicker mc-kicker-light">
-                <span className="mc-kicker-dot" />
-                AT A CAMP
-              </span>
+
               <h2 id="mc-activities-title">
                 What happens at{' '}
                 <span className="hand-accent hand-accent--on-dark">
@@ -250,10 +237,7 @@ function MedicalCamps() {
           <div className="mc-container">
             <div className="mc-heading mc-heading-split">
               <div>
-                <span className="mc-kicker">
-                  <span className="mc-kicker-dot" />
-                  OUR OUTREACH
-                </span>
+
                 <h2 id="mc-listing-title">
                   Explore our{' '}
                   <span className="hand-accent">medical camps.</span>
@@ -314,10 +298,7 @@ function MedicalCamps() {
         <section className="mc-involve" aria-labelledby="mc-involve-title">
           <div className="mc-container mc-involve-grid">
             <div className="mc-involve-copy">
-              <span className="mc-kicker">
-                <span className="mc-kicker-dot" />
-                GET INVOLVED
-              </span>
+
               <h2 id="mc-involve-title">
                 Help a camp{' '}
                 <span className="hand-accent">reach more families.</span>

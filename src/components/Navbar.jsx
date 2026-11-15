@@ -9,12 +9,13 @@ import {
   Heart,
   MapPin,
   Mail,
+  Phone,
   CalendarDays,
   ArrowRight,
   Tent,
   Images,
 } from 'lucide-react';
-import { CONTACT_EMAIL } from '../config.js';
+import { CONTACT_EMAIL, CONTACT_PHONE } from '../config.js';
 import SiteSearch from './SiteSearch.jsx';
 import './Navbar.css';
 
@@ -122,6 +123,11 @@ function Navbar() {
             <a href={`mailto:${CONTACT_EMAIL}`} tabIndex={scrolled ? -1 : 0}>
               <Mail size={14} aria-hidden="true" />
               {CONTACT_EMAIL}
+            </a>
+
+            <a href={CONTACT_PHONE.href} tabIndex={scrolled ? -1 : 0}>
+              <Phone size={14} aria-hidden="true" />
+              {CONTACT_PHONE.display}
             </a>
           </div>
 

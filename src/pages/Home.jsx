@@ -1,5 +1,4 @@
 
-import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import {
   Play,
@@ -57,6 +56,9 @@ const focusAreas = [
     icon: CalendarDays,
     image: '/images/outdoor-consultation.jpg',
     imageAlt: 'A health worker consulting with patients at an outdoor medical camp',
+    // Small photo pinned to the corner of the main photo
+    noteImage: '/images/outreach-team.jpg',
+    noteImageAlt: 'Two members of the medical team smiling together at the camp',
     title: 'Medical Camps',
     description:
       'Community outreach initiatives that bring healthcare closer to the people who need it.',
@@ -66,7 +68,7 @@ const focusAreas = [
   {
     icon: Users,
     image: '/images/medical-team.jpg',
-    imageAlt: 'Members of our healthcare team talking together',
+    imageAlt: 'Members of our team smiling together outdoors',
     title: 'Our Team',
     description:
       'Meet the people working together to advance our community healthcare mission.',
@@ -76,8 +78,9 @@ const focusAreas = [
   {
     icon: HandHeart,
     image: '/images/donate-hero.jpg',
-    imageAlt: 'A health worker caring for a smiling child at sunset',
-    imagePosition: '80% center',
+    imageAlt: 'A smiling man crouching with two young children outside a brick home',
+    // Centres the group in the card; keeps the boy's feet clear of the icon
+    imagePosition: '45% center',
     title: 'Make a Difference',
     description:
       'Partner with us and help create meaningful, lasting change in our communities.',
@@ -88,28 +91,6 @@ const focusAreas = [
 
 function Home() {
   const upcomingEvents = getUpcomingEvents();
-  useEffect(() => {
-    const elements = document.querySelectorAll('.home-reveal');
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('is-visible');
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      {
-        threshold: 0.12,
-        rootMargin: '0px 0px -35px 0px',
-      }
-    );
-
-    elements.forEach((element) => observer.observe(element));
-
-    return () => observer.disconnect();
-  }, []);
 
   return (
     <>
@@ -134,11 +115,6 @@ function Home() {
 
             <div className="home-container home-hero-inner">
               <div className="home-hero-copy">
-                <div className="home-kicker home-kicker-light">
-                  <span className="home-kicker-dot" />
-                  THE WEB INITIATIVE · COMMUNITY HEALTH
-                </div>
-
                 <h1>
                   Healthier communities{' '}
                   <span>start with care.</span>
@@ -210,11 +186,6 @@ function Home() {
             </figure>
 
             <div className="home-intro-copy home-reveal">
-              <div className="home-kicker">
-                <span className="home-kicker-dot" />
-                WHO WE ARE
-              </div>
-
               <h2>
                 Care that meets people{' '}
                 <span>where they are.</span>
@@ -276,11 +247,6 @@ function Home() {
         >
           <div className="home-container">
             <div className="home-wwd-header home-reveal">
-              <div className="home-kicker">
-                <span className="home-kicker-dot" />
-                WHAT WE DO
-              </div>
-
               <h2 id="home-wwd-title">
                 Small actions. <span>Lasting impact.</span>
               </h2>
@@ -302,17 +268,25 @@ function Home() {
                     className="home-wwd-card home-reveal"
                     key={area.title}
                   >
-                    <div className="home-wwd-media">
-                      <img
-                        src={area.image}
-                        alt={area.imageAlt}
-                        loading="lazy"
-                        style={
-                          area.imagePosition
-                            ? { objectPosition: area.imagePosition }
-                            : undefined
-                        }
-                      />
+                    <div className="home-wwd-visual">
+                      <div className="home-wwd-media">
+                        <img
+                          src={area.image}
+                          alt={area.imageAlt}
+                          loading="lazy"
+                          style={
+                            area.imagePosition
+                              ? { objectPosition: area.imagePosition }
+                              : undefined
+                          }
+                        />
+                      </div>
+
+                      {area.noteImage && (
+                        <span className="home-wwd-note">
+                          <img src={area.noteImage} alt={area.noteImageAlt} loading="lazy" />
+                        </span>
+                      )}
                     </div>
 
                     <span className="home-wwd-icon" aria-hidden="true">
@@ -352,11 +326,6 @@ function Home() {
           <div className="home-container">
             <div className="home-events-heading home-reveal">
               <div>
-                <div className="home-kicker">
-                  <span className="home-kicker-dot" />
-                  WHAT'S COMING UP
-                </div>
-
                 <h2 id="home-events-title">
                   Upcoming <span>events.</span>
                 </h2>
@@ -369,6 +338,16 @@ function Home() {
                 </span>
               </Link>
             </div>
+
+            <figure className="home-events-photo" data-motion="showcase">
+              <span className="motion-curtain" aria-hidden="true" />
+              <span className="motion-light" aria-hidden="true" />
+              <img
+                src="/images/how-can-i-serve-you.jpg"
+                alt="A smiling man holding a red sign that reads “How can I serve you?”"
+                loading="lazy"
+              />
+            </figure>
 
             {upcomingEvents.length > 0 ? (
               <ol className="home-events-list">
@@ -455,11 +434,6 @@ function Home() {
         <section className="home-feature home-section-layer">
           <div className="home-container home-feature-grid">
             <div className="home-feature-copy home-reveal">
-              <div className="home-kicker home-kicker-light">
-                <span className="home-kicker-dot" />
-                COMMUNITY AT THE HEART
-              </div>
-
               <h2>
                 Better health
                 <br />

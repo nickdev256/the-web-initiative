@@ -431,9 +431,15 @@
     width: 100%;
   }
 
+  /* Explore and Our Work sit side by side; the rest spans the full width */
   .footer-grid {
-    grid-template-columns: 1fr;
-    gap: 36px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 36px 20px;
+  }
+
+  .footer-about,
+  .footer-grid > .footer-column:last-child {
+    grid-column: 1 / -1;
   }
 }
 
@@ -481,4 +487,131 @@
 /* Icons without a link yet: visible but not clickable */
 .footer-social-pending {
   cursor: default;
+}
+
+/* =========================================
+   VIBRANT LAYER
+   Photo call-to-action card, colour strip, brand-coloured social icons
+   and animated link underlines.
+   ========================================= */
+
+.site-footer {
+  position: relative;
+}
+
+/* Colour strip across the very top of the footer */
+.site-footer::before {
+  display: block;
+  height: 5px;
+  background: linear-gradient(90deg, var(--c-cyan), var(--c-support) 50%, #25d366);
+  content: "";
+}
+
+/* The call to action becomes a photo card on the dark footer */
+.footer-cta {
+  padding: clamp(40px, 5vw, 64px) 0 0;
+  color: var(--c-white);
+  background: var(--c-navy);
+}
+
+.footer-cta-card {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border-radius: 28px;
+  background:
+    linear-gradient(100deg,
+      color-mix(in srgb, var(--c-navy) 96%, transparent) 0%,
+      color-mix(in srgb, var(--c-support) 80%, transparent) 62%,
+      color-mix(in srgb, var(--c-cyan) 45%, transparent) 100%),
+    var(--c-navy) url('/images/camp-village-tents.jpg') center 55% / cover no-repeat;
+  box-shadow: 0 30px 60px color-mix(in srgb, #000 28%, transparent);
+}
+
+.footer-cta-card .footer-cta-inner {
+  padding: clamp(34px, 5vw, 60px) clamp(26px, 5vw, 64px);
+}
+
+.footer-cta h2 {
+  color: var(--c-white);
+  text-shadow: 0 2px 18px color-mix(in srgb, #000 25%, transparent);
+}
+
+.footer-cta p {
+  color: color-mix(in srgb, var(--c-white) 88%, transparent);
+}
+
+.footer-cta .footer-btn-outline {
+  border-color: var(--c-white);
+  color: var(--c-white);
+}
+
+.footer-cta .footer-btn-outline:hover {
+  color: var(--c-navy);
+  background: var(--c-white);
+}
+
+:root .footer-cta .footer-btn-outline:hover svg.lucide {
+  color: var(--c-navy);
+}
+
+/* Links slide in a cyan underline on hover */
+.footer-column ul a {
+  background-image: linear-gradient(var(--c-cyan), var(--c-cyan));
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  background-size: 0% 2px;
+  transition: color 0.2s ease, background-size 0.3s ease;
+}
+
+.footer-column ul a:hover {
+  background-size: 100% 2px;
+}
+
+/* Each social icon lights up in its platform's colour */
+.footer-social-facebook { --brand: #1877f2; }
+.footer-social-instagram { --brand: #e1306c; }
+.footer-social-x { --brand: #000000; }
+.footer-social-linkedin { --brand: #0a66c2; }
+.footer-social-youtube { --brand: #ff0000; }
+.footer-social-whatsapp { --brand: #25d366; }
+
+.footer-social a:hover {
+  border-color: var(--brand);
+  background: var(--brand);
+}
+
+.footer-social-instagram a:hover {
+  background: linear-gradient(45deg, #f9ce34, #ee2a7b 50%, #6228d7);
+}
+
+:root .footer-social a:hover svg.lucide,
+:root .footer-social a:hover svg {
+  color: var(--c-white);
+}
+
+/* A linked platform shows its colour as a ring, so it reads as active */
+.footer-social a {
+  border-color: color-mix(in srgb, var(--brand, var(--c-cyan)) 70%, transparent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .footer-column ul a {
+    transition: none;
+  }
+}
+
+/* On the blue photo card the donate button turns cyan so it stands out */
+html:root .footer-cta .footer-btn.btn-support {
+  color: var(--c-navy);
+  background: var(--c-cyan);
+}
+
+html:root .footer-cta .footer-btn.btn-support:hover {
+  color: var(--c-navy);
+  background: var(--c-white);
+}
+
+:root .footer-cta .footer-btn.btn-support svg.lucide {
+  color: var(--c-navy);
 }

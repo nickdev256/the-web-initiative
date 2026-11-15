@@ -133,27 +133,7 @@
   z-index: 1;
 }
 .home-hero-copy { display: flex; flex-direction: column; align-items: center; max-width: 1100px; }
-.home-kicker {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  color: var(--home-blue);
-  font-size: 13px;
-  line-height: 1.5;
-  font-weight: 800;
-  letter-spacing: .16em;
-  text-transform: uppercase;
-}
-.home-kicker-light { color: color-mix(in srgb, var(--c-white) 82%, transparent); }
-.home-kicker-dot {
-  display: inline-block;
-  flex: 0 0 8px;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--home-cyan);
-  box-shadow: 0 0 0 5px color-mix(in srgb, var(--c-cyan) 13%, transparent);
-}
+
 .home-hero h1 {
   margin: 25px 0 24px;
   color: var(--c-white);
@@ -166,15 +146,7 @@
   text-shadow: 0 2px 24px rgba(0, 0, 0, .25);
 }
 .home-hero h1 span { display: block; color: var(--c-cyan); }
-.home-hero .home-kicker {
-  padding: 9px 18px;
-  border: 1px solid color-mix(in srgb, var(--c-white) 22%, transparent);
-  border-radius: 999px;
-  color: color-mix(in srgb, var(--c-white) 95%, transparent);
-  background: color-mix(in srgb, var(--c-white) 10%, transparent);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-}
+
 .home-hero-description {
   max-width: 860px;
   margin: 0;
@@ -382,7 +354,7 @@
 
 /* WHAT WE DO */
 .home-wwd { padding: 104px 0 112px; background: var(--c-navy); }
-.home-wwd .home-kicker { color: color-mix(in srgb, var(--c-white) 85%, transparent); }
+
 .home-wwd-header {
   display: flex;
   flex-direction: column;
@@ -419,6 +391,23 @@
 .home-wwd-media { aspect-ratio: 4 / 3; overflow: hidden; background: var(--c-line); }
 .home-wwd-media img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center 30%; transition: transform .5s ease; }
 .home-wwd-card:hover .home-wwd-media img { transform: scale(1.06); }
+/* Optional small photo pinned to the bottom-right corner of the card photo */
+.home-wwd-visual { position: relative; }
+.home-wwd-note {
+  position: absolute;
+  right: 0;
+  bottom: -26px;
+  z-index: 1;
+  width: 42%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border: 4px solid var(--c-white);
+  border-right: 0;
+  border-radius: 14px 0 0 14px;
+  background: var(--c-line);
+  box-shadow: 0 14px 30px color-mix(in srgb, var(--c-navy) 22%, transparent);
+}
+.home-wwd-note img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center 30%; }
 .home-wwd-icon {
   position: relative;
   z-index: 1;
@@ -505,6 +494,41 @@
 }
 .home-events-heading h2 span { color: var(--home-blue); }
 .home-events-heading .home-editorial-link { flex-shrink: 0; margin-top: 0; }
+/* Photo under the "Upcoming events" heading */
+.home-events-photo {
+  margin: 0 0 36px;
+  aspect-ratio: 2 / 1;
+  overflow: hidden;
+  border-radius: 24px;
+  background: var(--home-line);
+  box-shadow: 0 24px 55px color-mix(in srgb, var(--c-navy) 12%, transparent);
+}
+.home-events-photo { position: relative; isolation: isolate; will-change: transform; }
+/* Colour panel that sweeps across during the reveal (hidden otherwise) */
+.home-events-photo .motion-curtain {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: linear-gradient(110deg, var(--c-cyan), var(--c-support));
+  transform: scaleX(0);
+  pointer-events: none;
+}
+/* Soft light that follows the cursor */
+.home-events-photo .motion-light {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: radial-gradient(circle at var(--light-x, 50%) var(--light-y, 50%),
+    color-mix(in srgb, var(--c-white) 26%, transparent), transparent 42%);
+  opacity: 0;
+  transition: opacity .4s ease;
+  pointer-events: none;
+}
+.home-events-photo.is-lit .motion-light { opacity: 1; }
+.home-events-photo img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center 55%; }
+@media (max-width: 760px) {
+  .home-events-photo { aspect-ratio: 16 / 9; margin-bottom: 28px; border-radius: 18px; }
+}
 .home-events-list { display: grid; gap: 14px; margin: 0; padding: 0; list-style: none; }
 .home-event-card {
   display: grid;
@@ -594,13 +618,9 @@
 :root .home-wwd-footer .home-editorial-link > span > svg.lucide { color: var(--c-cyan); }
 :root .home-wwd-footer .home-editorial-link:hover > span > svg.lucide { color: var(--c-white); }
 
-/* Subtle reveal only; no scroll-jacking or overlapping page sections */
-.home-reveal { opacity: 0; transform: translateY(18px); transition: opacity .65s ease, transform .65s ease; }
-.home-reveal.is-visible { opacity: 1; transform: translateY(0); }
 .home-page a:focus-visible { outline: 3px solid var(--c-blue-bright); outline-offset: 4px; }
 @media (prefers-reduced-motion: reduce) {
   .home-page *, .home-page *::before, .home-page *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; }
-  .home-reveal { opacity: 1; transform: none; }
 }
 
 @media (min-width: 1500px) {
@@ -628,10 +648,10 @@
     background:
       linear-gradient(180deg, color-mix(in srgb, var(--hero-ink) 72%, transparent) 0%, color-mix(in srgb, var(--hero-ink) 66%, transparent) 50%, color-mix(in srgb, var(--hero-ink) 90%, transparent) 100%);
   }
-  .home-hero .home-kicker { padding: 8px 14px; font-size: 11px; letter-spacing: .1em; border-radius: 18px; }
+
   .home-hero h1 { margin: 22px 0 18px; font-size: clamp(3rem, 10vw, 4.3rem); }
-  .home-hero .home-kicker-dot { display: none; }
-  .home-hero .home-kicker { text-wrap: balance; }
+
+  
   .home-hero-description { font-size: 18px; line-height: 1.7; }
   .home-hero-actions { gap: 11px; margin-top: 25px; }
   .home-btn { min-height: 52px; padding-inline: 18px; font-size: 15px; }
@@ -673,7 +693,7 @@
   .home-container { width: calc(100% - 32px); }
   .home-hero { padding-top: 58px; }
   .home-hero h1 { font-size: clamp(2.65rem, 12vw, 3.3rem); }
-  .home-hero .home-kicker { padding: 7px 12px; font-size: 10.5px; letter-spacing: .06em; }
+
   .home-intro { padding: 62px 0 68px; }
   .home-intro-photo-main { width: 86%; border-radius: 18px; }
   .home-intro-photo-inset { width: 58%; border-width: 4px; border-radius: 14px; }

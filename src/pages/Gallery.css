@@ -42,31 +42,6 @@
 
 /* Shared pieces */
 
-.gallery-kicker {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  color: var(--c-blue);
-  font-size: 13px;
-  font-weight: 800;
-  letter-spacing: 0.16em;
-  line-height: 1.5;
-  text-transform: uppercase;
-}
-
-.gallery-kicker-light {
-  color: color-mix(in srgb, var(--c-white) 88%, transparent);
-}
-
-.gallery-kicker-dot {
-  flex: 0 0 8px;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--c-cyan);
-  box-shadow: 0 0 0 5px color-mix(in srgb, var(--c-cyan) 18%, transparent);
-}
-
 .gallery-btn {
   display: inline-flex;
   align-items: center;

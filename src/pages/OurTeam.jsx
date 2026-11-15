@@ -82,11 +82,6 @@ function OurTeam() {
           <div className="ot-hero-shade" />
 
           <div className="ot-container ot-hero-content">
-            <span className="ot-kicker ot-kicker-light">
-              <span className="ot-kicker-dot" />
-              THE PEOPLE BEHIND OUR WORK
-            </span>
-
             <h1>
               Meet the people{' '}
               <span className="hand-accent hand-accent--on-dark">
@@ -108,7 +103,7 @@ function OurTeam() {
               <div className="ot-intro-photo">
                 <img
                   src="/images/medical-team.jpg"
-                  alt="A group of health workers in scrubs talking together outdoors"
+                  alt="Members of our team smiling together outdoors"
                   loading="lazy"
                 />
               </div>
@@ -124,11 +119,6 @@ function OurTeam() {
             </figure>
 
             <div className="ot-intro-copy">
-              <span className="ot-kicker">
-                <span className="ot-kicker-dot" />
-                WORKING TOGETHER
-              </span>
-
               <h2>
                 United by {' '}
                 <span className="hand-accent">Purpose.</span>
@@ -217,10 +207,7 @@ function OurTeam() {
         <section className="ot-join" aria-labelledby="ot-join-title">
           <div className="ot-container ot-join-grid">
             <div className="ot-join-copy">
-              <span className="ot-kicker">
-                <span className="ot-kicker-dot" />
-                JOIN OUR TEAM
-              </span>
+
               <h2 id="ot-join-title">
                 Want to work{' '}
                 <span className="hand-accent">With us?</span>

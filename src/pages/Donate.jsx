@@ -24,6 +24,7 @@ import { CONTACT_EMAIL } from '../config.js';
 import { parsePhoneNumberFromString } from 'libphonenumber-js';
 import PhoneInput from '../components/PhoneInput.jsx';
 import { createDonationCheckout } from '../services/donationService.js';
+import { scrollToElement } from '../components/smoothScroll.js';
 
 import './Donate.css';
 
@@ -331,14 +332,7 @@ export default function Donate() {
   }
 
   function focusWidget(target) {
-    const reduceMotion = window.matchMedia(
-      '(prefers-reduced-motion: reduce)'
-    ).matches;
-
-    widgetRef.current?.scrollIntoView({
-      behavior: reduceMotion ? 'auto' : 'smooth',
-      block: 'start',
-    });
+    scrollToElement(widgetRef.current);
 
     target?.focus({ preventScroll: true });
   }
@@ -481,12 +475,7 @@ Please send me your official payment details.`
         setCheckoutUrl(result.checkoutUrl);
 
         window.setTimeout(() => {
-          document
-            .getElementById('donate-embedded-checkout')
-            ?.scrollIntoView({
-              behavior: 'smooth',
-              block: 'start',
-            });
+          scrollToElement(document.getElementById('donate-embedded-checkout'));
         }, 150);
       } else {
         // PayPal retains its existing redirect flow.
@@ -584,11 +573,6 @@ Please send me your official payment details.`
           <div className="donate-hero-shade" />
 
           <div className="donate-container donate-hero-content">
-            <span className="donate-kicker donate-kicker-light">
-              <span className="donate-kicker-dot" />
-              MAKE A DIFFERENCE
-            </span>
-
             <h1>
               Your generosity can help{' '}
               <span className="hand-accent hand-accent--on-dark">
@@ -618,11 +602,6 @@ Please send me your official payment details.`
         >
           <div className="donate-container">
             <div className="donate-give-heading">
-              <span className="donate-kicker donate-kicker-light">
-                <span className="donate-kicker-dot" />
-                PARTNER WITH US
-              </span>
-
               <h2 id="donate-give-title">
                 Health and hope for{' '}
                 <span className="hand-accent hand-accent--on-dark">
@@ -1171,11 +1150,6 @@ Please send me your official payment details.`
         >
           <div className="donate-container">
             <div className="donate-heading donate-heading-center">
-              <span className="donate-kicker">
-                <span className="donate-kicker-dot" />
-                HOW IT WORKS
-              </span>
-
               <h2 id="donate-steps-title">
                 Three simple steps{' '}
                 <span className="hand-accent">to give.</span>
@@ -1216,11 +1190,6 @@ Please send me your official payment details.`
         >
           <div className="donate-container donate-faq-grid">
             <div className="donate-faq-intro">
-              <span className="donate-kicker">
-                <span className="donate-kicker-dot" />
-                QUESTIONS
-              </span>
-
               <h2 id="donate-faq-title">
                 Giving,{' '}
                 <span className="hand-accent">made clear.</span>

@@ -13,6 +13,27 @@ const campPhoto = (name) => ({
 
 const galleryItems = [
   {
+    image: '/images/how-can-i-serve-you.jpg',
+    thumb: '/images/thumbs/how-can-i-serve-you.jpg',
+    title: 'How can I serve you?',
+    category: 'Community',
+    description: 'A smiling man holding a red sign that reads “How can I serve you?”',
+  },
+  {
+    image: '/images/donate-hero.jpg',
+    thumb: '/images/thumbs/donate-hero.jpg',
+    title: 'Smiles at home',
+    category: 'Community',
+    description: 'A smiling man crouching with two young children outside a brick home.',
+  },
+  {
+    image: '/images/outreach-team.jpg',
+    thumb: '/images/thumbs/outreach-team.jpg',
+    title: 'Side by side',
+    category: 'Medical Camps',
+    description: 'Two members of the medical team smiling together at the camp.',
+  },
+  {
     ...campPhoto('arm-measurement-check'),
     title: 'Malnutrition screening',
     category: 'Medical Camps',
@@ -74,9 +95,10 @@ const galleryItems = [
   },
   {
     image: '/images/health-screening.jpg',
-    title: 'Finger-prick testing',
-    category: 'Medical Camps',
-    description: 'A quick blood test as part of a health check.',
+    thumb: '/images/thumbs/health-screening.jpg',
+    title: 'Malaria awareness',
+    category: 'Health Education',
+    description: 'Two health workers holding an “I am malaria free” photo frame.',
   },
   {
     image: '/images/camp-village-tents.jpg',
@@ -99,8 +121,8 @@ const galleryItems = [
   {
     image: '/images/medical-team.jpg',
     title: 'Working as one team',
-    category: 'Health Education',
-    description: 'Clinicians and volunteers sharing what they know.',
+    category: 'Community',
+    description: 'Members of our team smiling together outdoors.',
   },
 ];
 
@@ -236,11 +258,6 @@ export default function Gallery() {
           <div className="gallery-hero-shade" />
 
           <div className="gallery-container gallery-hero-content">
-            <span className="gallery-kicker gallery-kicker-light">
-              <span className="gallery-kicker-dot" />
-              OUR GALLERY
-            </span>
-
             <h1>
               Moments that{' '}
               <span className="hand-accent hand-accent--on-dark">
@@ -265,10 +282,7 @@ export default function Gallery() {
           <div className="gallery-container">
             <div className="gallery-heading">
               <div>
-                <span className="gallery-kicker">
-                  <span className="gallery-kicker-dot" />
-                  OUR WORK IN PICTURES
-                </span>
+
                 <h2 id="gallery-title">
                   Every picture{' '}
                   <span className="hand-accent">tells a story.</span>
@@ -330,10 +344,7 @@ export default function Gallery() {
           <div className="gallery-container">
             <div className="gallery-heading gallery-heading-center">
               <div>
-                <span className="gallery-kicker">
-                  <span className="gallery-kicker-dot" />
-                  WATCH
-                </span>
+
                 <h2 id="gallery-watch-title">
                   A day at{' '}
                   <span className="hand-accent">our camps.</span>

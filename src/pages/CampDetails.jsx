@@ -56,6 +56,9 @@ const camps = {
     description:
       'Community outreach initiatives centred on health information, collaboration, and access to appropriate support.',
     image: '/images/outdoor-consultation.jpg',
+    // Small photo pinned to the corner of the main photo
+    noteImage: '/images/outreach-team.jpg',
+    noteImageAlt: 'Two members of the medical team smiling together at the camp',
     location: 'Location to be confirmed',
     date: 'Date to be announced',
     overview:
@@ -122,11 +125,6 @@ function CampDetails() {
               All medical camps
             </Link>
 
-            <span className="cd-kicker cd-kicker-light">
-              <span className="cd-kicker-dot" />
-              {camp.category}
-            </span>
-
             <h1>{camp.title}</h1>
 
             <p>{camp.description}</p>
@@ -148,14 +146,17 @@ function CampDetails() {
         <section className="cd-details">
           <div className="cd-container cd-details-grid">
             <article className="cd-main">
-              <figure className="cd-photo">
-                <img src={camp.image} alt={camp.title} />
-              </figure>
+              <div className={`cd-photo-wrap${camp.noteImage ? ' has-note' : ''}`}>
+                <figure className="cd-photo">
+                  <img src={camp.image} alt={camp.title} />
+                </figure>
 
-              <span className="cd-kicker">
-                <span className="cd-kicker-dot" />
-                ABOUT THIS CAMP
-              </span>
+                {camp.noteImage && (
+                  <figure className="cd-photo-note">
+                    <img src={camp.noteImage} alt={camp.noteImageAlt} loading="lazy" />
+                  </figure>
+                )}
+              </div>
 
               <h2>
                 Supporting community health{' '}
@@ -196,11 +197,6 @@ function CampDetails() {
 
             <aside className="cd-sidebar">
               <div className="cd-info-card">
-                <span className="cd-kicker">
-                  <span className="cd-kicker-dot" />
-                  CAMP INFORMATION
-                </span>
-
                 <h3>Event details</h3>
 
                 <ul className="cd-info-list">
@@ -264,10 +260,7 @@ function CampDetails() {
           <div className="cd-container">
             <div className="cd-heading">
               <div>
-                <span className="cd-kicker">
-                  <span className="cd-kicker-dot" />
-                  MORE OUTREACH
-                </span>
+
                 <h2 id="cd-more-title">
                   Explore other{' '}
                   <span className="hand-accent">medical camps.</span>

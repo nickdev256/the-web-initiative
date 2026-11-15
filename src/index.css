@@ -444,6 +444,8 @@ a:focus-visible {
   padding: 0 0.12em;
   color: var(--c-navy);
   background-image: var(--hand-highlight);
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
   -webkit-box-decoration-break: clone;
   box-decoration-break: clone;
 }
@@ -547,52 +549,27 @@ html:root .btn-support:hover {
   border: 0;
 }
 
+/* Lenis does the smooth scrolling, so the browser's own is switched off
+   while it runs. Lenis also blocks clicks on embedded frames while
+   scrolling smoothly; the map on the Contact page must stay usable. */
+html.lenis {
+  scroll-behavior: auto;
+}
+
+.lenis.lenis-smooth iframe {
+  pointer-events: auto;
+}
+
 /* =========================================
    MOTION
-   Page entrance and scroll reveals (see PageEffects.jsx).
-   Animations only use "backwards" fill, so nothing keeps a transform
-   once they finish. The page entrance moves the page's blocks, never
-   <main> itself, so full-screen overlays inside it (like the gallery
-   viewer) are always positioned against the screen.
+   Scroll and entrance animation runs on GSAP (components/siteMotion.js).
+   Split heading lines are clipped by their mask, so lines slide up
+   from below without showing outside the heading.
    ========================================= */
 
-.page-transition > main > :not(.gallery-lightbox),
-.page-transition > div > main > :not(.gallery-lightbox) {
-  animation: page-enter 0.6s cubic-bezier(0.22, 0.7, 0.2, 1) backwards;
-}
-
-.reveal:not(.is-revealed) {
-  opacity: 0;
-}
-
-.reveal.is-revealed {
-  animation: reveal-up 0.8s cubic-bezier(0.22, 0.7, 0.2, 1) backwards;
-}
-
-@keyframes page-enter {
-  from {
-    opacity: 0;
-    translate: 0 18px;
-  }
-}
-
-@keyframes reveal-up {
-  from {
-    opacity: 0;
-    translate: 0 32px;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .page-transition > main > *,
-  .page-transition > div > main > *,
-  .reveal.is-revealed {
-    animation: none;
-  }
-
-  .reveal:not(.is-revealed) {
-    opacity: 1;
-  }
+.motion-line {
+  padding-bottom: 0.08em;
+  margin-bottom: -0.08em;
 }
 
 /* About page: arrow circle fills with blue on hover */

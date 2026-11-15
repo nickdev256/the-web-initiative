@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import {
   Mail,
+  Phone,
   MapPin,
   Send,
   MessageCircle,
@@ -10,7 +11,8 @@ import {
 } from 'lucide-react';
 import Navbar from '../components/Navbar.jsx';
 import Footer from '../components/Footer.jsx';
-import { CONTACT_EMAIL } from '../config.js';
+import { CONTACT_EMAIL, CONTACT_PHONE, WHATSAPP } from '../config.js';
+import { scrollToElement } from '../components/smoothScroll.js';
 import './Contact.css';
 
 // Each topic picks the matching subject in the form when clicked
@@ -45,8 +47,7 @@ export default function Contact() {
     const message = document.getElementById('contact-message');
     if (message) {
       message.focus({ preventScroll: true });
-      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      message.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'center' });
+      scrollToElement(message, { block: 'center' });
     }
   }
 
@@ -77,11 +78,6 @@ export default function Contact() {
           <div className="contact-hero-shade" />
 
           <div className="contact-container contact-hero-content">
-            <span className="contact-kicker contact-kicker-light">
-              <span className="contact-kicker-dot" />
-              GET IN TOUCH
-            </span>
-
             <h1>
               Let’s start a{' '}
               <span className="hand-accent hand-accent--on-dark">
@@ -101,14 +97,66 @@ export default function Contact() {
           </div>
         </section>
 
+        {/* QUICK WAYS TO REACH US */}
+        <section className="contact-quick" aria-label="Quick ways to reach us">
+          <div className="contact-container">
+            <div className="contact-quick-grid">
+              <a
+                className="contact-quick-card is-whatsapp"
+                href={WHATSAPP.href}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <span className="contact-quick-icon" aria-hidden="true">
+                  <MessageCircle size={24} />
+                </span>
+                <span className="contact-quick-text">
+                  <strong>WhatsApp</strong>
+                  <span>{WHATSAPP.display}</span>
+                </span>
+                <span className="contact-quick-action">
+                  Chat with us
+                  <ArrowUpRight size={17} aria-hidden="true" />
+                </span>
+                <span className="sr-only"> (opens WhatsApp)</span>
+              </a>
+
+              <a className="contact-quick-card is-call" href={CONTACT_PHONE.href}>
+                <span className="contact-quick-icon" aria-hidden="true">
+                  <Phone size={24} />
+                </span>
+                <span className="contact-quick-text">
+                  <strong>Call us</strong>
+                  <span>{CONTACT_PHONE.display}</span>
+                </span>
+                <span className="contact-quick-action">
+                  Call now
+                  <ArrowUpRight size={17} aria-hidden="true" />
+                </span>
+              </a>
+
+              <a className="contact-quick-card is-email" href={`mailto:${CONTACT_EMAIL}`}>
+                <span className="contact-quick-icon" aria-hidden="true">
+                  <Mail size={24} />
+                </span>
+                <span className="contact-quick-text">
+                  <strong>Email us</strong>
+                  <span>{CONTACT_EMAIL}</span>
+                </span>
+                <span className="contact-quick-action">
+                  Write to us
+                  <ArrowUpRight size={17} aria-hidden="true" />
+                </span>
+              </a>
+            </div>
+          </div>
+        </section>
+
         {/* DETAILS AND FORM */}
         <section className="contact-main" id="contact-form">
           <div className="contact-container">
             <div className="contact-heading">
-              <span className="contact-kicker">
-                <span className="contact-kicker-dot" />
-                CONTACT INFORMATION
-              </span>
+
               <h2>
                 We are here{' '}
                 <span className="hand-accent">to help.</span>
@@ -144,6 +192,27 @@ export default function Contact() {
                     <span>
                       <strong>Email us</strong>
                       <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
+                    </span>
+                  </li>
+                  <li>
+                    <span className="contact-icon-box">
+                      <Phone size={22} aria-hidden="true" />
+                    </span>
+                    <span>
+                      <strong>Call us</strong>
+                      <a href={CONTACT_PHONE.href}>{CONTACT_PHONE.display}</a>
+                    </span>
+                  </li>
+                  <li>
+                    <span className="contact-icon-box">
+                      <MessageCircle size={22} aria-hidden="true" />
+                    </span>
+                    <span>
+                      <strong>WhatsApp</strong>
+                      <a href={WHATSAPP.href} target="_blank" rel="noopener noreferrer">
+                        {WHATSAPP.display}
+                        <span className="sr-only"> (opens WhatsApp)</span>
+                      </a>
                     </span>
                   </li>
                 </ul>
@@ -283,10 +352,7 @@ export default function Contact() {
         <section className="contact-location" aria-labelledby="contact-location-title">
           <div className="contact-container contact-location-grid">
             <div className="contact-location-copy">
-              <span className="contact-kicker">
-                <span className="contact-kicker-dot" />
-                FIND US
-              </span>
+
               <h2 id="contact-location-title">
                 Based in{' '}
                 <span className="hand-accent">Jinja, Uganda.</span>
@@ -311,6 +377,15 @@ export default function Contact() {
             </div>
 
             <div className="contact-map">
+              <div className="contact-map-tag">
+                <span className="contact-map-pin" aria-hidden="true">
+                  <MapPin size={20} />
+                </span>
+                <span>
+                  <strong>Jinja, Uganda</strong>
+                  <span>Our office · P.O. Box 903588</span>
+                </span>
+              </div>
               <iframe
                 title="Map of Jinja, Uganda"
                 src="https://www.google.com/maps?q=Jinja,+Uganda&z=12&output=embed"

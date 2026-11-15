@@ -164,7 +164,7 @@ function PhoneInput({ id, country, onCountryChange, value, onChange, required = 
           </label>
 
           {results.length > 0 ? (
-            <ul className="phone-list" id={listId} role="listbox" ref={listRef}>
+            <ul className="phone-list" id={listId} role="listbox" ref={listRef} data-lenis-prevent>
               {results.map((item, index) => (
                 <li
                   key={item.code}

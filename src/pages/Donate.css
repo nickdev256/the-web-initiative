@@ -42,31 +42,6 @@
    SHARED ELEMENTS
    ========================================= */
 
-.donate-kicker {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  color: var(--c-blue, #1768a5);
-  font-size: 13px;
-  font-weight: 800;
-  letter-spacing: 0.16em;
-  line-height: 1.5;
-  text-transform: uppercase;
-}
-
-.donate-kicker-light {
-  color: rgba(255, 255, 255, 0.88);
-}
-
-.donate-kicker-dot {
-  flex: 0 0 8px;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--c-cyan, #40c5dc);
-  box-shadow: 0 0 0 5px rgba(64, 197, 220, 0.18);
-}
-
 .donate-btn {
   display: inline-flex;
   align-items: center;

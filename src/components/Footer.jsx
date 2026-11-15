@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import {
   MapPin,
   Mail,
+  Phone,
   MessageCircle,
   Heart,
   ArrowRight,
@@ -14,7 +15,8 @@ import {
   Linkedin,
   Youtube,
 } from 'lucide-react';
-import { CONTACT_EMAIL, SOCIAL_LINKS, DESIGNER } from '../config.js';
+import { CONTACT_EMAIL, CONTACT_PHONE, WHATSAPP, SOCIAL_LINKS, DESIGNER } from '../config.js';
+import { scrollToY } from './smoothScroll.js';
 import './Footer.css';
 
 const exploreLinks = [
@@ -103,14 +105,15 @@ function Footer() {
   const currentYear = new Date().getFullYear();
 
   const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    scrollToY(0);
   };
 
   return (
     <footer className="site-footer">
       {/* Final call to action */}
       <section className="footer-cta" aria-labelledby="footer-cta-title">
-        <div className="footer-container footer-cta-inner">
+        <div className="footer-container footer-cta-card">
+          <div className="footer-cta-inner">
           <div className="footer-cta-copy">
             <h2 id="footer-cta-title">
               Help us bring care closer to every community.
@@ -130,6 +133,7 @@ function Footer() {
               Contact our team
               <ArrowRight size={17} aria-hidden="true" />
             </Link>
+          </div>
           </div>
         </div>
       </section>
@@ -168,7 +172,7 @@ function Footer() {
                 const url = SOCIAL_LINKS[platform.key];
 
                 return (
-                  <li key={platform.key}>
+                  <li key={platform.key} className={`footer-social-${platform.key}`}>
                     {url ? (
                       <a
                         href={url}
@@ -232,6 +236,17 @@ function Footer() {
               <li>
                 <Mail size={19} aria-hidden="true" />
                 <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
+              </li>
+              <li>
+                <Phone size={19} aria-hidden="true" />
+                <a href={CONTACT_PHONE.href}>{CONTACT_PHONE.display}</a>
+              </li>
+              <li>
+                <MessageCircle size={19} aria-hidden="true" />
+                <a href={WHATSAPP.href} target="_blank" rel="noopener noreferrer">
+                  WhatsApp {WHATSAPP.display}
+                  <span className="sr-only"> (opens WhatsApp)</span>
+                </a>
               </li>
               <li>
                 <MessageCircle size={19} aria-hidden="true" />
