@@ -4,6 +4,41 @@
    GLOBAL STYLES — TIMES NEW ROMAN
    ========================================= */
 
+/* DOT GRID on the dark blue surfaces: a very fine texture of light dots,
+   like dotted notebook paper. Change the dots here and every blue
+   section, card and the footer update together. (The Contact details
+   panel layers the same dots over its gradient in Contact.css.) */
+:root {
+  --dot-grid: radial-gradient(circle at center, rgb(255 255 255 / 0.32) 0.2px, transparent 0.4px);
+  --dot-grid-size: 5px 5px;
+}
+
+@media (max-width: 760px) {
+  :root {
+    /* Phones: even finer dots, a little closer together */
+    --dot-grid: radial-gradient(circle at center, rgb(255 255 255 / 0.3) 0.22px, transparent 0.42px);
+    --dot-grid-size: 4px 4px;
+  }
+}
+
+:root :is(
+  .site-footer,
+  .home-wwd,
+  .home-feature,
+  .about-history-points,
+  .about-values,
+  .ms-services,
+  .mc-activities,
+  .cd-support-card,
+  .ot-teams,
+  .donate-give,
+  .donate-card
+) {
+  background-image: var(--dot-grid);
+  background-size: var(--dot-grid-size);
+  background-position: center top;
+}
+
 /* Brand palette: the three chosen brand colours. Every other colour on
    the site is mixed from these, so change a value here and it updates
    everywhere. */

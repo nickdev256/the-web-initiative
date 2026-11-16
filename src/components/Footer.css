@@ -513,7 +513,7 @@
 .footer-cta {
   padding: clamp(40px, 5vw, 64px) 0 0;
   color: var(--c-white);
-  background: var(--c-navy);
+  background: transparent; /* lets the footer's dot grid show through */
 }
 
 .footer-cta-card {

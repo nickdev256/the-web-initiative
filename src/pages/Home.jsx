@@ -223,20 +223,6 @@ function Home() {
                   );
                 })}
               </ul>
-
-              <div className="home-intro-actions">
-                <Link to="/about" className="home-btn home-btn-dark">
-                  Get to know us
-                  <ArrowRight size={18} />
-                </Link>
-
-                <Link to="/our-team" className="home-editorial-link">
-                  Meet our team
-                  <span>
-                    <ArrowRight size={18} />
-                  </span>
-                </Link>
-              </div>
             </div>
           </div>
         </section>

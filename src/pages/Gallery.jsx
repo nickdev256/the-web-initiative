@@ -18,14 +18,14 @@ const galleryItems = [
     thumb: '/images/thumbs/how-can-i-serve-you.jpg',
     title: 'How can I serve you?',
     category: 'Community',
-    description: 'A smiling man holding a red sign that reads “How can I serve you?”',
+    description: 'Hearts ready to offer service. We are here to serve you.?”',
   },
   {
     image: '/images/donate-hero.jpg',
     thumb: '/images/thumbs/donate-hero.jpg',
     title: 'Smiles at home',
     category: 'Community',
-    description: 'A smiling man crouching with two young children outside a brick home.',
+    description: 'Our Director crouching with two children outside of a brick home. Smiles of Hope',
   },
   {
     image: '/images/outreach-team.jpg',

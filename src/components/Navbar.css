@@ -178,7 +178,7 @@
   align-items: center;
   gap: 2px;
   padding: 5px;
-  border: 1px solid var(--nav-line);
+  border: 1.5px solid var(--c-cyan); /* sky blue outline around the menu */
   border-radius: 999px;
   background: var(--c-paper);
 }

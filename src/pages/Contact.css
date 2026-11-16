@@ -736,7 +736,9 @@
 .contact-info-panel {
   position: relative;
   overflow: hidden;
+  /* Fine dot grid (see index.css) over the navy-to-blue gradient */
   background:
+    var(--dot-grid) center top / var(--dot-grid-size),
     linear-gradient(160deg,
       var(--c-navy) 0%,
       color-mix(in srgb, var(--c-navy) 82%, var(--c-support)) 100%);
