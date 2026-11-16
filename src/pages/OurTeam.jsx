@@ -163,7 +163,7 @@ function OurTeam() {
                   direction, keep the mission accountable, care for our
                   relationships with donors and partners, and make sure
                   every resource entrusted to us reaches the children and
-                  families we serve in Eastern Uganda. 
+                  families we serve in Northern Uganda. 
                 </p>
               </div>
             </div>
