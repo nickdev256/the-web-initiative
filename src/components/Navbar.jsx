@@ -10,13 +10,12 @@ import {
   MapPin,
   Mail,
   Phone,
-  CalendarDays,
-  ArrowRight,
   Tent,
   Images,
 } from 'lucide-react';
 import { CONTACT_EMAIL, CONTACT_PHONE } from '../config.js';
 import SiteSearch from './SiteSearch.jsx';
+import OutreachCountdown from './OutreachCountdown.jsx';
 import './Navbar.css';
 
 const navLinks = [
@@ -131,15 +130,7 @@ function Navbar() {
             </a>
           </div>
 
-          <Link
-            to="/contact"
-            className="navbar-topbar-cta"
-            tabIndex={scrolled ? -1 : 0}
-          >
-            <CalendarDays size={14} aria-hidden="true" />
-            Ask about upcoming medical camps
-            <ArrowRight size={14} aria-hidden="true" />
-          </Link>
+          <OutreachCountdown tabIndex={scrolled ? -1 : 0} />
         </div>
       </div>
 
