@@ -11,7 +11,9 @@ import {
 } from 'lucide-react';
 import Navbar from '../components/Navbar.jsx';
 import Footer from '../components/Footer.jsx';
+import { getCountryCallingCode, parsePhoneNumberFromString } from 'libphonenumber-js';
 import { CONTACT_EMAIL, CONTACT_PHONE, WHATSAPP } from '../config.js';
+import PhoneInput from '../components/PhoneInput.jsx';
 import { scrollToElement } from '../components/smoothScroll.js';
 import './Contact.css';
 
@@ -33,6 +35,8 @@ export default function Contact() {
   }); 
 
   const [submitted, setSubmitted] = useState(false);
+  // Country code for the phone field; starts on the United States
+  const [phoneCountry, setPhoneCountry] = useState('US');
 
   function handleChange(event) {
     const { name, value } = event.target;
@@ -51,6 +55,15 @@ export default function Contact() {
     }
   }
 
+  // The phone number with its country code, e.g. "+1 201 555 0123"
+  function phoneWithCode() {
+    const number = form.phone.trim();
+    if (!number) return 'Not provided';
+    const parsed = parsePhoneNumberFromString(number, phoneCountry);
+    if (parsed?.isValid()) return parsed.formatInternational();
+    return `+${getCountryCallingCode(phoneCountry)} ${number}`;
+  }
+
   function handleSubmit(event) {
     event.preventDefault();
 
@@ -59,7 +72,7 @@ export default function Contact() {
     );
 
     const body = encodeURIComponent(
-      `Hello THE WEB INITIATIVE LTD,\n\nName: ${form.name}\nEmail: ${form.email}\nPhone: ${form.phone || 'Not provided'}\nSubject: ${form.subject}\n\nMessage:\n${form.message}\n`
+      `Hello THE WEB INITIATIVE LTD,\n\nName: ${form.name}\nEmail: ${form.email}\nPhone: ${phoneWithCode()}\nSubject: ${form.subject}\n\nMessage:\n${form.message}\n`
     );
 
     setSubmitted(true);
@@ -282,17 +295,22 @@ export default function Contact() {
                   </div>
 
                   <div className="contact-form-row">
-                    <label className="contact-field">
-                      <span>Phone number</span>
-                      <input
-                        type="tel"
-                        name="phone"
-                        placeholder="e.g. +256 700 000 000"
-                        autoComplete="tel"
+                    <div className="contact-field">
+                      <label htmlFor="contact-phone">Phone number</label>
+                      <PhoneInput
+                        id="contact-phone"
+                        country={phoneCountry}
+                        onCountryChange={(code) => {
+                          setPhoneCountry(code);
+                          setSubmitted(false);
+                        }}
                         value={form.phone}
-                        onChange={handleChange}
+                        onChange={(value) => {
+                          setForm((previous) => ({ ...previous, phone: value }));
+                          setSubmitted(false);
+                        }}
                       />
-                    </label>
+                    </div>
 
                     <label className="contact-field">
                       <span>Subject *</span>

@@ -16,6 +16,8 @@ import Navbar from '../components/Navbar.jsx';
 import Footer from '../components/Footer.jsx';
 import './MedicalCamps.css';
 import { responsiveImage } from '../utils/responsiveImage.js';
+import { formatDateRange, getNextCampEvent } from '../data/events.js';
+import CountryFlag from '../components/CountryFlag.jsx';
 
 // What a visit to one of our camps looks like, shown with real camp photos.
 const activities = [
@@ -96,6 +98,11 @@ const steps = [
 ];
 
 function MedicalCamps() {
+  // Next dates for each camp, from src/data/events.js
+  const nextDates = Object.fromEntries(
+    camps.map((camp) => [camp.id, getNextCampEvent(camp.id)])
+  );
+
   return (
     <>
       <Navbar />
@@ -245,8 +252,8 @@ function MedicalCamps() {
                 </h2>
               </div>
               <p>
-                The kinds of outreach we run. Dates and locations are
-                shared once each camp is confirmed.
+                The kinds of outreach we run. Our next camps take place
+                in Alebtong District from 1st to 14th March 2027.
               </p>
             </div>
 
@@ -272,11 +279,14 @@ function MedicalCamps() {
                     <ul className="mc-camp-meta">
                       <li>
                         <MapPin size={17} aria-hidden="true" />
-                        Location to be announced
+                        {nextDates[camp.id]?.location || 'Location to be announced'}
+                        <CountryFlag code={nextDates[camp.id]?.flag} />
                       </li>
                       <li>
                         <CalendarDays size={17} aria-hidden="true" />
-                        Date to be announced
+                        {nextDates[camp.id]
+                          ? formatDateRange(nextDates[camp.id])
+                          : 'Date to be announced'}
                       </li>
                     </ul>
 

@@ -545,11 +545,13 @@
   line-height: 1;
 }
 .home-event-day { font-family: 'Manrope', sans-serif; font-size: 32px; font-weight: 800; letter-spacing: -.04em; }
+.home-event-day sup { margin-left: 1px; font-size: .42em; letter-spacing: 0; vertical-align: .95em; line-height: 0; }
 .home-event-month { margin-top: 6px; color: var(--home-blue); font-size: 13px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; }
 .home-event-year { margin-top: 5px; color: var(--home-muted); font-size: 12px; font-weight: 700; }
 .home-event-category { color: var(--home-blue); font-size: 12px; font-weight: 800; letter-spacing: .15em; text-transform: uppercase; }
 .home-event-body h3 { margin: 6px 0 6px; color: var(--home-ink); font-size: 22px; line-height: 1.3; letter-spacing: -.03em; }
 .home-event-body p { margin: 0; color: var(--c-slate); font-size: 16px; line-height: 1.7; }
+.home-event-body p.home-event-note { margin-top: 6px; color: var(--home-blue); font-size: 14px; font-weight: 700; }
 .home-event-meta { display: flex; flex-wrap: wrap; gap: 6px 20px; margin-top: 11px; color: var(--c-slate); font-size: 14px; font-weight: 700; }
 .home-event-meta span { display: inline-flex; align-items: center; gap: 6px; }
 .home-event-meta svg { flex-shrink: 0; color: var(--home-blue); }

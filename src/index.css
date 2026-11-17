@@ -39,6 +39,19 @@
   background-position: center top;
 }
 
+/* Small country flag next to a place name (CountryFlag.jsx) */
+.country-flag {
+  display: inline-block;
+  flex-shrink: 0;
+  width: 20px;
+  height: 14px;
+  margin-left: 7px;
+  border-radius: 3px;
+  object-fit: cover;
+  vertical-align: -2px;
+  box-shadow: 0 0 0 1px rgb(0 0 0 / 0.12);
+}
+
 /* Brand palette: the three chosen brand colours. Every other colour on
    the site is mixed from these, so change a value here and it updates
    everywhere. */

@@ -15,6 +15,8 @@ import Navbar from '../components/Navbar.jsx';
 import Footer from '../components/Footer.jsx';
 import './CampDetails.css';
 import { responsiveImage } from '../utils/responsiveImage.js';
+import { formatDateRange, getNextCampEvent } from '../data/events.js';
+import CountryFlag from '../components/CountryFlag.jsx';
 
 const camps = {
   'community-health': {
@@ -66,8 +68,8 @@ const camps = {
       'Medical outreach initiatives can bring community members and relevant partners together to identify needs and explore suitable healthcare support.',
     activities: [
       'Community engagement and needs assessment',
-      'Health information and awareness activities',
-      'Coordination with relevant healthcare partners',
+      'Malnutrition, sickle cell, and HIV screening',
+      "Enrollment of children with either malnutrition, sickle cell disease, and HIV on the organization's medical care plan",
       'Sharing information about available services',
     ],
   },
@@ -76,6 +78,10 @@ const camps = {
 function CampDetails() {
   const { id } = useParams();
   const camp = camps[id];
+  // Next dates for this camp come from src/data/events.js
+  const next = getNextCampEvent(id);
+  const campDate = next ? formatDateRange(next) : camp?.date;
+  const campLocation = next ? next.location : camp?.location;
 
   if (!camp) {
     return (
@@ -133,11 +139,12 @@ function CampDetails() {
             <ul className="cd-hero-meta">
               <li>
                 <CalendarDays size={18} aria-hidden="true" />
-                {camp.date}
+                {campDate}
               </li>
               <li>
                 <MapPin size={18} aria-hidden="true" />
-                {camp.location}
+                {campLocation}
+                <CountryFlag code={next?.flag} />
               </li>
             </ul>
           </div>
@@ -207,7 +214,8 @@ function CampDetails() {
                     </span>
                     <span>
                       <strong>Date</strong>
-                      <span>{camp.date}</span>
+                      <span>{campDate}</span>
+                      {next?.note && <span>{next.note}</span>}
                     </span>
                   </li>
                   <li>
@@ -216,7 +224,10 @@ function CampDetails() {
                     </span>
                     <span>
                       <strong>Location</strong>
-                      <span>{camp.location}</span>
+                      <span>
+                        {campLocation}
+                        <CountryFlag code={next?.flag} />
+                      </span>
                     </span>
                   </li>
                   <li>

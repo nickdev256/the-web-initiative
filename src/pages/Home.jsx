@@ -19,7 +19,8 @@ import {
 
 import Navbar from '../components/Navbar.jsx';
 import Footer from '../components/Footer.jsx';
-import { getUpcomingEvents } from '../data/events.js';
+import { formatDateRange, getUpcomingEvents, ordinalSuffix } from '../data/events.js';
+import CountryFlag from '../components/CountryFlag.jsx';
 import './Home.css';
 import { responsiveImage } from '../utils/responsiveImage.js';
 
@@ -148,7 +149,7 @@ function Home() {
                     <MapPin size={19} aria-hidden="true" />
                   </span>
                   <span>
-                    Medical camps and health care across{' '}
+                    Medical camps and health care across{' '} 
                     <strong>Uganda.</strong>
                   </span>
                 </div>
@@ -346,6 +347,7 @@ function Home() {
                     >
                       <span className="home-event-day">
                         {event.dateValue.getDate()}
+                        <sup>{ordinalSuffix(event.dateValue.getDate())}</sup>
                       </span>
                       <span className="home-event-month">
                         {event.dateValue.toLocaleDateString('en-GB', {
@@ -368,10 +370,20 @@ function Home() {
 
                       {event.description && <p>{event.description}</p>}
 
+                      {event.note && (
+                        <p className="home-event-note">{event.note}</p>
+                      )}
+
                       <div className="home-event-meta">
+                        <span>
+                          <CalendarDays size={15} aria-hidden="true" />
+                          {formatDateRange(event)}
+                        </span>
+
                         <span>
                           <MapPin size={15} aria-hidden="true" />
                           {event.location}
+                          <CountryFlag code={event.flag} />
                         </span>
 
                         {event.time && (
@@ -430,7 +442,7 @@ function Home() {
               <p>
                 Meaningful healthcare goes beyond treatment. It
                 starts with listening, building trust, and working
-                with communities to understand what matters most.
+                with communities to understand what matters most. 
               </p>
 
               <Link to="/medical-camps" className="home-btn home-btn-white">
