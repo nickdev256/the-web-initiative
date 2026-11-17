@@ -42,6 +42,23 @@ function getOutreach(now) {
 
 const pad = (value) => String(value).padStart(2, '0');
 
+// Each digit is its own element, keyed by position and value, so only the
+// digits that change are re-created, and each new one rolls in (see the
+// .outreach-digit animation in Navbar.css), like an odometer.
+function RollingNumber({ value }) {
+  return (
+    <strong className="outreach-number">
+      {String(value)
+        .split('')
+        .map((digit, index) => (
+          <span className="outreach-digit" key={`${index}-${digit}`}>
+            {digit}
+          </span>
+        ))}
+    </strong>
+  );
+}
+
 function OutreachCountdown({ tabIndex }) {
   const [now, setNow] = useState(() => Date.now());
 
@@ -93,18 +110,18 @@ function OutreachCountdown({ tabIndex }) {
     >
       <CalendarDays size={14} aria-hidden="true" />
       <span className="outreach-countdown-label">
-        <span className="outreach-countdown-long">{outreach.place} outreach starts in</span>
-        <span className="outreach-countdown-short">Outreach in</span>
+        <span className="outreach-countdown-long"> Up coming medical camps in</span>
+        <span className="outreach-countdown-short">Medical camps in</span>
       </span>
       <span className="outreach-countdown-time" aria-hidden="true">
         <span>
-          <strong>{days}</strong>
+          <RollingNumber value={days} />
           <span className="outreach-unit-long"> {days === 1 ? 'day' : 'days'}</span>
           <span className="outreach-unit-short">d</span>
         </span>
-        <span><strong>{pad(hours)}</strong>h</span>
-        <span><strong>{pad(minutes)}</strong>m</span>
-        <span><strong>{pad(seconds)}</strong>s</span>
+        <span><RollingNumber value={pad(hours)} />h</span>
+        <span><RollingNumber value={pad(minutes)} />m</span>
+        <span className="is-seconds"><RollingNumber value={pad(seconds)} />s</span>
       </span>
       <ArrowRight size={14} aria-hidden="true" />
     </Link>

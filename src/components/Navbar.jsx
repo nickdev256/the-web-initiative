@@ -1,5 +1,5 @@
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 import {
   Menu,
@@ -16,6 +16,7 @@ import {
 import { CONTACT_EMAIL, CONTACT_PHONE } from '../config.js';
 import SiteSearch from './SiteSearch.jsx';
 import OutreachCountdown from './OutreachCountdown.jsx';
+import { playNavbarIntro } from './navbarMotion.js';
 import './Navbar.css';
 
 const navLinks = [
@@ -55,6 +56,10 @@ function Navbar() {
   const [scrolled, setScrolled] = useState(false);
 
   const location = useLocation();
+  const headerRef = useRef(null);
+
+  // Entrance animation, once per visit (see navbarMotion.js)
+  useEffect(() => playNavbarIntro(headerRef.current), []);
 
   const closeMenu = () => {
     setMenuOpen(false);
@@ -110,7 +115,7 @@ function Navbar() {
   };
 
   return (
-    <header className={`site-header ${scrolled ? 'is-scrolled' : ''}`}>
+    <header ref={headerRef} className={`site-header ${scrolled ? 'is-scrolled' : ''}`}>
       <div className="navbar-topbar" aria-hidden={scrolled}>
         <div className="navbar-topbar-inner">
           <div className="navbar-topbar-info">

@@ -99,7 +99,7 @@
   6.25% { opacity: 1; }
   25% { opacity: 1; }
   31.25% { opacity: 0; transform: scale(1); }
-  100% { opacity: 0; transform: scale(1); }
+  100% { opacity: 0; transform: scale(1); } 
 }
 
 /* Reduced motion: no slideshow, the nurse photo stands still */
