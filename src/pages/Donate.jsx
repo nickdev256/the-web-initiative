@@ -37,11 +37,10 @@ import {
   Smartphone,
 
   ReceiptText,
+
   X,
 
 } from 'lucide-react';
-
-
 
 import Navbar from '../components/Navbar.jsx';
 
@@ -53,8 +52,6 @@ import { parsePhoneNumberFromString } from 'libphonenumber-js';
 
 import PhoneInput from '../components/PhoneInput.jsx';
 
-
-
 import {
 
   createDonationCheckout,
@@ -63,19 +60,13 @@ import {
 
 } from '../services/donationService.js';
 
-
-
 import './Donate.css';
-
-
 
 // --------------------------------------------------
 
 // DONATION PROGRAMMES
 
 // --------------------------------------------------
-
-
 
 const programmes = [
 
@@ -165,14 +156,11 @@ const programmes = [
 
 ];
 
-
 // --------------------------------------------------
 
 // DONATION AMOUNTS
 
 // --------------------------------------------------
-
-
 
 const amountOptions = [
 
@@ -226,15 +214,11 @@ const amountOptions = [
 
 ];
 
-
-
 // --------------------------------------------------
 
 // PAYMENT METHODS
 
 // --------------------------------------------------
-
-
 
 const paymentMethods = [
 
@@ -256,15 +240,11 @@ const paymentMethods = [
 
 ];
 
-
-
 // --------------------------------------------------
 
 // PAYMENT BRAND
 
 // --------------------------------------------------
-
-
 
 function PaymentBrand({ id }) {
 
@@ -290,8 +270,6 @@ function PaymentBrand({ id }) {
 
   }
 
-
-
   if (id === 'bank-transfer') {
 
     return (
@@ -312,25 +290,17 @@ function PaymentBrand({ id }) {
 
   }
 
-
-
   return null;
 
 }
 
-
-
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-
 
 // --------------------------------------------------
 
 // HOW GIVING WORKS
 
 // --------------------------------------------------
-
-
 
 const givingSteps = [
 
@@ -366,15 +336,11 @@ const givingSteps = [
 
 ];
 
-
-
 // --------------------------------------------------
 
 // FAQ
 
 // --------------------------------------------------
-
-
 
 const faqs = [
 
@@ -428,23 +394,17 @@ const faqs = [
 
 ];
 
-
-
 const firstOptionFor = (programmeId) =>
 
   amountOptions.find((option) => option.programme === programmeId)?.id ||
 
   amountOptions[0].id;
 
-
-
 // ==================================================
 
 // DONATE COMPONENT
 
 // ==================================================
-
-
 
 export default function Donate() {
 
@@ -457,8 +417,6 @@ export default function Donate() {
   const [frequency, setFrequency] = useState('Monthly');
 
   const [step, setStep] = useState('amount');
-
-
 
   const [donor, setDonor] = useState({
 
@@ -482,8 +440,6 @@ export default function Donate() {
 
   });
 
-
-
   const [phoneCountry, setPhoneCountry] = useState('UG');
 
   const [paymentMethod, setPaymentMethod] = useState('card');
@@ -494,12 +450,10 @@ export default function Donate() {
 
   const [offline, setOffline] = useState(false);
 
-  const [bankCurrency, setBankCurrency] = useState('UGX');
-
   const [bankDetailsCopied, setBankDetailsCopied] = useState(false);
+  const [swiftCopied, setSwiftCopied] = useState(false);
+
   const [showBankModal, setShowBankModal] = useState(false);
-
-
 
   const [paymentResult, setPaymentResult] = useState({
 
@@ -511,21 +465,15 @@ export default function Donate() {
 
   });
 
-
-
   const widgetRef = useRef(null);
 
   const nameRef = useRef(null);
-
-
 
   // --------------------------------------------------
 
   // VERIFY PAYMENT AFTER RETURN FROM CHECKOUT
 
   // --------------------------------------------------
-
-
 
   useEffect(() => {
 
@@ -535,15 +483,9 @@ export default function Donate() {
 
     const reference = params.get('reference');
 
-
-
     if (!requestedStatus) return;
 
-
-
     let active = true;
-
-
 
     async function confirmPayment() {
 
@@ -575,13 +517,9 @@ export default function Donate() {
 
         }
 
-
-
         return;
 
       }
-
-
 
       if (!reference) {
 
@@ -601,19 +539,13 @@ export default function Donate() {
 
         }
 
-
-
         return;
 
       }
 
-
-
       try {
 
         const result = await getDonationPaymentStatus(reference);
-
-
 
         const status = String(
 
@@ -633,11 +565,7 @@ export default function Donate() {
 
         ).toLowerCase();
 
-
-
         if (!active) return;
-
-
 
         if (
 
@@ -713,11 +641,7 @@ export default function Donate() {
 
     }
 
-
-
     confirmPayment();
-
-
 
     return () => {
 
@@ -727,15 +651,11 @@ export default function Donate() {
 
   }, []);
 
-
-
   // --------------------------------------------------
 
   // SELECTED DONATION INFORMATION
 
   // --------------------------------------------------
-
-
 
   const programme = programmes.find(
 
@@ -743,19 +663,13 @@ export default function Donate() {
 
   );
 
-
-
   const selectedOption = amountOptions.find(
 
     (option) => option.id === optionId
 
   );
 
-
-
   const usingCustom = customAmount !== '';
-
-
 
   const selectedAmount = usingCustom
 
@@ -763,13 +677,9 @@ export default function Donate() {
 
     : selectedOption?.amount;
 
-
-
   const amountIsValid =
 
     Number.isFinite(selectedAmount) && selectedAmount > 0;
-
-
 
   const amountLabel = amountIsValid
 
@@ -783,13 +693,9 @@ export default function Donate() {
 
     : '';
 
-
-
   const frequencyLabel =
 
     frequency === 'Monthly' ? 'monthly' : 'one-time';
-
-
 
   const continueLabel = amountIsValid
 
@@ -797,15 +703,11 @@ export default function Donate() {
 
     : 'Enter an amount';
 
-
-
   const giftText = usingCustom
 
     ? `Other amount (${programme.label})`
 
     : selectedOption?.label;
-
-
 
   const method = paymentMethods.find(
 
@@ -813,27 +715,19 @@ export default function Donate() {
 
   );
 
-
-
   const parsedPhone = donor.phone.trim()
 
     ? parsePhoneNumberFromString(donor.phone, phoneCountry)
 
     : undefined;
 
-
-
   const phoneIsValid = Boolean(parsedPhone?.isValid());
-
-
 
   // --------------------------------------------------
 
   // FORM HELPERS
 
   // --------------------------------------------------
-
-
 
   function chooseProgramme(id) {
 
@@ -849,8 +743,6 @@ export default function Donate() {
 
   }
 
-
-
   function chooseOption(option) {
 
     setOptionId(option.id);
@@ -862,8 +754,6 @@ export default function Donate() {
     setError('');
 
   }
-
-
 
   function updateDonor(field, value) {
 
@@ -879,51 +769,61 @@ export default function Donate() {
 
   }
 
-
-
-  async function copyBankDetails() {
-
-    const accountNumber =
-
-      bankCurrency === 'UGX' ? '1027203775347' : '1027203775339';
-
-
-
-    const details = [
-
-      'Bank: Equity Bank Uganda Limited',
-
-      `Currency: ${bankCurrency}`,
-
-      `Account number: ${accountNumber}`,
-
-      'SWIFT / BIC: EQBLUGKA',
-
-    ].join('\n');
-
-
-
-    try {
-
-      await navigator.clipboard.writeText(details);
-
-      setBankDetailsCopied(true);
-
-      window.setTimeout(() => setBankDetailsCopied(false), 2500);
-
-    } catch {
-
-      setError(
-
-        'Could not copy the bank details. Please copy the account number manually.'
-
-      );
-
+  async function writeClipboardText(text) {
+    if (navigator.clipboard && window.isSecureContext) {
+      await navigator.clipboard.writeText(text);
+      return;
     }
 
+    const temporaryInput = document.createElement('textarea');
+    temporaryInput.value = text;
+    temporaryInput.setAttribute('readonly', '');
+    temporaryInput.style.position = 'fixed';
+    temporaryInput.style.opacity = '0';
+    temporaryInput.style.pointerEvents = 'none';
+    document.body.appendChild(temporaryInput);
+    temporaryInput.select();
+
+    const copied = document.execCommand('copy');
+    document.body.removeChild(temporaryInput);
+
+    if (!copied) {
+      throw new Error('Clipboard copy was not available in this browser.');
+    }
   }
 
+  async function copyBankDetails() {
+    const details = [
+      'Bank: Equity Bank Uganda Limited',
+      'Currency: USD',
+      'Account Name: The Web Initiative Ltd',
+      'Account Number: 1027203775339',
+      'Branch: Jinja Branch',
+      'SWIFT / BIC: EQBLUGKA',
+    ].join('\n');
 
+    try {
+      await writeClipboardText(details);
+      setBankDetailsCopied(true);
+      window.setTimeout(() => setBankDetailsCopied(false), 2500);
+    } catch {
+      setError(
+        'Could not copy the bank details. Please copy the details manually.'
+      );
+    }
+  }
+
+  async function copySwiftCode() {
+    try {
+      await writeClipboardText('EQBLUGKA');
+      setSwiftCopied(true);
+      window.setTimeout(() => setSwiftCopied(false), 2500);
+    } catch {
+      setError(
+        'Could not copy the SWIFT code. Please select and copy EQBLUGKA manually.'
+      );
+    }
+  }
 
   function focusWidget(target) {
 
@@ -933,8 +833,6 @@ export default function Donate() {
 
     ).matches;
 
-
-
     widgetRef.current?.scrollIntoView({
 
       behavior: reduceMotion ? 'auto' : 'smooth',
@@ -943,19 +841,13 @@ export default function Donate() {
 
     });
 
-
-
     target?.focus({ preventScroll: true });
 
   }
 
-
-
   function goToDetails(event) {
 
     event.preventDefault();
-
-
 
     if (!amountIsValid) {
 
@@ -963,15 +855,11 @@ export default function Donate() {
 
     }
 
-
-
     setStep('details');
 
     setError('');
 
     setOffline(false);
-
-
 
     window.setTimeout(() => focusWidget(nameRef.current), 0);
 
@@ -981,8 +869,6 @@ export default function Donate() {
 
   // --------------------------------------------------
 
-
-
   function emailHref() {
 
     const subject = encodeURIComponent(
@@ -991,17 +877,11 @@ export default function Donate() {
 
     );
 
-
-
     const body = encodeURIComponent(
 
       `Hello The Web Initiative Ltd,
 
-
-
 I would like to make a donation.
-
-
 
 Programme: ${programme.label}
 
@@ -1021,19 +901,13 @@ Phone: ${parsedPhone ? parsedPhone.formatInternational() : 'Not given'}
 
 Message: ${donor.message || 'None'}
 
-
-
 Please send me your official payment details.`
 
     );
 
-
-
     return `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`;
 
   }
-
-
 
   // --------------------------------------------------
 
@@ -1041,19 +915,13 @@ Please send me your official payment details.`
 
   // --------------------------------------------------
 
-
-
   async function handleDonate(event) {
 
     event.preventDefault();
 
-
-
     setError('');
 
     setOffline(false);
-
-
 
     if (!amountIsValid) {
 
@@ -1061,23 +929,17 @@ Please send me your official payment details.`
 
     }
 
-
-
     if (!donor.name.trim()) {
 
       return setError('Please enter your full name.');
 
     }
 
-
-
     if (!EMAIL_PATTERN.test(donor.email.trim())) {
 
       return setError('Please enter a valid email address.');
 
     }
-
-
 
     if (donor.phone.trim() && !phoneIsValid) {
 
@@ -1089,8 +951,6 @@ Please send me your official payment details.`
 
     }
 
-
-
     // Bank transfer does not use the ObPay card checkout.
 
     if (paymentMethod === 'bank-transfer') {
@@ -1098,8 +958,6 @@ Please send me your official payment details.`
       return;
 
     }
-
-
 
     // Billing address validation for card payments.
 
@@ -1111,15 +969,11 @@ Please send me your official payment details.`
 
       }
 
-
-
       if (!donor.city.trim()) {
 
         return setError('Please enter your city.');
 
       }
-
-
 
       if (!donor.state.trim()) {
 
@@ -1129,11 +983,7 @@ Please send me your official payment details.`
 
     }
 
-
-
     setLoading(true);
-
-
 
     try {
 
@@ -1173,8 +1023,6 @@ Please send me your official payment details.`
 
       });
 
-
-
       const checkoutUrl =
 
         result?.checkoutUrl ||
@@ -1185,8 +1033,6 @@ Please send me your official payment details.`
 
         result?.data?.checkout_url;
 
-
-
       if (!checkoutUrl) {
 
         throw new Error(
@@ -1196,8 +1042,6 @@ Please send me your official payment details.`
         );
 
       }
-
-
 
       // Redirect to the secure hosted checkout page.
 
@@ -1210,8 +1054,6 @@ Please send me your official payment details.`
         err instanceof TypeError ||
 
         /not configured/i.test(err.message || '');
-
-
 
       if (unreachable) {
 
@@ -1237,57 +1079,93 @@ Please send me your official payment details.`
 
   }
 
-
-
   // ==================================================
 
   // PAGE
 
   // ==================================================
 
-
-
   return (
+
     <>
+
       <style>{`
+
       .donate-bank-panel{margin:28px 0 8px;border:1px solid #d8e5f5;border-radius:22px;overflow:hidden;background:#fff;box-shadow:0 12px 34px rgba(15,45,85,.10);color:#101d3a}
+
       .donate-bank-panel-heading{position:relative;overflow:hidden;padding:24px 34px;background:linear-gradient(110deg,#174d83 0%,#06447e 58%,#073b70 100%);color:#fff}
+
       .donate-bank-panel-heading:after{content:"";position:absolute;width:48%;height:100px;right:-5%;bottom:-66px;background:#1689df;transform:rotate(-8deg);border-radius:50% 0 0 0;opacity:.85}
+
       .donate-bank-panel-heading-inner{position:relative;z-index:1;display:flex;align-items:center;gap:24px}
+
       .donate-bank-panel-heading h3{margin:0 0 4px;font-size:clamp(25px,3vw,38px);font-weight:800;color:#fff}
+
       .donate-bank-panel-heading p{margin:0;font-size:17px;color:#fff}
+
       .donate-bank-panel-content{padding:25px 30px 28px}
+
       .donate-bank-section-title{position:relative;margin:0 0 18px;padding-bottom:12px;font-size:clamp(22px,2.4vw,30px);font-weight:800;color:#102b59}
+
       .donate-bank-section-title:after{content:"";position:absolute;left:0;bottom:0;width:58px;height:6px;border-radius:8px;background:#f5b400}
-      .donate-bank-account-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+
+      .donate-bank-account-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}.donate-bank-account-grid-single{grid-template-columns:minmax(0,760px);justify-content:center}
+
       .donate-bank-account-card{overflow:hidden;border:1px solid #d3e4fb;border-radius:17px;background:#fbfdff}
+
       .donate-bank-account-card-title{display:flex;align-items:center;gap:16px;padding:14px 18px;background:#eaf3ff;border-bottom:1px solid #d3e4fb;font-size:17px;color:#10254a}
+
       .donate-bank-flag{font-size:31px;line-height:1}
+
       .donate-bank-details-list{display:grid;gap:9px;margin:0;padding:15px 18px}
+
       .donate-bank-details-list>div{display:grid;grid-template-columns:minmax(125px,.9fr) minmax(0,1.2fr);gap:8px;align-items:center}
+
       .donate-bank-details-list dt{font-weight:800;color:#17233c}
+
       .donate-bank-details-list dd{margin:0;color:#202b3d;overflow-wrap:anywhere}
+
       .donate-bank-number-row dd strong{display:inline-block;padding:5px 10px;border:1px solid #c6ddf7;border-radius:9px;background:#e8f2ff;color:#07509a;font-size:18px;letter-spacing:.2px}
+
       .donate-bank-copy-inline{display:inline-flex;align-items:center;gap:8px;margin:0 18px 16px;padding:8px 12px;border:1px solid #c5d9f3;border-radius:8px;background:#fff;color:#07509a;font-weight:700;cursor:pointer}
+
       .donate-bank-steps-title{margin-top:30px}
+
       .donate-bank-steps-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px;margin:0;padding:8px 0 18px;list-style:none;text-align:center}
+
       .donate-bank-steps-grid li{position:relative;display:flex;flex-direction:column;align-items:center;min-width:0}
+
       .donate-bank-step-icon{display:grid;place-items:center;width:82px;height:82px;border-radius:50%;background:#e8f1fb;color:#0870c9}
+
       .donate-bank-step-number{display:grid;place-items:center;width:42px;height:42px;margin-top:-9px;border:3px solid #fff;border-radius:50%;background:#0755a0;color:#fff;font-weight:800}
+
       .donate-bank-steps-grid strong{margin:10px 0 4px;color:#102653;font-size:16px}
+
       .donate-bank-steps-grid p{max-width:220px;margin:0;color:#172238;font-size:14px;line-height:1.45}
+
       .donate-bank-notify-inline{display:flex;align-items:center;justify-content:center;gap:16px;width:min(100%,540px);margin:22px auto 20px;padding:15px 20px;border-radius:15px;background:linear-gradient(110deg,#07559a,#003b78);color:#fff;text-decoration:none;font-size:20px;font-weight:800;box-shadow:0 7px 18px rgba(0,61,125,.18)}
+
       .donate-bank-notify-inline:hover{filter:brightness(1.08)}
+
       .donate-bank-confirmation-note{display:flex;align-items:center;gap:13px;margin:0;padding:15px 18px;border:1px solid #d2e4fb;border-radius:14px;background:#eff6ff;color:#14243d;font-size:15px}
+
       .donate-bank-confirmation-note svg{flex:0 0 auto;color:#07539a}
+
+      
+      .donate-bank-swift-row dd{display:flex;align-items:center;flex-wrap:wrap;gap:9px}
+      .donate-bank-copy-swift{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:6px 10px;border:1px solid #c5d9f3;border-radius:8px;background:#fff;color:#07509a;font-size:12px;font-weight:800;cursor:pointer;transition:background .2s ease,border-color .2s ease}
+      .donate-bank-copy-swift:hover{background:#eaf3ff;border-color:#8eb9e8}
+      .donate-bank-copy-swift:focus-visible{outline:3px solid rgba(7,80,154,.25);outline-offset:2px}
+      @media(max-width:420px){.donate-bank-swift-row dd{align-items:flex-start}}
       @media(max-width:760px){.donate-bank-panel-heading{padding:20px}.donate-bank-panel-content{padding:20px 16px}.donate-bank-account-grid{grid-template-columns:1fr}.donate-bank-steps-grid{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:24px}.donate-bank-details-list>div{grid-template-columns: minmax(115px,.8fr) minmax(0,1.2fr)}}
+
       .donate-bank-modal-overlay{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;padding:24px;background:rgba(8,20,42,.66);backdrop-filter:blur(5px);overflow-y:auto}.donate-bank-panel{position:relative;width:min(1160px,100%);max-height:calc(100vh - 48px);overflow-y:auto;margin:auto;border:1px solid #d8e5f5;border-radius:22px;background:#fff;box-shadow:0 24px 80px rgba(0,0,0,.28)}.donate-bank-modal-close{position:absolute;z-index:5;top:14px;right:16px;display:grid;place-items:center;width:42px;height:42px;border:1px solid rgba(255,255,255,.5);border-radius:50%;background:rgba(255,255,255,.16);color:#fff;cursor:pointer}.donate-bank-modal-close:hover{background:rgba(255,255,255,.28)}@media(max-width:600px){.donate-bank-modal-overlay{padding:12px}.donate-bank-panel{max-height:calc(100vh - 24px);border-radius:16px}}
+
       @media(max-width:420px){.donate-bank-panel-heading-inner{gap:13px}.donate-bank-panel-heading-inner>svg{width:40px;height:40px}.donate-bank-steps-grid{grid-template-columns:1fr 1fr;gap:18px 10px}.donate-bank-steps-grid p{font-size:13px}.donate-bank-account-card-title{font-size:15px}.donate-bank-details-list{padding:13px}.donate-bank-details-list>div{grid-template-columns:1fr;gap:2px}.donate-bank-number-row dd strong{font-size:16px}.donate-bank-notify-inline{font-size:16px;gap:9px}}
+
     `}</style>
 
       <Navbar />
-
-
 
       <main className="donate-page">
 
@@ -1315,8 +1193,6 @@ Please send me your official payment details.`
 
             )}
 
-
-
             <div>
 
               <strong>
@@ -1337,11 +1213,7 @@ Please send me your official payment details.`
 
               </strong>
 
-
-
               <p>{paymentResult.message}</p>
-
-
 
               {paymentResult.reference && (
 
@@ -1355,15 +1227,11 @@ Please send me your official payment details.`
 
         )}
 
-
-
         {/* HERO */}
 
         <section className="donate-hero">
 
           <div className="donate-hero-shade" />
-
-
 
           <div className="donate-container donate-hero-content">
 
@@ -1374,8 +1242,6 @@ Please send me your official payment details.`
               MAKE A DIFFERENCE
 
             </span>
-
-
 
             <h1>
 
@@ -1389,8 +1255,6 @@ Please send me your official payment details.`
 
             </h1>
 
-
-
             <p>
 
               Sponsor the treatment of a child living with sickle cell
@@ -1400,8 +1264,6 @@ Please send me your official payment details.`
               grow up healthy.
 
             </p>
-
-
 
             <a href="#give" className="donate-btn donate-btn-light">
 
@@ -1414,8 +1276,6 @@ Please send me your official payment details.`
           </div>
 
         </section>
-
-
 
         {/* GIVE */}
 
@@ -1441,8 +1301,6 @@ Please send me your official payment details.`
 
               </span>
 
-
-
               <h2 id="donate-give-title">
 
                 Health and hope for{' '}
@@ -1456,8 +1314,6 @@ Please send me your official payment details.`
               </h2>
 
             </div>
-
-
 
             <div className="donate-card">
 
@@ -1503,15 +1359,11 @@ Please send me your official payment details.`
 
                 </div>
 
-
-
                 <p className="donate-card-label">
 
                   {programme.label}
 
                 </p>
-
-
 
                 <p className="donate-price" aria-live="polite">
 
@@ -1521,15 +1373,11 @@ Please send me your official payment details.`
 
                 </p>
 
-
-
                 <p className="donate-summary">
 
                   {programme.summary}
 
                 </p>
-
-
 
                 <ul className="donate-items">
 
@@ -1548,8 +1396,6 @@ Please send me your official payment details.`
                 </ul>
 
               </div>
-
-
 
               {/* DONATION WIDGET */}
 
@@ -1572,8 +1418,6 @@ Please send me your official payment details.`
                       Choose amount
 
                     </p>
-
-
 
                     <div
 
@@ -1613,8 +1457,6 @@ Please send me your official payment details.`
 
                     </div>
 
-
-
                     {frequency === 'Monthly' && (
 
                       <div className="donate-recurring">
@@ -1624,8 +1466,6 @@ Please send me your official payment details.`
                           <RefreshCw size={18} aria-hidden="true" />
 
                         </span>
-
-
 
                         <span>
 
@@ -1646,8 +1486,6 @@ Please send me your official payment details.`
                       </div>
 
                     )}
-
-
 
                     <div
 
@@ -1697,13 +1535,9 @@ Please send me your official payment details.`
 
                     </div>
 
-
-
                     <label className="donate-other">
 
                       <span aria-hidden="true">$</span>
-
-
 
                       <input
 
@@ -1731,13 +1565,9 @@ Please send me your official payment details.`
 
                       />
 
-
-
                       <span aria-hidden="true">USD</span>
 
                     </label>
-
-
 
                     {error && (
 
@@ -1750,8 +1580,6 @@ Please send me your official payment details.`
                       </p>
 
                     )}
-
-
 
                     <button
 
@@ -1807,8 +1635,6 @@ Please send me your official payment details.`
 
                     </button>
 
-
-
                     <div className="donate-summary-chip">
 
                       <span>{programme.label}</span>
@@ -1851,8 +1677,6 @@ Please send me your official payment details.`
 
                       </label>
 
-
-
                       <label className="donate-field">
 
                         <span>Email address *</span>
@@ -1881,15 +1705,11 @@ Please send me your official payment details.`
 
                     </div>
 
-
-
                     {/* PAYMENT METHOD */}
 
                     <fieldset className="donate-methods">
 
                       <legend>Payment method</legend>
-
-
 
                       <div className="donate-methods-grid">
 
@@ -1928,25 +1748,20 @@ Please send me your official payment details.`
                                 setError('');
 
                                 setOffline(false);
+
                                 setShowBankModal(item.id === 'bank-transfer');
 
                               }}
 
                             />
 
-
-
                             <PaymentBrand id={item.id} />
-
-
 
                             <span className="donate-method-name">
 
                               {item.name}
 
                             </span>
-
-
 
                             <CheckCircle2
 
@@ -1966,104 +1781,196 @@ Please send me your official payment details.`
 
                     </fieldset>
 
-
-
                   {/* BANK TRANSFER DETAILS — INLINE DESIGN */}
+
                   {showBankModal && paymentMethod === 'bank-transfer' && (
+
                     <div className="donate-bank-modal-overlay" onClick={() => setShowBankModal(false)}>
+
                     <section className="donate-bank-panel" aria-labelledby="donate-bank-panel-title" role="dialog" aria-modal="true" onClick={(event) => event.stopPropagation()}>
+
                       <button type="button" className="donate-bank-modal-close" aria-label="Close bank transfer details" onClick={() => setShowBankModal(false)}><X size={22} /></button>
+
                       <div className="donate-bank-panel-heading">
+
                         <div className="donate-bank-panel-heading-inner">
+
                           <Landmark size={54} aria-hidden="true" />
+
                           <div>
+
                             <h3 id="donate-bank-panel-title">Bank Transfer</h3>
+
                             <p>Give directly through our bank account.</p>
+
                           </div>
+
                         </div>
+
                       </div>
 
                       <div className="donate-bank-panel-content">
+
                         <h4 className="donate-bank-section-title">Our Bank Details</h4>
-                        <div className="donate-bank-account-grid">
-                          {[
-                            { currency: 'UGX', flag: '🇺🇬', title: 'UGX Account (Uganda Shillings)', number: '1027203775347' },
-                            { currency: 'USD', flag: '🇺🇸', title: 'USD Account (US Dollars)', number: '1027203775339' },
-                          ].map((account) => (
-                            <article className="donate-bank-account-card" key={account.currency}>
+
+                        <div className="donate-bank-account-grid donate-bank-account-grid-single">
+
+                          <article className="donate-bank-account-card">
+
+                            <div className="donate-bank-brand">
+
+                              <div className="donate-equity-mark" aria-hidden="true"><span></span></div>
+
+                              <strong className="donate-equity-wordmark">EQUITY</strong>
+
+                              <span className="donate-equity-caption">Equity Bank<br /> (Uganda)</span>
+
+                            </div>
+
+                            <div className="donate-bank-account-information">
+
                               <div className="donate-bank-account-card-title">
-                                <span className="donate-bank-flag" aria-hidden="true">{account.flag}</span>
-                                <strong>{account.title}</strong>
+
+                                <span className="donate-bank-flag" aria-hidden="true">🇺🇸</span>
+
+                                <strong>USD Account (US Dollars)</strong>
+
                               </div>
+
                               <dl className="donate-bank-details-list">
-                                <div><dt>Bank:</dt><dd>Equity Bank (Uganda)</dd></div>
-                                <div><dt>Account Name:</dt><dd>The Web Initiative Ltd</dd></div>
+
+                                <div><dt>Account Name</dt><dd>The Web Initiative Ltd</dd></div>
+
                                 <div className="donate-bank-number-row">
-                                  <dt>Account Number:</dt>
-                                  <dd><strong>{account.number}</strong></dd>
+
+                                  <dt>Account Number</dt>
+
+                                  <dd><strong>1027203775339</strong></dd>
+
                                 </div>
-                                <div><dt>Branch:</dt><dd>Jinja Branch</dd></div>
+
+                                <div><dt>Currency</dt><dd>USD</dd></div>
+
+                                <div><dt>Branch</dt><dd>Jinja Branch</dd></div>
+
+                                <div className="donate-bank-swift-row">
+                                  <dt>SWIFT / BIC Code</dt>
+                                  <dd>
+                                    <strong>EQBLUGKA</strong>
+                                    <button
+                                      type="button"
+                                      className="donate-bank-copy-swift"
+                                      onClick={copySwiftCode}
+                                      aria-label="Copy SWIFT code EQBLUGKA"
+                                    >
+                                      {swiftCopied ? (
+                                        <Check size={15} aria-hidden="true" />
+                                      ) : (
+                                        <Copy size={15} aria-hidden="true" />
+                                      )}
+                                      {swiftCopied ? 'Copied' : 'Copy SWIFT'}
+                                    </button>
+                                  </dd>
+                                </div>
+
                               </dl>
-                              <button
-                                type="button"
-                                className="donate-bank-copy-inline"
-                                onClick={async () => {
-                                  try {
-                                    await navigator.clipboard.writeText(account.number);
-                                    setBankDetailsCopied(true);
-                                  } catch (copyError) {
-                                    setError('Unable to copy the account number. Please copy it manually.');
-                                  }
-                                }}
-                              >
+
+                              <button type="button" className="donate-bank-copy-inline" onClick={copyBankDetails}>
+
                                 {bankDetailsCopied ? <Check size={16} /> : <Copy size={16} />}
-                                Copy account number
+
+                                {bankDetailsCopied ? 'Bank details copied' : 'Copy bank details'}
+
                               </button>
-                            </article>
-                          ))}
+
+                            </div>
+
+                          </article>
+
                         </div>
 
                         <h4 className="donate-bank-section-title donate-bank-steps-title">How to Complete Your Transfer</h4>
+
                         <ol className="donate-bank-steps-grid">
+
                           <li>
+
                             <span className="donate-bank-step-icon"><Copy size={32} /></span>
+
                             <span className="donate-bank-step-number">01</span>
+
                             <strong>Copy bank details</strong>
-                            <p>Select UGX or USD and copy the matching account number.</p>
+
+                            <p>Copy the USD account number and SWIFT code, then make your transfer.</p>
+
                           </li>
+
                           <li>
+
                             <span className="donate-bank-step-icon"><RefreshCw size={32} /></span>
+
                             <span className="donate-bank-step-number">02</span>
+
                             <strong>Make your transfer</strong>
+
                             <p>Use mobile banking, internet banking or visit a bank branch.</p>
+
                           </li>
+
                           <li>
+
                             <span className="donate-bank-step-icon"><ReceiptText size={32} /></span>
+
                             <span className="donate-bank-step-number">03</span>
+
                             <strong>Keep your receipt</strong>
+
                             <p>Save your transaction receipt or payment reference.</p>
+
                           </li>
+
                           <li>
+
                             <span className="donate-bank-step-icon"><Mail size={32} /></span>
+
                             <span className="donate-bank-step-number">04</span>
+
                             <strong>Notify our team</strong>
+
                             <p>Email your payment confirmation for verification.</p>
+
                           </li>
+
                         </ol>
 
+                        <div className="donate-bank-bottom-row">
+
                         <a href={emailHref()} className="donate-bank-notify-inline">
+
                           <Mail size={25} aria-hidden="true" />
+
                           Notify us after payment
+
                           <ArrowRight size={23} aria-hidden="true" />
+
                         </a>
 
                         <p className="donate-bank-confirmation-note">
+
                           <ShieldCheck size={24} aria-hidden="true" />
+
                           Your donation will be confirmed after our team verifies receipt of the funds.
+
                         </p>
+
                       </div>
+
+                      </div>
+
                     </section>
+
                     </div>
+
                   )}
 
                                       {/* SECURE CARD CHECKOUT INFORMATION */}
@@ -2086,8 +1993,6 @@ Please send me your official payment details.`
 
                         </div>
 
-
-
                         <p className="donate-card-provider-note">
 
                           After you click Donate, you will be redirected
@@ -2106,8 +2011,6 @@ Please send me your official payment details.`
 
                     )}
 
-
-
                     {/* PHONE NUMBER */}
 
                     <div className="donate-field">
@@ -2117,8 +2020,6 @@ Please send me your official payment details.`
                         Phone number (optional)
 
                       </label>
-
-
 
                       <PhoneInput
 
@@ -2146,8 +2047,6 @@ Please send me your official payment details.`
 
                     </div>
 
-
-
                     {/* BILLING ADDRESS */}
 
                     {paymentMethod === 'card' && (
@@ -2162,8 +2061,6 @@ Please send me your official payment details.`
 
                         </div>
 
-
-
                         <p className="donate-card-provider-note">
 
                           Enter your billing address for secure card
@@ -2172,13 +2069,11 @@ Please send me your official payment details.`
 
                         </p>
 
-
-
                         <div className="donate-fields">
 
                           <label className="donate-field">
 
-                            <span>Address line 1 *</span>
+                            <span>Address line 1 \\*</span>
 
                             <input
 
@@ -2207,8 +2102,6 @@ Please send me your official payment details.`
                             />
 
                           </label>
-
-
 
                           <label className="donate-field">
 
@@ -2242,13 +2135,11 @@ Please send me your official payment details.`
 
                         </div>
 
-
-
                         <div className="donate-fields">
 
                           <label className="donate-field">
 
-                            <span>City *</span>
+                            <span>City \\*</span>
 
                             <input
 
@@ -2272,11 +2163,9 @@ Please send me your official payment details.`
 
                           </label>
 
-
-
                           <label className="donate-field">
 
-                            <span>State / Region *</span>
+                            <span>State / Region \\*</span>
 
                             <input
 
@@ -2301,8 +2190,6 @@ Please send me your official payment details.`
                           </label>
 
                         </div>
-
-
 
                         <label className="donate-field">
 
@@ -2338,8 +2225,6 @@ Please send me your official payment details.`
 
                     )}
 
-
-
                     {/* OPTIONAL MESSAGE */}
 
                     <label className="donate-field">
@@ -2364,8 +2249,6 @@ Please send me your official payment details.`
 
                     </label>
 
-
-
                     {error && (
 
                       <p className="donate-error" role="alert">
@@ -2377,8 +2260,6 @@ Please send me your official payment details.`
                       </p>
 
                     )}
-
-
 
                     {offline && paymentMethod === 'card' ? (
 
@@ -2395,8 +2276,6 @@ Please send me your official payment details.`
                           details.
 
                         </p>
-
-
 
                         <a
 
@@ -2486,8 +2365,6 @@ Please send me your official payment details.`
 
                 )}
 
-
-
                 <p className="donate-widget-foot">
 
                   <LockKeyhole size={16} aria-hidden="true" />
@@ -2503,8 +2380,6 @@ Please send me your official payment details.`
           </div>
 
         </section>
-
-
 
         {/* HOW GIVING WORKS */}
 
@@ -2528,8 +2403,6 @@ Please send me your official payment details.`
 
               </span>
 
-
-
               <h2 id="donate-steps-title">
 
                 Three simple steps{' '}
@@ -2540,15 +2413,11 @@ Please send me your official payment details.`
 
             </div>
 
-
-
             <ol className="donate-steps-grid">
 
               {givingSteps.map((item, index) => {
 
                 const Icon = item.icon;
-
-
 
                 return (
 
@@ -2566,15 +2435,11 @@ Please send me your official payment details.`
 
                     </span>
 
-
-
                     <span className="donate-icon-box">
 
                       <Icon size={24} aria-hidden="true" />
 
                     </span>
-
-
 
                     <h3>{item.title}</h3>
 
@@ -2591,8 +2456,6 @@ Please send me your official payment details.`
           </div>
 
         </section>
-
-
 
         {/* FAQ */}
 
@@ -2616,8 +2479,6 @@ Please send me your official payment details.`
 
               </span>
 
-
-
               <h2 id="donate-faq-title">
 
                 Giving,{' '}
@@ -2626,8 +2487,6 @@ Please send me your official payment details.`
 
               </h2>
 
-
-
               <p>
 
                 Want to help in another way? You can also volunteer at
@@ -2635,8 +2494,6 @@ Please send me your official payment details.`
                 a camp or partner with us.
 
               </p>
-
-
 
               <Link to="/contact" className="donate-text-link">
 
@@ -2651,8 +2508,6 @@ Please send me your official payment details.`
               </Link>
 
             </div>
-
-
 
             <div className="donate-faq-list">
 
@@ -2674,8 +2529,6 @@ Please send me your official payment details.`
 
                   </summary>
 
-
-
                   <p>{item.answer}</p>
 
                 </details>
@@ -2689,8 +2542,6 @@ Please send me your official payment details.`
         </section>
 
       </main>
-
-
 
       <Footer />
 
