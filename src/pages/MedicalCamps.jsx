@@ -15,6 +15,9 @@ import {
 import Navbar from '../components/Navbar.jsx';
 import Footer from '../components/Footer.jsx';
 import './MedicalCamps.css';
+import { responsiveImage } from '../utils/responsiveImage.js';
+import { formatDateRange, getNextCampEvent } from '../data/events.js';
+import CountryFlag from '../components/CountryFlag.jsx';
 
 // What a visit to one of our camps looks like, shown with real camp photos.
 const activities = [
@@ -95,6 +98,11 @@ const steps = [
 ];
 
 function MedicalCamps() {
+  // Next dates for each camp, from src/data/events.js
+  const nextDates = Object.fromEntries(
+    camps.map((camp) => [camp.id, getNextCampEvent(camp.id)])
+  );
+
   return (
     <>
       <Navbar />
@@ -109,11 +117,6 @@ function MedicalCamps() {
           <div className="mc-hero-shade" />
 
           <div className="mc-container mc-hero-content">
-            <span className="mc-kicker mc-kicker-light">
-              <span className="mc-kicker-dot" />
-              COMMUNITY OUTREACH
-            </span>
-
             <h1>
               Medical camps that bring healthcare{' '}
               <span className="hand-accent hand-accent--on-dark">
@@ -142,11 +145,6 @@ function MedicalCamps() {
         <section className="mc-intro">
           <div className="mc-container mc-intro-grid">
             <div className="mc-intro-copy">
-              <span className="mc-kicker">
-                <span className="mc-kicker-dot" />
-                REACHING COMMUNITIES
-              </span>
-
               <h2>
                 Bringing health care{' '}
                 <span className="hand-accent">closer to Families.</span>
@@ -201,10 +199,7 @@ function MedicalCamps() {
         <section className="mc-activities" aria-labelledby="mc-activities-title">
           <div className="mc-container">
             <div className="mc-heading mc-heading-center">
-              <span className="mc-kicker mc-kicker-light">
-                <span className="mc-kicker-dot" />
-                AT A CAMP
-              </span>
+
               <h2 id="mc-activities-title">
                 What happens at{' '}
                 <span className="hand-accent hand-accent--on-dark">
@@ -225,7 +220,7 @@ function MedicalCamps() {
                   <article className="mc-activity-card" key={item.title}>
                     <div className="mc-activity-photo">
                       <img
-                        src={item.image}
+                        {...responsiveImage(item.image, '(max-width: 760px) 100vw, 400px')}
                         alt={item.alt}
                         loading="lazy"
                         style={item.position ? { objectPosition: item.position } : undefined}
@@ -250,18 +245,15 @@ function MedicalCamps() {
           <div className="mc-container">
             <div className="mc-heading mc-heading-split">
               <div>
-                <span className="mc-kicker">
-                  <span className="mc-kicker-dot" />
-                  OUR OUTREACH
-                </span>
+
                 <h2 id="mc-listing-title">
                   Explore our{' '}
                   <span className="hand-accent">medical camps.</span>
                 </h2>
               </div>
               <p>
-                The kinds of outreach we run. Dates and locations are
-                shared once each camp is confirmed.
+                The kinds of outreach we run. Our next camps take place
+                in Alebtong District from 1st to 14th March 2027.
               </p>
             </div>
 
@@ -274,7 +266,7 @@ function MedicalCamps() {
                     tabIndex={-1}
                     aria-hidden="true"
                   >
-                    <img src={camp.image} alt="" loading="lazy" />
+                    <img {...responsiveImage(camp.image, '(max-width: 760px) 100vw, 400px')} alt="" loading="lazy" />
                     <span className="mc-camp-category">{camp.category}</span>
                   </Link>
 
@@ -287,11 +279,14 @@ function MedicalCamps() {
                     <ul className="mc-camp-meta">
                       <li>
                         <MapPin size={17} aria-hidden="true" />
-                        Location to be announced
+                        {nextDates[camp.id]?.location || 'Location to be announced'}
+                        <CountryFlag code={nextDates[camp.id]?.flag} />
                       </li>
                       <li>
                         <CalendarDays size={17} aria-hidden="true" />
-                        Date to be announced
+                        {nextDates[camp.id]
+                          ? formatDateRange(nextDates[camp.id])
+                          : 'Date to be announced'}
                       </li>
                     </ul>
 
@@ -314,10 +309,7 @@ function MedicalCamps() {
         <section className="mc-involve" aria-labelledby="mc-involve-title">
           <div className="mc-container mc-involve-grid">
             <div className="mc-involve-copy">
-              <span className="mc-kicker">
-                <span className="mc-kicker-dot" />
-                GET INVOLVED
-              </span>
+
               <h2 id="mc-involve-title">
                 Help a camp{' '}
                 <span className="hand-accent">reach more families.</span>

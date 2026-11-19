@@ -1,8 +1,9 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { ArrowRight, X, ChevronLeft, ChevronRight, Expand } from 'lucide-react';
+import { ArrowRight, X, ChevronLeft, ChevronRight, Expand, Play } from 'lucide-react';
 import Navbar from '../components/Navbar.jsx';
 import Footer from '../components/Footer.jsx';
 import './Gallery.css';
+import { smallVersion } from '../utils/responsiveImage.js';
 
 // Real photos from our camps: a light thumbnail for the grid and a
 // Full HD version for the full-screen viewer.
@@ -12,6 +13,27 @@ const campPhoto = (name) => ({
 });
 
 const galleryItems = [
+  {
+    image: '/images/how-can-i-serve-you.jpg',
+    thumb: '/images/thumbs/how-can-i-serve-you.jpg',
+    title: 'How can I serve you?',
+    category: 'Community',
+    description: 'Hearts ready to offer service. We are here to serve you.?”',
+  },
+  {
+    image: '/images/donate-hero.jpg',
+    thumb: '/images/thumbs/donate-hero.jpg',
+    title: 'Smiles at home',
+    category: 'Community',
+    description: 'Our Director crouching with two children outside of a brick home. Smiles of Hope',
+  },
+  {
+    image: '/images/outreach-team.jpg',
+    thumb: '/images/thumbs/outreach-team.jpg',
+    title: 'Side by side',
+    category: 'Medical Camps',
+    description: 'Two members of the medical team smiling together at the camp.',
+  },
   {
     ...campPhoto('arm-measurement-check'),
     title: 'Malnutrition screening',
@@ -74,12 +96,14 @@ const galleryItems = [
   },
   {
     image: '/images/health-screening.jpg',
-    title: 'Finger-prick testing',
-    category: 'Medical Camps',
-    description: 'A quick blood test as part of a health check.',
+    thumb: '/images/thumbs/health-screening.jpg',
+    title: 'Malaria awareness',
+    category: 'Health Education',
+    description: 'Two health workers holding an “I am malaria free” photo frame.',
   },
   {
     image: '/images/camp-village-tents.jpg',
+    thumb: '/images/sm/camp-village-tents.jpg',
     title: 'Reaching the village',
     category: 'Community',
     description: 'Our camp set up in the heart of a village community.',
@@ -97,20 +121,62 @@ const galleryItems = [
     description: 'Helping patients with limited mobility reach care.',
   },
   {
-    image: '/images/healthcare-team.jpg',
-    title: 'Talking with families',
-    category: 'Health Education',
-    description: 'Explaining health information to a mother and her child.',
-  },
-  {
     image: '/images/medical-team.jpg',
     title: 'Working as one team',
-    category: 'Health Education',
-    description: 'Clinicians and volunteers sharing what they know.',
+    category: 'Community',
+    description: 'Members of our team smiling together outdoors.',
   },
 ];
 
 const categories = ['All', 'Medical Camps', 'Community', 'Health Education'];
+
+// Camp video in public/videos/: a 720p file for large screens and a lighter
+// 540p one for everything else. Nothing downloads until the visitor presses play.
+const CAMP_VIDEO = '/videos/hero.mp4';
+const CAMP_VIDEO_HD = '/videos/hero-720.mp4';
+const CAMP_VIDEO_POSTER = '/images/hero-poster.jpg';
+
+function CampVideo() {
+  const [playing, setPlaying] = useState(false);
+  const [src, setSrc] = useState(null);
+
+  const start = () => {
+    const renderedWidth = window.innerWidth * (window.devicePixelRatio || 1);
+    setSrc(renderedWidth > 1600 ? CAMP_VIDEO_HD : CAMP_VIDEO);
+    setPlaying(true);
+  };
+
+  return (
+    <div className="gallery-video">
+      {playing ? (
+        <video
+          src={src}
+          poster={CAMP_VIDEO_POSTER}
+          controls
+          autoPlay
+          playsInline
+          aria-label="Video of families gathered at one of our medical camps"
+        />
+      ) : (
+        <button
+          type="button"
+          className="gallery-video-cover"
+          onClick={start}
+          aria-label="Play video: a day at our medical camps"
+        >
+          <img src={CAMP_VIDEO_POSTER} alt="" loading="lazy" />
+          <span className="gallery-video-play" aria-hidden="true">
+            <Play size={30} fill="currentColor" />
+          </span>
+          <span className="gallery-video-meta" aria-hidden="true">
+            <strong>A day at our medical camps</strong>
+            <span>Video · 28 seconds</span>
+          </span>
+        </button>
+      )}
+    </div>
+  );
+}
 
 const countFor = (category) =>
   category === 'All'
@@ -194,11 +260,6 @@ export default function Gallery() {
           <div className="gallery-hero-shade" />
 
           <div className="gallery-container gallery-hero-content">
-            <span className="gallery-kicker gallery-kicker-light">
-              <span className="gallery-kicker-dot" />
-              OUR GALLERY
-            </span>
-
             <h1>
               Moments that{' '}
               <span className="hand-accent hand-accent--on-dark">
@@ -223,10 +284,7 @@ export default function Gallery() {
           <div className="gallery-container">
             <div className="gallery-heading">
               <div>
-                <span className="gallery-kicker">
-                  <span className="gallery-kicker-dot" />
-                  OUR WORK IN PICTURES
-                </span>
+
                 <h2 id="gallery-title">
                   Every picture{' '}
                   <span className="hand-accent">tells a story.</span>
@@ -265,7 +323,7 @@ export default function Gallery() {
                     }}
                   >
                     <img
-                      src={item.thumb || item.image}
+                      src={item.thumb || smallVersion(item.image) || item.image}
                       alt={item.description}
                       loading="lazy"
                     />
@@ -280,6 +338,23 @@ export default function Gallery() {
                 </li>
               ))}
             </ul>
+          </div>
+        </section>
+
+        {/* VIDEO */}
+        <section className="gallery-watch" aria-labelledby="gallery-watch-title">
+          <div className="gallery-container">
+            <div className="gallery-heading gallery-heading-center">
+              <div>
+
+                <h2 id="gallery-watch-title">
+                  A day at{' '}
+                  <span className="hand-accent">our camps.</span>
+                </h2>
+              </div>
+            </div>
+
+            <CampVideo />
           </div>
         </section>
 

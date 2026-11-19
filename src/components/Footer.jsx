@@ -1,18 +1,22 @@
 
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
   MapPin,
   Mail,
+  Phone,
   MessageCircle,
   Heart,
   ArrowRight,
   ArrowUp,
+  Check,
   Facebook,
   Instagram,
   Linkedin,
   Youtube,
 } from 'lucide-react';
-import { CONTACT_EMAIL, SOCIAL_LINKS, DESIGNER } from '../config.js';
+import { CONTACT_EMAIL, CONTACT_PHONE, WHATSAPP, SOCIAL_LINKS, DESIGNER } from '../config.js';
+import { scrollToY } from './smoothScroll.js';
 import './Footer.css';
 
 const exploreLinks = [
@@ -54,19 +58,62 @@ const socialPlatforms = [
   { key: 'whatsapp', label: 'WhatsApp', icon: MessageCircle },
 ];
 
+// Small email signup. There is no mailing-list service yet, so it opens
+// the visitor's email app with a ready-to-send request to our inbox.
+function FooterSubscribe() {
+  const [email, setEmail] = useState('');
+  const [sent, setSent] = useState(false);
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const subject = encodeURIComponent('Please add me to your email updates');
+    const body = encodeURIComponent(
+      `Hello,\n\nPlease send news and updates from The Web Initiative to ${email.trim()}.\n\nThank you.`
+    );
+    window.location.href = `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`;
+    setSent(true);
+  };
+
+  return (
+    <form className="footer-subscribe" onSubmit={handleSubmit}>
+      <label htmlFor="footer-subscribe-email">Get updates by email</label>
+      <div className="footer-subscribe-row">
+        <input
+          id="footer-subscribe-email"
+          type="email"
+          autoComplete="email"
+          placeholder="Your email"
+          required
+          value={email}
+          onChange={(event) => {
+            setEmail(event.target.value);
+            setSent(false);
+          }}
+        />
+        <button type="submit" aria-label="Subscribe">
+          {sent ? <Check size={16} aria-hidden="true" /> : <ArrowRight size={16} aria-hidden="true" />}
+        </button>
+      </div>
+      <p className="footer-subscribe-note" aria-live="polite">
+        {sent ? 'Thank you! Send the email that opened to finish.' : 'News from our camps. No spam.'}
+      </p>
+    </form>
+  );
+}
 
 function Footer() {
   const currentYear = new Date().getFullYear();
 
   const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    scrollToY(0);
   };
 
   return (
     <footer className="site-footer">
       {/* Final call to action */}
       <section className="footer-cta" aria-labelledby="footer-cta-title">
-        <div className="footer-container footer-cta-inner">
+        <div className="footer-container footer-cta-card">
+          <div className="footer-cta-inner">
           <div className="footer-cta-copy">
             <h2 id="footer-cta-title">
               Help us bring care closer to every community.
@@ -87,6 +134,7 @@ function Footer() {
               <ArrowRight size={17} aria-hidden="true" />
             </Link>
           </div>
+          </div>
         </div>
       </section>
 
@@ -99,7 +147,7 @@ function Footer() {
               aria-label="The Web Initiative Ltd home"
             >
               <img
-                src="/images/logo.jpeg"
+                src="/images/logo-footer.jpg"
                 alt="The Web Initiative logo"
                 className="footer-logo"
               />
@@ -124,7 +172,7 @@ function Footer() {
                 const url = SOCIAL_LINKS[platform.key];
 
                 return (
-                  <li key={platform.key}>
+                  <li key={platform.key} className={`footer-social-${platform.key}`}>
                     {url ? (
                       <a
                         href={url}
@@ -190,10 +238,23 @@ function Footer() {
                 <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
               </li>
               <li>
+                <Phone size={19} aria-hidden="true" />
+                <a href={CONTACT_PHONE.href}>{CONTACT_PHONE.display}</a>
+              </li>
+              <li>
+                <MessageCircle size={19} aria-hidden="true" />
+                <a href={WHATSAPP.href} target="_blank" rel="noopener noreferrer">
+                  WhatsApp {WHATSAPP.display}
+                  <span className="sr-only"> (opens WhatsApp)</span>
+                </a>
+              </li>
+              <li>
                 <MessageCircle size={19} aria-hidden="true" />
                 <Link to="/contact">Send us a message</Link>
               </li>
             </ul>
+
+            <FooterSubscribe />
           </div>
         </div>
       </div>

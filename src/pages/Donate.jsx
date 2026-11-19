@@ -1,7 +1,5 @@
-
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-
 import {
   ArrowRight,
   CheckCircle2,
@@ -131,12 +129,8 @@ const paymentMethods = [
 function PaymentBrand({ id }) {
   if (id === 'card') {
     return (
-      <span
-        className="donate-brand donate-brand-card"
-        aria-hidden="true"
-      >
+      <span className="donate-brand donate-brand-card" aria-hidden="true">
         <strong>VISA</strong>
-
         <span className="donate-brand-mc">
           <span />
           <span />
@@ -147,10 +141,7 @@ function PaymentBrand({ id }) {
 
   if (id === 'paypal') {
     return (
-      <span
-        className="donate-brand donate-brand-paypal"
-        aria-hidden="true"
-      >
+      <span className="donate-brand donate-brand-paypal" aria-hidden="true">
         <strong>Pay</strong>
         <strong>Pal</strong>
       </span>
@@ -216,9 +207,8 @@ const faqs = [
 ];
 
 const firstOptionFor = (programmeId) =>
-  amountOptions.find(
-    (option) => option.programme === programmeId
-  )?.id || amountOptions[0].id;
+  amountOptions.find((option) => option.programme === programmeId)?.id ||
+  amountOptions[0].id;
 
 // ==================================================
 // DONATE COMPONENT
@@ -249,18 +239,19 @@ export default function Donate() {
   const [loading, setLoading] = useState(false);
   const [offline, setOffline] = useState(false);
 
-  // Confirm payments with the backend.
-  // Query parameters alone are not proof of payment.
-
   const [paymentResult, setPaymentResult] = useState({
     status: '',
     reference: '',
     message: '',
   });
 
+  const widgetRef = useRef(null);
+  const nameRef = useRef(null);  // --------------------------------------------------
+  // VERIFY PAYMENT AFTER RETURN FROM CHECKOUT
+  // --------------------------------------------------
+
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
-
     const requestedStatus = params.get('payment');
     const reference = params.get('reference');
 
@@ -305,12 +296,12 @@ export default function Donate() {
 
         const status = String(
           result.paymentStatus ||
-          result.payment_status ||
-          result.status ||
-          result.data?.paymentStatus ||
-          result.data?.payment_status ||
-          result.data?.status ||
-          ''
+            result.payment_status ||
+            result.status ||
+            result.data?.paymentStatus ||
+            result.data?.payment_status ||
+            result.data?.status ||
+            ''
         ).toLowerCase();
 
         if (!active) return;
@@ -360,8 +351,9 @@ export default function Donate() {
     };
   }, []);
 
-  const widgetRef = useRef(null);
-  const nameRef = useRef(null);
+  // --------------------------------------------------
+  // SELECTED DONATION INFORMATION
+  // --------------------------------------------------
 
   const programme = programmes.find(
     (item) => item.id === programmeId
@@ -452,9 +444,7 @@ export default function Donate() {
   function goToDetails(event) {
     event.preventDefault();
 
-    if (!amountIsValid) return;
-
-    if (selectedAmount <= 0) {
+    if (!amountIsValid) {
       return setError('Please enter a valid donation amount.');
     }
 
@@ -520,15 +510,10 @@ Please send me your official payment details.`
       );
     }
 
-    // Billing address validation
-
+    // Billing address validation for card payments
     if (paymentMethod === 'card') {
       if (!donor.addressLine1.trim()) {
         return setError('Please enter your billing address.');
-      }
-
-      if (!donor.addressLine2.trim()) {
-        return setError('Please enter Billing Address Line 2.');
       }
 
       if (!donor.city.trim()) {
@@ -547,36 +532,35 @@ Please send me your official payment details.`
         donorName: donor.name.trim(),
         email: donor.email.trim(),
         phone: parsedPhone ? parsedPhone.number : '',
-
-        // Billing address
         addressLine1: donor.addressLine1.trim(),
         addressLine2: donor.addressLine2.trim(),
         city: donor.city.trim(),
         state: donor.state.trim(),
         postalCode: donor.postalCode.trim(),
-
         amount: Number(Number(selectedAmount).toFixed(2)),
         currency: 'USD',
         cause: programme.label,
         gift: giftText,
-
         frequency:
           frequency === 'Monthly' ? 'monthly' : 'one-time',
-
         paymentMethod,
         message: donor.message.trim(),
       });
 
-      if (!result?.checkoutUrl) {
+      const checkoutUrl =
+        result?.checkoutUrl ||
+        result?.checkout_url ||
+        result?.data?.checkoutUrl ||
+        result?.data?.checkout_url;
+
+      if (!checkoutUrl) {
         throw new Error(
           'The payment provider did not return a checkout link. Please try again.'
         );
       }
 
-      // ObPay and PayPal return provider-hosted checkout pages.
-      // Redirect rather than embedding an unverified third-party page in an iframe.
-
-      window.location.assign(result.checkoutUrl);
+      // Redirect to the secure hosted checkout page.
+      window.location.assign(checkoutUrl);
     } catch (err) {
       const unreachable =
         err instanceof TypeError ||
@@ -587,13 +571,17 @@ Please send me your official payment details.`
       } else {
         setError(
           err.message ||
-          'We could not start your donation. Please try again.'
+            'We could not start your donation. Please try again.'
         );
       }
     } finally {
       setLoading(false);
     }
-  }  return (
+  }  // ==================================================
+  // PAGE
+  // ==================================================
+
+  return (
     <>
       <Navbar />
 
@@ -953,14 +941,13 @@ Please send me your official payment details.`
 
                         <p className="donate-card-provider-note">
                           After you click Donate, you will be redirected
-                          to ObPay's secure hosted checkout to enter your
-                          card details. This website does not collect or
-                          store your card number, CVC or expiry date.
+                          to the secure ObPay checkout page. Enter your
+                          card details directly on that page. This
+                          website does not collect or store your card
+                          number, CVC or expiry date.
                         </p>
                       </section>
-                    )}
-
-                    {/* PHONE NUMBER */}
+                    )}                    {/* PHONE NUMBER */}
                     <div className="donate-field">
                       <label htmlFor="donate-phone">
                         Phone number (optional)
@@ -1012,7 +999,7 @@ Please send me your official payment details.`
                           </label>
 
                           <label className="donate-field">
-                            <span>Address line 2</span>
+                            <span>Address line 2 (optional)</span>
                             <input
                               type="text"
                               autoComplete="address-line2"

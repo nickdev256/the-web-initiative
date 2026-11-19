@@ -1,5 +1,4 @@
 
-import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
   Play,
@@ -20,16 +19,10 @@ import {
 
 import Navbar from '../components/Navbar.jsx';
 import Footer from '../components/Footer.jsx';
-import { getUpcomingEvents } from '../data/events.js';
+import { formatDateRange, getUpcomingEvents, ordinalSuffix } from '../data/events.js';
+import CountryFlag from '../components/CountryFlag.jsx';
 import './Home.css';
-
-// Hero background video in public/videos/: a light portrait cut for
-// phones (about 3 MB), a 540p file for laptops and a sharper 720p file for
-// large or high-resolution screens. If none loads, the poster photo shows.
-const HERO_VIDEO_MOBILE = '/videos/hero-mobile.mp4';
-const HERO_VIDEO = '/videos/hero.mp4';
-const HERO_VIDEO_HD = '/videos/hero-720.mp4';
-const HERO_POSTER = '/images/hero-poster.jpg';
+import { responsiveImage } from '../utils/responsiveImage.js';
 
 // The three health issues named in the hero, shown in "Who we are".
 const healthPriorities = [
@@ -65,6 +58,9 @@ const focusAreas = [
     icon: CalendarDays,
     image: '/images/outdoor-consultation.jpg',
     imageAlt: 'A health worker consulting with patients at an outdoor medical camp',
+    // Small photo pinned to the corner of the main photo
+    noteImage: '/images/outreach-team.jpg',
+    noteImageAlt: 'Two members of the medical team smiling together at the camp',
     title: 'Medical Camps',
     description:
       'Community outreach initiatives that bring healthcare closer to the people who need it.',
@@ -74,7 +70,7 @@ const focusAreas = [
   {
     icon: Users,
     image: '/images/medical-team.jpg',
-    imageAlt: 'Members of our healthcare team talking together',
+    imageAlt: 'Members of our team smiling together outdoors',
     title: 'Our Team',
     description:
       'Meet the people working together to advance our community healthcare mission.',
@@ -84,8 +80,9 @@ const focusAreas = [
   {
     icon: HandHeart,
     image: '/images/donate-hero.jpg',
-    imageAlt: 'A health worker caring for a smiling child at sunset',
-    imagePosition: '80% center',
+    imageAlt: 'A smiling man crouching with two young children outside a brick home',
+    // Centres the group in the card; keeps the boy's feet clear of the icon
+    imagePosition: '45% center',
     title: 'Make a Difference',
     description:
       'Partner with us and help create meaningful, lasting change in our communities.',
@@ -96,100 +93,30 @@ const focusAreas = [
 
 function Home() {
   const upcomingEvents = getUpcomingEvents();
-  const videoRef = useRef(null);
-  const [videoReady, setVideoReady] = useState(false);
-  const [videoPlaying, setVideoPlaying] = useState(false);
-
-  useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
-
-    // Skip the video for visitors who asked for less motion or turned on
-    // data saver; they see the poster photo instead.
-    const reduceMotion = window.matchMedia(
-      '(prefers-reduced-motion: reduce)'
-    ).matches;
-    const saveData = navigator.connection?.saveData === true;
-
-    if (reduceMotion || saveData) return;
-
-    // Phones get the light portrait cut to save mobile data
-    const smallScreen = window.matchMedia('(max-width: 760px)').matches;
-    const renderedWidth = window.innerWidth * (window.devicePixelRatio || 1);
-    video.src = smallScreen
-      ? HERO_VIDEO_MOBILE
-      : renderedWidth > 1920
-        ? HERO_VIDEO_HD
-        : HERO_VIDEO;
-    video.play().catch(() => setVideoPlaying(false));
-  }, []);
-
-  const toggleVideo = () => {
-    const video = videoRef.current;
-    if (!video) return;
-
-    if (video.paused) {
-      video.play().catch(() => {});
-    } else {
-      video.pause();
-    }
-  };
-
-  useEffect(() => {
-    const elements = document.querySelectorAll('.home-reveal');
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('is-visible');
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      {
-        threshold: 0.12,
-        rootMargin: '0px 0px -35px 0px',
-      }
-    );
-
-    elements.forEach((element) => observer.observe(element));
-
-    return () => observer.disconnect();
-  }, []);
 
   return (
     <>
-      <Navbar />
+      <Navbar /> 
 
       <main className="home-page">
         {/* HERO */}
         <div className="home-hero-stage"> 
           <section className="home-hero">
-            <div className="home-hero-image" />
-            <video
-              ref={videoRef}
-              className={`home-hero-video ${videoReady ? 'is-ready' : ''}`}
-              poster={HERO_POSTER}
-              muted
-              loop
-              playsInline
-              preload="none"
-              aria-hidden="true"
-              onPlaying={() => setVideoReady(true)}
-              onPlay={() => setVideoPlaying(true)}
-              onPause={() => setVideoPlaying(false)}
-              onError={() => setVideoReady(false)}
-            />
+            {/* Four camp photos that crossfade and slowly zoom out */}
+            <div
+              className="home-hero-slides"
+              role="img"
+              aria-label="Photos from our medical camps: a volunteer nurse holding a baby, a volunteer listening to an elderly woman, a clinician checking a woman's arm, and a lab worker preparing a blood sample"
+            >
+              <div className="home-hero-slide home-hero-slide-nurse" />
+              <div className="home-hero-slide home-hero-slide-elder" />
+              <div className="home-hero-slide home-hero-slide-screening" />
+              <div className="home-hero-slide home-hero-slide-lab" />
+            </div>
             <div className="home-hero-shade" />
 
             <div className="home-container home-hero-inner">
               <div className="home-hero-copy">
-                <div className="home-kicker home-kicker-light">
-                  <span className="home-kicker-dot" />
-                  THE WEB INITIATIVE · COMMUNITY HEALTH
-                </div>
-
                 <h1>
                   Healthier communities{' '}
                   <span>start with care.</span>
@@ -222,7 +149,7 @@ function Home() {
                     <MapPin size={19} aria-hidden="true" />
                   </span>
                   <span>
-                    Medical camps and health care across{' '}
+                    Medical camps and health care across{' '} 
                     <strong>Uganda.</strong>
                   </span>
                 </div>
@@ -243,7 +170,7 @@ function Home() {
             <figure className="home-intro-visual home-reveal">
               <div className="home-intro-photo-main">
                 <img
-                  src="/images/who-we-are-main.jpg"
+                  {...responsiveImage('/images/who-we-are-main.jpg')}
                   alt="A clinician measuring a woman's upper arm during malnutrition screening"
                   loading="lazy"
                 />
@@ -251,7 +178,7 @@ function Home() {
 
               <div className="home-intro-photo-inset">
                 <img
-                  src="/images/who-we-are-inset.jpg"
+                  {...responsiveImage('/images/who-we-are-inset.jpg', '(max-width: 760px) 60vw, 320px')}
                   alt="Our team leading a nutrition education session with mothers and young children"
                   loading="lazy"
                 />
@@ -261,11 +188,6 @@ function Home() {
             </figure>
 
             <div className="home-intro-copy home-reveal">
-              <div className="home-kicker">
-                <span className="home-kicker-dot" />
-                WHO WE ARE
-              </div>
-
               <h2>
                 Care that meets people{' '}
                 <span>where they are.</span>
@@ -302,20 +224,6 @@ function Home() {
                   );
                 })}
               </ul>
-
-              <div className="home-intro-actions">
-                <Link to="/about" className="home-btn home-btn-dark">
-                  Get to know us
-                  <ArrowRight size={18} />
-                </Link>
-
-                <Link to="/our-team" className="home-editorial-link">
-                  Meet our team
-                  <span>
-                    <ArrowRight size={18} />
-                  </span>
-                </Link>
-              </div>
             </div>
           </div>
         </section>
@@ -327,11 +235,6 @@ function Home() {
         >
           <div className="home-container">
             <div className="home-wwd-header home-reveal">
-              <div className="home-kicker">
-                <span className="home-kicker-dot" />
-                WHAT WE DO
-              </div>
-
               <h2 id="home-wwd-title">
                 Small actions. <span>Lasting impact.</span>
               </h2>
@@ -353,17 +256,25 @@ function Home() {
                     className="home-wwd-card home-reveal"
                     key={area.title}
                   >
-                    <div className="home-wwd-media">
-                      <img
-                        src={area.image}
-                        alt={area.imageAlt}
-                        loading="lazy"
-                        style={
-                          area.imagePosition
-                            ? { objectPosition: area.imagePosition }
-                            : undefined
-                        }
-                      />
+                    <div className="home-wwd-visual">
+                      <div className="home-wwd-media">
+                        <img
+                          {...responsiveImage(area.image, '(max-width: 760px) 100vw, 320px')}
+                          alt={area.imageAlt}
+                          loading="lazy"
+                          style={
+                            area.imagePosition
+                              ? { objectPosition: area.imagePosition }
+                              : undefined
+                          }
+                        />
+                      </div>
+
+                      {area.noteImage && (
+                        <span className="home-wwd-note">
+                          <img src={area.noteImage} alt={area.noteImageAlt} loading="lazy" />
+                        </span>
+                      )}
                     </div>
 
                     <span className="home-wwd-icon" aria-hidden="true">
@@ -403,11 +314,6 @@ function Home() {
           <div className="home-container">
             <div className="home-events-heading home-reveal">
               <div>
-                <div className="home-kicker">
-                  <span className="home-kicker-dot" />
-                  WHAT'S COMING UP
-                </div>
-
                 <h2 id="home-events-title">
                   Upcoming <span>events.</span>
                 </h2>
@@ -421,6 +327,16 @@ function Home() {
               </Link>
             </div>
 
+            <figure className="home-events-photo" data-motion="showcase">
+              <span className="motion-curtain" aria-hidden="true" />
+              <span className="motion-light" aria-hidden="true" />
+              <img
+                {...responsiveImage('/images/how-can-i-serve-you.jpg', '(max-width: 1280px) 100vw, 1240px')}
+                alt="A smiling man holding a red sign that reads “How can I serve you?”"
+                loading="lazy"
+              />
+            </figure>
+
             {upcomingEvents.length > 0 ? (
               <ol className="home-events-list">
                 {upcomingEvents.map((event) => (
@@ -431,6 +347,7 @@ function Home() {
                     >
                       <span className="home-event-day">
                         {event.dateValue.getDate()}
+                        <sup>{ordinalSuffix(event.dateValue.getDate())}</sup>
                       </span>
                       <span className="home-event-month">
                         {event.dateValue.toLocaleDateString('en-GB', {
@@ -453,10 +370,20 @@ function Home() {
 
                       {event.description && <p>{event.description}</p>}
 
+                      {event.note && (
+                        <p className="home-event-note">{event.note}</p>
+                      )}
+
                       <div className="home-event-meta">
+                        <span>
+                          <CalendarDays size={15} aria-hidden="true" />
+                          {formatDateRange(event)}
+                        </span>
+
                         <span>
                           <MapPin size={15} aria-hidden="true" />
                           {event.location}
+                          <CountryFlag code={event.flag} />
                         </span>
 
                         {event.time && (
@@ -506,11 +433,6 @@ function Home() {
         <section className="home-feature home-section-layer">
           <div className="home-container home-feature-grid">
             <div className="home-feature-copy home-reveal">
-              <div className="home-kicker home-kicker-light">
-                <span className="home-kicker-dot" />
-                COMMUNITY AT THE HEART
-              </div>
-
               <h2>
                 Better health
                 <br />
@@ -520,7 +442,7 @@ function Home() {
               <p>
                 Meaningful healthcare goes beyond treatment. It
                 starts with listening, building trust, and working
-                with communities to understand what matters most.
+                with communities to understand what matters most. 
               </p>
 
               <Link to="/medical-camps" className="home-btn home-btn-white">
@@ -532,7 +454,7 @@ function Home() {
             <div className="home-feature-visual home-reveal">
               <div className="home-feature-photo">
                 <img
-                  src="/images/camps/blood-pressure-check.jpg"
+                  {...responsiveImage('/images/camps/blood-pressure-check.jpg')}
                   alt="A volunteer checking a woman's blood pressure at a community camp"
                   loading="lazy"
                 />

@@ -9,6 +9,7 @@ import {
 import Navbar from '../components/Navbar.jsx';
 import Footer from '../components/Footer.jsx';
 import './OurTeam.css';
+import { responsiveImage } from '../utils/responsiveImage.js';
 
 // Team profiles, shown in this order. Put each photo in public/images/team/
 // (head and shoulders; it is shown square). Leave `photo` empty for a placeholder.
@@ -43,17 +44,17 @@ const people = [
     photo: '/images/team/joakim-birgit.jpg',
   },
   {
-    name: 'Dave',
-    role: '',
-    location: 'Kenya',
-    flag: 'ke',
+    name: 'Robin Neitzel',
+    role: 'board advisory, partnerships',
+    location: 'Germany',
+    flag: 'de',
     photo: '/images/team/dave.jpg',
   },
   {
-    name: 'Kwagala',
-    role: '',
-    location: 'Tanzania',
-    flag: 'tz',
+    name: 'Guido Andreas Weippert',
+    role: 'board advisory, partnerships',
+    location: 'Germany',
+    flag: 'de',
     photo: '/images/team/kwagala.jpg',
   },
 ];
@@ -82,11 +83,6 @@ function OurTeam() {
           <div className="ot-hero-shade" />
 
           <div className="ot-container ot-hero-content">
-            <span className="ot-kicker ot-kicker-light">
-              <span className="ot-kicker-dot" />
-              THE PEOPLE BEHIND OUR WORK
-            </span>
-
             <h1>
               Meet the people{' '}
               <span className="hand-accent hand-accent--on-dark">
@@ -107,8 +103,8 @@ function OurTeam() {
             <figure className="ot-intro-visual">
               <div className="ot-intro-photo">
                 <img
-                  src="/images/medical-team.jpg"
-                  alt="A group of health workers in scrubs talking together outdoors"
+                  {...responsiveImage('/images/medical-team.jpg')}
+                  alt="Members of our team smiling together outdoors"
                   loading="lazy"
                 />
               </div>
@@ -124,11 +120,6 @@ function OurTeam() {
             </figure>
 
             <div className="ot-intro-copy">
-              <span className="ot-kicker">
-                <span className="ot-kicker-dot" />
-                WORKING TOGETHER
-              </span>
-
               <h2>
                 United by {' '}
                 <span className="hand-accent">Purpose.</span>
@@ -141,7 +132,7 @@ function OurTeam() {
               </p>
 
               <p>
-                At The Web Initiative Ltd, our approach values teamwork,
+                At The Web Initiative Ltd, our approach values teamwork, 
                 community engagement and collaboration with the people
                 and our partners.
               </p>
@@ -172,7 +163,7 @@ function OurTeam() {
                   direction, keep the mission accountable, care for our
                   relationships with donors and partners, and make sure
                   every resource entrusted to us reaches the children and
-                  families we serve in Eastern Uganda. 
+                  families we serve in Northern Uganda. 
                 </p>
               </div>
             </div>
@@ -217,10 +208,7 @@ function OurTeam() {
         <section className="ot-join" aria-labelledby="ot-join-title">
           <div className="ot-container ot-join-grid">
             <div className="ot-join-copy">
-              <span className="ot-kicker">
-                <span className="ot-kicker-dot" />
-                JOIN OUR TEAM
-              </span>
+
               <h2 id="ot-join-title">
                 Want to work{' '}
                 <span className="hand-accent">With us?</span>

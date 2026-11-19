@@ -18,7 +18,7 @@
   top: 0;
   z-index: 1000;
   width: 100%;
-  font-family: 'Poppins', sans-serif;
+  font-family: 'DM Sans', sans-serif;
 }
 
 /* Info strip */
@@ -87,6 +87,173 @@
   border-color: var(--c-cyan);
   color: var(--c-navy);
   background: var(--c-cyan);
+}
+
+/* Countdown to the next outreach (OutreachCountdown.jsx) */
+.outreach-countdown {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  gap: 9px;
+}
+
+/* A soft band of light sweeps across the pill every few seconds */
+.outreach-countdown::after {
+  content: '';
+  position: absolute;
+  inset: 0 auto 0 0;
+  z-index: -1;
+  width: 40%;
+  background: linear-gradient(100deg, transparent,
+    color-mix(in srgb, var(--c-cyan) 28%, transparent), transparent);
+  transform: translateX(-130%) skewX(-18deg);
+  animation: outreach-sweep 6s ease-in-out 1.6s infinite;
+  pointer-events: none;
+}
+
+@keyframes outreach-sweep {
+  0% { transform: translateX(-130%) skewX(-18deg); }
+  28%, 100% { transform: translateX(330%) skewX(-18deg); }
+}
+
+/* The calendar icon gives a small wiggle after each light sweep */
+.outreach-countdown > svg:first-child {
+  animation: outreach-tick 6s ease-in-out 1.6s infinite;
+  transform-origin: 50% 20%;
+}
+
+@keyframes outreach-tick {
+  0%, 82%, 100% { transform: rotate(0); }
+  86% { transform: rotate(-14deg); }
+  90% { transform: rotate(10deg); }
+  94% { transform: rotate(-5deg); }
+}
+
+/* Odometer digits: each new digit rolls down into its box */
+.outreach-number {
+  display: inline-flex;
+  overflow: hidden;
+  line-height: 1.15;
+}
+
+.outreach-digit {
+  display: inline-block;
+  min-width: 0.62em;
+  text-align: center;
+  animation: outreach-digit-in 0.5s cubic-bezier(0.22, 1.3, 0.36, 1) both;
+}
+
+@keyframes outreach-digit-in {
+  0% { transform: translateY(-105%); opacity: 0; filter: blur(2px); }
+  60% { opacity: 1; filter: blur(0); }
+  100% { transform: translateY(0); opacity: 1; }
+}
+
+/* The seconds box glows gently with every tick */
+.outreach-countdown-time > .is-seconds {
+  animation: outreach-second 1s ease-out infinite;
+}
+
+@keyframes outreach-second {
+  0% { box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--c-cyan) 55%, transparent); }
+  100% { box-shadow: inset 0 0 0 1px transparent; }
+}
+
+.outreach-countdown-short {
+  display: none;
+}
+
+.outreach-countdown-time {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 4px;
+  font-variant-numeric: tabular-nums;
+}
+
+.outreach-countdown-time > span {
+  padding: 3px 6px;
+  border-radius: 6px;
+  color: color-mix(in srgb, var(--c-white) 82%, transparent);
+  background: color-mix(in srgb, var(--c-white) 10%, transparent);
+  font-weight: 600;
+}
+
+.outreach-unit-short {
+  display: none;
+}
+
+.outreach-countdown-time strong {
+  color: var(--c-white);
+  font-weight: 800;
+}
+
+.outreach-countdown:hover .outreach-countdown-time > span {
+  color: var(--c-navy);
+  background: color-mix(in srgb, var(--c-navy) 10%, transparent);
+}
+
+.outreach-countdown:hover .outreach-countdown-time strong {
+  color: var(--c-navy);
+}
+
+.outreach-countdown.is-live strong {
+  color: var(--c-white);
+}
+
+.outreach-countdown.is-live:hover strong {
+  color: var(--c-navy);
+}
+
+.outreach-live-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #25d366;
+  box-shadow: 0 0 0 0 rgb(37 211 102 / 0.6);
+  animation: outreach-pulse 1.8s ease-out infinite;
+}
+
+@keyframes outreach-pulse {
+  70% { box-shadow: 0 0 0 7px rgb(37 211 102 / 0); }
+  100% { box-shadow: 0 0 0 0 rgb(37 211 102 / 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .outreach-live-dot,
+  .outreach-countdown::after,
+  .outreach-countdown > svg:first-child,
+  .outreach-digit,
+  .outreach-countdown-time > .is-seconds {
+    animation: none;
+  }
+}
+
+/* Small phones: compact countdown ("103d 05h 12m 30s") so it fits */
+@media (max-width: 420px) {
+  .outreach-countdown {
+    gap: 7px;
+    padding-inline: 11px;
+  }
+
+  .outreach-countdown > svg {
+    display: none;
+  }
+
+  .outreach-countdown-time {
+    gap: 3px;
+  }
+
+  .outreach-countdown-time > span {
+    padding: 3px 4px;
+  }
+
+  .outreach-unit-long {
+    display: none;
+  }
+
+  .outreach-unit-short {
+    display: inline;
+  }
 }
 
 .site-header.is-scrolled .navbar-topbar {
@@ -178,7 +345,7 @@
   align-items: center;
   gap: 2px;
   padding: 5px;
-  border: 1px solid var(--nav-line);
+  border: 1.5px solid var(--c-cyan); /* sky blue outline around the menu */
   border-radius: 999px;
   background: var(--c-paper);
 }
@@ -569,6 +736,11 @@
   box-shadow: inset 0 0 0 2px var(--c-blue-bright);
 }
 
+/* Short "Donate" label is only used on phones and tablets */
+.donate-label-short {
+  display: none;
+}
+
 /* Mobile-only elements */
 
 .mobile-menu-toggle,
@@ -663,8 +835,22 @@
    ========================================= */
 
 @media (max-width: 1100px) {
-  .navbar-topbar {
+  /* Tablets and phones: the strip shows only the outreach countdown */
+  .navbar-topbar-info {
     display: none;
+  }
+
+  .navbar-topbar-inner {
+    justify-content: center;
+    padding-block: 7px;
+  }
+
+  .outreach-countdown-long {
+    display: none;
+  }
+
+  .outreach-countdown-short {
+    display: inline;
   }
 
   .navbar-container {
@@ -883,8 +1069,18 @@
     font-size: 16px;
   }
 
+  /* Phones and tablets keep a compact Donate button in the header, so
+     giving is one tap away without opening the menu */
   .desktop-donate {
-    display: none;
+    width: auto;
+    min-height: 44px;
+    padding: 0 16px;
+    gap: 7px;
+  }
+
+  .desktop-donate .donate-label-short {
+    display: inline;
+    font-size: 14px;
   }
 
   .mobile-menu-toggle {
@@ -1028,5 +1224,17 @@
   .navbar-actions,
   .desktop-search-wrap {
     position: static;
+  }
+}
+
+/* Very narrow phones: the header Donate button shows just the heart */
+@media (max-width: 359px) {
+  .desktop-donate {
+    width: 44px;
+    padding: 0;
+  }
+
+  .desktop-donate .donate-label-short {
+    display: none;
   }
 }

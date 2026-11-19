@@ -20,6 +20,7 @@ import {
 import Navbar from '../components/Navbar.jsx';
 import Footer from '../components/Footer.jsx';
 import './About.css';
+import { responsiveImage } from '../utils/responsiveImage.js';
 
 // Facts taken from what the organisation already states on the site.
 const glance = [
@@ -107,11 +108,6 @@ function About() {
           <div className="about-container about-hero-content">
             
 
-            <span className="about-kicker about-kicker-light">
-              <span className="about-kicker-dot" />
-              ABOUT US
-            </span>
-
             <h1>
               Healthier children.{' '}
               <span className="hand-accent hand-accent--on-dark">
@@ -131,11 +127,6 @@ function About() {
         <section className="about-story" id="who-we-are">
           <div className="about-container about-story-grid">
             <div className="about-story-copy">
-              <span className="about-kicker">
-                <span className="about-kicker-dot" />
-                WHO WE ARE
-              </span>
-
               <h2>
                 People. Community.{' '}
                 <span className="hand-accent">Lasting impact.</span>
@@ -182,7 +173,7 @@ function About() {
 
               <div className="about-photo-inset">
                 <img
-                  src="/images/about-story-inset.jpg"
+                  {...responsiveImage('/images/about-story-inset.jpg', '(max-width: 760px) 60vw, 320px')}
                   alt="A volunteer listening to an elderly patient at a medical camp"
                   loading="lazy"
                 />
@@ -218,10 +209,7 @@ function About() {
         <section className="about-purpose" id="mission-vision">
           <div className="about-container">
             <div className="about-heading">
-              <span className="about-kicker">
-                <span className="about-kicker-dot" />
-                OUR PURPOSE
-              </span>
+
               <h2>Mission &amp; Vision</h2>
             </div>
 
@@ -278,7 +266,7 @@ function About() {
             <figure className="about-history-visual">
               <div className="about-history-photo">
                 <img
-                  src="/images/about-history.jpg"
+                  {...responsiveImage('/images/about-history.jpg')}
                   alt="A volunteer holding a baby at one of our medical camps"
                   loading="lazy"
                 />
@@ -301,11 +289,6 @@ function About() {
             </figure>
 
             <div className="about-history-copy">
-              <span className="about-kicker">
-                <span className="about-kicker-dot" />
-                OUR STORY
-              </span>
-
               <h2>
                 A journey of service and{' '}
                 <span className="hand-accent">community impact.</span>
@@ -342,10 +325,7 @@ function About() {
         <section className="about-objectives" id="objectives">
           <div className="about-container">
             <div className="about-heading about-heading-center">
-              <span className="about-kicker">
-                <span className="about-kicker-dot" />
-                OUR OBJECTIVES
-              </span>
+
               <h2>
                 Purpose{' '}
                 <span className="hand-accent">for Action.</span>
@@ -378,10 +358,7 @@ function About() {
         <section className="about-values" id="core-values">
           <div className="about-container">
             <div className="about-heading about-heading-center">
-              <span className="about-kicker about-kicker-light">
-                <span className="about-kicker-dot" />
-                WHAT MATTERS TO US
-              </span>
+
               <h2>
                 Our{' '}
                 <span className="hand-accent hand-accent--on-dark">

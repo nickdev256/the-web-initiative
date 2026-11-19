@@ -8,19 +8,39 @@ import {
 } from 'react-router-dom';
 
 import Home from './pages/Home.jsx';
-import About from './pages/About.jsx';
-import MedicalServices from './pages/MedicalServices.jsx';
-import MedicalCamps from './pages/MedicalCamps.jsx';
-import CampDetails from './pages/CampDetails.jsx';
-import OurTeam from './pages/OurTeam.jsx';
-import Gallery from './pages/Gallery.jsx';
-import Contact from './pages/Contact.jsx';
 
 import PageEffects from './components/PageEffects.jsx';
+import { CONTACT_EMAIL, CONTACT_PHONE, SOCIAL_LINKS } from './config.js';
 import './App.css';
 
-// Donate loads separately to keep the other pages lightweight.
-const Donate = lazy(() => import('./pages/Donate.jsx'));
+// Each page other than Home loads its own code only when needed, so the
+// first visit downloads less. Once the first page has loaded, the rest are
+// fetched quietly in the background so moving between pages stays instant.
+const pageLoaders = {
+  about: () => import('./pages/About.jsx'),
+  medicalServices: () => import('./pages/MedicalServices.jsx'),
+  medicalCamps: () => import('./pages/MedicalCamps.jsx'),
+  campDetails: () => import('./pages/CampDetails.jsx'),
+  ourTeam: () => import('./pages/OurTeam.jsx'),
+  gallery: () => import('./pages/Gallery.jsx'),
+  contact: () => import('./pages/Contact.jsx'),
+  donate: () => import('./pages/Donate.jsx'),
+};
+
+const About = lazy(pageLoaders.about);
+const MedicalServices = lazy(pageLoaders.medicalServices);
+const MedicalCamps = lazy(pageLoaders.medicalCamps);
+const CampDetails = lazy(pageLoaders.campDetails);
+const OurTeam = lazy(pageLoaders.ourTeam);
+const Gallery = lazy(pageLoaders.gallery);
+const Contact = lazy(pageLoaders.contact);
+const Donate = lazy(pageLoaders.donate);
+
+function preloadPages() {
+  const run = () => Object.values(pageLoaders).forEach((load) => load().catch(() => {}));
+  if ('requestIdleCallback' in window) window.requestIdleCallback(run, { timeout: 4000 });
+  else window.setTimeout(run, 2500);
+}
 
 const SITE_URL = 'https://www.thewebinitiativeltd.org';
 
@@ -79,6 +99,13 @@ const seoPages = {
   },
 };
 
+// Camp pages get their own titles (names match pages/CampDetails.jsx)
+const campPages = {
+  'community-health': 'Community Health Outreach',
+  'health-awareness': 'Health Awareness Campaign',
+  'medical-outreach': 'Community Medical Outreach',
+};
+
 // Updates metadata whenever the visitor navigates to another page.
 function SEOManager() {
   const location = useLocation();
@@ -90,9 +117,11 @@ function SEOManager() {
 
     const isNotFound = !page && !pathname.startsWith('/medical-camps/');
 
+    const campName = campPages[pathname.replace('/medical-camps/', '')];
+
     const title = page?.title ||
       (pathname.startsWith('/medical-camps/')
-        ? 'Medical Camp Details | The Web Initiative Ltd'
+        ? `${campName ? `${campName} | Medical Camps` : 'Medical Camp Details'} | The Web Initiative Ltd`
         : 'Page Not Found | The Web Initiative Ltd');
 
     const description = page?.description ||
@@ -158,10 +187,25 @@ function SEOManager() {
     // This helps search engines understand the organisation.
     const organisationSchema = {
       '@context': 'https://schema.org',
-      '@type': 'Organization',
+      '@type': 'NGO',
       name: 'The Web Initiative Ltd',
       url: SITE_URL,
+      logo: `${SITE_URL}/images/logo.png`,
+      image: `${SITE_URL}/images/og-image.jpg`,
       description: DEFAULT_DESCRIPTION,
+      email: CONTACT_EMAIL,
+      telephone: CONTACT_PHONE.href.replace('tel:', ''),
+      address: {
+        '@type': 'PostalAddress',
+        addressLocality: 'Jinja',
+        postOfficeBoxNumber: '903588',
+        addressCountry: 'UG',
+      },
+      areaServed: 'Uganda',
+      // Social profile pages only (a WhatsApp chat link is not a profile)
+      sameAs: Object.entries(SOCIAL_LINKS)
+        .filter(([key, url]) => url && key !== 'whatsapp')
+        .map(([, url]) => url),
     };
 
     let schemaScript = document.getElementById(
@@ -184,6 +228,11 @@ function SEOManager() {
 function App() {
   const location = useLocation();
 
+  useEffect(() => {
+    if (document.readyState === 'complete') preloadPages();
+    else window.addEventListener('load', preloadPages, { once: true });
+  }, []);
+
   return (
     <div className="app">
       <SEOManager />
@@ -192,6 +241,7 @@ function App() {
 
       {/* Keyed by path so each new page plays the entrance transition */}
       <div className="page-transition" key={location.pathname}>
+        <Suspense fallback={<div className="page-loading" aria-busy="true" />}>
         <Routes location={location}>
           <Route path="/" element={<Home />} />
 
@@ -220,14 +270,7 @@ function App() {
             element={<Navigate to="/" replace />}
           />
 
-          <Route
-            path="/donate"
-            element={
-              <Suspense fallback={null}>
-                <Donate />
-              </Suspense>
-            }
-          />
+          <Route path="/donate" element={<Donate />} />
 
           <Route path="/gallery" element={<Gallery />} />
 
@@ -256,6 +299,7 @@ function App() {
             }
           />
         </Routes>
+        </Suspense>
       </div>
     </div>
   );

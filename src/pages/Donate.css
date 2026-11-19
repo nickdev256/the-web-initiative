@@ -1,10 +1,16 @@
 
+
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&family=Manrope:wght@500;600;700;800&display=swap');
 
 /* =========================================================
    THE WEB INITIATIVE LTD — DONATION PAGE
    ObPay hosted card checkout + PayPal redirect
    ========================================================= */
+
+/* =========================================
+   THE WEB INITIATIVE LTD — DONATE
+   ========================================= */
+
 
 .donate-page {
   --c-navy: #10243e;
@@ -45,6 +51,7 @@
   margin-inline: auto;
 }
 
+
 .donate-kicker {
   display: inline-flex;
   align-items: center;
@@ -74,6 +81,11 @@
 .hand-accent--on-dark {
   color: var(--c-cyan);
 }
+
+/* =========================================
+   SHARED ELEMENTS
+   ========================================= */
+
 
 .donate-btn {
   display: inline-flex;

@@ -92,11 +92,6 @@ function MedicalServices() {
           <div className="ms-container ms-hero-content">
           
 
-            <span className="ms-kicker ms-kicker-light">
-              <span className="ms-kicker-dot" />
-              OUR HEALTHCARE WORK
-            </span>
-
             <h1>
               Medical services to{' '}
               <span className="hand-accent hand-accent--on-dark">
@@ -136,11 +131,6 @@ function MedicalServices() {
             </figure>
 
             <div className="ms-intro-copy">
-              <span className="ms-kicker">
-                <span className="ms-kicker-dot" />
-                HEALTH AND WELLBEING
-              </span>
-
               <h2>
                 Striving for{' '}
                 <span className="hand-accent">Impact.</span>
@@ -181,10 +171,7 @@ function MedicalServices() {
         <section className="ms-services" aria-labelledby="ms-services-title">
           <div className="ms-container">
             <div className="ms-heading ms-heading-center">
-              <span className="ms-kicker ms-kicker-light">
-                <span className="ms-kicker-dot" />
-                HOW WE HELP
-              </span>
+
               <h2 id="ms-services-title">
                 Our{' '}
                 <span className="hand-accent hand-accent--on-dark">
@@ -225,11 +212,6 @@ function MedicalServices() {
         <section className="ms-approach">
           <div className="ms-container ms-approach-grid">
             <div className="ms-approach-copy">
-              <span className="ms-kicker">
-                <span className="ms-kicker-dot" />
-                OUR APPROACH
-              </span>
-
               <h2>
                 Working with Communities{' '}
                 <span className="hand-accent">One Step at a Time.</span>

@@ -14,6 +14,9 @@ import {
 import Navbar from '../components/Navbar.jsx';
 import Footer from '../components/Footer.jsx';
 import './CampDetails.css';
+import { responsiveImage } from '../utils/responsiveImage.js';
+import { formatDateRange, getNextCampEvent } from '../data/events.js';
+import CountryFlag from '../components/CountryFlag.jsx';
 
 const camps = {
   'community-health': {
@@ -56,14 +59,17 @@ const camps = {
     description:
       'Community outreach initiatives centred on health information, collaboration, and access to appropriate support.',
     image: '/images/outdoor-consultation.jpg',
+    // Small photo pinned to the corner of the main photo
+    noteImage: '/images/outreach-team.jpg',
+    noteImageAlt: 'Two members of the medical team smiling together at the camp',
     location: 'Location to be confirmed',
     date: 'Date to be announced',
     overview:
       'Medical outreach initiatives can bring community members and relevant partners together to identify needs and explore suitable healthcare support.',
     activities: [
       'Community engagement and needs assessment',
-      'Health information and awareness activities',
-      'Coordination with relevant healthcare partners',
+      'Malnutrition, sickle cell, and HIV screening',
+      "Enrollment of children with either malnutrition, sickle cell disease, and HIV on the organization's medical care plan",
       'Sharing information about available services',
     ],
   },
@@ -72,6 +78,10 @@ const camps = {
 function CampDetails() {
   const { id } = useParams();
   const camp = camps[id];
+  // Next dates for this camp come from src/data/events.js
+  const next = getNextCampEvent(id);
+  const campDate = next ? formatDateRange(next) : camp?.date;
+  const campLocation = next ? next.location : camp?.location;
 
   if (!camp) {
     return (
@@ -122,11 +132,6 @@ function CampDetails() {
               All medical camps
             </Link>
 
-            <span className="cd-kicker cd-kicker-light">
-              <span className="cd-kicker-dot" />
-              {camp.category}
-            </span>
-
             <h1>{camp.title}</h1>
 
             <p>{camp.description}</p>
@@ -134,11 +139,12 @@ function CampDetails() {
             <ul className="cd-hero-meta">
               <li>
                 <CalendarDays size={18} aria-hidden="true" />
-                {camp.date}
+                {campDate}
               </li>
               <li>
                 <MapPin size={18} aria-hidden="true" />
-                {camp.location}
+                {campLocation}
+                <CountryFlag code={next?.flag} />
               </li>
             </ul>
           </div>
@@ -148,14 +154,17 @@ function CampDetails() {
         <section className="cd-details">
           <div className="cd-container cd-details-grid">
             <article className="cd-main">
-              <figure className="cd-photo">
-                <img src={camp.image} alt={camp.title} />
-              </figure>
+              <div className={`cd-photo-wrap${camp.noteImage ? ' has-note' : ''}`}>
+                <figure className="cd-photo">
+                  <img {...responsiveImage(camp.image, '(max-width: 960px) 100vw, 800px')} alt={camp.title} />
+                </figure>
 
-              <span className="cd-kicker">
-                <span className="cd-kicker-dot" />
-                ABOUT THIS CAMP
-              </span>
+                {camp.noteImage && (
+                  <figure className="cd-photo-note">
+                    <img src={camp.noteImage} alt={camp.noteImageAlt} loading="lazy" />
+                  </figure>
+                )}
+              </div>
 
               <h2>
                 Supporting community health{' '}
@@ -196,11 +205,6 @@ function CampDetails() {
 
             <aside className="cd-sidebar">
               <div className="cd-info-card">
-                <span className="cd-kicker">
-                  <span className="cd-kicker-dot" />
-                  CAMP INFORMATION
-                </span>
-
                 <h3>Event details</h3>
 
                 <ul className="cd-info-list">
@@ -210,7 +214,8 @@ function CampDetails() {
                     </span>
                     <span>
                       <strong>Date</strong>
-                      <span>{camp.date}</span>
+                      <span>{campDate}</span>
+                      {next?.note && <span>{next.note}</span>}
                     </span>
                   </li>
                   <li>
@@ -219,7 +224,10 @@ function CampDetails() {
                     </span>
                     <span>
                       <strong>Location</strong>
-                      <span>{camp.location}</span>
+                      <span>
+                        {campLocation}
+                        <CountryFlag code={next?.flag} />
+                      </span>
                     </span>
                   </li>
                   <li>
@@ -264,10 +272,7 @@ function CampDetails() {
           <div className="cd-container">
             <div className="cd-heading">
               <div>
-                <span className="cd-kicker">
-                  <span className="cd-kicker-dot" />
-                  MORE OUTREACH
-                </span>
+
                 <h2 id="cd-more-title">
                   Explore other{' '}
                   <span className="hand-accent">medical camps.</span>
@@ -285,7 +290,7 @@ function CampDetails() {
               {otherCamps.map(([key, other]) => (
                 <Link to={`/medical-camps/${key}`} className="cd-more-card" key={key}>
                   <div className="cd-more-photo">
-                    <img src={other.image} alt="" loading="lazy" />
+                    <img {...responsiveImage(other.image, '(max-width: 760px) 100vw, 400px')} alt="" loading="lazy" />
                   </div>
                   <div className="cd-more-body">
                     <span className="cd-more-category">{other.category}</span>

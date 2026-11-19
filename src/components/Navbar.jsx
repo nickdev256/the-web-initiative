@@ -1,5 +1,5 @@
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 import {
   Menu,
@@ -9,13 +9,14 @@ import {
   Heart,
   MapPin,
   Mail,
-  CalendarDays,
-  ArrowRight,
+  Phone,
   Tent,
   Images,
 } from 'lucide-react';
-import { CONTACT_EMAIL } from '../config.js';
+import { CONTACT_EMAIL, CONTACT_PHONE } from '../config.js';
 import SiteSearch from './SiteSearch.jsx';
+import OutreachCountdown from './OutreachCountdown.jsx';
+import { playNavbarIntro } from './navbarMotion.js';
 import './Navbar.css';
 
 const navLinks = [
@@ -55,6 +56,10 @@ function Navbar() {
   const [scrolled, setScrolled] = useState(false);
 
   const location = useLocation();
+  const headerRef = useRef(null);
+
+  // Entrance animation, once per visit (see navbarMotion.js)
+  useEffect(() => playNavbarIntro(headerRef.current), []);
 
   const closeMenu = () => {
     setMenuOpen(false);
@@ -110,7 +115,7 @@ function Navbar() {
   };
 
   return (
-    <header className={`site-header ${scrolled ? 'is-scrolled' : ''}`}>
+    <header ref={headerRef} className={`site-header ${scrolled ? 'is-scrolled' : ''}`}>
       <div className="navbar-topbar" aria-hidden={scrolled}>
         <div className="navbar-topbar-inner">
           <div className="navbar-topbar-info">
@@ -123,17 +128,14 @@ function Navbar() {
               <Mail size={14} aria-hidden="true" />
               {CONTACT_EMAIL}
             </a>
+
+            <a href={CONTACT_PHONE.href} tabIndex={scrolled ? -1 : 0}>
+              <Phone size={14} aria-hidden="true" />
+              {CONTACT_PHONE.display}
+            </a>
           </div>
 
-          <Link
-            to="/contact"
-            className="navbar-topbar-cta"
-            tabIndex={scrolled ? -1 : 0}
-          >
-            <CalendarDays size={14} aria-hidden="true" />
-            Ask about upcoming medical camps
-            <ArrowRight size={14} aria-hidden="true" />
-          </Link>
+          <OutreachCountdown tabIndex={scrolled ? -1 : 0} />
         </div>
       </div>
 
@@ -146,7 +148,7 @@ function Navbar() {
             onClick={closeMenu}
           >
             <img
-              src="/images/logo.png"
+              src="/images/logo-320.png"
               alt="The Web Initiative logo"
               className="navbar-logo"
             />
@@ -159,7 +161,7 @@ function Navbar() {
           >
             <div className="mobile-menu-heading">
               <img
-                src="/images/logo.png"
+                src="/images/logo-320.png"
                 alt=""
                 className="mobile-heading-logo"
               />
@@ -310,7 +312,8 @@ function Navbar() {
               onClick={closeMenu}
             >
               <Heart size={16} fill="currentColor" className="donate-heart" />
-              <span>Make a Donation</span>
+              <span className="donate-label-full">Make a Donation</span>
+              <span className="donate-label-short" aria-hidden="true">Donate</span>
             </Link>
 
             <button

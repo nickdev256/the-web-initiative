@@ -10,7 +10,7 @@
   padding: 70px 8%;
   background:
     linear-gradient(90deg, color-mix(in srgb, var(--c-navy) 94%, transparent), color-mix(in srgb, var(--c-navy) 72%, transparent)),
-    url('/images/healthcare-team.jpg') center / cover no-repeat;
+    url('/images/medical-team.jpg') center / cover no-repeat;
   color: white;
 }
 
@@ -101,4 +101,10 @@
   .setup-button {
     width: 100%;
   }
+}
+
+/* Shown for a moment while a page's code loads (keeps the footer from jumping up) */
+.page-loading {
+  min-height: 100vh;
+  background: var(--c-white);
 }
