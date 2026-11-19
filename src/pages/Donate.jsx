@@ -1227,7 +1227,7 @@ Please send me your official payment details.`
 
         )}
 
-        {/* HERO */}
+        {/* HERO
 
         <section className="donate-hero">
 
@@ -1275,7 +1275,7 @@ Please send me your official payment details.`
 
           </div>
 
-        </section>
+        </section> */}
 
         {/* GIVE */}
 
@@ -1301,7 +1301,7 @@ Please send me your official payment details.`
 
               </span>
 
-              <h2 id="donate-give-title">
+              {/* <h2 id="donate-give-title">
 
                 Health and hope for{' '}
 
@@ -1311,7 +1311,7 @@ Please send me your official payment details.`
 
                 </span>
 
-              </h2>
+              </h2> */}
 
             </div>
 

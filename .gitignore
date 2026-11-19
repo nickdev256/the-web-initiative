@@ -25,3 +25,12 @@ dist-ssr
 .env
 .env.*
 !.env.example
+
+# Kept on this computer only, never pushed (large files, private documents)
+public/images/vid.mov
+public/images/download.png
+wallpaper/
+proposals/
+board-documents/
+.claude/
+PR_DESCRIPTION.md
