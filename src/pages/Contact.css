@@ -903,3 +903,99 @@
   white-space: normal;
   overflow-wrap: anywhere;
 }
+
+/* =========================================
+   MOTION HELPERS (with contactMotion.js)
+   ========================================= */
+
+/* The form's colour strip draws across when the form arrives */
+.contact-form-panel::before {
+  transform: scaleX(var(--strip, 1));
+  transform-origin: left center;
+}
+
+/* A soft light follows the cursor over the contact details panel */
+.contact-info-panel {
+  isolation: isolate;
+}
+
+.contact-info-panel::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background: radial-gradient(
+    420px circle at var(--spot-x, 50%) var(--spot-y, 0%),
+    color-mix(in srgb, var(--c-cyan) 16%, transparent),
+    transparent 60%
+  );
+  opacity: 0;
+  transition: opacity .4s ease;
+  pointer-events: none;
+}
+
+.contact-info-panel:hover::after {
+  opacity: 1;
+}
+
+/* Contact rows: slide a touch and spin the icon on hover */
+.contact-info-list li {
+  transition: transform .3s cubic-bezier(.22, 1, .36, 1);
+}
+
+.contact-info-list li:hover {
+  transform: translateX(5px);
+}
+
+.contact-info-panel .contact-icon-box {
+  transition: transform .45s cubic-bezier(.34, 1.56, .64, 1), background .2s ease;
+}
+
+.contact-info-list li:hover .contact-icon-box {
+  transform: rotate(-12deg) scale(1.1);
+}
+
+/* Quick card icons wiggle on hover */
+.contact-quick-card:hover .contact-quick-icon {
+  animation: contact-icon-wiggle .6s ease;
+}
+
+@keyframes contact-icon-wiggle {
+  0%, 100% { transform: rotate(0) scale(1); }
+  30% { transform: rotate(-12deg) scale(1.12); }
+  60% { transform: rotate(9deg) scale(1.06); }
+}
+
+/* Send button: the paper plane takes off on hover */
+.contact-submit svg {
+  transition: transform .45s cubic-bezier(.22, 1, .36, 1);
+}
+
+.contact-submit:hover svg {
+  transform: translate(5px, -5px) rotate(-12deg);
+}
+
+/* Map pin bobs gently */
+.contact-map-pin {
+  animation: contact-pin-bob 2.6s ease-in-out 2s infinite;
+}
+
+@keyframes contact-pin-bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .contact-info-panel::after,
+  .contact-quick-card:hover .contact-quick-icon,
+  .contact-map-pin {
+    animation: none;
+  }
+
+  .contact-info-list li:hover,
+  .contact-info-list li:hover .contact-icon-box,
+  .contact-submit:hover svg {
+    transform: none;
+  }
+}

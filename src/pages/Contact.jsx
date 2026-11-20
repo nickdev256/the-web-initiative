@@ -1,5 +1,5 @@
 
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
   Mail,
   Phone,
@@ -15,6 +15,7 @@ import { getCountryCallingCode, parsePhoneNumberFromString } from 'libphonenumbe
 import { CONTACT_EMAIL, CONTACT_PHONE, WHATSAPP } from '../config.js';
 import PhoneInput from '../components/PhoneInput.jsx';
 import { scrollToElement } from '../components/smoothScroll.js';
+import { startContactMotion } from './contactMotion.js';
 import './Contact.css';
 
 // Each topic picks the matching subject in the form when clicked
@@ -35,6 +36,10 @@ export default function Contact() {
   }); 
 
   const [submitted, setSubmitted] = useState(false);
+
+  // Page motion: entrance on every load, scroll reveals, card effects
+  const pageRef = useRef(null);
+  useEffect(() => startContactMotion(pageRef.current), []);
   // Country code for the phone field; starts on the United States
   const [phoneCountry, setPhoneCountry] = useState('US');
 
@@ -85,7 +90,7 @@ export default function Contact() {
     <>
       <Navbar />
 
-      <main className="contact-page">
+      <main className="contact-page" ref={pageRef} data-own-motion>
         {/* HERO */}
         <section className="contact-hero">
           <div className="contact-hero-shade" />
