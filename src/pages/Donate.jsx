@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 
 import { Link } from 'react-router-dom';
 
@@ -60,6 +61,7 @@ import {
 
 } from '../services/donationService.js';
 
+import { startDonateMotion } from './donateMotion.js';
 import './Donate.css';
 
 // --------------------------------------------------
@@ -73,6 +75,7 @@ const programmes = [
   {
 
     id: 'sickle-cell',
+
 
     tab: 'Sickle cell',
 
@@ -101,6 +104,7 @@ const programmes = [
   {
 
     id: 'malnutrition',
+
 
     tab: 'Malnutrition',
 
@@ -131,6 +135,7 @@ const programmes = [
   {
 
     id: 'hiv',
+
 
     tab: 'HIV',
 
@@ -406,7 +411,45 @@ const firstOptionFor = (programmeId) =>
 
 // ==================================================
 
+// Counts up to `value` (from 0 when it first shows, then from the last
+// number when it changes). Screen readers get the plain number instead.
+function CountUp({ value, duration = 900 }) {
+  const [shown, setShown] = useState(() =>
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches ? value : 0
+  );
+  const shownRef = useRef(shown);
+
+  useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      shownRef.current = value;
+      setShown(value);
+      return undefined;
+    }
+
+    const from = shownRef.current;
+    const started = performance.now();
+    let frame;
+
+    const tick = (now) => {
+      const progress = Math.min((now - started) / duration, 1);
+      const eased = 1 - (1 - progress) ** 3;
+      const next = Math.round(from + (value - from) * eased);
+      shownRef.current = next;
+      setShown(next);
+      if (progress < 1) frame = requestAnimationFrame(tick);
+    };
+
+    frame = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(frame);
+  }, [value, duration]);
+
+  return shown;
+}
+
 export default function Donate() {
+  // Page motion (entrance on every load, scroll reveals, card effects)
+  const pageRef = useRef(null);
+  useEffect(() => startDonateMotion(pageRef.current), []);
 
   const [programmeId, setProgrammeId] = useState('sickle-cell');
 
@@ -440,7 +483,8 @@ export default function Donate() {
 
   });
 
-  const [phoneCountry, setPhoneCountry] = useState('UG');
+  // Phone country code starts on the United States (+1)
+  const [phoneCountry, setPhoneCountry] = useState('US');
 
   const [paymentMethod, setPaymentMethod] = useState('card');
 
@@ -657,6 +701,10 @@ export default function Donate() {
 
   // --------------------------------------------------
 
+  // True once the visitor picks another tab: the programme details then
+  // slide in on each switch (not on the first page load)
+  const [tabSwitched, setTabSwitched] = useState(false);
+
   const programme = programmes.find(
 
     (item) => item.id === programmeId
@@ -730,6 +778,7 @@ export default function Donate() {
   // --------------------------------------------------
 
   function chooseProgramme(id) {
+    if (id !== programmeId) setTabSwitched(true);
 
     setProgrammeId(id);
 
@@ -1167,7 +1216,9 @@ Please send me your official payment details.`
 
       <Navbar />
 
-      <main className="donate-page">
+      <main className="donate-page" ref={pageRef} data-own-motion>
+
+        <h1 className="sr-only">Donate to The Web Initiative Ltd</h1>
 
         {/* PAYMENT RESULT */}
 
@@ -1359,15 +1410,22 @@ Please send me your official payment details.`
 
                 </div>
 
+                <div
+                  key={programme.id}
+                  className={`donate-programme-details ${tabSwitched ? 'is-switching' : ''}`}
+                >
                 <p className="donate-card-label">
 
                   {programme.label}
 
                 </p>
 
-                <p className="donate-price" aria-live="polite">
+                <p className="donate-price">
 
-                  ${programme.amount}
+                  <span className="donate-price-number" aria-hidden="true">
+                    $<CountUp value={programme.amount} />
+                  </span>
+                  <span className="sr-only">${programme.amount}</span>
 
                   <span> / month</span>
 
@@ -1394,6 +1452,7 @@ Please send me your official payment details.`
                   ))}
 
                 </ul>
+                </div>
 
               </div>
 
@@ -1703,6 +1762,41 @@ Please send me your official payment details.`
 
                       </label>
 
+                      {/* PHONE NUMBER */}
+                      <div className="donate-field donate-field-wide">
+
+                        <label htmlFor="donate-phone">
+
+                          Phone number (optional)
+
+                        </label>
+
+                        <PhoneInput
+
+                          id="donate-phone"
+
+                          country={phoneCountry}
+
+                          onCountryChange={(code) => {
+
+                            setPhoneCountry(code);
+
+                            setError('');
+
+                          }}
+
+                          value={donor.phone}
+
+                          onChange={(value) =>
+
+                            updateDonor('phone', value)
+
+                          }
+
+                        />
+
+                      </div>
+
                     </div>
 
                     {/* PAYMENT METHOD */}
@@ -1783,9 +1877,10 @@ Please send me your official payment details.`
 
                   {/* BANK TRANSFER DETAILS — INLINE DESIGN */}
 
-                  {showBankModal && paymentMethod === 'bank-transfer' && (
-
-                    <div className="donate-bank-modal-overlay" onClick={() => setShowBankModal(false)}>
+                  {/* The panel is placed at the end of the page (a portal), so it always
+                      sits above the header and the animated cards */}
+                  {showBankModal && paymentMethod === 'bank-transfer' && createPortal(
+                    <div className="donate-bank-modal-overlay" data-lenis-prevent onClick={() => setShowBankModal(false)}>
 
                     <section className="donate-bank-panel" aria-labelledby="donate-bank-panel-title" role="dialog" aria-modal="true" onClick={(event) => event.stopPropagation()}>
 
@@ -1969,7 +2064,8 @@ Please send me your official payment details.`
 
                     </section>
 
-                    </div>
+                    </div>,
+                    document.body
 
                   )}
 
@@ -2011,41 +2107,6 @@ Please send me your official payment details.`
 
                     )}
 
-                    {/* PHONE NUMBER */}
-
-                    <div className="donate-field">
-
-                      <label htmlFor="donate-phone">
-
-                        Phone number (optional)
-
-                      </label>
-
-                      <PhoneInput
-
-                        id="donate-phone"
-
-                        country={phoneCountry}
-
-                        onCountryChange={(code) => {
-
-                          setPhoneCountry(code);
-
-                          setError('');
-
-                        }}
-
-                        value={donor.phone}
-
-                        onChange={(value) =>
-
-                          updateDonor('phone', value)
-
-                        }
-
-                      />
-
-                    </div>
 
                     {/* BILLING ADDRESS */}
 
@@ -2073,7 +2134,7 @@ Please send me your official payment details.`
 
                           <label className="donate-field">
 
-                            <span>Address line 1 \\*</span>
+                            <span>Address line 1 *</span>
 
                             <input
 
@@ -2139,7 +2200,7 @@ Please send me your official payment details.`
 
                           <label className="donate-field">
 
-                            <span>City \\*</span>
+                            <span>City *</span>
 
                             <input
 
@@ -2165,7 +2226,7 @@ Please send me your official payment details.`
 
                           <label className="donate-field">
 
-                            <span>State / Region \\*</span>
+                            <span>State / Region *</span>
 
                             <input
 

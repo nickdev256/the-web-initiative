@@ -637,8 +637,8 @@ html.lenis {
    when tapped, and small print stays readable.
    ========================================= */
 @media (max-width: 760px) {
-  html .navbar-search-button,
-  html .mobile-menu-toggle {
+  /* (the menu button is sized in Navbar.css: smaller on phones by request) */
+  html .navbar-search-button {
     min-width: 44px;
     min-height: 44px;
   }

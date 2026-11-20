@@ -490,6 +490,27 @@
 
 }
 
+/* Switching tabs: the details rise in one after another */
+
+.donate-programme-details.is-switching > * {
+  animation: donate-detail-in .55s cubic-bezier(.22,1,.36,1) both;
+}
+
+.donate-programme-details.is-switching > :nth-child(2) { animation-delay: .05s; }
+.donate-programme-details.is-switching > :nth-child(3) { animation-delay: .1s; }
+.donate-programme-details.is-switching > :nth-child(4) { animation-delay: .15s; }
+
+@keyframes donate-detail-in {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .donate-programme-details.is-switching > * {
+    animation: none;
+  }
+}
+
 /* DONATION WIDGET */
 
 .donate-widget {
@@ -900,7 +921,7 @@
 
   display: grid;
 
-  gap: 12px;
+  gap: 14px;
 
 }
 
@@ -984,6 +1005,43 @@
 
   font-size: 13px;
 
+}
+
+/* Phone number: always the full row (the country picker needs the room) */
+.donate-fields > .donate-field-wide {
+  grid-column: 1 / -1;
+}
+
+/* The phone picker draws its own box, so its inputs need no second one */
+.donate-field .phone-input-row {
+  min-height: 48px;
+  border-color: #e2e8f0;
+  border-radius: 12px;
+  background: #f7f9fc;
+}
+
+.donate-field .phone-input input,
+.donate-field .phone-input input:focus {
+  width: auto;
+  min-height: 0;
+  padding: 0 14px;
+  border: 0;
+  border-radius: 0;
+  outline: none;
+  box-shadow: none;
+  background: transparent;
+}
+
+.donate-field .phone-input .phone-search input {
+  width: 100%;
+  min-height: 40px;
+  padding: 0;
+}
+
+.donate-field .phone-input-row:focus-within {
+  border-color: #1768a5;
+  background: #fff;
+  box-shadow: 0 0 0 4px rgba(64,197,220,.2);
 }
 
 /* PAYMENT METHODS */
@@ -5087,3 +5145,647 @@
   }
 }
 
+
+/* =========================================
+   INTERACTIVE MOTION (with donateMotion.js)
+   ========================================= */
+
+/* The counting price keeps the big size; numbers keep an even width */
+.donate-price .donate-price-number {
+  font-size: inherit;
+  font-weight: inherit;
+  letter-spacing: inherit;
+  text-transform: none;
+  font-variant-numeric: tabular-nums;
+}
+
+/* A soft light follows the cursor across the giving card */
+.donate-card {
+  position: relative;
+  isolation: isolate;
+}
+
+.donate-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background: radial-gradient(
+    520px circle at var(--spot-x, 50%) var(--spot-y, 0%),
+    rgba(139, 226, 238, .13),
+    transparent 60%
+  );
+  opacity: 0;
+  transition: opacity .4s ease;
+  pointer-events: none;
+}
+
+.donate-card:hover::before {
+  opacity: 1;
+}
+
+/* Tabs lift a little on hover */
+.donate-tab {
+  transition: background .2s ease, color .2s ease, border-color .2s ease, transform .25s ease, box-shadow .25s ease;
+}
+
+.donate-tab:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(139, 226, 238, .18);
+}
+
+/* Amount tiles: lift and glow on hover; the chosen one gives a pop */
+.donate-amounts button {
+  transition: border-color .2s ease, background .2s ease, transform .25s cubic-bezier(.22,1,.36,1), box-shadow .25s ease;
+}
+
+.donate-amounts button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 24px rgba(16, 36, 62, .12);
+}
+
+.donate-amounts button.is-active strong {
+  display: inline-block;
+  animation: donate-amount-pick .5s cubic-bezier(.34,1.56,.64,1);
+}
+
+@keyframes donate-amount-pick {
+  0% { transform: scale(.8); }
+  60% { transform: scale(1.15); }
+  100% { transform: scale(1); }
+}
+
+/* Payment choices lift on hover; the chosen one settles with a bounce */
+.donate-method {
+  transition: border-color .2s ease, background .2s ease, transform .25s cubic-bezier(.22,1,.36,1), box-shadow .25s ease;
+}
+
+.donate-method:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 24px rgba(16, 36, 62, .12);
+}
+
+.donate-method.is-selected .donate-method-check {
+  animation: donate-amount-pick .45s cubic-bezier(.34,1.56,.64,1);
+}
+
+/* Continue / Donate button: the arrow nudges forward, a shine crosses */
+.donate-continue {
+  position: relative;
+  overflow: hidden;
+}
+
+.donate-continue::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -60%;
+  width: 40%;
+  background: linear-gradient(100deg, transparent, rgba(255,255,255,.35), transparent);
+  transform: skewX(-18deg);
+  pointer-events: none;
+}
+
+.donate-continue:hover:not(:disabled)::after {
+  animation: donate-continue-shine .8s ease;
+}
+
+.donate-continue svg {
+  transition: transform .3s cubic-bezier(.22,1,.36,1);
+}
+
+.donate-continue:hover:not(:disabled) svg {
+  transform: translateX(5px);
+}
+
+@keyframes donate-continue-shine {
+  to { left: 130%; }
+}
+
+/* How to give: the cards tilt toward the cursor (perspective for the
+   tilt), and each icon gives a little wiggle on hover */
+.donate-steps-grid {
+  perspective: 1000px;
+}
+
+.donate-step {
+  transform-style: preserve-3d;
+}
+
+.donate-step:hover .donate-icon-box {
+  animation: donate-icon-wiggle .6s ease;
+}
+
+@keyframes donate-icon-wiggle {
+  0%, 100% { transform: rotate(0) scale(1); }
+  30% { transform: rotate(-10deg) scale(1.12); }
+  60% { transform: rotate(8deg) scale(1.08); }
+}
+
+/* Questions: slide a touch to the side on hover */
+.donate-faq-item {
+  transition: transform .25s cubic-bezier(.22,1,.36,1), box-shadow .25s ease, border-color .2s ease;
+}
+
+.donate-faq-item:hover {
+  transform: translateX(4px);
+  box-shadow: 0 10px 24px rgba(16, 36, 62, .07);
+}
+
+.donate-faq-item > p {
+  overflow: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .donate-card::before,
+  .donate-amounts button.is-active strong,
+  .donate-method.is-selected .donate-method-check,
+  .donate-continue:hover:not(:disabled)::after,
+  .donate-step:hover .donate-icon-box {
+    animation: none;
+  }
+
+  .donate-tab:hover,
+  .donate-amounts button:hover,
+  .donate-method:hover,
+  .donate-continue:hover:not(:disabled) svg,
+  .donate-faq-item:hover {
+    transform: none;
+  }
+}
+
+/* =========================================
+   BANK TRANSFER PANEL: FITS THE SCREEN + OPENING ANIMATION
+   Wider screens: bank details on the left, the four steps as a compact
+   list on the right, so the whole panel shows without scrolling on a
+   laptop. Every piece animates in each time the panel opens.
+   ========================================= */
+
+/* The panel now sits outside the Donate page (see createPortal in
+   Donate.jsx), so it brings the page's colours, fonts and sizing along */
+.donate-bank-modal-overlay {
+  --c-navy: #10243e;
+  --c-blue: #1768a5;
+  --c-cyan: #40c5dc;
+  --c-white: #fff;
+  --c-muted: #64758b;
+  --c-border: #e2e8f0;
+  padding: 16px;
+  color: var(--c-navy);
+  font-family: 'DM Sans', sans-serif;
+  animation: donate-bank-overlay-in .35s ease both;
+}
+
+.donate-bank-modal-overlay *,
+.donate-bank-modal-overlay *::before,
+.donate-bank-modal-overlay *::after {
+  box-sizing: border-box;
+}
+
+.donate-bank-modal-overlay h3,
+.donate-bank-modal-overlay h4,
+.donate-bank-modal-overlay strong {
+  font-family: 'Manrope', sans-serif;
+}
+
+.donate-bank-modal-overlay h3,
+.donate-bank-modal-overlay h4,
+.donate-bank-modal-overlay p,
+.donate-bank-modal-overlay ol,
+.donate-bank-modal-overlay dl {
+  margin-top: 0;
+}
+
+.donate-bank-modal-overlay button,
+.donate-bank-modal-overlay a {
+  font: inherit;
+}
+
+.donate-bank-modal-overlay svg {
+  max-width: 100%;
+}
+
+.donate-bank-panel {
+  width: min(100%, 1080px);
+  max-height: calc(100dvh - 32px);
+  margin: auto;
+  animation: donate-bank-panel-in .6s cubic-bezier(.22, 1, .36, 1) both;
+}
+
+/* Compact blue title bar */
+.donate-bank-panel .donate-bank-panel-heading {
+  padding: 14px 64px 14px 26px;
+}
+
+.donate-bank-panel .donate-bank-panel-heading-inner {
+  gap: 16px;
+}
+
+.donate-bank-panel .donate-bank-panel-heading-inner > svg {
+  width: 40px;
+  height: 40px;
+  animation: donate-bank-icon-in .8s cubic-bezier(.34, 1.56, .64, 1) .2s both;
+}
+
+.donate-bank-panel .donate-bank-panel-heading h3 {
+  margin-bottom: 2px;
+  font-size: clamp(21px, 2.2vw, 26px);
+}
+
+.donate-bank-panel .donate-bank-panel-heading p {
+  font-size: 14px;
+}
+
+.donate-bank-panel .donate-bank-modal-close {
+  top: 16px;
+  right: 16px;
+  width: 38px;
+  height: 38px;
+  transition: background .2s ease, transform .3s cubic-bezier(.22, 1, .36, 1);
+}
+
+.donate-bank-panel .donate-bank-modal-close:hover {
+  transform: rotate(90deg);
+}
+
+.donate-bank-panel .donate-bank-panel-heading + .donate-bank-panel-content {
+  padding: 18px 24px 20px;
+}
+
+/* Section titles */
+.donate-bank-panel .donate-bank-section-title {
+  margin: 0 0 12px;
+  padding-bottom: 8px;
+  font-size: 17px;
+}
+
+.donate-bank-panel .donate-bank-section-title::after {
+  width: 38px;
+  height: 4px;
+}
+
+/* Bank card */
+.donate-bank-panel .donate-bank-account-card {
+  grid-template-columns: 150px minmax(0, 1fr);
+  min-height: 0;
+  border-radius: 16px;
+}
+
+.donate-bank-panel .donate-bank-brand {
+  gap: 4px;
+  margin: 16px 0;
+  padding: 10px;
+}
+
+.donate-bank-panel .donate-equity-mark {
+  width: 62px;
+  height: 36px;
+}
+
+.donate-bank-panel .donate-equity-mark::before {
+  left: 6px;
+  top: 3px;
+  width: 50px;
+  height: 28px;
+}
+
+.donate-bank-panel .donate-equity-wordmark {
+  font-size: 19px;
+}
+
+.donate-bank-panel .donate-equity-caption {
+  font-size: 12.5px;
+}
+
+.donate-bank-panel .donate-bank-account-information {
+  padding: 12px 16px 14px;
+}
+
+.donate-bank-panel .donate-bank-account-card-title {
+  padding: 0 0 6px;
+  font-size: 15px;
+}
+
+.donate-bank-panel .donate-bank-details-list > div {
+  grid-template-columns: minmax(118px, .42fr) minmax(0, 1fr);
+  gap: 10px;
+  padding: 6px 2px;
+}
+
+.donate-bank-panel .donate-bank-details-list dt {
+  font-size: 13px;
+}
+
+.donate-bank-panel .donate-bank-details-list dd {
+  font-size: 14px;
+}
+
+.donate-bank-panel .donate-bank-number-row dd strong {
+  padding: 4px 10px;
+  font-size: 17px;
+}
+
+.donate-bank-panel .donate-bank-copy-swift {
+  min-height: 30px;
+  padding: 4px 10px;
+}
+
+.donate-bank-panel .donate-bank-copy-inline {
+  margin: 10px 0 0;
+  padding: 7px 12px;
+  font-size: 14px;
+}
+
+/* Steps: a compact list, icon on the left with its number badge */
+.donate-bank-panel .donate-bank-steps-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+}
+
+.donate-bank-panel .donate-bank-steps-grid li {
+  position: relative;
+  display: grid;
+  grid-template-columns: 46px minmax(0, 1fr);
+  grid-template-rows: auto auto;
+  column-gap: 14px;
+  align-items: center;
+  padding: 8px 12px;
+  border-radius: 12px;
+  text-align: left;
+  transition: transform .25s cubic-bezier(.22, 1, .36, 1), box-shadow .25s ease;
+}
+
+.donate-bank-panel .donate-bank-steps-grid li:hover {
+  transform: translateX(4px);
+  box-shadow: 0 8px 18px rgba(16, 36, 62, .08);
+}
+
+.donate-bank-panel .donate-bank-step-icon {
+  grid-row: 1 / span 2;
+  width: 46px;
+  height: 46px;
+  margin: 0;
+}
+
+.donate-bank-panel .donate-bank-step-icon svg {
+  width: 22px;
+  height: 22px;
+}
+
+.donate-bank-panel .donate-bank-step-number {
+  position: absolute;
+  top: 6px;
+  left: 44px;
+  width: 22px;
+  height: 22px;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  font-size: 10px;
+  line-height: 22px;
+}
+
+.donate-bank-panel .donate-bank-steps-grid strong {
+  align-self: end;
+  margin: 0;
+  font-size: 15px;
+}
+
+.donate-bank-panel .donate-bank-steps-grid p {
+  align-self: start;
+  margin: 1px 0 0;
+  font-size: 12.5px;
+  line-height: 1.35;
+}
+
+/* Notify button and note */
+.donate-bank-panel .donate-bank-bottom-row {
+  grid-template-columns: 1fr;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.donate-bank-panel .donate-bank-notify-inline {
+  min-height: 44px;
+  padding: 8px 16px;
+  font-size: 15px;
+}
+
+.donate-bank-panel .donate-bank-confirmation-note {
+  padding: 7px 12px;
+  font-size: 12.5px;
+  line-height: 1.4;
+}
+
+/* Two columns from 900px: bank details left; steps, Notify button and
+   note right */
+@media (min-width: 900px) {
+  .donate-bank-panel .donate-bank-panel-heading + .donate-bank-panel-content {
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, .8fr);
+    grid-template-areas:
+      "title-1 title-2"
+      "account steps"
+      "account bottom";
+    grid-template-rows: auto auto 1fr;
+    column-gap: 22px;
+  }
+
+  .donate-bank-panel .donate-bank-panel-content > .donate-bank-section-title:first-child { grid-area: title-1; }
+  .donate-bank-panel .donate-bank-account-grid { grid-area: account; }
+  .donate-bank-panel .donate-bank-steps-title { grid-area: title-2; }
+  .donate-bank-panel .donate-bank-steps-grid { grid-area: steps; align-self: start; }
+  .donate-bank-panel .donate-bank-bottom-row { grid-area: bottom; align-self: start; }
+}
+
+/* Tablets and phones: one column, steps as a 2 x 2 grid of small cards */
+@media (max-width: 899px) {
+  .donate-bank-panel .donate-bank-steps-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .donate-bank-panel .donate-bank-steps-title {
+    margin-top: 16px;
+  }
+}
+
+@media (max-width: 560px) {
+  .donate-bank-panel .donate-bank-panel-heading {
+    padding: 14px 56px 14px 16px;
+  }
+
+  .donate-bank-panel .donate-bank-panel-heading + .donate-bank-panel-content {
+    padding: 14px 12px 16px;
+  }
+
+  .donate-bank-panel .donate-bank-account-card {
+    grid-template-columns: 1fr;
+  }
+
+  .donate-bank-panel .donate-bank-brand {
+    margin: 0;
+    padding: 8px 10px;
+  }
+
+  /* Label and value side by side, without the big indent */
+  .donate-bank-panel .donate-bank-account-information {
+    padding: 10px 12px 12px;
+  }
+
+  .donate-bank-panel .donate-bank-account-card-title {
+    margin: 0 0 4px;
+    padding: 6px 10px;
+  }
+
+  .donate-bank-panel .donate-bank-details-list {
+    padding: 0;
+  }
+
+  .donate-bank-panel .donate-bank-details-list > div {
+    grid-template-columns: 104px minmax(0, 1fr);
+    gap: 8px;
+    padding: 6px 0;
+  }
+
+  .donate-bank-panel .donate-bank-number-row dd strong {
+    font-size: 15px;
+  }
+
+  .donate-bank-panel .donate-bank-copy-inline {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .donate-bank-panel .donate-bank-steps-grid li {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    justify-items: start;
+    row-gap: 4px;
+    padding: 10px;
+  }
+
+  .donate-bank-panel .donate-bank-step-icon {
+    grid-row: auto;
+    width: 36px;
+    height: 36px;
+  }
+
+  .donate-bank-panel .donate-bank-step-icon svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .donate-bank-panel .donate-bank-step-number {
+    top: 4px;
+    left: 34px;
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+  }
+
+  .donate-bank-panel .donate-bank-steps-grid strong { font-size: 14px; }
+  .donate-bank-panel .donate-bank-steps-grid p { font-size: 12px; }
+}
+
+/* Opening animation: everything arrives in turn, every time it opens */
+.donate-bank-panel .donate-bank-section-title,
+.donate-bank-panel .donate-bank-account-card,
+.donate-bank-panel .donate-bank-details-list > div,
+.donate-bank-panel .donate-bank-copy-inline,
+.donate-bank-panel .donate-bank-steps-grid li,
+.donate-bank-panel .donate-bank-bottom-row > * {
+  animation: donate-bank-rise .6s cubic-bezier(.22, 1, .36, 1) both;
+}
+
+.donate-bank-panel .donate-bank-panel-heading-inner > div {
+  animation: donate-bank-slide-left .6s cubic-bezier(.22, 1, .36, 1) .15s both;
+}
+
+.donate-bank-panel .donate-bank-section-title { animation-delay: .2s; }
+.donate-bank-panel .donate-bank-account-card { animation-name: donate-bank-slide-left; animation-delay: .25s; }
+.donate-bank-panel .donate-bank-details-list > div:nth-child(1) { animation-delay: .35s; }
+.donate-bank-panel .donate-bank-details-list > div:nth-child(2) { animation-delay: .41s; }
+.donate-bank-panel .donate-bank-details-list > div:nth-child(3) { animation-delay: .47s; }
+.donate-bank-panel .donate-bank-details-list > div:nth-child(4) { animation-delay: .53s; }
+.donate-bank-panel .donate-bank-details-list > div:nth-child(5) { animation-delay: .59s; }
+.donate-bank-panel .donate-bank-copy-inline { animation-delay: .65s; }
+.donate-bank-panel .donate-bank-steps-title { animation-delay: .3s; }
+.donate-bank-panel .donate-bank-steps-grid li { animation-name: donate-bank-slide-right; }
+.donate-bank-panel .donate-bank-steps-grid li:nth-child(1) { animation-delay: .38s; }
+.donate-bank-panel .donate-bank-steps-grid li:nth-child(2) { animation-delay: .46s; }
+.donate-bank-panel .donate-bank-steps-grid li:nth-child(3) { animation-delay: .54s; }
+.donate-bank-panel .donate-bank-steps-grid li:nth-child(4) { animation-delay: .62s; }
+.donate-bank-panel .donate-bank-bottom-row > :nth-child(1) { animation-delay: .72s; }
+.donate-bank-panel .donate-bank-bottom-row > :nth-child(2) { animation-delay: .8s; }
+
+/* The step icons pop in after their cards, the account number glows once */
+.donate-bank-panel .donate-bank-step-icon {
+  animation: donate-bank-pop .55s cubic-bezier(.34, 1.56, .64, 1) both;
+}
+
+.donate-bank-panel .donate-bank-steps-grid li:nth-child(1) .donate-bank-step-icon { animation-delay: .5s; }
+.donate-bank-panel .donate-bank-steps-grid li:nth-child(2) .donate-bank-step-icon { animation-delay: .58s; }
+.donate-bank-panel .donate-bank-steps-grid li:nth-child(3) .donate-bank-step-icon { animation-delay: .66s; }
+.donate-bank-panel .donate-bank-steps-grid li:nth-child(4) .donate-bank-step-icon { animation-delay: .74s; }
+
+.donate-bank-panel .donate-bank-number-row dd strong {
+  animation: donate-bank-glow 1.6s ease .9s both;
+}
+
+@keyframes donate-bank-overlay-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes donate-bank-panel-in {
+  from { opacity: 0; transform: translateY(40px) scale(.95); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes donate-bank-icon-in {
+  from { opacity: 0; transform: rotate(-25deg) scale(.4); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes donate-bank-rise {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes donate-bank-slide-left {
+  from { opacity: 0; transform: translateX(-26px); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes donate-bank-slide-right {
+  from { opacity: 0; transform: translateX(30px); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes donate-bank-pop {
+  from { opacity: 0; transform: scale(.3) rotate(-40deg); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes donate-bank-glow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(23, 104, 165, 0); }
+  35% { box-shadow: 0 0 0 6px rgba(23, 104, 165, .18); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .donate-bank-modal-overlay,
+  .donate-bank-panel,
+  .donate-bank-panel *,
+  .donate-bank-panel .donate-bank-panel-heading-inner > svg {
+    animation: none !important;
+  }
+
+  .donate-bank-panel .donate-bank-steps-grid li:hover {
+    transform: none;
+  }
+}

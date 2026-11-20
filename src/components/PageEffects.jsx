@@ -76,6 +76,8 @@ function PageEffects() {
     let timer;
     const start = () => {
       const main = document.querySelector('main');
+      // A page with data-own-motion runs its own (e.g. donateMotion.js)
+      if (main && main.hasAttribute('data-own-motion')) return;
       if (main && main.querySelector('h1')) {
         stop = startPageMotion(main);
       } else if (tries++ < 60) {

@@ -1145,9 +1145,32 @@
     height: 42px;
   }
 
+  /* Smaller menu button on phones, to match the Donate button */
   .mobile-menu-toggle {
-    width: 43px;
-    height: 43px;
+    width: 38px;
+    height: 38px;
+    border-radius: 12px;
+  }
+
+  .mobile-menu-toggle svg {
+    width: 21px;
+    height: 21px;
+  }
+
+  /* Smaller header Donate button on phones */
+  .desktop-donate {
+    min-height: 38px;
+    padding: 0 13px;
+    gap: 6px;
+  }
+
+  .desktop-donate .donate-label-short {
+    font-size: 13px;
+  }
+
+  .desktop-donate .donate-heart {
+    width: 14px;
+    height: 14px;
   }
 
   .navbar-navigation {
@@ -1173,8 +1196,7 @@
     height: 46px;
   }
 
-  .navbar-search-button,
-  .mobile-menu-toggle {
+  .navbar-search-button {
     width: 40px;
     height: 40px;
   }
