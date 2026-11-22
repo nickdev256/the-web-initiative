@@ -5789,3 +5789,35 @@
     transform: none;
   }
 }
+
+/* Giving to the fundraising campaign (from the campaign card or a
+   /donate?campaign=… link) */
+.donate-campaign-note {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+  padding: 12px 14px;
+  border: 1px solid color-mix(in srgb, var(--c-support) 30%, transparent);
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--c-support) 8%, var(--c-white));
+  color: var(--c-navy);
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.donate-campaign-note button {
+  flex-shrink: 0;
+  padding: 6px 12px;
+  border: 1px solid color-mix(in srgb, var(--c-navy) 18%, transparent);
+  border-radius: 999px;
+  background: var(--c-white);
+  color: var(--c-navy);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.donate-campaign-note button:hover { border-color: var(--c-navy); }

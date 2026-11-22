@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 import {
 
@@ -46,6 +46,12 @@ import {
 import Navbar from '../components/Navbar.jsx';
 
 import Footer from '../components/Footer.jsx';
+
+import Campaign from '../components/Campaign.jsx';
+
+import { campaign } from '../data/campaign.js';
+
+import { scrollToElement } from '../components/smoothScroll.js';
 
 import { CONTACT_EMAIL } from '../config.js';
 
@@ -457,6 +463,11 @@ export default function Donate() {
 
   const [customAmount, setCustomAmount] = useState('');
 
+  // True when giving to the fundraising campaign (src/data/campaign.js)
+  const [forCampaign, setForCampaign] = useState(false);
+
+  const location = useLocation();
+
   const [frequency, setFrequency] = useState('Monthly');
 
   const [step, setStep] = useState('amount');
@@ -757,6 +768,11 @@ export default function Donate() {
 
     : selectedOption?.label;
 
+  // What the gift is for, sent with the donation
+  const causeText = forCampaign ? campaign.title : programme.label;
+
+  const giftLabel = forCampaign ? `${campaign.title} (${amountLabel || 'amount'})` : giftText;
+
   const method = paymentMethods.find(
 
     (item) => item.id === paymentMethod
@@ -777,10 +793,35 @@ export default function Donate() {
 
   // --------------------------------------------------
 
+  // Give to the fundraising campaign: one-time gift, amount typed in
+  function giveToCampaign(amount) {
+    setForCampaign(true);
+    setFrequency('Once');
+    setStep('amount');
+    setError('');
+    if (amount) setCustomAmount(String(amount));
+    const widget = widgetRef.current;
+    if (widget) {
+      scrollToElement(widget);
+      window.setTimeout(() => widget.querySelector('.donate-other input')?.focus({ preventScroll: true }), 700);
+    }
+  }
+
+  // Links from the Home page campaign: /donate?campaign=medical-camps&amount=50
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    if (params.get('campaign') !== campaign.id) return;
+    const amount = Number(params.get('amount'));
+    setForCampaign(true);
+    setFrequency('Once');
+    if (Number.isFinite(amount) && amount > 0) setCustomAmount(String(amount));
+  }, [location.search]);
+
   function chooseProgramme(id) {
     if (id !== programmeId) setTabSwitched(true);
 
     setProgrammeId(id);
+    setForCampaign(false);
 
     setOptionId(firstOptionFor(id));
 
@@ -795,6 +836,7 @@ export default function Donate() {
   function chooseOption(option) {
 
     setOptionId(option.id);
+    setForCampaign(false);
 
     setProgrammeId(option.programme);
 
@@ -932,9 +974,9 @@ export default function Donate() {
 
 I would like to make a donation.
 
-Programme: ${programme.label}
+Programme: ${causeText}
 
-Gift: ${giftText}
+Gift: ${giftLabel}
 
 Amount: ${amountLabel} USD
 
@@ -1058,9 +1100,9 @@ Please send me your official payment details.`
 
         currency: 'USD',
 
-        cause: programme.label,
+        cause: causeText,
 
-        gift: giftText,
+        gift: giftLabel,
 
         frequency:
 
@@ -1366,6 +1408,8 @@ Please send me your official payment details.`
 
             </div>
 
+            <Campaign variant="compact" onGive={() => giveToCampaign()} />
+
             <div className="donate-card">
 
               {/* PROGRAMME INFORMATION */}
@@ -1458,7 +1502,7 @@ Please send me your official payment details.`
 
               {/* DONATION WIDGET */}
 
-              <div className="donate-widget" ref={widgetRef}>
+              <div className="donate-widget" id="donate-widget" ref={widgetRef}>
 
                 {step === 'amount' ? (
 
@@ -1544,6 +1588,18 @@ Please send me your official payment details.`
 
                       </div>
 
+                    )}
+
+                    {forCampaign && (
+                      <div className="donate-campaign-note">
+                        <span>
+                          Giving to the <strong>{campaign.title.toLowerCase()}</strong>.
+                          Type any amount below.
+                        </span>
+                        <button type="button" onClick={() => setForCampaign(false)}>
+                          Change
+                        </button>
+                      </div>
                     )}
 
                     <div
@@ -1696,7 +1752,7 @@ Please send me your official payment details.`
 
                     <div className="donate-summary-chip">
 
-                      <span>{programme.label}</span>
+                      <span>{causeText}</span>
 
                       <strong>
 

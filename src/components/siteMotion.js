@@ -25,7 +25,7 @@ const START = 'top 88%';
 const STAGGER_GROUP = /(grid|list|cards|row|steps|items|people|filters)/i;
 
 // Never animate these (overlays, things with their own motion)
-const SKIP = '.gallery-lightbox, .home-hero-slides, .mc-hero-slideshow, iframe, video';
+const SKIP = '.gallery-lightbox, .home-hero-slides, .mc-hero-slideshow, [data-own-motion], iframe, video';
 
 // Some elements have their own CSS transitions (for hover effects), which
 // would drag behind GSAP. They are switched off while GSAP animates and

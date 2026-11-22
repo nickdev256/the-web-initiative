@@ -21,6 +21,7 @@ import Navbar from '../components/Navbar.jsx';
 import Footer from '../components/Footer.jsx';
 import { formatDateRange, getUpcomingEvents, ordinalSuffix } from '../data/events.js';
 import CountryFlag from '../components/CountryFlag.jsx';
+import Campaign from '../components/Campaign.jsx';
 import './Home.css';
 import { responsiveImage } from '../utils/responsiveImage.js';
 
@@ -39,7 +40,7 @@ const healthPriorities = [
   {
     icon: Droplet,
     title: 'Sickle cell disease',
-    description: 'Awareness, early diagnosis and support for affected families.',
+    description: 'Awareness, early diagnosis and support for affected families.', 
   },
 ];
 
@@ -163,6 +164,9 @@ function Home() {
             </div>
           </section>
         </div>
+
+        {/* FUNDRAISING CAMPAIGN */}
+        <Campaign />
 
         {/* INTRO */}
         <section className="home-intro home-section-layer">
