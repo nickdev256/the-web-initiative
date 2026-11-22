@@ -16,7 +16,6 @@ import {
   Share2,
   Stethoscope,
   Tent,
-  Users,
 } from 'lucide-react';
 
 import {
@@ -55,7 +54,7 @@ function nextCamps() {
   const startsAt = Date.UTC(year, month - 1, day) - 3 * 60 * 60 * 1000;
   return {
     dates: formatDateRange({ dateValue: first.dateValue, endValue: last.endValue }),
-    place: first.location.split(',')[0],
+    place: first.location,
     flag: first.flag,
     count: round.length,
     daysLeft: Math.max(0, Math.ceil((startsAt - Date.now()) / DAY)),
@@ -185,7 +184,7 @@ function Progress({ raised, dark = false }) {
 function Campaign({ variant = 'full', onGive }) {
   const rootRef = useRef(null);
   const camps = nextCamps();
-  const { raised, donors } = campaign;
+  const { raised } = campaign;
 
   useEffect(() => startCampaignMotion(rootRef.current), []);
 
@@ -262,35 +261,32 @@ function Campaign({ variant = 'full', onGive }) {
           <div className="campaign-body">
             <span className="campaign-kicker">Fundraising campaign</span>
             <h2 id="campaign-title">
-              Help us raise <span className="campaign-goal-word">{formatUsd(campaign.goal)}</span> to
-              bring care to communities in need
+              Help us raise <span className="campaign-goal-word">{formatUsd(campaign.goal)}</span>{' '}
+              towards our upcoming camp.
             </h2>
-            <p className="campaign-lead">
-              Your gift pays for the medicines, equipment, transport and volunteers that make our
-              community medical camps possible.
-            </p>
+            <p className="campaign-lead">This money will help us cover the following:</p>
+
+            <ul className="campaign-covers">
+              {campaign.uses.map((use) => (
+                <li key={use.title}>
+                  {use.title}
+                  {use.detail && ` (${use.detail})`}
+                </li>
+              ))}
+            </ul>
 
             <Progress raised={raised} />
 
             <ul className="campaign-stats">
-              {/* Donors and % funded once the first gifts are in */}
+              {/* % funded once the first gifts are in */}
               {raised > 0 && (
-                <>
-                  <li>
-                    <Users size={18} aria-hidden="true" />
-                    <span>
-                      <strong>{donors.toLocaleString('en-US')}</strong>
-                      {donors === 1 ? 'donor' : 'donors'}
-                    </span>
-                  </li>
-                  <li>
-                    <Heart size={18} aria-hidden="true" />
-                    <span>
-                      <strong>{campaignProgress({ goal: campaign.goal, raised })}%</strong>
-                      funded
-                    </span>
-                  </li>
-                </>
+                <li>
+                  <Heart size={18} aria-hidden="true" />
+                  <span>
+                    <strong>{campaignProgress({ goal: campaign.goal, raised })}%</strong>
+                    funded
+                  </span>
+                </li>
               )}
               {camps && (
                 <li>
@@ -335,43 +331,16 @@ function Campaign({ variant = 'full', onGive }) {
           </div>
         </article>
 
-        <div className="campaign-uses">
-          <div className="campaign-uses-heading">
-            <span className="campaign-kicker">Where your gift goes</span>
-            <h3>The {formatUsd(campaign.goal)} will cover</h3>
-          </div>
-
-          <div className="campaign-uses-grid">
-          <ol className="campaign-uses-list">
-            {campaign.uses.map((use, index) => {
-              const Icon = ICONS[use.icon];
-              return (
-                <li key={use.title} className="campaign-use">
-                  <span className="campaign-use-number" aria-hidden="true">
-                    {String(index + 1).padStart(2, '0')}
-                  </span>
-                  <span className="campaign-use-icon" aria-hidden="true">
-                    <Icon size={22} />
-                  </span>
-                  <strong>{use.title}</strong>
-                  {use.detail && <span className="campaign-use-detail">{use.detail}</span>}
-                </li>
-              );
-            })}
-          </ol>
-
-          <Link to={campaignDonateLink()} className="campaign-use-cta">
-            <span className="campaign-use-cta-icon" aria-hidden="true">
-              <Heart size={22} />
-            </span>
-            <strong>Every gift moves us closer to {formatUsd(campaign.goal)}</strong>
-            <span className="campaign-use-cta-link">
-              Give now
-              <ArrowRight size={17} aria-hidden="true" />
-            </span>
-          </Link>
-          </div>
-        </div>
+        <Link to={campaignDonateLink()} className="campaign-cta">
+          <span className="campaign-cta-icon" aria-hidden="true">
+            <Heart size={22} />
+          </span>
+          <strong>Every gift moves us closer to {formatUsd(campaign.goal)}</strong>
+          <span className="campaign-cta-link">
+            Give now
+            <ArrowRight size={17} aria-hidden="true" />
+          </span>
+        </Link>
       </div>
     </section>
   );

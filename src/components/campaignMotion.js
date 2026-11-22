@@ -12,7 +12,7 @@ gsap.registerPlugin(ScrollTrigger);
 //   see AnimatedAmount in Campaign.jsx, so it can follow the live total)
 // - the progress bar fills and its milestone ticks appear
 // - the stats, amount buttons and Donate button arrive one by one
-// - the seven costs flip up in turn, their icons spin in
+// - the "Give now" banner rises in under the card, its heart pops
 // - buttons give a springy press
 //
 // Visitors who ask for less motion get none of the movement.
@@ -39,7 +39,7 @@ export function startCampaignMotion(root) {
     const stats = q('.campaign-stats li');
     const amounts = q('.campaign-amount');
     const actions = q('.campaign-actions > *, .campaign-secure, .campaign-compact > .campaign-btn');
-    const chips = q('.campaign-compact-uses li');
+    const chips = q('.campaign-compact-uses li, .campaign-covers li');
 
     const targets = [...card, ...photo, ...badge, ...caption, ...text, ...figureBits, ...fill, ...ticks, ...stats, ...amounts, ...actions, ...chips];
     gsap.set(targets, { transition: 'none' });
@@ -80,47 +80,23 @@ export function startCampaignMotion(root) {
       .from(chips, { y: 12, scale: 0.85, autoAlpha: 0, duration: 0.45, stagger: 0.05, ease: 'back.out(2)' }, 0.7)
       .from(actions, { y: 18, autoAlpha: 0, duration: 0.6, stagger: 0.1 }, compact ? 0.9 : 1.4);
 
-    // The seven costs
-    const usesHeading = q('.campaign-uses-heading > *');
-    if (usesHeading.length) {
-      gsap.from(usesHeading, {
-        y: 30,
-        autoAlpha: 0,
-        duration: 0.8,
-        stagger: 0.1,
-        ease: EASE,
-        clearProps: CLEAR,
-        scrollTrigger: { trigger: usesHeading[0], start: 'top 88%', once: true },
-      });
-    }
-
-    const uses = q('.campaign-use, .campaign-use-cta');
-    if (uses.length) {
-      const icons = q('.campaign-use-icon, .campaign-use-cta-icon');
-      const numbers = q('.campaign-use-number');
-      gsap.set([...uses, ...icons], { transition: 'none' });
+    // The "Give now" banner under the card
+    const cta = q('.campaign-cta');
+    if (cta.length) {
+      const ctaIcon = q('.campaign-cta-icon');
+      gsap.set([...cta, ...ctaIcon], { transition: 'none' });
       gsap
         .timeline({
-          scrollTrigger: { trigger: uses[0], start: 'top 88%', once: true },
-          onComplete: () => gsap.set([...uses, ...icons, ...numbers], { clearProps: CLEAR }),
+          scrollTrigger: { trigger: cta[0], start: 'top 90%', once: true },
+          onComplete: () => gsap.set([...cta, ...ctaIcon], { clearProps: CLEAR }),
         })
-        .from(uses, {
-          y: 60,
-          rotationX: -45,
-          transformPerspective: 900,
-          transformOrigin: '50% 100%',
-          autoAlpha: 0,
-          duration: 0.9,
-          stagger: 0.08,
-          ease: 'expo.out',
-        })
-        .from(icons, { scale: 0, rotation: -140, duration: 0.6, stagger: 0.08, ease: 'back.out(2.2)' }, 0.2)
-        .from(numbers, { x: 14, autoAlpha: 0, duration: 0.5, stagger: 0.08 }, 0.3);
+        .from(cta, { y: 50, autoAlpha: 0, duration: 0.9, ease: 'expo.out' })
+        .from(ctaIcon, { scale: 0, rotation: -140, duration: 0.6, ease: 'back.out(2.2)' }, 0.25);
     }
 
     // Springy press on the buttons
     const onPress = (event) => {
-      const target = event.target.closest('.campaign-amount, .campaign-btn');
+      const target = event.target.closest('.campaign-amount, .campaign-btn, .campaign-cta');
       if (!target) return;
       gsap.fromTo(target, { scale: 0.92 }, { scale: 1, duration: 0.7, ease: 'elastic.out(1, 0.45)', clearProps: 'scale' });
     };

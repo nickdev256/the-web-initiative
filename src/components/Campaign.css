@@ -163,22 +163,13 @@
 }
 
 .campaign-kicker {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
+  display: inline-block;
   color: var(--cp-blue);
-  font-size: 12.5px;
-  font-weight: 700;
+  font-family: 'Manrope', sans-serif;
+  font-size: 13.5px;
+  font-weight: 800;
   letter-spacing: .14em;
   text-transform: uppercase;
-}
-
-.campaign-kicker::before {
-  content: '';
-  width: 22px;
-  height: 2px;
-  border-radius: 2px;
-  background: currentColor;
 }
 
 .campaign-body h2 {
@@ -203,6 +194,25 @@
   color: var(--cp-ink-soft);
   font-size: 16.5px;
   line-height: 1.65;
+}
+
+/* What the money covers (under the intro): a plain bulleted list */
+.campaign-covers {
+  display: grid;
+  gap: 7px;
+  margin: 14px 0 0;
+  padding-left: 20px;
+  list-style: disc;
+  color: var(--cp-navy);
+  font-size: 15.5px;
+  line-height: 1.5;
+}
+
+.campaign-covers li { padding-left: 4px; }
+
+.campaign-covers li::marker {
+  color: var(--cp-blue);
+  font-size: 1.1em;
 }
 
 /* ---------- PROGRESS ---------- */
@@ -460,168 +470,6 @@
   vertical-align: -2px;
 }
 
-/* ---------- WHERE THE MONEY GOES ---------- */
-.campaign-uses { margin-top: clamp(48px, 6vw, 80px); }
-
-.campaign-uses-heading {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 8px 24px;
-  flex-wrap: wrap;
-}
-
-.campaign-uses-heading h3 {
-  flex-basis: 100%;
-  margin: 10px 0 0;
-  font-size: clamp(24px, 2.6vw, 34px);
-  font-weight: 800;
-  letter-spacing: -.02em;
-}
-
-/* Seven costs plus a "Give now" card: two rows of four on computers.
-   The list itself steps aside (display: contents) so its items and the
-   card share one grid. */
-.campaign-uses-grid {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 14px;
-  margin-top: 26px;
-}
-
-.campaign-uses-list {
-  display: contents;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.campaign-use-cta {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  min-height: 168px;
-  padding: 22px;
-  overflow: hidden;
-  border-radius: 22px;
-  background:
-    var(--dot-grid) center top / var(--dot-grid-size),
-    linear-gradient(140deg, var(--c-navy), color-mix(in srgb, var(--c-navy) 70%, var(--c-support)));
-  color: var(--c-white);
-  text-decoration: none;
-  transition: transform .3s cubic-bezier(.2, .7, .2, 1), box-shadow .3s;
-}
-
-.campaign-use-cta:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 22px 40px -18px color-mix(in srgb, var(--c-navy) 70%, transparent);
-}
-
-.campaign-use-cta:focus-visible { outline: 3px solid var(--c-blue-bright); outline-offset: 3px; }
-
-.campaign-use-cta-icon {
-  display: grid;
-  place-items: center;
-  width: 48px;
-  height: 48px;
-  margin-bottom: 8px;
-  border-radius: 14px;
-  background: var(--c-white);
-  color: var(--c-support);
-}
-
-.campaign-use-cta-icon svg { animation: campaign-beat 1.6s ease-in-out infinite; }
-
-.campaign-use-cta strong {
-  font-size: 17px;
-  font-weight: 800;
-  line-height: 1.3;
-}
-
-.campaign-use-cta-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  margin-top: auto;
-  color: var(--c-cyan);
-  font-weight: 700;
-}
-
-.campaign-use-cta-link svg { transition: transform .25s; }
-.campaign-use-cta:hover .campaign-use-cta-link svg { transform: translateX(4px); }
-
-.campaign-use {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  min-height: 168px;
-  padding: 22px;
-  overflow: hidden;
-  border: 1px solid var(--cp-line);
-  border-radius: 22px;
-  background: var(--c-white);
-  transition: transform .3s cubic-bezier(.2, .7, .2, 1), box-shadow .3s, border-color .3s;
-}
-
-.campaign-use::before {
-  content: '';
-  position: absolute;
-  inset: auto 0 0 0;
-  height: 3px;
-  background: linear-gradient(90deg, var(--cp-blue), var(--cp-cyan));
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform .45s cubic-bezier(.2, .7, .2, 1);
-}
-
-.campaign-use:hover {
-  border-color: color-mix(in srgb, var(--cp-blue) 30%, transparent);
-  transform: translateY(-4px);
-  box-shadow: 0 22px 40px -22px color-mix(in srgb, var(--c-navy) 40%, transparent);
-}
-
-.campaign-use:hover::before { transform: scaleX(1); }
-
-
-.campaign-use-number {
-  position: absolute;
-  top: 18px;
-  right: 20px;
-  color: color-mix(in srgb, var(--c-navy) 22%, transparent);
-  font-family: 'Manrope', sans-serif;
-  font-size: 14px;
-  font-weight: 800;
-  letter-spacing: .04em;
-}
-
-.campaign-use-icon {
-  display: grid;
-  place-items: center;
-  width: 48px;
-  height: 48px;
-  margin-bottom: 8px;
-  border-radius: 14px;
-  background: var(--c-icon-bg);
-  color: var(--cp-cyan);
-  transition: transform .4s cubic-bezier(.3, 1.6, .5, 1);
-}
-
-.campaign-use:hover .campaign-use-icon { transform: rotate(-8deg) scale(1.08); }
-
-.campaign-use strong {
-  font-size: 17px;
-  font-weight: 800;
-  line-height: 1.3;
-}
-
-.campaign-use-detail {
-  color: var(--cp-ink-soft);
-  font-size: 14px;
-  line-height: 1.5;
-}
-
 /* ---------- COMPACT (Donate page, on the blue background) ---------- */
 .campaign-compact {
   display: grid;
@@ -698,11 +546,65 @@
 .campaign-btn-light svg { transition: transform .25s; }
 .campaign-btn-light:hover svg { transform: translateX(4px); }
 
+/* ---------- "GIVE NOW" BANNER (under the main card) ---------- */
+.campaign-cta {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 20px;
+  margin-top: 22px;
+  padding: 24px 30px;
+  border-radius: 24px;
+  background:
+    var(--dot-grid) center top / var(--dot-grid-size),
+    linear-gradient(120deg, var(--c-navy), color-mix(in srgb, var(--c-navy) 70%, var(--c-support)));
+  color: var(--c-white);
+  text-decoration: none;
+  box-shadow: 0 24px 50px -28px color-mix(in srgb, var(--c-navy) 80%, transparent);
+  transition: transform .3s cubic-bezier(.2, .7, .2, 1), box-shadow .3s;
+}
+
+.campaign-cta:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 30px 60px -26px color-mix(in srgb, var(--c-navy) 85%, transparent);
+}
+
+.campaign-cta:focus-visible { outline: 3px solid var(--c-blue-bright); outline-offset: 3px; }
+
+.campaign-cta-icon {
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 15px;
+  background: var(--c-white);
+  color: var(--c-support);
+}
+
+.campaign-cta-icon svg { animation: campaign-beat 1.6s ease-in-out infinite; }
+
+.campaign-cta strong {
+  font-size: clamp(18px, 1.8vw, 22px);
+  font-weight: 800;
+  line-height: 1.3;
+}
+
+.campaign-cta-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--c-cyan);
+  font-family: 'Manrope', sans-serif;
+  font-size: 17px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.campaign-cta-link svg { transition: transform .25s; }
+.campaign-cta:hover .campaign-cta-link svg { transform: translateX(4px); }
+
 /* ---------- RESPONSIVE ---------- */
 @media (max-width: 1100px) {
-  .campaign-uses-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-  .campaign-use-cta { grid-column: span 2; min-height: 0; }
-
   .campaign-compact { grid-template-columns: minmax(0, 1fr) auto; }
   .campaign-compact-uses { grid-column: 1 / -1; grid-row: 2; }
 }
@@ -720,14 +622,6 @@
   .campaign-secure { font-size: 12.5px; }
   .campaign-live { top: 16px; left: 16px; }
   .campaign-media-caption { left: 18px; right: 18px; bottom: 18px; }
-  .campaign-uses-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
-  .campaign-use-cta { grid-column: auto; padding: 18px; border-radius: 18px; }
-  .campaign-use-cta strong { font-size: 15.5px; }
-  .campaign-use-cta-icon { width: 42px; height: 42px; border-radius: 12px; }
-  .campaign-use { min-height: 0; padding: 18px; border-radius: 18px; }
-  .campaign-use-icon { width: 42px; height: 42px; border-radius: 12px; }
-  .campaign-use strong { font-size: 15.5px; }
-  .campaign-use-detail { font-size: 13px; }
 
   .campaign-compact {
     grid-template-columns: 1fr;
@@ -746,26 +640,16 @@
   .campaign-figure { flex-wrap: wrap; row-gap: 4px; }
 }
 
-/* Phones: the costs become a tidy list of rows, icon on the left */
-@media (max-width: 560px) {
-  .campaign-uses-grid { grid-template-columns: 1fr; gap: 8px; }
-  .campaign-use,
-  .campaign-use-cta {
-    display: grid;
-    grid-template-columns: auto minmax(0, 1fr);
-    column-gap: 14px;
-    row-gap: 2px;
-    align-items: center;
-    padding: 14px 44px 14px 14px;
-    border-radius: 16px;
+/* Phones: the "Give now" banner stacks, as a card */
+@media (max-width: 640px) {
+  .campaign-cta {
+    grid-template-columns: 1fr;
+    justify-items: start;
+    gap: 14px;
+    padding: 22px;
+    border-radius: 20px;
   }
-  .campaign-use-icon,
-  .campaign-use-cta-icon { grid-row: span 2; width: 40px; height: 40px; margin: 0; }
-  .campaign-use strong:only-of-type:last-child,
-  .campaign-use > strong:nth-last-child(1) { grid-row: span 2; }
-  .campaign-use-number { top: 50%; right: 16px; transform: translateY(-50%); }
-  .campaign-use-cta { padding-right: 14px; }
-  .campaign-use-cta-link { margin-top: 0; }
+  .campaign-cta strong { font-size: 18px; }
 }
 
 @media (max-width: 380px) {
@@ -777,11 +661,11 @@
   .campaign-live-dot::after,
   .campaign-bar-fill::after,
   .campaign-first svg,
-  .campaign-use-cta-icon svg { animation: none; }
+  .campaign-cta-icon svg { animation: none; }
   .campaign-media > img,
   .campaign-bar-fill,
-  .campaign-use,
-  .campaign-use-icon { transition: none; }
+  .campaign-cta,
+  .campaign-cta-link svg { transition: none; }
 }
 
 /* Two stats (before the first gifts) share the row evenly */

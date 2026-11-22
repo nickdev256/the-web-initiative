@@ -1,26 +1,25 @@
 // The current fundraising campaign, shown on the Home and Donate pages
 // (src/components/Campaign.jsx).
 //
-// To update the progress, change `raised` (US dollars) and `donors`, then
-// push. While `raised` is 0 the section invites people to be the first to
-// give instead of showing an empty total.
+// To update the progress, change `raised` (US dollars), then push.
+// While `raised` is 0 the section invites people to be the first to give
+// instead of showing an empty total.
 
 export const campaign = {
   id: 'medical-camps',
   title: 'Medical camps campaign',
-  goal: 14000,
-  raised: 1,
-  donors: 0,
+  goal: 16000,
+  raised: 500,
 
   // What the money covers, in the order given by the team
   uses: [
-    { icon: 'pill', title: 'Medicines and medical supplies' },
+    { icon: 'pill', title: 'Purchase of medicines and medical supplies' },
     {
       icon: 'stethoscope',
-      title: 'Medical equipment',
-      detail: 'BP machines, thermometers, glucometers, weighing scales, stethoscopes and patient cards',
+      title: 'Medical equipments',
+      detail: 'BP machine, thermometers, glucometer, weighing scale, stethoscope and patient cards',
     },
-    { icon: 'bus', title: 'Transport', detail: 'Van hire and fuel' },
+    { icon: 'bus', title: 'Transportation', detail: 'Van + fuel' },
     { icon: 'tent', title: 'Logistics and venue' },
     { icon: 'bed', title: 'Accommodation, feeding and welfare' },
     { icon: 'landmark', title: 'Local government fees' },
