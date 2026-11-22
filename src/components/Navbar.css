@@ -1141,36 +1141,42 @@
   }
 
   .navbar-search-button {
-    width: 42px;
-    height: 42px;
+    width: 34px;
+    height: 34px;
+  }
+
+  .navbar-search-button svg {
+    width: 17px;
+    height: 17px;
   }
 
   /* Smaller menu button on phones, to match the Donate button */
   .mobile-menu-toggle {
-    width: 38px;
-    height: 38px;
-    border-radius: 12px;
+    width: 32px;
+    height: 32px;
+    border-radius: 10px;
   }
 
   .mobile-menu-toggle svg {
-    width: 21px;
-    height: 21px;
+    width: 18px;
+    height: 18px;
   }
 
   /* Smaller header Donate button on phones */
   .desktop-donate {
-    min-height: 38px;
-    padding: 0 13px;
-    gap: 6px;
+    min-height: 32px;
+    height: 32px;
+    padding: 0 11px;
+    gap: 5px;
   }
 
   .desktop-donate .donate-label-short {
-    font-size: 13px;
+    font-size: 12px;
   }
 
   .desktop-donate .donate-heart {
-    width: 14px;
-    height: 14px;
+    width: 12px;
+    height: 12px;
   }
 
   .navbar-navigation {
@@ -1197,8 +1203,8 @@
   }
 
   .navbar-search-button {
-    width: 40px;
-    height: 40px;
+    width: 32px;
+    height: 32px;
   }
 
   .navbar-navigation {
@@ -1252,7 +1258,7 @@
 /* Very narrow phones: the header Donate button shows just the heart */
 @media (max-width: 359px) {
   .desktop-donate {
-    width: 44px;
+    width: 32px;
     padding: 0;
   }
 

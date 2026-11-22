@@ -637,11 +637,8 @@ html.lenis {
    when tapped, and small print stays readable.
    ========================================= */
 @media (max-width: 760px) {
-  /* (the menu button is sized in Navbar.css: smaller on phones by request) */
-  html .navbar-search-button {
-    min-width: 44px;
-    min-height: 44px;
-  }
+  /* (the header search, Donate and menu buttons are sized in Navbar.css:
+     smaller on phones by request) */
 
   /* Arrow links such as "Explore services" */
   html [class$="-text-link"],
