@@ -23,18 +23,11 @@ const people = [
     photo: '/images/team/mukisa-george-william.jpg',
   },
   {
-    name: 'Vicky Woods',
+    name: 'Nurse. Vicky Woods',
     role: 'Director of Operations',
     location: 'USA',
     flag: 'us',
     photo: '/images/team/vicky-woods.jpg',
-  },
-  {
-    name: '',
-    role: 'Directors of Operations',
-    location: '',
-    flag: '',
-    photo: '',
   },
   {
     name: 'Joakim & Birgit',
@@ -56,6 +49,13 @@ const people = [
     location: 'Germany',
     flag: 'de',
     photo: '/images/team/kwagala.jpg',
+  },
+  {
+    name: '',
+    role: 'board advisory',
+    location: 'Denmark',
+    flag: 'dk',
+    photo: '',
   },
 ];
 

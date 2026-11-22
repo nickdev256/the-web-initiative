@@ -8,7 +8,7 @@
 export const campaign = {
   id: 'medical-camps',
   title: 'Medical camps campaign',
-  goal: 16000,
+  goal: 25000,
   raised: 500,
 
   // What the money covers, in the order given by the team
