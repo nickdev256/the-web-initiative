@@ -30,11 +30,11 @@ const people = [
     photo: '/images/team/vicky-woods.jpg',
   },
   {
-    name: 'Joakim & Julia',
+    name: '',
     role: 'Directors of Operations',
-    location: 'Denmark',
-    flag: 'dk',
-    photo: '/images/team/joakim-julia.jpg',
+    location: '',
+    flag: '',
+    photo: '',
   },
   {
     name: 'Joakim & Birgit',
