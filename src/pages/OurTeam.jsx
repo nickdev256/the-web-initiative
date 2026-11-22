@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import {
   ArrowRight,
@@ -10,6 +11,7 @@ import Navbar from '../components/Navbar.jsx';
 import Footer from '../components/Footer.jsx';
 import './OurTeam.css';
 import { responsiveImage } from '../utils/responsiveImage.js';
+import { startOurTeamMotion } from './ourTeamMotion.js';
 
 // Team profiles, shown in this order. Put each photo in public/images/team/
 // (head and shoulders; it is shown square). Leave `photo` empty for a placeholder.
@@ -73,11 +75,16 @@ const ways = [
 ];
 
 function OurTeam() {
+  const pageRef = useRef(null);
+
+  // The page plays its own motion (the site-wide motion skips it)
+  useEffect(() => startOurTeamMotion(pageRef.current), []);
+
   return (
     <>
       <Navbar />
 
-      <main className="our-team-page">
+      <main className="our-team-page" ref={pageRef} data-own-motion>
         {/* HERO */}
         <section className="ot-hero">
           <div className="ot-hero-shade" />
@@ -170,7 +177,7 @@ function OurTeam() {
 
             <ul className="ot-people-grid">
               {people.map((person) => (
-                <li className="ot-person" key={person.name}>
+                <li className="ot-person" key={person.name || `${person.role}-${person.location}`}>
                   <div className="ot-person-photo">
                     {person.photo ? (
                       <img
@@ -184,7 +191,7 @@ function OurTeam() {
                       </span>
                     )}
                   </div>
-                  <h3>{person.name}</h3>
+                  {person.name && <h3>{person.name}</h3>}
                   {person.role && <p className="ot-person-role">{person.role}</p>}
                   <p className="ot-person-location">
                     {person.flag && (
