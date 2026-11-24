@@ -488,9 +488,9 @@ export default function Donate() {
   // Phone country code starts on the United States (+1)
   const [phoneCountry, setPhoneCountry] = useState('US');
 
-  // Bank Transfer is chosen first; the bank details open from the button
-  // under the payment choices
-  const [paymentMethod, setPaymentMethod] = useState('bank-transfer');
+  // Nothing chosen until the donor picks Bank Transfer or Visa / Mastercard;
+  // the bank details open from the button under the payment choices
+  const [paymentMethod, setPaymentMethod] = useState('');
 
   const [error, setError] = useState('');
 
@@ -1034,6 +1034,15 @@ Please send me your official payment details.`
       );
 
     }
+
+    if (!paymentMethod) {
+
+      return setError(
+        'Please choose how you would like to pay: Bank Transfer or Visa / Mastercard.'
+      );
+
+    }
+
 
     // Bank transfer does not use the ObPay card checkout.
 
