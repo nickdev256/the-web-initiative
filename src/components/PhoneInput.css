@@ -193,3 +193,17 @@
   color: var(--c-slate);
   font-size: 14px;
 }
+
+/* Never wider than the form: the number box shrinks to fit beside the
+   country button (it was pushing past the edge on phones) */
+.phone-input,
+.phone-input-row {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.phone-input-row input[type="tel"] {
+  flex: 1 1 auto;
+  width: 100%;
+  min-width: 0;
+}

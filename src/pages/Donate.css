@@ -5821,3 +5821,163 @@
 }
 
 .donate-campaign-note button:hover { border-color: var(--c-navy); }
+
+/* Continue / Donate button: a compact, single-line pill. (The general
+   button text style made it 18px with tall line spacing, so it wrapped
+   onto two lines and looked oversized.) */
+.donate-page .donate-continue {
+  gap: 10px;
+  min-height: 52px;
+  padding: 12px 22px;
+  font-size: 16px;
+  line-height: 1.25;
+  text-wrap: balance;
+}
+
+.donate-page .donate-continue svg.lucide {
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+}
+
+@media (max-width: 480px) {
+  .donate-page .donate-continue {
+    min-height: 48px;
+    padding: 11px 16px;
+    font-size: 15px;
+  }
+}
+
+/* Programme tabs (Sickle cell / Malnutrition / HIV): smaller pills,
+   centred in the card. (The general button text style made them 18px
+   with tall line spacing.) */
+.donate-page .donate-tabs {
+  justify-content: center;
+  gap: 8px;
+}
+
+.donate-page .donate-tab {
+  min-height: 38px;
+  padding: 8px 16px;
+  font-size: 14.5px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+@media (max-width: 480px) {
+  .donate-page .donate-tabs { gap: 6px; }
+
+  .donate-page .donate-tab {
+    min-height: 34px;
+    padding: 7px 13px;
+    font-size: 13.5px;
+  }
+}
+
+/* What each gift provides (medicine list): points closer together */
+.donate-page .donate-items {
+  gap: 8px;
+}
+
+.donate-page .donate-items li {
+  line-height: 1.4;
+}
+
+/* "How to give" steps on phones: compact rows, the icon beside the text
+   and the step number small in the corner */
+@media (max-width: 760px) {
+  .donate-page .donate-steps-grid { gap: 10px; }
+
+  .donate-page .donate-step {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    column-gap: 14px;
+    align-items: start;
+    padding: 18px 44px 18px 18px;
+    border-radius: 16px;
+  }
+
+  .donate-page .donate-step .donate-icon-box {
+    grid-row: span 2;
+    width: 44px;
+    height: 44px;
+    margin-bottom: 0;
+    border-radius: 12px;
+  }
+
+  .donate-page .donate-step-number {
+    top: 14px;
+    right: 16px;
+    font-size: 20px;
+  }
+
+  .donate-page .donate-step h3 {
+    margin: 2px 0 4px;
+    font-size: 16.5px;
+  }
+
+  .donate-page .donate-step p {
+    font-size: 14px;
+    line-height: 1.5;
+  }
+}
+
+/* Payment choices: Bank Transfer and Visa / Mastercard side by side in two
+   columns on every screen, compact and centred */
+.donate-page .donate-methods-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.donate-page .donate-method {
+  justify-items: center;
+  align-content: center;
+  gap: 8px;
+  min-height: 96px;
+  padding: 14px 10px;
+  text-align: center;
+}
+
+.donate-page .donate-method .donate-brand-bank {
+  width: 40px;
+  height: 40px;
+  border-radius: 11px;
+}
+
+.donate-page .donate-method .donate-brand-bank svg {
+  width: 20px;
+  height: 20px;
+}
+
+.donate-page .donate-method-name {
+  font-size: 14px;
+  line-height: 1.25;
+}
+
+.donate-page .donate-method-check {
+  top: 8px;
+  right: 8px;
+  width: 16px;
+  height: 16px;
+}
+
+/* "View bank details" under the Bank Transfer note: the same pill as
+   the Continue button */
+.donate-page .donate-bank-open {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin-top: 4px;
+  border: 0;
+  border-radius: 999px;
+  color: #fff;
+  background: #1768a5;
+  font-family: 'Manrope', sans-serif;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.donate-page .donate-bank-open:hover {
+  background: #10243e;
+}

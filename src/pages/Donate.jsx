@@ -232,23 +232,14 @@ const amountOptions = [
 // --------------------------------------------------
 
 const paymentMethods = [
-
   {
-
-    id: 'card',
-
-    name: 'Visa / Mastercard',
-
-  },
-
-  {
-
     id: 'bank-transfer',
-
     name: 'Bank Transfer',
-
   },
-
+  {
+    id: 'card',
+    name: 'Visa / Mastercard',
+  },
 ];
 
 // --------------------------------------------------
@@ -497,7 +488,9 @@ export default function Donate() {
   // Phone country code starts on the United States (+1)
   const [phoneCountry, setPhoneCountry] = useState('US');
 
-  const [paymentMethod, setPaymentMethod] = useState('card');
+  // Bank Transfer is chosen first; the bank details open from the button
+  // under the payment choices
+  const [paymentMethod, setPaymentMethod] = useState('bank-transfer');
 
   const [error, setError] = useState('');
 
@@ -2415,14 +2408,18 @@ Please send me your official payment details.`
                       <div className="donate-offline">
 
                         <p>
-
-                          Complete the transfer using the Equity Bank
-
-                          details and follow the instructions above to
-
-                          notify our team.
-
+                          Complete the transfer using our Equity Bank
+                          details, then let our team know about your gift.
                         </p>
+
+                        <button
+                          type="button"
+                          className="donate-continue donate-bank-open"
+                          onClick={() => setShowBankModal(true)}
+                        >
+                          View bank details
+                          <ArrowRight size={18} aria-hidden="true" />
+                        </button>
 
                       </div>
 

@@ -617,3 +617,124 @@ html:root .footer-cta .footer-btn.btn-support:hover {
 :root .footer-cta .footer-btn.btn-support svg.lucide {
   color: var(--c-navy);
 }
+
+/* Smaller buttons on the "Help us bring care closer" card */
+:root .footer-cta .footer-btn {
+  min-height: 44px;
+  padding: 0 20px;
+  gap: 8px;
+  font-size: 14px;
+}
+
+:root .footer-cta .footer-btn svg.lucide {
+  width: 15px;
+  height: 15px;
+}
+
+/* Phones: stacked, centred and no wider than they need to be */
+@media (max-width: 560px) {
+  :root .footer-cta .footer-cta-actions {
+    display: grid;
+    justify-items: center;
+    gap: 10px;
+  }
+
+  :root .footer-cta .footer-btn {
+    width: min(100%, 240px);
+    min-height: 42px;
+  }
+}
+
+/* Phones: everything in the footer is centred */
+@media (max-width: 560px) {
+  :root .footer-grid,
+  :root .footer-about,
+  :root .footer-column {
+    text-align: center;
+  }
+
+  :root .footer-about {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  :root .footer-brand,
+  :root .footer-logo {
+    margin-inline: auto;
+  }
+
+  :root .footer-learn-link {
+    justify-content: center;
+  }
+
+  :root .footer-social {
+    justify-content: center;
+  }
+
+  /* The cyan bar sits under the middle of each heading */
+  :root .footer-column h3::after {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  :root .footer-column ul {
+    justify-items: center;
+  }
+
+  :root .footer-contact-list li {
+    justify-content: center;
+    text-align: center;
+  }
+
+  :root .footer-subscribe {
+    margin-inline: auto;
+    text-align: center;
+  }
+
+  :root .footer-subscribe-row {
+    text-align: left;
+  }
+
+  :root .footer-bottom-inner {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+}
+
+/* Copyright and "Designed by" line: small print */
+:root .footer-bottom-inner p {
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+/* The copyright line is the smallest print */
+:root .footer-bottom-inner > p:not(.footer-credit) {
+  font-size: 12px;
+}
+
+:root .footer-credit .hand-accent {
+  font-size: 15px;
+}
+
+@media (max-width: 560px) {
+  :root .footer-bottom-inner { gap: 8px; }
+  :root .footer-bottom-inner p { font-size: 12px; }
+  :root .footer-credit .hand-accent { font-size: 14px; }
+}
+
+/* Phones: "Back to top", then "Designed by", and the copyright line is
+   the very last thing on the page */
+@media (max-width: 560px) {
+  :root .footer-bottom-inner .footer-top-button {
+    order: -1;
+    margin-bottom: 6px;
+  }
+
+  :root .footer-bottom-inner > p:not(.footer-credit) {
+    order: 1;
+    font-size: 11px;
+    opacity: 0.85;
+  }
+}
